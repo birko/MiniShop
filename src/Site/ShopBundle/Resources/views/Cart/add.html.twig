@@ -1,0 +1,30 @@
+<form class="cart-add-form" action="{{ path('cart_add')}}" method="post">
+    <div class="row row-fluid">
+        {% if options is not empty %}
+        <table class="record_properties options pull-left span8">
+            <tbody>
+                {% for option in options %}
+                 <tr class="option">
+                    <td class="control-group">
+                        <select name="items[{{product}}][option][]" required="required">
+                            <option value="">{{ option.0.name }}</option>                         
+                            {% for value in option %}
+                            <option value="{{value.id}}">{{ value.value }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        <div class="span4 pull-right">
+          <input type="hidden" name="items[{{product}}][productId]" value="{{ product }}"/>
+          <input type="hidden" name="items[{{product}}][price]" value="{{ price }}"/>
+          <input type="hidden" name="items[{{product}}][priceVAT]" value="{{ priceVAT }}"/>
+          <input type="hidden" name="items[{{product}}][name]" value="{{ title }}"/>
+          <input type="hidden" name="items[{{product}}][amount]" value="{{ amount }}"/>
+          <button type="submit" class="buy btn reset pull-right"><i class="icon-shopping-cart"></i> {% trans %}Add to cart{% endtrans %}</button>
+        </div>
+    </div>
+</form>

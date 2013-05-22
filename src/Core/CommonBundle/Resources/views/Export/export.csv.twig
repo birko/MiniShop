@@ -1,0 +1,7 @@
+{% if entities and fields %}
+{% for entity in entities %}
+{% for field in fields %}
+"{% for value in field.value %}{{entity[field.alias ~ value]|striptags|escape }} {% endfor %}";
+{% endfor %}
+{% endfor %}
+{%- endif %}

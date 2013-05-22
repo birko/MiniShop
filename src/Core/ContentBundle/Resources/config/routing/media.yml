@@ -1,0 +1,28 @@
+content_media:
+    pattern:  /{category}
+    defaults: { _controller: "CoreContentBundle:Media:index", category: ~}
+    requirements: 
+        category: \d+
+        
+content_media_new:
+    pattern:  /new/{category}
+    defaults: { _controller: "CoreContentBundle:Media:new", category: ~ }
+
+content_media_create:
+    pattern:  /create/{category}
+    defaults: { _controller: "CoreContentBundle:Media:create", category: ~ }
+    requirements: { _method: post }
+
+content_media_edit:
+    pattern:  /{id}/edit/{category}
+    defaults: { _controller: "CoreContentBundle:Media:edit", category: ~ }
+
+content_media_update:
+    pattern:  /{id}/update/{category}
+    defaults: { _controller: "CoreContentBundle:Media:update", category: ~ }
+    requirements: { _method: post }
+
+content_media_delete:
+    pattern:  /{id}/delete/{category}
+    defaults: { _controller: "CoreContentBundle:Media:delete", category: ~ }
+    requirements: { _method: post }

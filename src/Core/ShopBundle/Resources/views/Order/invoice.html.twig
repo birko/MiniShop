@@ -1,0 +1,71 @@
+{% if entity is not empty %}
+<table style="border-collapse:collapse; border: none;">
+    <tr>
+        <td style="width:50%">
+            <h5>{% trans %}Delivery address{% endtrans %}</h5>
+            {% include "CoreShopBundle:Address:address.html.twig" with {'entity': entity.deliveryAddress} %}
+        </td>
+        <td style="width:50%">
+            <h5>{% trans %}Invoice address{% endtrans %}</h5>
+            {% include "CoreShopBundle:Address:address.html.twig" with {'entity': entity.invoiceAddress} %}
+        </td>
+    </tr>
+</table>
+<table style="border-collapse:collapse; border: none;">
+    <tr>
+        <td style="width:50%">
+        </td>
+        <td style="width:50%">
+            {% render controller('CoreUserTextBundle:UserText:display', {'name': 'fakturacia-info', 'create': 1}) %}
+        </td>
+    </tr>
+</table>
+{% if entity.items is not empty %}
+<table style="border-collapse:collapse; border: 1px solid black;">
+        {% for item in entity.items %}
+        <tr>
+            <td style="width:70% border: 1px solid black;">
+                {{ item.name }}
+                {% if item.options is not empty %}
+                    <hr />
+                    {{ item.options }}
+                {% endif %}
+            </td>
+            <td style="width:10% border: 1px solid black;">
+                {{ item.amount }}
+            </td>
+            <td style="width:10% border: 1px solid black;">
+                {{ item.priceVAT | number_format(2) }}
+            </td>
+            <td style="width:10% border: 1px solid black;">
+                {{ item.priceVATTotal | number_format(2) }}
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td style="width:70% border: 1px solid black;">
+                {% trans %}Total price{% endtrans %}
+            </td>
+            <td style="width:10% border: 1px solid black;">
+            </td>
+            <td style="width:10% border: 1px solid black;">
+            </td>
+            <td style="width:10% border: 1px solid black;">
+                {{entity.price | number_format(2) }}
+            </td>
+        </tr>
+        <tr>
+            <td style="width:70% border: 1px solid black;">
+                {% trans %}Total price VAT{% endtrans %}
+            </td>
+            <td style="width:10% border: 1px solid black;">
+            </td>
+            <td style="width:10% border: 1px solid black;">
+            </td>
+            <td style="width:10% border: 1px solid black;">
+                {{ entity.priceVAT | number_format(2) }}
+            </td>
+        </tr>
+</table>
+{% endif %}
+{% endif %}

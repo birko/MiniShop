@@ -1,0 +1,27 @@
+<form action="{{path('site_contact_multi_form_send')}}" method="post" class="contact-form">
+<div class="row">
+    <div class="span4 nolabel">
+        {{ form_row(form.email) }}
+        {{ form_row(form.orderNumber)}}
+        {{ form_row(form.name) }} 
+        {{ form_row(form.phone) }}
+    </div>
+    <div class="span5 nolabel">
+        {{ form_row(form.type) }}
+        {{ form_row(form.message) }}
+    </div>
+</div>
+<div class="row">
+    <div class="span4">
+        <div class="nolabel">
+        {{ form_row(form.verification_code) }}
+        </div>
+        {{ form_widget(form.copy) }}
+        {{ form_rest(form) }}
+    </div>
+    <div class="span5 nolabel">
+        <strong>{{verification_code}}</strong>
+        <button type="submit" class="button-send pull-right">{% trans %}Send{% endtrans %}</button>
+    </div>
+</div>
+</form>

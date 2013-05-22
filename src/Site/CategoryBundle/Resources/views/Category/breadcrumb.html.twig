@@ -1,0 +1,14 @@
+<div class="breadcrumbs">
+<span class="home"><a href="{{ path('category_homepage') }}">{% trans %}Home{% endtrans %}</a></span>
+{% if category is not empty %}
+    {% if path is not empty %}
+    {% for entity in path %}
+        / <span><a href="{{ path('category_site', {'slug': entity.slug}) }}">{{entity.title}}</a></span>
+    {% endfor %}
+    {% endif %}
+{% endif %}
+{% if end is not empty %}
+       / <span>{{end}}</span>
+{% endif %}
+</div>
+<div class="clear"></div>

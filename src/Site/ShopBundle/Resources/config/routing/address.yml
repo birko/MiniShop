@@ -1,0 +1,30 @@
+address:
+    pattern:  /
+    defaults: { _controller: "SiteShopBundle:Address:index" }
+
+address_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "SiteShopBundle:Address:show" }
+
+address_new:
+    pattern:  /new
+    defaults: { _controller: "SiteShopBundle:Address:new" }
+
+address_create:
+    pattern:  /create
+    defaults: { _controller: "SiteShopBundle:Address:create" }
+    requirements: { _method: post }
+
+address_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "SiteShopBundle:Address:edit" }
+
+address_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "SiteShopBundle:Address:update" }
+    requirements: { _method: post }
+
+address_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "SiteShopBundle:Address:delete" }
+    requirements: { _method: post }

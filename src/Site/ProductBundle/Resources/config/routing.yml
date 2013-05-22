@@ -1,0 +1,7 @@
+product_search:
+    pattern:  /product/search
+    defaults: { _controller: SiteProductBundle:Product:search }
+        
+product_site:
+    pattern:  /product/{slug}
+    defaults: { _controller: SiteProductBundle:Product:index }

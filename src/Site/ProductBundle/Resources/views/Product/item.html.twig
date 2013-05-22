@@ -1,0 +1,16 @@
+<div class="product span4">
+    <a href="{{path('product_site', {'slug': entity.slug})}}" class="image thumbnail">
+      {% if entity.media is not empty%}
+      {% render controller("CoreMediaBundle:Image:display", {'id': entity.media.0.id, 'dir': 'thumb'}) %}
+      {% endif %}
+    </a>
+    <div class="row-fluid">
+      <h3 class="pull-left span6">
+        <a href="{{path('product_site', {'slug': entity.slug})}}">{{entity.title}}</a>
+      </h3>
+      {% set price  = entity.getMinimalPrice(pricegroup) %}
+      <div class="price pull-right span6">
+        {% if price is not empty %}{{price.priceVAT |number_format(2)}}{% else %}0{% endif %} €
+      </div>
+    </div>
+</div>

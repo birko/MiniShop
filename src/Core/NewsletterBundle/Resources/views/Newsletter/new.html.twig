@@ -1,0 +1,18 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>{%trans%}Newsletter creation{%endtrans%}</h1>
+
+<form action="{{ path('newsletter_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit" class="btn btn-success"><i class="icon-ok"></i> {%trans%}Create{%endtrans%}</button>
+    </p>
+</form>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+<script type="text/javascript">
+bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+</script>
+{% endblock %}

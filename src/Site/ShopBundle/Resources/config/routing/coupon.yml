@@ -1,0 +1,4 @@
+coupon_add:
+    pattern:  /
+    defaults: { _controller: "SiteShopBundle:Coupon:add" }
+    requirements: { _method: post }

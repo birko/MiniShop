@@ -1,0 +1,7 @@
+vendor_slug:
+    pattern:  /vendor/{slug}
+    defaults: { _controller: SiteVendorBundle:Vendor:index }
+
+vendor_list:
+    pattern:  /vendor
+    defaults: { _controller: SiteVendorBundle:Vendor:list}

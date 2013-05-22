@@ -1,0 +1,30 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>{% trans %}Coupon products list{% endtrans %}</h1>
+
+<table class="records_list table table-striped">
+    <thead>
+        <tr>
+            <th>{% trans %}Title{% endtrans %}</th>
+            <th>{% trans %}Actions{% endtrans %}</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="2">
+                <a href="{{ path('coupon_products_addlist', {'id': entity.id}) }}" class="btn btn-primary"><i class="icon-plus"></i> {% trans %}Add products{% endtrans %}</a>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+    {% for product in entity.products %}
+        <tr>
+            <td>{{ product.title }}</td>        
+            <td>
+                <a href="{{ path('coupon_products_remove', { 'id': entity.id, 'product': product.id }) }}" class="btn btn-danger"><i class="icon-trash"></i> {% trans %}Remove{% endtrans %}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,4 @@
+core_marketing_message:
+    resource: "@CoreMarketingBundle/Resources/config/routing/message.yml"
+    prefix:   /message
+

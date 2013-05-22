@@ -1,0 +1,17 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>{% trans %}Attribute edit{% endtrans %}</h1>
+
+<form action="{{ path('attribute_update', { 'id': entity.id, 'category': category, 'product': product }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+    <p>
+        <button type="submit" class="btn btn-success"><i class="icon-ok"></i> {% trans %}Edit{% endtrans %}</button>
+        <a href="{{ path('attribute', {'category': category, 'product': product }) }}"> {% trans %}Back to the list{% endtrans %}</a>
+    </p>
+</form>
+
+<form action="{{ path('attribute_delete', { 'id': entity.id, 'category': category, 'product': product }) }}" method="post">
+    {{ form_widget(delete_form) }}
+    <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {% trans %}Delete{% endtrans %}</button>
+</form>
+{% endblock %}

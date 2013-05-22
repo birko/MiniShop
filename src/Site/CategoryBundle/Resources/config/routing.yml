@@ -1,0 +1,7 @@
+category_homepage:
+    pattern:  /
+    defaults: { _controller: SiteCategoryBundle:Category:home }
+    
+category_site:
+    pattern:  /{slug}
+    defaults: { _controller: SiteCategoryBundle:Category:index }

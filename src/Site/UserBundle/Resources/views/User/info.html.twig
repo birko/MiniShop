@@ -1,0 +1,16 @@
+<div class="user-info">
+  {% if entity is empty %}
+  <span class="name">{% trans %}Not logged in{% endtrans %}</span> 
+  <a href="{{path('SiteUserBundle_login')}}"><i class="icon-ok"></i> {% trans %}general.login{% endtrans %}</a>
+  {% else %}
+  <span class="name">
+    <a href="{{path('SiteUserBundle_index')}}">
+      {% if entity.addresses | length > 0 %}
+      {{entity.addresses.0.name}}
+      {% else %}{{entity.login}}
+      {% endif %}
+    </a>
+  </span>
+  <a href="{{path('SiteUserBundle_logout')}}"><i class="icon-off"></i> {% trans %}general.logout{% endtrans %}</a>
+  {% endif %}
+</div>

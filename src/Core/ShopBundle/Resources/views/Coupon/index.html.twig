@@ -1,0 +1,42 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>{% trans %}Coupon list{% endtrans %}</h1>
+{{ knp_pagination_render(entities)}}
+<table class="records_list table table-striped">
+    <thead>
+        <tr>
+            <th>{% trans %}Code{% endtrans %}</th>
+            <th>{% trans %}Active{% endtrans %}</th>
+            <th>{% trans %}Used{% endtrans %}</th>
+            <th>{% trans %}Discount{% endtrans %}</th>
+            <th>{% trans %}Price{% endtrans %}</th>
+            <th>{% trans %}Price VAT{% endtrans %}</th>
+            <th>{% trans %}Actions{% endtrans %}</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="7">
+                <a href="{{ path('coupon_new') }}" class="btn btn-primary"><i class="icon-plus"></i> {% trans %}Create a new entry{% endtrans %}</a>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.code }}</td>
+            <td>{% if entity.active %}<i class="icon-ok"></i>{%else%}<i class="icon-remove"></i>{%endif%}</td>
+            <td>{% if entity.used %}<i class="icon-ok"></i>{%else%}<i class="icon-remove"></i>{%endif%}</td>
+            <td>{{ entity.discount }}</td>
+            <td>{{ entity.price }}</td>
+            <td>{{ entity.priceVAT }}</td>         
+            <td>
+                <a href="{{ path('coupon_products', { 'id': entity.id }) }}" class="btn btn-info"><i class="icon-list-alt"></i> {% trans %}Products{% endtrans %}</a>
+                <a href="{{ path('coupon_edit', { 'id': entity.id }) }}" class="btn btn-warning"><i class="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{{ knp_pagination_render(entities)}}
+{% endblock %}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}MoniShop Admin{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        {% stylesheets
+           '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less'
+           'css/admin.less'
+            output='css/admin.css'
+        %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+        {% endstylesheets %}
+    </head>
+    <body>
+        {% block body %}
+          <div class="container-fluid">
+            <div class="row row-fluid">
+                {% block content %}{% endblock %}
+            </div>
+          </div>
+        {% endblock %}
+        {% block javascripts %}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+<form action="{{ path('address_create') }}" method="post" {{ form_enctype(form) }} class="full">
+  <fieldset>
+  <legend>{% trans %}Address creation{% endtrans %}</legend>
+    <div class="row-fluid">
+        <div class="span6">
+            {% include 'CoreShopBundle:Address:baseform.html.twig' with {'form': form}%}
+        </div>
+        <div class="span6">
+            {% include 'CoreShopBundle:Address:contactform.html.twig' with {'form': form}%}
+            {% include 'CoreShopBundle:Address:companyform.html.twig' with {'form': form}%}
+        </div>
+    </div >
+    <div class="form-actions row-fluid">
+        <div class="span12">
+            {{ form_rest(form) }}
+            <button type="submit" class="btn btn-inverse">{% trans %}Create{% endtrans %}</button>
+            <a href="{{ path('address') }}" class="btn">
+                {% trans %}Back to the list{% endtrans %}
+            </a>
+        </div>
+    </div>
+  </fieldset>
+</form>
+{% endblock %}

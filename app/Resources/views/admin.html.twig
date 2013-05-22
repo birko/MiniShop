@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}MoniShop Admin{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% stylesheets
+           '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less'
+           'css/admin.less'
+           output='css/admin.css'
+        %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+        {% endstylesheets%}
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <section id="wrapper">
+            <header>
+                <nav>
+                    <div class="navbar navbar-fixed-top">
+                        <div class="navbar-inner">
+                            <div class="container-fluid">
+                                <ul class="pull-right nav">
+                                    <li><a href="{{ path('CoreUserBundle_logout') }}"><i class="icon-off"></i> Logout</a></li>
+                                </ul>
+                                <a class="brand offest2" href="#">Mayra</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <div class="container-fluid">
+                <div class="row row-fluid">
+                    <aside id="sidebar" class="span2">
+                        <nav class="well well-small">
+                            <ul class="nav nav-list">
+                                <li class="align-center nav-header">{% trans %}Content{% endtrans %}</li>
+                                <li><a href="{{ path('category') }}">{% trans %}Categories{% endtrans %}</a></li>
+                                <li><a href="{{ path('product') }}">{% trans %}Products{% endtrans %}</a></li>
+                                <li><a href="{{ path('vendor') }}">{% trans %}Vendors{% endtrans %}</a></li>
+                                <li><a href="{{ path('usertext') }}">{% trans %}Text{% endtrans %}</a></li>
+                                <li class="divider"></li>
+                                <li class="align-center nav-header">{% trans %}Shop{% endtrans %}</li>
+                                <li><a href="{{path('order')}}">{% trans %}Orders{% endtrans %}</a></li> 
+                                <li><a href="{{path('orderstatus')}}">{% trans %}Order status{% endtrans %}</a></li>
+                                <li><a href="{{path('payment')}}">{% trans %}Payment{% endtrans %}</a></li>
+                                <li><a href="{{path('state')}}">{% trans %}States{% endtrans %}</a></li>
+                                <li><a href="{{path('shipping')}}">{% trans %}Shipping{% endtrans %}</a></li>
+                                <li><a href="{{path('shippingstatus')}}">{% trans %}Shipping status{% endtrans %}</a></li>
+                                <li><a href="{{path('coupon')}}">{% trans %}Coupons{% endtrans %}</a></li>
+                                <li class="divider"></li>
+                                <li class="align-center nav-header">{% trans %}Marketing{% endtrans %}</li>
+                                <li><a href="{{path('message', {'type': 'claim'})}}">{% trans %}Claims{% endtrans %}</a></li>
+                                <li><a href="{{path('message', {'type': 'contactmulti'})}}">{% trans %}Contact{% endtrans %}</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{path('newsletter')}}">{% trans %}Newsletter{% endtrans %}</a></li>
+                                <li><a href="{{path('newsletter_group')}}">{% trans %}Newsletter groups{% endtrans %}</a></li>
+                                <li><a href="{{path('newsletter_email')}}">{% trans %}Newsletter emails{% endtrans %}</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{path('user')}}">{% trans %}Users{% endtrans %}</a></li> 
+                                <li><a href="{{path('pricegroup')}}">{% trans %}Price groups{% endtrans %}</a></li> 
+                            </ul>
+                            {% block sidebar %}{% endblock  sidebar %}
+                        </nav>
+                    </aside>
+                    <section id="main" class="span10">
+                            {% block body %}{% endblock body %}
+                    </section>
+                </div>
+            </div>
+            <footer>
+            </footer>        
+        </section>
+        {% javascripts
+           'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
+           '@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-dropdown.js'
+           output="js/bootstrap.js"
+        %}
+        <script src="{{ asset_url }}" type="text/javascript" ></script>
+        {% endjavascripts %}
+        {% block javascripts %}
+        {% endblock %}
+    </body>
+</html>

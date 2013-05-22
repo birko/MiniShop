@@ -1,0 +1,20 @@
+{% extends '::admin_single.html.twig' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+{% if error %}
+<div class="alert alert-error">{{ error.message }}</div>
+{% endif %}
+
+<form action="{{ path("CoreUserBundle_logincheck") }}" method="post" id="form-login">
+    <h1>Prihlásenie</h1>
+    <div>
+        <label for="username">{% trans %}Username{% endtrans %}</label>
+        <input type="text" id="username" name="_username" value="" />
+    </div>
+    <div>
+        <label for="password">{% trans %}Password{% endtrans %}</label>
+        <input type="password" id="password" name="_password" />
+    </div>
+    <button type="submit" class="btn btn-primary" name="submit" value="LOGIN"><i class="icon-ok"></i> {% trans %}Login{% endtrans %}</button>
+</form>
+{% endblock %}

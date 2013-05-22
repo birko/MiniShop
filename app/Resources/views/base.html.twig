@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Welcome to MoniShop{% endblock %}</title>
+        {% stylesheets
+           '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less'
+           'css/main.less'
+            output='css/main.css'
+        %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+        {% endstylesheets%}
+        {% block stylesheets %}
+        {% endblock %}
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <div id="body">
+            <section>
+                <div class="navbar navbar-fixed-top">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <div class="pull-right navbar-text">
+                                {% render controller("SiteShopBundle:Cart:info") %}
+                            </div>
+                            <div class="pull-right navbar-text">
+                                {% render controller("SiteUserBundle:User:info") %}
+                            </div>
+                            <a class="brand" href="{{ path('category_homepage') }})">MoniShop</a>
+                        </div>
+                    </div>
+                </div>
+                <header>
+                    <div class="container">
+                        <form class="navbar-search pull-right" action="{{path('product_search')}}" method="post">
+                                <input type="text" class="search-query" name="search[query]" value="" placeholder="Search" />
+                        </form>
+                        <a class="brand" href="{{path('category_homepage')  }}" id="header-logo">
+                            <span></span>
+                            MoniShop
+                        </a>
+                    </div>
+                </header>
+                <section id="main" class="container">
+                    <div class="row row-fluid">
+                        <aside id="main-menu" class="span2">
+                            <nav id="left-menu" class="well well-small">
+                                {% render controller("SiteCategoryBundle:Category:tree",{'menu': 0}) %}
+                            </nav>
+                        </aside>
+                        <section id="main-body" class="span10">
+                            {% block body %}{% endblock body %}
+                        </section>
+                    </div>
+                </section>
+                <footer>
+                    <div class="container">
+                        <div id="footer-copyright">
+                            <a class="brand" href="{{ path('category_homepage') }}" id="footer-logo">
+                                <span></span>
+                                Monishop.sk
+                            </a>
+                            <div class="copy">
+                                &COPY; 2013 | All rights reserved
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </section>
+        </div>
+        {% javascripts
+           'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
+           'js/main.js'
+           output="js/bootstrap.js"
+        %}
+        <script src="{{ asset_url }}" type="text/javascript" ></script>
+        {% endjavascripts %}
+        {% block javascripts %}
+        {% endblock javascripts %}
+    </body>
+</html>

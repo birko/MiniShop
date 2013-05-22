@@ -1,0 +1,12 @@
+<form action="{{ path('cart_add')}}" method="post">
+    <div>
+        <input type="hidden" name="items[{{product}}][productId]" value="{{ product }}"/>
+        <input type="hidden" name="items[{{product}}][currencyId]" value="{{ currencyId }}"/>
+        <input type="hidden" name="items[{{product}}][price]" value="{{ price }}"/>
+        <input type="hidden" name="items[{{product}}][priceVAT]" value="{{ priceVAT }}"/>
+        <input type="hidden" name="items[{{product}}][name]" value="{{ title }}"/>
+        <input type="text" name="items[{{product}}][amount]" value="{{ amount }}"/>
+        <button type="submit" class="buy btn reset pull-right"><i class="icon-shopping-cart"></i></button>
+        <input type="hidden" name="target" value="{{ path('product_index', {'id': productId})}}" />
+    </div>
+</form>

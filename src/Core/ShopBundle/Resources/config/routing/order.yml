@@ -1,0 +1,24 @@
+order:
+    pattern:  /
+    defaults: { _controller: "CoreShopBundle:Order:index" }
+
+order_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "CoreShopBundle:Order:show" }
+    
+order_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "CoreShopBundle:Order:edit" }
+    
+order_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "CoreShopBundle:Order:update" }
+    requirements: { _method: post }
+    
+    
+order_process:
+    pattern:  /process
+    defaults: { _controller: "CoreShopBundle:Order:process" }
+    requirements: { _method: post }
+
+

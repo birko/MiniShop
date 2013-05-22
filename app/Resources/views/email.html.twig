@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #000000; ">
+        <div style="width:690px; margin:0px auto;">
+            <div style="float:left">
+                <img src="http://www.mayra.sk/img/logo.png">
+            </div>
+            {% block header %}
+            {% endblock header %}
+            <div style="clear:both;"></div>
+            {% block content %}
+            {% endblock content %}
+        </div>
+        <div style="background:#3a3a3c; padding: 6px; overflow: hidden; color:#d1d2d4; font-size:12px; line-height: 15px;">
+            <div style="width:690px; margin:0px auto;">
+                <a href="http://www.mayra.sk" style="width:140px; height:31px; position: relative; display: inline-block; float:left;">
+                    <span style="width:140px; height:31px; display: inline-block; position: absolute; top:0px; left: 0px; background: url('http://www.mayra.sk/img/logo_footer.png') center center no-repeat;"></span>
+                    Mayra.sk
+                </a>
+                <div style="float:left; line-height: 31px; vertical-align: middle; padding:0px 5px;">
+                    &COPY; 2012 | All rights reserved
+                </div>
+            {% block footer %}
+            {% endblock footer %}
+            </div>
+        </div>
+    </body>
+</html>

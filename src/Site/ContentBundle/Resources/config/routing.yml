@@ -1,0 +1,7 @@
+content_slug:
+    pattern:  /content/{slug}
+    defaults: { _controller: SiteContentBundle:Content:index }
+
+content_list:
+    pattern:  /content/list/{category}
+    defaults: { _controller: SiteContentBundle:Content:list, category: ~ }

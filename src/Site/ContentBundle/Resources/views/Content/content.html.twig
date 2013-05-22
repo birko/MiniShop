@@ -1,0 +1,11 @@
+{% if content %}
+<div id="content">
+  <h1>{% if content.title is not empty%}{{content.title}}{% else %}{{title}}{% endif %}</h1>
+  <div class="content-shortdescription">
+      {{content.shortDescription|raw}}
+  </div>
+  <div class="content-longdescription">
+      {{content.longDescription|raw}}
+  </div>
+</div>
+{% endif %}

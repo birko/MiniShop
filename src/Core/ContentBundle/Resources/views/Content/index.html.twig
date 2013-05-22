@@ -1,0 +1,37 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>{% trans %}Content list{% endtrans %}</h1>
+{{ knp_pagination_render(entities)}}
+<table class="records_list table table-striped">
+    <thead>
+        <tr>
+            <th>{% trans %}Title{% endtrans %}</th>
+            <th>{% trans %}Actions{% endtrans %}</th>
+            <th></th>
+        </tr>
+    </thead>
+    {% if category is not empty %}
+    <tfoot>
+        <tr>
+            <td colspan="3">
+                <a href="{{ path('content_new', {'category': category}) }}" class="btn btn-primary"><i class="icon-plus"></i> {% trans %}Create a new content{% endtrans %}</a>
+            </td>
+        </tr>
+    </tfoot>
+    {% endif %}
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.title }}</td>
+            <td>
+                <a href="{{ path('content_edit', { 'id': entity.id }) }}" class="btn btn-warning"><i class="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>
+            </td>
+            <td>
+                <a href="{{ path('content_media', { 'content': entity.id, 'category': category }) }}" class="btn btn-info"><i class="icon-list"></i> {% trans %}Media{% endtrans %}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{{ knp_pagination_render(entities)}}
+{% endblock %}

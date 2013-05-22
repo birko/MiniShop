@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+{% include "SiteShopBundle:Checkout:breadcrumb.html.twig" with {'end' : 'Payment and shipping'} %}
+<div  id="cart">
+    <h1>{% trans %}Payment and shipping{% endtrans %}</h1>
+    <form action="{{ path('checkout_savepaymentshipping')}}" method="post">
+        <div class="row-fluid">
+            {{ form_errors(form) }}
+            <div class="payment span5">
+                <table class="table">
+                    <caption>{{ form_label(form.payment) }}</caption>
+                    <tbody>
+                        {% for widget in form.payment %}
+                        <tr>
+                            <td>{{ form_widget(widget) }}</td>
+                            <td>{{payment[loop.index0].name}}</td>
+                            <td><strong>{{payment[loop.index0].price | number_format(2)}} € s DPH</strong></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="shipping span5 offset2">
+                <table class="table">
+                    <caption>{{ form_label(form.shipping) }}</caption>
+                    <tbody>
+                        {% for widget in form.shipping %}
+                        <tr>
+                            <td>{{ form_widget(widget) }}</td>
+                            <td>{{shipping[loop.index0].name}} </td>
+                            <td><strong>{{shipping[loop.index0].priceVAT | number_format(2)}} € s DPH</strong></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="cleaner"></div>
+            {{ form_rest(form) }}
+        </div>
+        <div class="row-fluid">
+          <div class="span12">
+            <a href="{{path('cart')}}" class="btn pull-left"><i class="icon-arrow-left icon-white"></i> {% trans %}Back to cart{% endtrans %} </a>
+            <button type="submit" class="btn pull-right">{% trans %}Continue{% endtrans %} <i class="icon-arrow-right"></i></button>
+            {{ form_rest(form) }}
+          </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

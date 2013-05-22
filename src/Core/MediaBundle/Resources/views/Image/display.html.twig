@@ -1,0 +1,9 @@
+{% if image is not empty %}
+{% if link_path is not empty %}
+<a href="{{ asset(image.getWebPath(link_path)) }}" class="fancybox">
+{% endif %}
+<img src="{{ asset(source)}}"  alt ="{{ image.title }}"/>
+{% if link_path is not empty %}
+</a>
+{% endif %}
+{% endif %}

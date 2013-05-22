@@ -1,0 +1,37 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>{% trans %}Attribute list{% endtrans %}</h1>
+
+<table class="records_list table table-striped">
+    <thead>
+        <tr>
+            <th>{% trans %}Name{% endtrans %}</th>
+            <th>{% trans %}Value{% endtrans %}</th>
+            <th>{% trans %}Group{% endtrans %}</th>
+            <th>{% trans %}Actions{% endtrans %}</th>
+        </tr>
+    </thead>
+     <tfoot>
+        <tr>
+            <td colspan="4">
+                <a href="{{ path('attribute_new', {'category': category, 'product': product}) }}" class="btn btn-primary"><i class="icon-plus"></i> {% trans %}Create a new entry{% endtrans %} </a>
+                <a href="{{ path('product', {'category': category}) }}" class=""> {% trans %}Back to the list{% endtrans %}</a>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.name }}</td>
+            <td>{{ entity.value }}</td>
+            <td>{{ entity.group }}</td>
+            <td>
+                <a href="{{ path('attribute_edit', { 'id': entity.id, 'category': category, 'product': product }) }}" class="btn btn-warning"><i class="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>
+                <a href="{{ path('attribute_up', { 'id': entity.id, 'position': 1, 'product': product, 'category': category }) }}" class="move-up btn"><i class="icon-arrow-up"></i> {% trans %}Move up{% endtrans %}</a>
+                <a href="{{ path('attribute_down', { 'id': entity.id, 'position': 1, 'product': product, 'category': category }) }}" class="move-down btn"><i class="icon-arrow-down"></i> {% trans %}Move down{% endtrans %}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% if entities is not empty %}
+{% for entity in entities %}
+        <tr>
+            <td class="title">{{ entity.title }}</td>
+            <td class="slug">{{ entity.slug }}</td>
+            <td class="home">{% if entity.home %}<i class="icon-ok"></i>{% endif %}</td>
+            <td class="content">
+                 <a href="{{ path('content', { 'category': entity.id }) }}" class="btn btn-info"><i class="icon-list"></i> Content</a>
+                 <a href="{{ path('product', { 'category': entity.id }) }}" class="btn btn-info"><i class="icon-list"></i> Products</a>
+            </td>
+            <td class="actions">
+                <a href="{{ path('category_edit', { 'id': entity.id }) }}" class="btn btn-warning"><i class="icon-edit"></i> Edit</a>
+                <a href="{{ path('category_new', {'menu': active, 'parent': entity.id}) }}" class="btn btn-primary"><i class="icon-plus"></i> Create a new child </a>
+            </td>
+        </tr>
+        {% if entity.children is not empty %}
+        <tr class="children">
+            <td colspan="5">
+                <table class="table">
+                    <tbody>
+                        {% include "CoreCategoryBundle:Category:list.html.twig" with {'entities': entity.children} %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+{% endfor %}
+{% endif %}

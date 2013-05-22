@@ -1,0 +1,5 @@
+<div class="product-list span12">
+{% for product in entities %}
+{% include 'SiteProductBundle:Product:item.html.twig' with {'entity': product} %}
+{% endfor %}
+</div>

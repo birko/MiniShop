@@ -1,0 +1,82 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>{% trans %}Product list{% endtrans %}</h1>
+<form action="" method="post" class="filter form-actions">
+<div class="row-fluid">
+    <div class="span3">
+         {{ form_row(filter.words) }}
+    </div>
+    <div class="span2">
+         {{ form_row(filter.vendor) }}
+    </div>
+    <div class="span2 input-append">
+         {{ form_row(filter.order) }}
+    </div>
+    <div class="span1">
+        <div>
+            <label> &nbsp; </label>
+            {{ form_rest(filter) }}
+            <button class="btn btn-inverse btn-small"><i class="icon-ok icon-white"></i></button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+</form>
+{{ knp_pagination_render(entities)}}
+<table class="records_list table table-striped table-hover-table-condensed">
+    <thead>
+        <tr>
+            <th>{% trans %}Title{% endtrans %}</th>
+            <th>{% trans %}Actions{% endtrans %}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="3">
+                <a href="{{ path('product_new', {'category': category}) }}" class="btn btn-primary"><i class="icon-plus"></i> {% trans %}Create a new entry{% endtrans %}</a>
+                {% if category is not empty %}
+                <a href="{{path('product_addlist',  {'category': category })}}" class="btn btn-info"> 
+                   <i class="icon-plus"></i> {%trans%}Add existing product{%endtrans%}
+                </a>
+                {% endif %}
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.title }}</td>
+            <td class="btn-toolbar">
+                <div class="btn-group">
+                    <a href="{{ path('product_edit', { 'id': entity.id, 'category': category }) }}" class="btn btn-warning btn-small"><i class="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>
+                    <a href="{{ path('product_copy', { 'id': entity.id, 'category': category }) }}" class="btn btn-share-alt btn-small"><i class="icon-leaf"></i> {% trans %}Copy{% endtrans %}</a>
+                    {% if category is not empty %}
+                    <a href="{{ path('product_remove', { 'id': entity.id, 'category': category  }) }}" class="btn btn-danger btn-small"><i class="icon-minus"></i> {%trans%}Remove{%endtrans%}</a>
+                    {% endif %}
+                </div>
+            </td>
+            <td class="btn-toolbar">
+                <div class="btn-group">
+                    <a href="{{ path('product_media', { 'product': entity.id, 'category': category }) }}" class="btn btn-info btn-small"><i class="icon-list"></i> {% trans %}Media{% endtrans %}</a>
+                    <a href="{{ path('attribute', { 'product': entity.id, 'category': category }) }}" class="btn btn-info btn-small"><i class="icon-list"></i> {% trans %}Attributes{% endtrans %}</a>
+                    <a href="{{ path('price', { 'product': entity.id, 'category': category }) }}" class="btn btn-info btn-small"><i class="icon-list"></i> {% trans %}Prices{% endtrans %}</a>
+                </div>
+                <div class="btn-group">    
+                    <a class="btn btn-info dropdown-toggle btn-small" data-toggle="dropdown" href="#">{% trans %}Stock{% endtrans %} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        {% if entity.stock %}
+                        <li><a href="{{ path('stock_edit', { 'id': entity.stock.id, 'product': entity.id, 'category': category }) }}"><i class="icon-edit"></i> {% trans %}Stock{% endtrans %}</a></li>
+                        {% else %}
+                        <li><a href="{{ path('stock_new', {'product': entity.id, 'category': category }) }}"><i class="icon-edit"></i> {% trans %}Stock{% endtrans %}</a></li>
+                        {% endif %}
+                        <li><a href="{{ path('option', { 'product': entity.id, 'category': category }) }}"><i class="icon-list"></i> {% trans %}Options{% endtrans %}</a></li>
+                    </ul>    
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{{ knp_pagination_render(entities)}}
+{% endblock %}

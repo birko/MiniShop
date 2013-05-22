@@ -1,0 +1,31 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>{% trans %}Vendor list{% endtrans %}</h1>
+{{knp_pagination_render(entities)}}
+<table class="records_list table table-striped">
+    <thead>
+        <tr>
+            <th>{% trans %}Title{% endtrans %}</th>
+            <th>{% trans %}Actions{% endtrans %}</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="2">
+                <a href="{{ path('vendor_new') }}" class="btn btn-primary"><i class="icon-plus"></i> {% trans %}Create a new entry{% endtrans %}</a>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.title }}</td>
+            <td>
+                 <a href="{{ path('vendor_edit', {'id': entity.id}) }}" class="btn btn-warning"><i class="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{{knp_pagination_render(entities)}}
+{% endblock %}

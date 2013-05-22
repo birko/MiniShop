@@ -1,0 +1,19 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>{% trans %}Content Media creation{% endtrans %}</h1>
+
+<form action="{{ path('content_media_create', {'category': category, 'content': content}) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit" class="btn btn-success"><i class="icon-ok"></i> {% trans %}Create{% endtrans %}</button>
+        <a href="{{ path('content_media', {'category': category, 'content': content}) }}"> {% trans %}Back to the list{% endtrans %}</a>
+    </p>
+</form>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+<script type="text/javascript">
+bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+</script>
+{% endblock %}

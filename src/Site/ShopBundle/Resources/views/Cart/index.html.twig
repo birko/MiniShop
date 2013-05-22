@@ -1,0 +1,74 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+<div id="cart">
+    <h1>{% trans %}Cart{% endtrans %}</h1>
+    {% if cart is not empty and cart.items is not empty %}
+    <table class="cart table table-striped table-hover table-condensed">
+        <thead>
+            <tr>
+                <th class="image"></th>
+                <th>{% trans %}Title{% endtrans %}</th>
+                <th>{% trans %}Amount{% endtrans %}</th>
+                <th>{% trans %}Price VAT{% endtrans %}</th>
+                <th>{% trans %}Total price{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td class="image"></td>
+                <td colspan="4">
+                    {% render controller("SiteShopBundle:Coupon:form") %}
+                </td>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for item in cart.items %}
+            <tr>
+                <td class="image">
+                    {% if item.productId is not empty %}
+                    {% render controller("SiteProductBundle:Product:productMainMedia", {'product': item.productId, 'dir': 'product-small'}) %}
+                    {% endif %}
+                </td>
+                <td class="name">
+                    <span class="item-name">{{ item.name }}</span>
+                    <br />
+                    {% if item.options is not empty %}
+                    {% for option in item.options %}
+                      <strong>{{option.name}}: </strong>{{option.value}}, 
+                    {% endfor %}
+                    {% endif %}
+                    <br />
+                </td>
+                <td class="form">
+                    <form action="{{ path('cart_update') }}" method="post">
+                        <div class="input-append input-prepend">
+                        {% if item.changeAmount %}<button type="submit" class="btn"><i class="icon-refresh icon-white"></i></button>{% else %}<a class="btn"></a>{% endif %}
+                        <input type="text" name="items[{{loop.index0}}][amount]" value="{{ item.amount }}" size="3" {% if not item.changeAmount %}readonly="readonly" disabled="disables"{% endif %}/>&nbsp; 
+                        <a href="{{ path('cart_remove', {'index': loop.index0})}}" class="btn"><i class="icon-remove icon-white"></i></a>
+                    </form>
+                </td>
+                <td class="price">
+                    {{ item.priceVAT|number_format(2) }} €
+                </td>
+                <td class="total">
+                    {{ item.priceVatTotal|number_format(2) }} € &nbsp; 
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="row-fluid">
+        <a href="{{path('category_homepage')}}" class="span3 btn pull-left">
+            <i class="icon-arrow-left"></i>  {% trans %}Back to shop{% endtrans %}
+        </a>
+        <a href="{{path('checkout')}}" class="span3 btn pull-right">
+            {% trans %}Checkout order{% endtrans %} <i class="icon-arrow-right"></i>
+        </a>
+    </div>
+    {% else %}
+    <div class="info">
+        {% trans %}Your cart is empty.{% endtrans %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

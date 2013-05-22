@@ -1,0 +1,41 @@
+<form action="{{ path('checkout_useraddress')}}" method="post">
+    {{ form_errors(form) }}
+    <div class="row-fluid">
+        <div class="span12">
+           <legend class="paymentaddress">{% trans %}Payment address{% endtrans %}</legend>
+            <div class="row-fluid">
+                <div class="span10 paymentaddress">
+                    {{ form_widget(form.paymentAddress) }}
+                </div>
+                <div class="span2 paymentaddress">
+                    <a href="{{path('address')}}" class="btn"><i class="icon-list-alt"></i> {% trans %}Addresses{% endtrans %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12 sameaddress">
+            {{ form_widget(form.sameAddress) }}
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+          <legend class="shippingaddress">{% trans %}Shipping address{% endtrans %}</legend>
+            <div class="row-fluid">
+                <div class="span10 shippingaddress">
+                  {{ form_widget(form.shippingAddress) }}
+                </div>
+                <div class="span2 shippingaddress">
+                    <a href="{{path('address')}}" class="btn"><i class="icon-list-alt"></i> {% trans %}Addresses{% endtrans %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <a href="{{path('cart')}}" class="btn pull-left"><i class="icon-arrow-left icon-white"></i> {% trans %}Back to cart{% endtrans %}</a>
+            <button type="submit" class="btn pull-right">{% trans %}Continue{% endtrans %} <i class="icon-arrow-right"></i></button>
+            {{ form_rest(form) }}
+        </div>
+    </div>
+</form>

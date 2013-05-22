@@ -1,0 +1,28 @@
+<table class="records_list table table-striped">
+    <thead>
+        <tr>
+            <th>{% trans %}Address{% endtrans %}</th>
+            <th>{% trans %}Actions{% endtrans %}</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="2">
+                <a href="{{ path('address_new') }}"  class="btn">
+                    <i class="icon-plus"></i> {% trans %}Create Address{% endtrans %}
+                </a>
+                <a href="{{ path('SiteUserBundle_index') }}" class="btn btn-inverse">{% trans %}Customer section{% endtrans %}</a> 
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td> {% include "CoreShopBundle:Address:address.html.twig" with {'entity': entity } %}</td>
+            <td> 
+                <a href="{{ path('address_edit', { 'id': entity.id }) }}" class="btn btn-inverse"><i clas="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>            
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

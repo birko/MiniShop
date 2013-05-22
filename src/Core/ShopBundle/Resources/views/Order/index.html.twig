@@ -1,0 +1,105 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>Order list</h1>
+<form action="" method="post" class="filter">
+    <div class="span2">
+         {{ form_row(form.orderStatus) }}
+    </div>
+    <div class="span2">
+         {{ form_row(form.shippingStatus) }}
+    </div>
+    <div class="span2">
+         {{ form_row(form.shippingState) }}
+    </div>
+    <div class="span1">
+        <div>
+            <label> &nbsp; </label>
+            {{ form_rest(form) }}
+            <button class="btn btn-inverse"><i class="icon-ok icon-white"></i></button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</form>
+{{ knp_pagination_render(entities)}}
+<form action="{{path('order_process')}}" method="post">
+<table class="records_list table table-striped table-condensed table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>{% trans %}Created at{% endtrans %}</th>
+            <th>{% trans %}Price{% endtrans %}</th>
+            <th>{% trans %}Price VAT{% endtrans %}</th>
+            <th>{% trans %}Delivery name{% endtrans %}</th>   
+            <th>{% trans %}Invoice name{% endtrans %}</th>
+            <th>{% trans %}Order status{% endtrans %}</th> 
+            <th>{% trans %}Shipping status{% endtrans %}</th>
+            <th>{% trans %}Tracking ID{% endtrans %}</th>  
+            <th>{% trans %}Actions{% endtrans %}</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="process">
+                <div class="span3 select">
+                    {{ form_row(process.type) }}
+                </div>
+            </td>
+            <td colspan="7" class="process">
+                <div class="span3 orderstatus selecttype">
+                    {{ form_row(process.orderStatus) }}
+                </div>
+                <div class="span3 shippingstatus selecttype">
+                    {{ form_row(process.shippingStatus) }}
+                </div>
+                <div class="span3 export selecttype">
+                    {{ form_row(process.export) }}
+                </div>
+            </td>
+            <td>
+                <label>&nbsp;</label>
+                <button class="btn btn-inverse" type="submit" value="Process"><i class="icon-refresh icon-white"></i> Process</button>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ form_widget(process.processOrders[loop.index0].include )}}{{ form_widget(process.processOrders[loop.index0].orderId )}}</td>
+            <td>{{ entity.id }}</td>
+            <td>{% if entity.createdAt %}{{ entity.createdAt|date('d.m.Y H:i:s') }}{% endif %}</td>
+            <td>{{ entity.price|number_format(2) }}</td>
+            <td>{{ entity.priceVAT|number_format(2) }}</td>
+            <td>{{ entity.deliveryname }} {{ entity.deliverysurname }}</td>
+            <td>{{ entity.invoicename }} {{ entity.invoicesurname }}</td>
+            <td>{{ entity.orderstatus }}</td>
+            <td>{{ entity.shippingstatus }}</td>
+            <td>{{ entity.trackingId }}</td>
+            <td class="btn-toolbar">
+                <div class="btn-group">
+                    <a href="{{ path('order_show', { 'id': entity.id }) }}" class="btn btn-primary btn-small"><i class="icon-bar"></i> {% trans %}Show{% endtrans %}</a>
+                    <a href="{{ path('order_edit', { 'id': entity.id }) }}" class="btn btn-warning btn-small"><i class="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{{ form_rest(process) }}
+</form>
+{{ knp_pagination_render(entities)}}
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery('.process .select select').change(function(){
+        jQuery('.process .selecttype').hide();
+        val = jQuery(this).val();
+        jQuery('.process .' + val).show();
+    });
+})
+</script>
+{% endblock %}
+

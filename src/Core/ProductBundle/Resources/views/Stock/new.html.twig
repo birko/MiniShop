@@ -1,0 +1,12 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>{% trans %}Stock creation{% endtrans %}</h1>
+
+<form action="{{ path('stock_create', {'product': product, 'category': category}) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit" class="btn btn-success"><i class="icon-ok"></i> {% trans %}Create{% endtrans %}</button>
+        <a href="{{ path('product',{'category': category}) }}"> {% trans %}Back to the list{% endtrans %}</a>
+    </p>
+</form>
+{% endblock %}

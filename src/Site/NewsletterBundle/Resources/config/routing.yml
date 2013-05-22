@@ -1,0 +1,4 @@
+newsletter_email_subscribe:
+    pattern:  /newsletter/subscribe
+    defaults: { _controller: "SiteNewsletterBundle:Newsletter:subscribe" }
+    requirements: { _method: post }

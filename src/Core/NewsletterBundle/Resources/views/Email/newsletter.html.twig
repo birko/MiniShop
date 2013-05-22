@@ -1,0 +1,8 @@
+{% extends '::email.html.twig' %}
+{% block content%}
+<h1>{{ entity.title | raw  }}</h1>
+<div>
+    {{entity.content | raw }}
+</div>
+{% render controller('CoreUserTextBundle:UserText:display', {'name': 'email-footer', 'create': 1}) %}
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+{% include "SiteShopBundle:Checkout:breadcrumb.html.twig" with {'end' : 'Confirm order'} %}
+<div id="cart">
+    <h1>{% trans %}Confirm order{% endtrans %}</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans %}Shipping address{% endtrans %}</th>
+                <th>{% trans %}Payment address{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="shipping address">
+                        {% include "CoreShopBundle:Address:address.html.twig" with {'entity': cart.shippingAddress} %}
+                    </div>
+                </td>
+                <td>
+                    <div class="payment address">
+                        {% include "CoreShopBundle:Address:address.html.twig" with {'entity': cart.paymentAddress} %}
+                    </div>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+    {% if cart.items is not empty %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans %}Title{% endtrans %}</th>
+                <th>{% trans %}Amount{% endtrans %}</th>
+                <th>{% trans %}Price VAT{% endtrans %}</th>
+                <th>{% trans %}Total price{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td>
+                    {% trans %}Total Price{% endtrans %}
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                    {{ cart.priceVAT|number_format(2, ',') }}
+                </td>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for item in cart.items %}
+            <tr>
+                <td>
+                    {{ item.name }}
+                    {% if item.options is not empty %}
+                    <hr />
+                    {% for option in item.options %}
+                      <strong>{{option.name}}: </strong>{{option.value}}, 
+                    {% endfor %}
+                    {% endif %}
+                </td>
+                <td>
+                    {{ item.amount }}
+                </td>
+                <td>
+                    {{ item.priceVAT|number_format(2, ',') }}
+                </td>
+                <td>
+                    {{ item.priceVATTotal|number_format(2, ',') }}
+                </td>
+            </tr>
+            {% endfor %}
+            {% if cart.shipping is not empty %}
+            <tr>
+                <td>
+                    {{ cart.shipping.name }}
+                </td>
+                <td>     
+                </td>
+                <td>
+                    {{ cart.shipping.priceVAT|number_format(2, ',') }}
+                </td>
+                <td>
+                    {{ cart.shipping.priceVAT|number_format(2, ',') }}
+                </td>
+            </tr>
+            {% endif %}
+            {% if cart.payment is not empty %}
+            <tr>
+                <td>
+                    {{ cart.payment.name }}
+                </td>
+                <td>     
+                </td>
+                <td>
+                    {{ cart.payment.price|number_format(2, ',') }}
+                </td>
+                <td>
+                    {{ cart.payment.price|number_format(2, ',') }}
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    <form action="{{ path('checkout_order')}}" method="post">
+        {{ form_errors(form) }}
+        <div class="row-fluid">
+            <div class="span6">
+                {{ form_widget(form) }}
+            </div>
+        </div>
+        <div class="row-fluid">
+          <div class="span12">
+            <a href="{{path('cart')}}" class="btn pull-left"><i class="icon-arrow-left icon-white"></i> {% trans %}Back to cart{% endtrans %} </a>
+            <button type="submit" class="btn pull-right">{% trans %}Order{% endtrans %} <i class="icon-arrow-right"></i></button>
+            {{ form_rest(form) }}
+          </div>
+        </div>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}
