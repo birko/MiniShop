@@ -1,9 +1,9 @@
 core_common:        
     emails:
-        default: noreply@site.com
-        contact: noreply@site.com
-        claim:  noreply@site.com
-        order:  noreply@site.com
+        default: "%site_email%"
+        contact: "%site_email%"
+        claim:  "%site_email%"
+        order:  "%site_email%"
         
 core_category:
     menu: [Content]

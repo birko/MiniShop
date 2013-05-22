@@ -30,6 +30,7 @@ twig:
     globals:
         site_title: "%site_title%"
         site_url: "%site_url%"
+        site_email: "%site_email%"
 
 # Assetic Configuration
 assetic:

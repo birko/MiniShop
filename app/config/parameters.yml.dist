@@ -16,4 +16,5 @@ parameters:
 
     site_title: MiniShop
     site_url:   www.minishop.loc
+    site_email: info@monishop.loc
 
