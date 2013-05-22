@@ -89,4 +89,5 @@ mopa_bootstrap:
                 icon_color: null
 
 white_october_tcpdf:
-    tcpdf: ~
+    tcpdf: 
+        pdf_font_name_main: freesans
