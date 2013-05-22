@@ -4,7 +4,7 @@
 <div id="product">
     <div class="row-fluid">
         <div class="image span3">
-        {% if product.media is not empty%}
+        {% if product.media is not empty %}
             <div class="full-image thumbnail">
             {% render controller("CoreMediaBundle:Image:display" , {'id': product.media.0.id, 'dir': 'product-large', 'link_path':'large'}) %}
             </div>
@@ -40,13 +40,15 @@
         </div>
     </div>
     <div class="info row-fluid">
+        {% if product.media is not empty %}
         <div class="gallery span3">
             {% for media in product.media %}
             <div class="thumbnail">
             {% render controller("CoreMediaBundle:Image:display", {'id': media.id, 'dir': 'thumb', 'link_path':'large'}) %}
             </div>
             {% endfor %}
-        </div>    
+        </div>   
+        {% endif %} 
         <div class="tab-pane active fade in" id="longdescription">
             {{product.longDescription|raw}}
         </div>
