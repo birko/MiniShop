@@ -6,7 +6,7 @@
     <body style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #000000; ">
         <div style="width:690px; margin:0px auto;">
             <div style="float:left">
-                <img src="http://www.mayra.sk/img/logo.png">
+                <img src="{{site_url}}/img/logo.png">
             </div>
             {% block header %}
             {% endblock header %}
@@ -16,9 +16,9 @@
         </div>
         <div style="background:#3a3a3c; padding: 6px; overflow: hidden; color:#d1d2d4; font-size:12px; line-height: 15px;">
             <div style="width:690px; margin:0px auto;">
-                <a href="http://www.mayra.sk" style="width:140px; height:31px; position: relative; display: inline-block; float:left;">
-                    <span style="width:140px; height:31px; display: inline-block; position: absolute; top:0px; left: 0px; background: url('http://www.mayra.sk/img/logo_footer.png') center center no-repeat;"></span>
-                    Mayra.sk
+                <a href="{{site_url}}" style="width:140px; height:31px; position: relative; display: inline-block; float:left;">
+                    <span style="width:140px; height:31px; display: inline-block; position: absolute; top:0px; left: 0px; background: url('{{site_url}}/img/logo_footer.png') center center no-repeat;"></span>
+                    {{site_title}}
                 </a>
                 <div style="float:left; line-height: 31px; vertical-align: middle; padding:0px 5px;">
                     &COPY; 2012 | All rights reserved

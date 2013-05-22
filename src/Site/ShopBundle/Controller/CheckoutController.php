@@ -327,8 +327,9 @@ class CheckoutController extends ShopController
         //emails
         // TODO: Send emails
         $emails = $this->container->getParameter('default.emails');
+        $t = $this->get('translator')->trans('New order %subject%', array('%subject%' => $this->container->getParameter('site_title')));
         $message = \Swift_Message::newInstance()
-            ->setSubject('Objednávka Mayra.sk')   
+            ->setSubject($t)   
             ->setFrom($emails['default'])   //settings
             ->setTo(array($emails['order'], $sendEmail)) 
             ->setBody($this->renderView('SiteShopBundle:Email:order.html.twig', array(  

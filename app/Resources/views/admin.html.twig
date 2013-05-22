@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}MoniShop Admin{% endblock %}</title>
+        <title>{% block title %}{{site_title}} Admin{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% stylesheets
            '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less'
@@ -23,7 +23,7 @@
                                 <ul class="pull-right nav">
                                     <li><a href="{{ path('CoreUserBundle_logout') }}"><i class="icon-off"></i> Logout</a></li>
                                 </ul>
-                                <a class="brand offest2" href="#">Mayra</a>
+                                <a class="brand offest2" href="#">{{site_title}}</a>
                             </div>
                         </div>
                     </div>

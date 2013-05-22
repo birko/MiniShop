@@ -27,6 +27,9 @@ twig:
     form:
         resources:
             - 'MopaBootstrapBundle:Form:fields.html.twig'
+    globals:
+        site_title: "%site_title%"
+        site_url: "%site_url%"
 
 # Assetic Configuration
 assetic:

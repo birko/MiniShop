@@ -206,8 +206,9 @@ class OrderController extends Controller
     {
         $sendEmail= $entity->getInvoiceEmail();
         $emails = $this->container->getParameter('default.emails');
+        $t = $this->get('translator')->trans('Order No.:%title% status change %subject%', array('%subject%' => $this->container->getParameter('site_title'), '%title%' => $entity->getId()));
         $message = \Swift_Message::newInstance()
-            ->setSubject("Objednávka č.: {$entity->getId()} zmena stavu - Mayra.sk")   
+            ->setSubject($t)   
             ->setFrom($emails['default'])   //settings
             ->setTo(array($sendEmail)) 
             ->setBody($this->renderView('CoreShopBundle:Email:orderstatus.html.twig', array(  

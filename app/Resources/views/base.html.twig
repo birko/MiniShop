@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Welcome to MoniShop{% endblock %}</title>
+        <title>{% block title %}Welcome to {{site_title}}{% endblock %}</title>
         {% stylesheets
            '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less'
            'css/main.less'
@@ -27,7 +27,7 @@
                             <div class="pull-right navbar-text">
                                 {% render controller("SiteUserBundle:User:info") %}
                             </div>
-                            <a class="brand" href="{{ path('category_homepage') }})">MoniShop</a>
+                            <a class="brand" href="{{ path('category_homepage') }})">{{site_title}}</a>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                         <div id="footer-copyright">
                             <a class="brand" href="{{ path('category_homepage') }}" id="footer-logo">
                                 <span></span>
-                                Monishop.sk
+                                {{site_title}}
                             </a>
                             <div class="copy">
                                 &COPY; 2013 | All rights reserved
