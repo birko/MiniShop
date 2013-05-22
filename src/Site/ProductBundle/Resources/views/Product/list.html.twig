@@ -2,9 +2,9 @@
 <div class="product-list span12">
     <div class="row-fluid">
         <div class="sorter span3">
-          <span>Zoradiť podľa: </span>
-          <span {% if entities.isSorted('p.Title') %}class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Názov', 'p.title') }} </span>
-          <span {% if entities.isSorted('p.CreatedAt') %}class="sorted"{% endif %}>{{ knp_pagination_sortable(entities,'Novinka', 'p.createdAt') }} </span>
+          <span>{% trans%}Sort by{% endtrans %}:</span>
+          <span {% if entities.isSorted('p.Title') %}class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Title'|trans, 'p.title') }} </span>
+          <span {% if entities.isSorted('p.CreatedAt') %}class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Newie'| trans, 'p.createdAt') }} </span>
         </div>
         {{ knp_pagination_render(entities)}}
     </div>
