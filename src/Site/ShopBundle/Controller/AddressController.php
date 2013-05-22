@@ -26,7 +26,7 @@ class AddressController extends ShopController
             throw $this->createNotFoundException('Unable to find User entity.');
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('CoreShopBundle:Address')->getUserAddressQueryBuilder($user->getId())
             ->getQuery()->getResult();
 
@@ -42,7 +42,7 @@ class AddressController extends ShopController
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundleSite:Address')->find($id);
 
@@ -96,7 +96,7 @@ class AddressController extends ShopController
         }
     
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity->setUser($user);
             $em->persist($entity);
             $em->flush();
@@ -117,7 +117,7 @@ class AddressController extends ShopController
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Address')->find($id);
 
@@ -151,7 +151,7 @@ class AddressController extends ShopController
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Address')->find($id);
 
@@ -207,7 +207,7 @@ class AddressController extends ShopController
         }
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreShopBundle:Address')->find($id);
             
             if (!$entity) {

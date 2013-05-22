@@ -23,7 +23,7 @@ class MediaController extends Controller
      */
     public function indexAction($content, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('CoreContentBundle:Content')
                 ->findMediaByContentQueryBuilder($content)
                 ->getQuery()
@@ -73,7 +73,7 @@ class MediaController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $imageOptions = $this->container->getParameter('images');
  
             $opts = array();
@@ -108,7 +108,7 @@ class MediaController extends Controller
      */
     public function editAction($id, $content, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
 
@@ -134,7 +134,7 @@ class MediaController extends Controller
      */
     public function updateAction($id, $content, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
 
@@ -176,7 +176,7 @@ class MediaController extends Controller
 
         $form->bind($request);
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
 
             if (!$entity) {

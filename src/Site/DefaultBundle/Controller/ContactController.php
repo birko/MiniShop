@@ -61,7 +61,7 @@ class ContactController extends Controller
                             ->setContentType("text/html");
                     $this->get('mailer')->send($message);
                     
-                    $em = $this->getDoctrine()->getEntityManager();
+                    $em = $this->getDoctrine()->getManager();
                     $msg = new Message();
                     $msg->setType('contact');
                     $msg->setTitle($t);
@@ -128,7 +128,7 @@ class ContactController extends Controller
                             ->setContentType("text/html");
                     $this->get('mailer')->send($message);
                     
-                    $em = $this->getDoctrine()->getEntityManager();
+                    $em = $this->getDoctrine()->getManager();
                     $msg = new Message();
                     $msg->setType('contactmulti');
                     $msg->setTitle($t);
@@ -199,7 +199,7 @@ class ContactController extends Controller
                                 ->setContentType("text/html");
                     $this->get('mailer')->send($message);
                     
-                    $em = $this->getDoctrine()->getEntityManager();
+                    $em = $this->getDoctrine()->getManager();
                     $msg = new Message();
                     $msg->setType('claim');
                     $msg->setTitle($t);

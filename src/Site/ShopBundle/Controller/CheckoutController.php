@@ -152,7 +152,7 @@ class CheckoutController extends ShopController
         $this->testCart();
         $cart = $this->getCart(); 
         $state = $cart->getShippingAddress()->getState();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $payments =  $em->getRepository('CoreShopBundle:Payment')->getPaymentQueryBuilder()
             ->getQuery()->getResult();
         if(!empty($payments))
@@ -235,7 +235,7 @@ class CheckoutController extends ShopController
                 $cart->getPaymentAddress()->setEmail($sendEmail);
             }
         }
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $order = new Order();
         $order->setInvoiceAddress($cart->getPaymentAddress());
         if($cart->isSameAddress())

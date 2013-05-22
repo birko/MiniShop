@@ -10,7 +10,7 @@ class CategoryController extends Controller
     
     public function homeAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $category = $em->getRepository('CoreCategoryBundle:Category')->findOneByHome(true);
         if(empty($category))
         {
@@ -23,7 +23,7 @@ class CategoryController extends Controller
     
     public function indexAction($slug)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $category = $em->getRepository('CoreCategoryBundle:Category')->findOneBySlug($slug);
         if(empty($category))
         {
@@ -36,7 +36,7 @@ class CategoryController extends Controller
     
     public function listAction($menu, $parent = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $menu_index = $menu;
         if(!is_integer($menu_index))
         {
@@ -56,7 +56,7 @@ class CategoryController extends Controller
     
     public function treeAction($menu  = 0, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $controller = $this; // $this cannot be used
         $options = array(
             'decorate' => true,
@@ -117,7 +117,7 @@ class CategoryController extends Controller
         $section  = null;
         if(!empty($id))
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $category = $em->getRepository('CoreCategoryBundle:Category')->find($id);
             $menu = $this->container->getParameter('menu');
             $section = $menu[$category->getMenu()];

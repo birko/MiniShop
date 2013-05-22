@@ -17,7 +17,7 @@ class CouponController extends ShopController
     public function addAction()
     {
         $request = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST') 
         {
             $entity = (object)array('code'=>'');

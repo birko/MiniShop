@@ -19,7 +19,7 @@ class VendorController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $querybuilder = $em->getRepository('CoreVendorBundle:Vendor')
                     ->createQueryBuilder('v');
         $query = $querybuilder->addOrderBy('v.id')->getQuery();
@@ -42,7 +42,7 @@ class VendorController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreVendorBundle:Vendor')->find($id);
 
@@ -86,7 +86,7 @@ class VendorController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -106,7 +106,7 @@ class VendorController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreVendorBundle:Vendor')->find($id);
 
@@ -130,7 +130,7 @@ class VendorController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreVendorBundle:Vendor')->find($id);
 
@@ -171,7 +171,7 @@ class VendorController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreVendorBundle:Vendor')->find($id);
 
             if (!$entity) {

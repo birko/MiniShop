@@ -192,7 +192,7 @@ class AttributeController extends Controller
     
     public function moveUpAction($id, $product, $position, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreProductBundle:Attribute')->find($id);
 
         if (!$entity) {
@@ -210,7 +210,7 @@ class AttributeController extends Controller
     
     public function moveDownAction($id, $product, $position, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreProductBundle:Attribute')->find($id);
 
         if (!$entity) {

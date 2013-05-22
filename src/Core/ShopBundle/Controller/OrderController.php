@@ -24,7 +24,7 @@ class OrderController extends Controller
      */
     public function indexAction()
     {        
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         //filter
         $session = $request->getSession();
@@ -109,7 +109,7 @@ class OrderController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Order')->find($id);
 
@@ -128,7 +128,7 @@ class OrderController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Order')->find($id);
 
@@ -150,7 +150,7 @@ class OrderController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Order')->find($id);
 
@@ -268,7 +268,7 @@ class OrderController extends Controller
         $entities = array();
         if(!empty($orderIds))
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entities = $em->getRepository('CoreShopBundle:Order')->getOrdersByIdQuery($orderIds)->getResult();
         }
         return $this->render('CoreShopBundle:Order:stickers.html.twig', array(
@@ -280,7 +280,7 @@ class OrderController extends Controller
     {
         if(!empty($orderIds))
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $count = $em->getRepository('CoreShopBundle:Order')->updateOrderStatus($orderIds, $statusId);
             if($count > 0)
             {
@@ -298,7 +298,7 @@ class OrderController extends Controller
     {
         if(!empty($orderIds))
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $count = $em->getRepository('CoreShopBundle:Order')->updateShippingStatus($orderIds, $statusId);
             if($count > 0)
             {
@@ -320,7 +320,7 @@ class OrderController extends Controller
             $exportdata = $this->container->getParameter('admin.order.export');
             $definition = $exportdata[$export];
             $type = isset($definition['type']) ? $definition['type'] : 'csv';
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             
             $entities = array();
             $querybuilder = $em->getRepository('CoreShopBundle:Order')->getOrdersByIdQueryBuilder($orderIds);

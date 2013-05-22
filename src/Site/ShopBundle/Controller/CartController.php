@@ -122,7 +122,7 @@ class CartController extends ShopController
     public function addItemAction()
     {
         $request = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST') 
         {
             $cart = $this->getCart();

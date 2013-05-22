@@ -180,7 +180,7 @@ class UserTextController extends Controller
     
     public function displayAction($name, $create = false)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreUserTextBundle:UserText')->getUserText($name, $create);
 

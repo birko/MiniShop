@@ -20,7 +20,7 @@ class NewsletterEmailController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $query = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->getEmailsQuery();
         $page = $this->getRequest()->get("page", 1);
@@ -42,7 +42,7 @@ class NewsletterEmailController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->find($id);
 
@@ -86,7 +86,7 @@ class NewsletterEmailController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             if(!$em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($entity->getEmail()))
             {
                 $em->persist($entity);
@@ -109,7 +109,7 @@ class NewsletterEmailController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->find($id);
 
@@ -133,7 +133,7 @@ class NewsletterEmailController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->find($id);
 
@@ -174,7 +174,7 @@ class NewsletterEmailController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->find($id);
 
             if (!$entity) {

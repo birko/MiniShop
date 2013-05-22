@@ -19,7 +19,7 @@ class ContentController extends Controller
      */
     public function indexAction($category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $querybuilder = $em->getRepository('CoreContentBundle:Content')->findContentByCategoryQueryBuilder($category);
         $query = $querybuilder->orderBy('c.id')->getQuery();
@@ -44,7 +44,7 @@ class ContentController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreContentBundle:Content')->find($id);
 
@@ -89,7 +89,7 @@ class ContentController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             if($category !== null)
             {
                 $categoryEntity = $em->getRepository('CoreCategoryBundle:Category')->find($category);
@@ -118,7 +118,7 @@ class ContentController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreContentBundle:Content')->find($id);
 
@@ -142,7 +142,7 @@ class ContentController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreContentBundle:Content')->find($id);
 
@@ -183,7 +183,7 @@ class ContentController extends Controller
         $form->bind($request);
         $category = null;
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreContentBundle:Content')->find($id);
 
             if (!$entity) {

@@ -30,7 +30,7 @@ class NewsletterController extends Controller
             $form->bind($request);
             if($form->isValid())
             {
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 if(!$em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($entity->getEmail()))
                 {
                     $entity->setEnabled(true);

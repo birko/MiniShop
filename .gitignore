@@ -9,7 +9,7 @@
 /app/config/app.yml
 /app/config/security.yml
 composer.lock
-*.phpproj
+*.phpproj*
 *.sln
 *.suo
 

@@ -31,7 +31,7 @@ class CategoryController extends Controller
         {
             $session = $this->getRequest()->getSession();
             $session->set('last_category_menu', $menu);
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             
             $controller =$this;
             $options = array(
@@ -68,7 +68,7 @@ class CategoryController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreCategoryBundle:Category')->find($id);
 
@@ -114,7 +114,7 @@ class CategoryController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             if($parent !== null)
             {
                 $parententity = $em->getRepository('CoreCategoryBundle:Category')->find($parent);
@@ -146,7 +146,7 @@ class CategoryController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreCategoryBundle:Category')->find($id);
 
@@ -170,7 +170,7 @@ class CategoryController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreCategoryBundle:Category')->find($id);
 
@@ -215,7 +215,7 @@ class CategoryController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreCategoryBundle:Category')->find($id);
 
             if (!$entity) {
@@ -243,7 +243,7 @@ class CategoryController extends Controller
      */
     public function moveUpAction($id, $position)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreCategoryBundle:Category')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
@@ -258,7 +258,7 @@ class CategoryController extends Controller
      */
     public function moveDownAction($id, $position)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreCategoryBundle:Category')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');

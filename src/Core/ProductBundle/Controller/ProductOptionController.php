@@ -19,7 +19,7 @@ class ProductOptionController extends Controller
      */
     public function indexAction($product, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('CoreProductBundle:ProductOption')->getOptionsByProductQuery($product)->getResult();
 
@@ -36,7 +36,7 @@ class ProductOptionController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreProductBundle:ProductOption')->find($id);
 
@@ -82,7 +82,7 @@ class ProductOptionController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
             if($productEntity != null)
             {
@@ -109,7 +109,7 @@ class ProductOptionController extends Controller
      */
     public function editAction($id, $product, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreProductBundle:ProductOption')->find($id);
 
@@ -135,7 +135,7 @@ class ProductOptionController extends Controller
      */
     public function updateAction($id, $product, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreProductBundle:ProductOption')->find($id);
 
@@ -178,7 +178,7 @@ class ProductOptionController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreProductBundle:ProductOption')->find($id);
 
             if (!$entity) {
@@ -202,7 +202,7 @@ class ProductOptionController extends Controller
     
     public function moveUpAction($id, $product, $position, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreProductBundle:ProductOption')->find($id);
 
         if (!$entity) {
@@ -220,7 +220,7 @@ class ProductOptionController extends Controller
     
     public function moveDownAction($id, $product, $position, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreProductBundle:ProductOption')->find($id);
 
         if (!$entity) {

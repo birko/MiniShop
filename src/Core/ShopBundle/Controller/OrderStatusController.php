@@ -19,7 +19,7 @@ class OrderStatusController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('CoreShopBundle:OrderStatus')->findAll();
 
@@ -34,7 +34,7 @@ class OrderStatusController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:OrderStatus')->find($id);
 
@@ -78,7 +78,7 @@ class OrderStatusController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -98,7 +98,7 @@ class OrderStatusController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:OrderStatus')->find($id);
 
@@ -122,7 +122,7 @@ class OrderStatusController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:OrderStatus')->find($id);
 
@@ -163,7 +163,7 @@ class OrderStatusController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreShopBundle:OrderStatus')->find($id);
 
             if (!$entity) {

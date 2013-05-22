@@ -23,7 +23,7 @@ class NewsletterController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $query = $em->getRepository('CoreNewsletterBundle:Newsletter')
                 ->createQueryBuilder('n')
@@ -48,7 +48,7 @@ class NewsletterController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreNewsletterBundle:Newsletter')->find($id);
 
@@ -92,7 +92,7 @@ class NewsletterController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -112,7 +112,7 @@ class NewsletterController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreNewsletterBundle:Newsletter')->find($id);
 
@@ -136,7 +136,7 @@ class NewsletterController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreNewsletterBundle:Newsletter')->find($id);
 
@@ -177,7 +177,7 @@ class NewsletterController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreNewsletterBundle:Newsletter')->find($id);
 
             if (!$entity) {
@@ -202,7 +202,7 @@ class NewsletterController extends Controller
     public function sendAction($id)
     {
         $entity = new SendNewsletter();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $newsletter = $em->getRepository('CoreNewsletterBundle:Newsletter')->find($id);
         if (!$newsletter) {
             throw $this->createNotFoundException('Unable to find Newsletter entity.');
@@ -244,7 +244,7 @@ class NewsletterController extends Controller
     public function sendGroupAction($id)
     {
         $entity = new SendNewsletter();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $newsletter = $em->getRepository('CoreNewsletterBundle:Newsletter')->find($id);
         if (!$newsletter) {
             throw $this->createNotFoundException('Unable to find Newsletter entity.');
@@ -263,7 +263,7 @@ class NewsletterController extends Controller
     {
         $entity = new SendNewsletter();
         $request = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $newsletter = $em->getRepository('CoreNewsletterBundle:Newsletter')->find($id);
         if (!$newsletter) {
             throw $this->createNotFoundException('Unable to find Newsletter entity.');
@@ -299,7 +299,7 @@ class NewsletterController extends Controller
     public function sendEmailAction($id)
     {
         $entity = new SendNewsletter();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $newsletter = $em->getRepository('CoreNewsletterBundle:Newsletter')->find($id);
         if (!$newsletter) {
             throw $this->createNotFoundException('Unable to find Newsletter entity.');
@@ -326,7 +326,7 @@ class NewsletterController extends Controller
     public function doSendEmailAction($id)
     {
         $entity = new SendNewsletter();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $newsletter = $em->getRepository('CoreNewsletterBundle:Newsletter')->find($id);
         if (!$newsletter) {

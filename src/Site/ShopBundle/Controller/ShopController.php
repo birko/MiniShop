@@ -17,7 +17,7 @@ class ShopController extends Controller
         {
             $cart = new Cart();
         }
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         if($cart->getPaymentAddress() != null)
         {
@@ -76,7 +76,7 @@ class ShopController extends Controller
         if($this->get('security.context')->getToken())
         {
             $auth = $this->get('security.context')->getToken()->getUser();
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
             {
                 $user = $em->getRepository('CoreUserBundle:User')->find($auth->getId());
@@ -89,7 +89,7 @@ class ShopController extends Controller
     {  
         $pricegroup = null;
         $user = $this->getShopUser();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         if($user !== null)
         {
             $pricegroup  = $user->getPriceGroup();

@@ -69,7 +69,7 @@ class UserController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder($entity);
             $password = $encoder->encodePassword($entity->getPassword(), $entity->getSalt());
@@ -132,7 +132,7 @@ class UserController extends Controller
         {
             $form = $this->createForm(new ChangePasswordType());
             $auth = $this->get('security.context')->getToken()->getUser();
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository("CoreUserBundle:User")->find($auth->getId());
             return $this->render('SiteUserBundle:User:password.html.twig', array(
             // last username entered by the user
@@ -157,7 +157,7 @@ class UserController extends Controller
             $form->bind($request);
             if($form->isValid())
             {
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $entity = $em->getRepository("CoreUserBundle:User")->find($auth->getId());
                 $factory = $this->get('security.encoder_factory');
                 $encoder = $factory->getEncoder($entity);
@@ -196,7 +196,7 @@ class UserController extends Controller
             {
                 // check if user with email exists
                 $data = $form->getData();
-                $user = $this->getDoctrine()->getEntityManager()->getRepository('CoreUserBundle:User')->findOneByEmail($data['email']);
+                $user = $this->getDoctrine()->getManager()->getRepository('CoreUserBundle:User')->findOneByEmail($data['email']);
                 if (!$user)
                 {
                     $t = $this->get('translator')->trans('User with supplied email not found.');
@@ -235,7 +235,7 @@ class UserController extends Controller
         $email = $request->get('email');
         $hash = $request->get('hash');
         
-        $user = $this->getDoctrine()->getEntityManager()->getRepository('CoreUserBundle:User')->findOneByEmail(urldecode($email));
+        $user = $this->getDoctrine()->getManager()->getRepository('CoreUserBundle:User')->findOneByEmail(urldecode($email));
         // if user with supplied email is not found
         if (!$user)
         {
@@ -265,7 +265,7 @@ class UserController extends Controller
                 // change password 
                 $factory = $this->get('security.encoder_factory');
                 $encoder = $factory->getEncoder($user);
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $password = $encoder->encodePassword($data['new_password'], $user->getSalt());
                 $user->setPassword($password);
                 $em->persist($user);
@@ -287,7 +287,7 @@ class UserController extends Controller
         $auth = $this->get('security.context')->getToken()->getUser();
         if($auth instanceof User)
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository("CoreUserBundle:User")->find($auth->getId());
         }
         

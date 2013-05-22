@@ -14,7 +14,7 @@ class OrderController extends ShopController
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getShopUser();
         if($user === null)
         {
@@ -42,7 +42,7 @@ class OrderController extends ShopController
     
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Order')->find($id);
 
@@ -67,7 +67,7 @@ class OrderController extends ShopController
     
     public function pdfAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Order')->find($id);
 

@@ -23,7 +23,7 @@ class MediaController extends Controller
      */
     public function indexAction($product, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('CoreProductBundle:Product')->findMediaByProduct($product);
 
         return $this->render('CoreProductBundle:Media:index.html.twig', array(
@@ -62,7 +62,7 @@ class MediaController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $imageOptions = $this->container->getParameter('images');
             $opts = array();
             $opts['thumb'] = $imageOptions['thumb'];
@@ -97,7 +97,7 @@ class MediaController extends Controller
      */
     public function editAction($id, $product, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
 
@@ -123,7 +123,7 @@ class MediaController extends Controller
      */
     public function updateAction($id, $product, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
 
@@ -165,7 +165,7 @@ class MediaController extends Controller
 
         $form->bind($request);
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
 
             if (!$entity) {

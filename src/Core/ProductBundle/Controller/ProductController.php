@@ -24,7 +24,7 @@ class ProductController extends Controller
      */
     public function indexAction($category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         //filter
         $request = $this->getRequest();
         $session = $request->getSession();
@@ -84,7 +84,7 @@ class ProductController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreProductBundle:Product')->find($id);
 
@@ -129,7 +129,7 @@ class ProductController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             if($category !== null)
             {
                 $categoryEntity = $em->getRepository('CoreCategoryBundle:Category')->find($category);
@@ -160,7 +160,7 @@ class ProductController extends Controller
      */
     public function editAction($id, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreProductBundle:Product')->find($id);
 
@@ -185,7 +185,7 @@ class ProductController extends Controller
      */
     public function updateAction($id, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreProductBundle:Product')->find($id);
 
@@ -227,7 +227,7 @@ class ProductController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreProductBundle:Product')->find($id);
 
             if (!$entity) {
@@ -251,7 +251,7 @@ class ProductController extends Controller
     
     public function copyAction($id, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository('CoreProductBundle:Product')->find($id);
         $entity  = new Product();
         $entity->setTitle($product->getTitle());
@@ -310,7 +310,7 @@ class ProductController extends Controller
     public function addListAction($category)
     {
         $request = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
         $filter = $session->get('adminproductfilteradd', new Filter());
@@ -364,7 +364,7 @@ class ProductController extends Controller
     
     public function addAction($id, $category)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreProductBundle:Product')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Product entity.');
@@ -383,7 +383,7 @@ class ProductController extends Controller
     
     public function removeAction($id, $category)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $cat = $em->getRepository('CoreCategoryBundle:Category')->find($category);
         $entity = $em->getRepository('CoreProductBundle:Product')->find($id);
         if($cat && $entity)

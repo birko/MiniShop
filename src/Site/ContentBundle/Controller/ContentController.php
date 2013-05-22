@@ -10,14 +10,14 @@ class ContentController extends Controller
     
     public function indexAction($slug)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $content  = $em->getRepository("CoreContentBundle:Content")->findOneBySlug($slug);
         return $this->render('SiteContentBundle:Content:index.html.twig', array('content' => $content));
     }
     
     public function listAction($category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $querybuilder = $em->getRepository('CoreContentBundle:Content')->findContentByCategoryQueryBuilder($category);
         $query = $querybuilder->orderBy('c.id', 'desc')->getQuery();
         $paginator = $this->get('knp_paginator');
@@ -36,7 +36,7 @@ class ContentController extends Controller
     
     public function displayAction($category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $count = $em->getRepository('CoreContentBundle:Content')->findContentByCategoryQueryBuilder($category)
             ->select('count(c.id)')->getQuery()->getSingleScalarResult();
         if($count >1)

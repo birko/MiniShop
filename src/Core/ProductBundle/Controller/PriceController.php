@@ -19,7 +19,7 @@ class PriceController extends Controller
      */
     public function indexAction($product, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('CoreProductBundle:Price')->findByProduct($product);
 
@@ -36,7 +36,7 @@ class PriceController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreProductBundle:Price')->find($id);
 
@@ -82,7 +82,7 @@ class PriceController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
             if($productEntity != null)
             {
@@ -113,7 +113,7 @@ class PriceController extends Controller
      */
     public function editAction($id, $product, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreProductBundle:Price')->find($id);
 
@@ -139,7 +139,7 @@ class PriceController extends Controller
      */
     public function updateAction($id, $product, $category = null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreProductBundle:Price')->find($id);
 
@@ -185,7 +185,7 @@ class PriceController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreProductBundle:Price')->find($id);
 
             if (!$entity) {

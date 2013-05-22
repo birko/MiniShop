@@ -19,7 +19,7 @@ class CouponController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $query = $em->getRepository('CoreShopBundle:Coupon')
                 ->createQueryBuilder('c')
@@ -43,7 +43,7 @@ class CouponController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Coupon')->find($id);
 
@@ -87,7 +87,7 @@ class CouponController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -107,7 +107,7 @@ class CouponController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Coupon')->find($id);
 
@@ -131,7 +131,7 @@ class CouponController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Coupon')->find($id);
 
@@ -172,7 +172,7 @@ class CouponController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreShopBundle:Coupon')->find($id);
 
             if (!$entity) {
@@ -196,7 +196,7 @@ class CouponController extends Controller
     
     public function productsAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Coupon')->find($id);
 
@@ -210,7 +210,7 @@ class CouponController extends Controller
     
     public function productsAddListAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Coupon')->find($id);
 
@@ -234,7 +234,7 @@ class CouponController extends Controller
     
     public function productAddAction($id, $product)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Coupon')->find($id);
 
@@ -258,7 +258,7 @@ class CouponController extends Controller
     
     public function productRemoveAction($id, $product)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoreShopBundle:Coupon')->find($id);
 

@@ -13,7 +13,7 @@ class ProductController extends ShopController
     public function indexAction($slug)
     {     
         $priceGroup = $this->getPriceGroup();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $product  = $em->getRepository("CoreProductBundle:Product")->findOneBySlug($slug);
         if(!$product)
         {
@@ -31,7 +31,7 @@ class ProductController extends ShopController
     public function listAction($category, $page = 1)
     {
         $priceGroup = $this->getPriceGroup();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $query = $em->getRepository("CoreProductBundle:Product")->findByCategoryQuery($category, true);
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -45,7 +45,7 @@ class ProductController extends ShopController
     public function vendorAction($vendor, $page = 1)
     {
         $priceGroup = $this->getPriceGroup();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $filter = new Filter();
         $filter->setVendor($vendor);
         $querybuilder  = $em->getRepository("CoreProductBundle:Product")->findByCategoryQueryBuilder(null, true);
@@ -62,7 +62,7 @@ class ProductController extends ShopController
     public function searchAction()
     {
         $priceGroup = $this->getPriceGroup();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();        
         if($request->getMethod() == "POST")
         {
@@ -88,7 +88,7 @@ class ProductController extends ShopController
     public function topAction()
     {
         $priceGroup = $this->getPriceGroup();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entities  = $em->getRepository("CoreProductBundle:Product")->createQueryBuilder("p")
                 ->orderBy("p.createdAt", "desc")
                 ->distinct()
@@ -100,7 +100,7 @@ class ProductController extends ShopController
     
     public function productMainMediaAction($product, $type = 'thumb', $link_path=null)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreProductBundle:Product')->findMediaByProductQueryBuilder($product)
         ->getQuery()
         ->setMaxResults(1)
