@@ -8,5 +8,8 @@
 /app/config/parameters.yml
 /app/config/app.yml
 /app/config/security.yml
+*.phpproj
+*.sln
+*.suo
 
 
