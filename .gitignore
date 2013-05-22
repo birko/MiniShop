@@ -8,6 +8,7 @@
 /app/config/parameters.yml
 /app/config/app.yml
 /app/config/security.yml
+composer.lock
 *.phpproj
 *.sln
 *.suo
