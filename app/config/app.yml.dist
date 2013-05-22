@@ -1,0 +1,31 @@
+core_common:        
+    emails:
+        default: noreply@site.com
+        contact: noreply@site.com
+        claim:  noreply@site.com
+        order:  noreply@site.com
+        
+core_category:
+    menu: [Content]
+    
+core_media:
+    images:
+        thumb:
+          name: thumb
+          width: 160
+          height: 120
+          method: resize
+          fill: [255, 255, 255]
+        small:
+          name: small
+          width: 240
+          height: 180
+          method: resize
+          fill: [255, 255, 255]
+        large:
+          name: large
+          width: 800
+          height: 600
+          method: resize
+          fill: [255, 255, 255]
+          
