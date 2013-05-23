@@ -28,4 +28,15 @@ core_media:
           height: 600
           method: resize
           fill: [255, 255, 255]
-          
+
+core_product:
+    images:
+        - thumb
+        - small
+        - large
+        
+core_content:
+    images:
+        - thumb
+        - small
+        - large

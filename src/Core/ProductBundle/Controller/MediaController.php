@@ -65,10 +65,10 @@ class MediaController extends Controller
             $em = $this->getDoctrine()->getManager();
             $imageOptions = $this->container->getParameter('images');
             $opts = array();
-            $opts['thumb'] = $imageOptions['thumb'];
-            $opts['product-small'] = $imageOptions['product-small'];
-            $opts['product-large'] = $imageOptions['product-large'];
-            $opts['large'] = $imageOptions['large'];
+            foreach($this->container->getParameter('product.images') as $val)
+            {
+                $opts[$val] = $imageOptions[$val];
+            }
             $entity->setOptions($opts);
             $em->persist($entity);
             $em->flush();
