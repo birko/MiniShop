@@ -40,7 +40,7 @@ class ProductOption implements \Serializable
      /**
      * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="Core\ProductBundle\Entity\Product", inversedBy="options")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $product;
     

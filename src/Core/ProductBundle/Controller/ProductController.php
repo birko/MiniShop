@@ -234,7 +234,7 @@ class ProductController extends Controller
                 throw $this->createNotFoundException('Unable to find Product entity.');
             }
             
-            foreach($product->getCategories() as $productcategory)
+            foreach($entity->getCategories() as $productcategory)
             {
                 $productcategory->getProducts()->removeElement($entity);
                 $em->persist($productcategory);
