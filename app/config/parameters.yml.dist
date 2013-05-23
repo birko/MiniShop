@@ -18,3 +18,7 @@ parameters:
     site_url:   www.minishop.loc
     site_email: info@monishop.loc
 
+    #knp_paginator.template.pagination: MopaBootstrapBundle:Pagination:sliding.html.twig
+    knp_paginator.template.pagination: CoreCommonBundle:Pagination:sliding.html.twig
+    #knp_menu.renderer.twig.template: MopaBootstrapBundle:Menu:menu.html.twig
+

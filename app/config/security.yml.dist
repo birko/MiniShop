@@ -22,7 +22,7 @@ security:
         in_memory:
             memory:
                 users:
-                    admin: { password: adminmayra486, roles: [ 'ROLE_SUPER_ADMIN' ] }
+                    admin: { password: adminpass, roles: [ 'ROLE_SUPER_ADMIN' ] }
         user_db:
             entity: { class: CoreUserBundle:User, property: login }
 
