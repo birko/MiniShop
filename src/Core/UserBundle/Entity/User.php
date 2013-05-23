@@ -35,7 +35,7 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     
     /**
      * @ORM\Column(type="string")
-     * @Assert\MinLength(limit=6, message = "The password must have at least 6 characters.")
+     * @Assert\Length(limit=6, message = "The password must have at least 6 characters.")
      */
     protected $password = "";
     

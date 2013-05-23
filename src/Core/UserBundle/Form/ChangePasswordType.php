@@ -20,16 +20,6 @@ class ChangePasswordType extends AbstractType
             ->setAttribute('show_legend', false);
     }
 
-//    public function setDefaultOptions(array $options)
-//    {
-//        $collectionConstraint = new Collection(array(
-//                    'pattern' => new MinLength(8),
-//                    'capacity' => new Type('int'),
-//                    'quantity' => new Type('int'),
-//                ));
-//        return array('validation_constraint' => $collectionConstraint);
-//    }
-
     public function getName()
     {
         return 'user';
