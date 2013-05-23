@@ -100,14 +100,14 @@ class ImageManipulation
                     $y = 0;
                     $h = $imageResource->getImageHeight();
                     $w = $imageResource->getImageHeight() * $width / $height;
-                    $x = $imageResource->getImageWidth() / 2 - $w / 2;
+                    $x = abs($imageResource->getImageWidth() - $w) / 2;
                 } 
                 else 
                 {
                     $x = 0;
                     $w = $imageResource->getImageWidth();
                     $h = $imageResource->getImageWidth() * $height / $width;
-                    $y = $imageResource->getImageHeight() / 2 - $h / 2;
+                    $y = abs($imageResource->getImageHeight() - $h) / 2;
                 }   
                 $imageResource->cropImage($w, $h, $x, $y);
                 $imageResource->scaleImage($width, $height);
@@ -122,14 +122,14 @@ class ImageManipulation
                     $y = 0;
                     $h = imagesy($imageResource);
                     $w = imagesy($imageResource) * $width / $height;
-                    $x = imagesx($imageResource) / 2 - $w / 2;
+                    $x = abs(imagesx($imageResource) - $w) / 2;
                 } 
                 else 
                 {
                     $x = 0;
                     $w = imagesx($imageResource);
                     $h = imagesx($imageResource) * $height / $width;
-                    $y = imagesy($imageResource) / 2 - $h / 2;
+                    $y = abs(imagesy($imageResource) - $h) / 2;
                 }
                 
                 $img2 = imagecreatetruecolor($width,$height);
@@ -199,14 +199,14 @@ class ImageManipulation
                     $y = 0;
                     $crop_height = $imageResource->getImageHeight();
                     $crop_width = $imageResource->getImageHeight() * $width / $height;
-                    $x = $imageResource->getImageWidth() / 2 - $crop_width / 2;
+                    $x = abs($imageResource->getImageWidth() - $crop_width) / 2;
                 } 
                 else 
                 {
                     $x = 0;
                     $crop_width = $imageResource->getImageWidth();
                     $crop_height = $imageResource->getImageWidth() * $height / $width;
-                    $y = $imageResource->getImageHeight() / 2 - $crop_height / 2;
+                    $y = abs($imageResource->getImageHeight() - $crop_height) / 2;
                 }  
                 $imageResource->cropImage($crop_width, $crop_height, $x, $y);
                 $imageResource->scaleImage($width, $height);
@@ -218,14 +218,14 @@ class ImageManipulation
                     $y = 0;
                     $crop_height = imagesy($imageResource);
                     $crop_width = imagesy($imageResource) * $width / $height;
-                    $x = imagesx($imageResource) / 2 - $crop_width / 2;
+                    $x = abs(imagesx($imageResource) - $crop_width) / 2;
                 } 
                 else 
                 {
                     $x = 0;
                     $crop_width = imagesx($imageResource);
                     $crop_height = imagesx($imageResource) * $height / $width;
-                    $y = imagesy($imageResource) / 2 - $crop_height / 2;
+                    $y = abs(imagesy($imageResource) - $crop_height) / 2;
                 }  
                 $img2 = imagecreatetruecolor($width,$height);
                 imagecopyresampled($img2, $imageResource, 0, 0, $x, $y, $width, $height, $crop_width, $crop_height);
