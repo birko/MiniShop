@@ -31,6 +31,7 @@ twig:
         site_title: "%site_title%"
         site_url: "%site_url%"
         site_email: "%site_email%"
+        site_phone: "%site_phone%"
 
 # Assetic Configuration
 assetic:

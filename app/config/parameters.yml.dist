@@ -17,6 +17,7 @@ parameters:
     site_title: MiniShop
     site_url:   www.minishop.loc
     site_email: info@monishop.loc
+    site_phone: ''
 
     #knp_paginator.template.pagination: MopaBootstrapBundle:Pagination:sliding.html.twig
     knp_paginator.template.pagination: CoreCommonBundle:Pagination:sliding.html.twig
