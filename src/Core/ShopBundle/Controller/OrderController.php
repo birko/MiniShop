@@ -206,7 +206,7 @@ class OrderController extends Controller
     {
         $sendEmail= $entity->getInvoiceEmail();
         $emails = $this->container->getParameter('default.emails');
-        $t = $this->get('translator')->trans('Order No.:%title% status change %subject%', array('%subject%' => $this->container->getParameter('site_title'), '%title%' => $entity->getId()));
+        $t = $this->get('translator')->trans('Order No.:%title% changed status %subject%', array('%subject%' => $this->container->getParameter('site_title'), '%title%' => $entity->getId()));
         $message = \Swift_Message::newInstance()
             ->setSubject($t)   
             ->setFrom($emails['default'])   //settings

@@ -318,7 +318,7 @@
                 <source>Comment</source>
                 <target>Komentár</target>
             </trans-unit>
-			<trans-unit id="80">
+            <trans-unit id="80">
                 <source>Order detail</source>
                 <target>Detail objednávky</target>
             </trans-unit>
@@ -345,6 +345,10 @@
             <trans-unit id="86">
                 <source>Vatin</source>
                 <target>IČ DPH</target>
+            </trans-unit>
+            <trans-unit id="87">
+                <source>Cart</source>
+                <target>Košík</target>
             </trans-unit>
         </body>
     </file>

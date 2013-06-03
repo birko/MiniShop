@@ -126,6 +126,14 @@
                 <source>Stock edit</source>
                 <target>Úprava skladu</target>
             </trans-unit>
+            <trans-unit id="32">
+                <source>Available</source>
+                <target>Skladom</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>Not available</source>
+                <target>Nedostupný</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
