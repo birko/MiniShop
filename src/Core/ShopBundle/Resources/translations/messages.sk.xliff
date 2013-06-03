@@ -350,6 +350,14 @@
                 <source>Cart</source>
                 <target>Košík</target>
             </trans-unit>
+            <trans-unit id="88">
+              <source>New order %subject%'</source>
+              <target>Nová objednávka %subject%</target>
+            </trans-unit>
+            <trans-unit id="89">
+              <source>Order No.:%title% changed status %subject%</source>
+              <target>Objednávka č.:%subject% zmenila svoj stav %subject%</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

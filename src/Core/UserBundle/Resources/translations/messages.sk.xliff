@@ -122,14 +122,6 @@
                 <source>Logged in</source>
                 <target>Prihlásený</target>
             </trans-unit>
-            <trans-unit id="31">
-                <source>New order %subject%'</source>
-                <target>Nová objednávka %subject%</target>
-            </trans-unit>
-            <trans-unit id="32">
-                <source>Order No.:%title% changed status %subject%</source>
-                <target>Objednávka č.:%subject% zmenila svoj stav %subject%</target>
-            </trans-unit>
         </body>
     </file>
 </xliff>
