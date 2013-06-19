@@ -234,6 +234,30 @@
                 <source>Addresses</source>
                 <target>Adresy</target>
             </trans-unit>
+            <trans-unit id="73">
+                <source>Back to shop</source>
+                <target>Späť do obchodu</target>
+            </trans-unit>
+            <trans-unit id="74">
+                <source>Checkout order</source>
+                <target>Potvrdiť objednávku</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>Back to cart</source>
+                <target>Späť do košíka</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>Continue</source>
+                <target>Pokračovať</target>
+            </trans-unit>
+            <trans-unit id="77">
+                <source>Payment and shipping</source>
+                <target>Doprava a platba</target>
+            </trans-unit>
+            <trans-unit id="78">
+                <source>Confirm order</source>
+                <target>Potvrdiť objednávku</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

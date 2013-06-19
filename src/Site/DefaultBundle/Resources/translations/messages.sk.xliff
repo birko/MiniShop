@@ -66,6 +66,18 @@
                 <source>Account number</source>
                 <target>Číslo účtu</target>
             </trans-unit>
+            <trans-unit id="17">
+                <source>Home</source>
+                <target>Domov</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>Search</source>
+                <target>Výhľadávanie</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>Sort by</source>
+                <target>Zoradiť podľa</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -215,9 +215,20 @@ class Product
      *
      * @return ArrayCollection
      */    
-    public function getPrices()
+    public function getPrices($type = null)
     {
-        return $this->prices;   
+        if($type)
+        {
+            return $this->getPrices()->filter(
+                function($entry) use ($type) {
+                    return ($entry->getType() == $type);
+                }
+            );
+        }
+        else
+        {
+            return $this->prices;  
+        }
     }
     
     /**
@@ -280,11 +291,11 @@ class Product
         return $this->createdAt;
     }
     
-    public function getPricesByPriceGroup($priceGroup = null)
+    public function getPricesByPriceGroup($priceGroup = null, $type =null)
     {
         if($priceGroup !== null)
         {
-            return $this->getPrices()->filter(
+            return $this->getPrices($type)->filter(
                 function($entry) use ($priceGroup) {
                     return ($entry->getPriceGroup()->getId() == $priceGroup->getId());
                 }
@@ -292,19 +303,19 @@ class Product
         }
         else 
         {
-            return $this->getPrices();
+            return $this->getPrices($type);
         }
     }
     
-    public function getMinimalPrice($priceGroup = null)
+    public function getMinimalPrice($priceGroup = null, $type = null)
     {   
         $price = null;
         if($this->getPrices()!== null && $this->getPrices()->count() > 0)
         {
-            $price = $this->getPricesByPriceGroup($priceGroup)->first();
+            $price = $this->getPricesByPriceGroup($priceGroup, $type)->first();
             if($price === null)
             {
-                $price = $this->getPrices()->first();
+                $price = $this->getPrices($type)->first();
             }
         }
         if($price === null)

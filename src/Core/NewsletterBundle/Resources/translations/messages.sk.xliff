@@ -70,6 +70,10 @@
                 <source>Newsletter groups</source>
                 <target>Skupiny newslettra</target>
             </trans-unit>
+            <trans-unit id="18">
+                <source>Newsletter %title% %subject%'</source>
+                <target>Newsletter %title% %subject%'</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
