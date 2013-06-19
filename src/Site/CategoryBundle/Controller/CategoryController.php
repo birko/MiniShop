@@ -56,54 +56,56 @@ class CategoryController extends Controller
     
     public function treeAction($menu  = 0, $category = null)
     {
-        $em = $this->getDoctrine()->getManager();
-        $controller = $this; // $this cannot be used
-        $options = array(
-            'decorate' => true,
-            'rootOpen' => $controller->renderView("SiteCategoryBundle:Category:Tree/rootOpen.html.twig"),
-            'rootClose' => $controller->renderView("SiteCategoryBundle:Category:Tree/rootClose.html.twig"),
-            'childOpen' =>  function($node) use ($controller, $category)
-                            {
-                                $active = false;
-                                $last = false;
-                                if($category != null)
-                                {
-                                    if($category->getId() == $node['id'])
-                                    {
-                                        $active = true;
-                                        $last = true;
-                                    }
-                                    else if($category->getLeft() >= $node['lft'] && $category->getRight() <= $node['rgt'])
-                                    {
-                                        $active = true;
-                                    }
-                                }
-                                return $controller->renderView("SiteCategoryBundle:Category:Tree/childOpen.html.twig", array('node'=> $node, 'active' => $active, 'last'=> $last));
-                            },
-            'childClose' => $controller->renderView("SiteCategoryBundle:Category:Tree/childClose.html.twig"),
-            'nodeDecorator' =>  function($node) use ($controller) 
-                                {
-                                    return $controller->renderView("SiteCategoryBundle:Category:Tree/nodeDecoration.html.twig", array("node" => $node));
-                                },
-        );
-        
         $menu_index = $menu;
-        if(!is_integer($menu_index))
+        $menus = $this->container->getParameter('menu');
+        if(!is_numeric($menu_index))
         {
-            $menus = $this->container->getParameter('menu');
             $menu_index = array_search($menu, $menus);
         }
-        if($menu_index === false)
+        if($menu_index === false || (count($menus) <= $menu_index))
         {
             throw $this->createNotFoundException("Menu not found: ". $menu);
         }
-        $parentsQueryBuilder = $em->getRepository('CoreCategoryBundle:Category')->getTreeQueryBuilder($menu_index);
-        $query = $parentsQueryBuilder->getQuery();
-        $parents = $query->getArrayResult();  
-        $tree = (count($parents)> 0) ? $em->getRepository('CoreCategoryBundle:Category')->buildTree($parents, $options): "";
-        return $this->render("SiteCategoryBundle:Category:Tree/tree.html.twig", array(
-            'tree' => $tree,
-        ));
+        else
+        {
+            $em = $this->getDoctrine()->getManager();
+            $controller = $this; // $this cannot be used
+            $options = array(
+                'decorate' => true,
+                'rootOpen' => $controller->renderView("SiteCategoryBundle:Category:Tree/rootOpen.html.twig"),
+                'rootClose' => $controller->renderView("SiteCategoryBundle:Category:Tree/rootClose.html.twig"),
+                'childOpen' =>  function($node) use ($controller, $category)
+                                {
+                                    $active = false;
+                                    $last = false;
+                                    if($category != null)
+                                    {
+                                        if($category->getId() == $node['id'])
+                                        {
+                                            $active = true;
+                                            $last = true;
+                                        }
+                                        else if($category->getLeft() >= $node['lft'] && $category->getRight() <= $node['rgt'])
+                                        {
+                                            $active = true;
+                                        }
+                                    }
+                                    return $controller->renderView("SiteCategoryBundle:Category:Tree/childOpen.html.twig", array('node'=> $node, 'active' => $active, 'last'=> $last));
+                                },
+                'childClose' => $controller->renderView("SiteCategoryBundle:Category:Tree/childClose.html.twig"),
+                'nodeDecorator' =>  function($node) use ($controller) 
+                                    {
+                                        return $controller->renderView("SiteCategoryBundle:Category:Tree/nodeDecoration.html.twig", array("node" => $node));
+                                    },
+            );
+            $parentsQueryBuilder = $em->getRepository('CoreCategoryBundle:Category')->getTreeQueryBuilder($menu_index);
+            $query = $parentsQueryBuilder->getQuery();
+            $parents = $query->getArrayResult();  
+            $tree = (count($parents)> 0) ? $em->getRepository('CoreCategoryBundle:Category')->buildTree($parents, $options): "";
+            return $this->render("SiteCategoryBundle:Category:Tree/tree.html.twig", array(
+                'tree' => $tree,
+            ));
+        }
     }
     
     public function breadcrumbAction($id = null, $end = null, $nopath = false)

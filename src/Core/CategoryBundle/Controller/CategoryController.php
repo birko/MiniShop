@@ -26,8 +26,17 @@ class CategoryController extends Controller
     
     public function menuAction($menu = 0)
     {   
+        $menu_index = $menu;
         $menus = $this->container->getParameter('menu');
-        if($menu < count($menus))
+        if(!is_numeric($menu_index))
+        {
+            $menu_index = array_search($menu, $menus);
+        }
+        if($menu_index === false || (count($menus) <= $menu_index))
+        {
+            throw $this->createNotFoundException("Menu not found: ". $menu);
+        }
+        else
         {
             $session = $this->getRequest()->getSession();
             $session->set('last_category_menu', $menu);
@@ -55,10 +64,6 @@ class CategoryController extends Controller
             'menus' => $menus,
             'menu' => $menu
             ));
-        }
-        else
-        {
-            throw $this->createNotFoundException('The menu does not exist.');
         }
     }
 
