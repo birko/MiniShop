@@ -174,7 +174,7 @@ abstract class Media
      * @param UploadedFile $file
      * @return this
      */
-    public function setFile($file)
+    public function  setFile($file = null)
     {
         $this->file = $file;
         return $this;
@@ -345,9 +345,17 @@ abstract class Media
         // you must throw an exception here if the file cannot be moved
         // so that the entity is not persisted to the database
         // which the UploadedFile move() method does
-        $file->move($this->getUploadRootDir(), $this->getSource());
+        $path = $this->getUploadRootDir();
+        if (!file_exists($path)) 
+        {
+            mkdir($path,0777, true);
+            chmod($path, 0777);
+        }
 
+        $file->move($this->getUploadRootDir(), $this->getSource());
+        
         unset($file);
+        $this->setFile(null);
     }
     
     /**
