@@ -82,7 +82,6 @@ class ImageManipulation
             {
                 $save = true;
             }
-            
         }
         return $save;
     }
