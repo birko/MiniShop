@@ -141,20 +141,7 @@ class Image extends Media
     
     public function upload()
     {
-        $file = $this->getFile();
-        if (!isset($file) || null === $file) {
-            return ;
-        }
-        // if there is an error when moving the file, an exception will
-        // be automatically thrown by move(). This will properly prevent
-        // the entity from being persisted to the database on error
-        $path = $this->getUploadRootDir();
-        if (!file_exists($path)) 
-        {
-            mkdir($path,0777, true);
-            chmod($path, 0777);
-        }
-        $file->move($this->getUploadRootDir(), $this->getSource()); 
+        parent::upload(); 
         $im = ImageManipulation::createResource($this->getAbsolutePath());
         if(ImageManipulation::checkResource($im))
         {
