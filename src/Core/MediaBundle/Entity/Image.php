@@ -4,7 +4,7 @@ namespace Core\MediaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-
+use Gedmo\Sluggable\Util\Urlizer as GedmoUrlizer;
 /**
  * Nws\MediaBundle\Entity\Image
  *
@@ -131,6 +131,15 @@ class Image extends Media
                 $im = ImageManipulation::createResource($file->getRealPath());
                 if(ImageManipulation::checkResource($im))
                 {
+                    $info = ImageManipulation::getResourceInfo($im);
+                    if(isset($info['width']))
+                    {
+                        $this->setWidth($info['width']);
+                    }
+                    if(isset($info['height']))
+                    {
+                        $this->setHeight($info['height']);
+                    }
                     unset($im);
                     return true;
                 }

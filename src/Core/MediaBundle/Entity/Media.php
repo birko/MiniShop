@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Sluggable\Util\Urlizer as GedmoUrlizer;
 
 /**
  * @ORM\Entity(repositoryClass="Core\MediaBundle\Entity\MediaRepository")
@@ -302,7 +303,10 @@ abstract class Media
         {
             // do whatever you want to generate a unique name
             $this->setHash(sha1_file($file->getRealPath()));
-            $this->setSource(uniqid().'.'.$file->getClientOriginalName());
+            $name = explode(".", $file->getClientOriginalName());
+            $ext = array_pop($name);
+            $filename = GedmoUrlizer::urlize(implode(".", $name));
+            $this->setSource(uniqid().'.'.$filename. "." . $ext);
             $this->setFilename($file->getClientOriginalName());
             return  true;
         }

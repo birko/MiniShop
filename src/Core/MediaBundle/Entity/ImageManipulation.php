@@ -55,6 +55,22 @@ class ImageManipulation
         return $imageResource;
     }
     
+    public static function getResourceInfo($imageResource)
+    {
+        $result= array();
+        if (extension_loaded('imagick'))
+        {
+            $result['width']  = $im->getImageWidth();
+            $result['height'] = $im->getImageHeight();
+        }
+        else if(function_exists('imagecreate'))
+        {
+            $result['width']  = imagesx($imageResource);
+            $result['height'] = imagesy($imageResource);
+        }
+        return $result;
+    }
+    
     public static function checkResource($imageResource)
     {
         $save = false;
