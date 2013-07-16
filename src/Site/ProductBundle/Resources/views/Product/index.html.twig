@@ -3,14 +3,14 @@
 {% render  controller("SiteCategoryBundle:Category:breadcrumb" , {'id': product.categories.0.id, 'end': product.title}) %}
 <div id="product">
     <div class="row-fluid">
-        <div class="image span3">
+        <div class="image span4">
         {% if product.media is not empty %}
             <div class="full-image thumbnail">
-            {% render controller("CoreMediaBundle:Image:display" , {'id': product.media.0.id, 'dir': 'product-large', 'link_path':'large'}) %}
+            {% render controller("CoreMediaBundle:Image:display" , {'id': product.media.0.id, 'dir': 'small', 'link_path':'large'}) %}
             </div>
         {% endif %}
         </div>
-        <div class="span9">
+        <div class="span8">
             <h1>
                 {{product.title}}
             </h1>
@@ -41,12 +41,14 @@
     </div>
     <div class="info row-fluid">
         {% if product.media is not empty %}
-        <div class="gallery span3">
-            {% for media in product.media %}
-            <div class="thumbnail">
-            {% render controller("CoreMediaBundle:Image:display", {'id': media.id, 'dir': 'thumb', 'link_path':'large'}) %}
+        <div class="gallery span4">
+            <div class="row-fluid">
+                {% for media in product.media %}
+                <div class="thumbnail span4">
+                {% render controller("CoreMediaBundle:Image:display", {'id': media.id, 'dir': 'thumb', 'link_path':'large'}) %}
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>   
         {% endif %} 
         <div class="tab-pane active fade in" id="longdescription">
