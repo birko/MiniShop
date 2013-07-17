@@ -45,6 +45,7 @@ class AppKernel extends Kernel
             new Core\UserTextBundle\CoreUserTextBundle(),
             new Core\MarketingBundle\CoreMarketingBundle(),
             new Site\VendorBundle\SiteVendorBundle(),
+            new Site\MarketingBundle\SiteMarketingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -27,54 +27,34 @@
                 <target>Vaša správa</target>
             </trans-unit>
             <trans-unit id="7">
-                <source>Contact</source>
-                <target>Kontakt</target>
-            </trans-unit>
-            <trans-unit id="8">
-                <source>Claim</source>
-                <target>Reklamácia</target>
-            </trans-unit>
-            <trans-unit id="9">
                 <source>Fields marked with star are mandatory</source>
                 <target>Položky označené hviezdičkou sú povinné</target>
             </trans-unit>
-            <trans-unit id="10">
-                <source>Contact %subject%</source>
-                <target>Kontakt %subject%</target>
-            </trans-unit>
-            <trans-unit id="11">
-                <source>Claim order no.:%order% %subject%</source>
-                <target>Reklamácia objednávka č.:%order% %subject%</target>
-            </trans-unit>
-            <trans-unit id="12">
-                <source>Contact %type% %subject%</source>
-                <target>Kontakt %type% %subject%</target>
-            </trans-unit>
-            <trans-unit id="13">
+            <trans-unit id="8">
                 <source>Send copy to your email</source>
                 <target>Odoslať kópiu na Váš email</target>
             </trans-unit>
-            <trans-unit id="14">
+            <trans-unit id="9">
                 <source>Order number</source>
                 <target>Číslo objednávky</target>
             </trans-unit>
-            <trans-unit id="15">
+            <trans-unit id="10">
                 <source>Product number</source>
                 <target>Číslo produktu</target>
             </trans-unit>
-            <trans-unit id="16">
+            <trans-unit id="11">
                 <source>Account number</source>
                 <target>Číslo účtu</target>
             </trans-unit>
-            <trans-unit id="17">
+            <trans-unit id="12">
                 <source>Home</source>
                 <target>Domov</target>
             </trans-unit>
-            <trans-unit id="18">
+            <trans-unit id="13">
                 <source>Search</source>
                 <target>Výhľadávanie</target>
             </trans-unit>
-            <trans-unit id="19">
+            <trans-unit id="14">
                 <source>Sort by</source>
                 <target>Zoradiť podľa</target>
             </trans-unit>

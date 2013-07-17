@@ -1,0 +1,21 @@
+site_contact:
+    pattern:  /contact
+    defaults: { _controller: SiteMarketingBundle:Contact:contact }
+
+site_contact_form_send:
+    pattern:  /contact/send
+    defaults: { _controller: SiteMarketingBundle:Contact:sendContactForm }
+    requirements:
+        _method: post
+        
+site_contact_multi_form_send:
+    pattern:  /contactmulti/send
+    defaults: { _controller: SiteMarketingBundle:Contact:sendContactMultiForm }
+    requirements:
+        _method: post
+        
+site_contact_claim_form_send:
+    pattern:  /contactclaim/send
+    defaults: { _controller: SiteMarketingBundle:Contact:sendContactClaimForm }
+    requirements:
+        _method: post

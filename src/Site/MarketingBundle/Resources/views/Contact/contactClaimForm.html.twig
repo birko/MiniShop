@@ -1,25 +1,25 @@
-<form action="{{path('site_contact_claim_form_send')}}" method="post" class="contact-form">
-  <div class="row">
-    <div class="span4 nolabel">
+<form action="{{path('site_contact_claim_form_send')}}" method="post" class="contact-form full">
+  <div class="row-fluid">
+    <div class="span5 nolabel">
         {% include "CoreShopBundle:Address:baseform.html.twig" with {'form': form.address} %}
     </div>
-    <div class="span5 nolabel">
+    <div class="span7 nolabel">
         {{ form_row(form.orderNumber) }}
         {{ form_row(form.productNumber) }}
         {{ form_row(form.accountNumber) }}
         {{ form_row(form.message) }}
     </div>
 </div>
-<div class="row">
-    <div class="span4">
+<div class="row-fluid">
+    <div class="span5">
         <div class="nolabel">
         {{ form_row(form.verification_code) }}
         </div>
         {{ form_rest(form) }}
     </div>
-    <div class="span5 nolabel">
+    <div class="span7 nolabel">
         <strong>{{verification_code}}</strong>
-        <button type="submit" class="button-send pull-right">{% trans %}Send{% endtrans %}</button>
+        <button type="submit" class="btn btn-large btn-inverse pull-right">{% trans %}Send{% endtrans %}</button>
     </div>
 </div>
 </form>

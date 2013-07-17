@@ -1,20 +1,20 @@
 <?php
 
-namespace Site\DefaultBundle\Controller;
+namespace Site\MarketingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\MarketingBundle\Entity\Message;
-use Site\DefaultBundle\Form\ContactType;
-use Site\DefaultBundle\Form\ContactMultiType;
-use Site\DefaultBundle\Form\ContactClaimType;
+use Site\MarketingBundle\Form\ContactType;
+use Site\MarketingBundle\Form\ContactMultiType;
+use Site\MarketingBundle\Form\ContactClaimType;
 
 class ContactController extends Controller
 {
 
     public function contactAction()
     {
-        return $this->render("SiteDefaultBundle:Contact:contact.html.twig", array());
+        return $this->render("SiteMarketingBundle:Contact:contact.html.twig", array());
     }
     
     
@@ -22,7 +22,7 @@ class ContactController extends Controller
     {
         $verificationCode = (string)$this->container->getParameter('contact.verification_code');
         $form =$this->createForm(new ContactType());
-        return $this->render("SiteDefaultBundle:Contact:contactForm.html.twig", array(
+        return $this->render("SiteMarketingBundle:Contact:contactForm.html.twig", array(
             'form' => $form->createView(),
             'verification_code' => $verificationCode,
         ));
@@ -54,7 +54,7 @@ class ContactController extends Controller
                             ->setSubject($t)
                             ->setFrom($emails['default'])
                             ->setTo(array($emails['contact']))
-                            ->setBody($this->renderView('SiteDefaultBundle:Email:message.html.twig', array(
+                            ->setBody($this->renderView('SiteMarketingBundle:Email:message.html.twig', array(
                                 'data'    => $data,
                                 'type'   =>  'contact',
                                 )), 'text/html')
@@ -70,11 +70,11 @@ class ContactController extends Controller
                     $msg->setMessage($data);
                     $em->persist($msg);
                     $em->flush();
-                    return $this->render('SiteDefaultBundle:Contact:send.html.twig');
+                    return $this->render('SiteMarketingBundle:Contact:send.html.twig');
                 }
             }
         }
-        return $this->render("SiteDefaultBundle:Contact:contactForm.html.twig", array(
+        return $this->render("SiteMarketingBundle:Contact:contactForm.html.twig", array(
             'form' => $form->createView(),
             'verification_code' => $verificationCode,
         ));
@@ -84,7 +84,7 @@ class ContactController extends Controller
     {
         $verificationCode = (string)$this->container->getParameter('contact.verification_code');
         $form =$this->createForm(new ContactMultiType());
-        return $this->render("SiteDefaultBundle:Contact:contactMultiForm.html.twig", array(
+        return $this->render("SiteMarketingBundle:Contact:contactMultiForm.html.twig", array(
             'form' => $form->createView(),
             'verification_code' => $verificationCode,
         ));
@@ -121,7 +121,7 @@ class ContactController extends Controller
                             ->setSubject($t)
                             ->setFrom($emails['default'])
                             ->setTo($send)
-                            ->setBody($this->renderView('SiteDefaultBundle:Email:message.html.twig', array(
+                            ->setBody($this->renderView('SiteMarketingBundle:Email:message.html.twig', array(
                                 'data'    => $data,
                                 'type'   =>  'contactmulti',
                                 )), 'text/html')
@@ -146,11 +146,11 @@ class ContactController extends Controller
                     $msg->setMessage($data);
                     $em->persist($msg);
                     $em->flush();
-                    return $this->render('SiteDefaultBundle:Contact:send.html.twig');
+                    return $this->render('SiteMarketingBundle:Contact:send.html.twig');
                 }
             }
         }
-        return $this->render("SiteDefaultBundle:Contact:contactMultiForm.html.twig", array(
+        return $this->render("SiteMarketingBundle:Contact:contactMultiForm.html.twig", array(
             'form' => $form->createView(),
             'verification_code' => $verificationCode,
         ));
@@ -160,7 +160,7 @@ class ContactController extends Controller
     {
         $verificationCode = (string)$this->container->getParameter('contact.verification_code');
         $form =$this->createForm(new ContactClaimType());
-        return $this->render("SiteDefaultBundle:Contact:contactClaimForm.html.twig", array(
+        return $this->render("SiteMarketingBundle:Contact:contactClaimForm.html.twig", array(
             'form' => $form->createView(),
             'verification_code' => $verificationCode,
         ));
@@ -192,7 +192,7 @@ class ContactController extends Controller
                             ->setSubject($t)
                             ->setFrom($emails['default'])
                             ->setTo(array($emails['contact']))
-                            ->setBody($this->renderView('SiteDefaultBundle:Email:message.html.twig', array(
+                            ->setBody($this->renderView('SiteMarketingBundle:Email:message.html.twig', array(
                                 'data'    => $data,
                                 'type'   =>  'claim',
                                 )), 'text/html')
@@ -216,11 +216,11 @@ class ContactController extends Controller
                     $msg->setMessage($data);
                     $em->persist($msg);
                     $em->flush();
-                    return $this->render('SiteDefaultBundle:Contact:send.html.twig');
+                    return $this->render('SiteMarketingBundle:Contact:send.html.twig');
                 }
             }
         }
-        return $this->render("SiteDefaultBundle:Contact:contactClaimForm.html.twig", array(
+        return $this->render("SiteMarketingBundle:Contact:contactClaimForm.html.twig", array(
             'form' => $form->createView(),
             'verification_code' => $verificationCode,
         ));

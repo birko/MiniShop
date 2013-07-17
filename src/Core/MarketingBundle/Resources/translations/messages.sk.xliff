@@ -4,7 +4,7 @@
         <body>
             <trans-unit id="1">
                 <source>Claims</source>
-                <target>Reklamacie</target>
+                <target>Reklamácie</target>
             </trans-unit>
             <trans-unit id="2">
                 <source>Message list</source>
@@ -20,7 +20,7 @@
             </trans-unit>
             <trans-unit id="5">
                 <source>Claim</source>
-                <target>Reklamacia</target>
+                <target>Reklamácia</target>
             </trans-unit>
             <trans-unit id="6">
                 <source>Contact</source>

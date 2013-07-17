@@ -1,20 +1,31 @@
 {% extends '::admin_single.html.twig' %}
 {% block title %}Login{% endblock %}
 {% block content %}
-{% if error %}
-<div class="alert alert-error">{{ error.message }}</div>
-{% endif %}
-
-<form action="{{ path("CoreUserBundle_logincheck") }}" method="post" id="form-login">
-    <h1>Prihlásenie</h1>
-    <div>
-        <label for="username">{% trans %}Username{% endtrans %}</label>
-        <input type="text" id="username" name="_username" value="" />
+ <div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3 offset5">
+            <div class="row-fluid">
+                <div class="span12">
+                    <h1 class="text-center"><small>{% trans %}Login{% endtrans %}</small></h1>
+                    {% if error %}
+                    <div class="alert alert-error">{{ error.message }}</div>
+                    {% endif %}
+                    <div class="row-fluid">
+                        <form action="{{ path('CoreUserBundle_logincheck') }}" method="post" id="form-login" class="span6 full offset3">
+                            <div>
+                                <label for="username">{% trans %}Username{% endtrans %}</label>
+                                <input type="text" id="username" name="_username" value=""  class="span12"/>
+                            </div>
+                            <div>
+                                <label for="password">{% trans %}Password{% endtrans %}</label>
+                                <input type="password" id="password" name="_password"  class="span12"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block" name="_submit" value="LOGIN"><i class="icon-ok"></i> {% trans %}Login{% endtrans %}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label for="password">{% trans %}Password{% endtrans %}</label>
-        <input type="password" id="password" name="_password" />
-    </div>
-    <button type="submit" class="btn btn-primary" name="submit" value="LOGIN"><i class="icon-ok"></i> {% trans %}Login{% endtrans %}</button>
-</form>
+</div>
 {% endblock %}
