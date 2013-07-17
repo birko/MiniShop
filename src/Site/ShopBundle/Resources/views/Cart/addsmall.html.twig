@@ -6,7 +6,7 @@
         <input type="hidden" name="items[{{product}}][priceVAT]" value="{{ priceVAT }}"/>
         <input type="hidden" name="items[{{product}}][name]" value="{{ title }}"/>
         <input type="text" name="items[{{product}}][amount]" value="{{ amount }}"/>
-        <button type="submit" class="buy btn reset pull-right"><i class="icon-shopping-cart"></i></button>
+        <button type="submit" class="btn btn-inverse btn-large pull-right"><i class="icon-shopping-cart icon-white"></i></button>
         <input type="hidden" name="target" value="{{ path('product_index', {'id': productId})}}" />
     </div>
 </form>

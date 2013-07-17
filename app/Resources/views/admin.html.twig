@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% stylesheets
            '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less'
+           '@MopaBootstrapBundle/Resources/bootstrap/less/responsive.less'
            'css/admin.less'
            output='css/admin.css'
         %}
@@ -21,7 +22,7 @@
                         <div class="navbar-inner">
                             <div class="container-fluid">
                                 <ul class="pull-right nav">
-                                    <li><a href="{{ path('CoreUserBundle_logout') }}"><i class="icon-off"></i> Logout</a></li>
+                                    <li><a href="{{ path('CoreUserBundle_logout') }}"><i class="icon-off"></i> {% trans %}Logout{% endtrans %}</a></li>
                                 </ul>
                                 <a class="brand offest2" href="#">{{site_title}}</a>
                             </div>
