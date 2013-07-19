@@ -9,13 +9,17 @@
     </div>
 </div>
 <div class="row-fluid">
-    <div class="span8">
-        {{ form_row(form.street)}}
-        {{ form_errors(form.street) }}
-    </div>
-    <div class="span4">
-        {{ form_row(form.houseNumber)}}
-        {{ form_errors(form.houseNumber) }}
+    <div class="span12">
+        <div class="row-fluid">
+            <div class="span8">
+                {{ form_row(form.street)}}
+                {{ form_errors(form.street) }}
+            </div>
+            <div class="span4">
+                {{ form_row(form.houseNumber)}}
+                {{ form_errors(form.houseNumber) }}
+            </div>
+        </div>
     </div>
 </div>
 <div class="row-fluid">

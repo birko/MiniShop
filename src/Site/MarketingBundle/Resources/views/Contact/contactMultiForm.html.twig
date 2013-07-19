@@ -12,16 +12,20 @@
     </div>
 </div>
 <div class="row-fluid">
-    <div class="span5">
-        <div class="nolabel">
-        {{ form_row(form.verification_code) }}
-        </div>
-        {{ form_widget(form.copy) }}
-        {{ form_rest(form) }}
+  <div class="span5">
+    <div class="nolabel">
+      {{ form_row(form.verification_code) }}
     </div>
-    <div class="span7 nolabel">
-        <strong>{{verification_code}}</strong>
-        <button type="submit" class="btn btn-large btn-inverse pull-right">{% trans %}Send{% endtrans %}</button>
-    </div>
+  </div>
+  <div class="span2 nolabel">
+    <strong class="btn btn-danger btn-block">{{verification_code}}</strong>
+  </div>
+  <div class="span3">
+    {{ form_widget(form.copy) }}
+    {{ form_rest(form) }}
+  </div>
+  <div class="span2 nolabel">
+    <button type="submit" class="btn btn-block btn-inverse">{% trans %}Send{% endtrans %}</button>
+  </div>
 </div>
 </form>

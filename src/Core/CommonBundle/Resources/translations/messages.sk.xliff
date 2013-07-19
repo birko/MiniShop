@@ -174,7 +174,7 @@
                 <source>Copy</source>
                 <target>Kopírovať</target>
             </trans-unit>
-			<trans-unit id="44">
+            <trans-unit id="44">
                 <source>Show</source>
                 <target>Zobraziť</target>
             </trans-unit>
@@ -185,6 +185,10 @@
             <trans-unit id="46">
                 <source>Update</source>
                 <target>Aktualizovať</target>
+            </trans-unit> 
+            <trans-unit id="47">
+                <source>Search</source>
+                <target>Vyhľadávať</target>
             </trans-unit> 
         </body>
     </file>

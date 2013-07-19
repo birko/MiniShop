@@ -13,23 +13,26 @@ class AddressType extends DeliveryAddressType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-		parent::buildForm($builder, $options);
+        parent::buildForm($builder, $options);
         $builder->add('TIN', 'text', array(
                 'required' => false,
+                'label' => 'TIN',
                 'attr' => array(
-                    'placeholder' => 'DIČ',
+                    'placeholder' => 'TIN',
                 )
             ))
             ->add('OIN', 'text', array(
                 'required' => false,
+                'label' => 'OIN',
                 'attr' => array(
-                    'placeholder' => 'IČO',
+                    'placeholder' => 'OIN',
                 )
             ))
             ->add('VATIN', 'text', array(
                 'required' => false,
+                'label' => 'VATIN',
                 'attr' => array(
-                    'placeholder' => 'IČ DPH',
+                    'placeholder' => 'VATIN',
                 )
             ));
     }

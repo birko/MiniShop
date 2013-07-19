@@ -50,10 +50,15 @@ class ContactController extends Controller
                 // send email
                     $t = $this->get('translator')->trans('Contact %subject%', array('%subject%' => $request->getHost()));
                     $emails = $this->container->getParameter('default.emails');
+                    $send = array($emails['contact']);
+                    if($data['copy'])
+                    {
+                        $send[] = $data['email'];
+                    }
                     $message = \Swift_Message::newInstance()
                             ->setSubject($t)
                             ->setFrom($emails['default'])
-                            ->setTo(array($emails['contact']))
+                            ->setTo($send)
                             ->setBody($this->renderView('SiteMarketingBundle:Email:message.html.twig', array(
                                 'data'    => $data,
                                 'type'   =>  'contact',
@@ -67,6 +72,7 @@ class ContactController extends Controller
                     $msg->setTitle($t);
                     unset($data['verification_code']);
                     unset($data['_token']);
+                    unset($data['copy']);
                     $msg->setMessage($data);
                     $em->persist($msg);
                     $em->flush();
@@ -188,10 +194,15 @@ class ContactController extends Controller
                 // send email
                     $t = $this->get('translator')->trans('Claim order no.:%order% %subject%', array('%subject%' => $request->getHost(), '%order%' => $data['orderNumber']));
                     $emails = $this->container->getParameter('default.emails');
+                    $send = array($emails['contact']);
+                    if($data['copy'])
+                    {
+                        $send[] =$data['email'];
+                    }
                     $message = \Swift_Message::newInstance()
                             ->setSubject($t)
                             ->setFrom($emails['default'])
-                            ->setTo(array($emails['contact']))
+                            ->setTo($send)
                             ->setBody($this->renderView('SiteMarketingBundle:Email:message.html.twig', array(
                                 'data'    => $data,
                                 'type'   =>  'claim',
@@ -205,6 +216,7 @@ class ContactController extends Controller
                     $msg->setTitle($t);
                     unset($data['verification_code']);
                     unset($data['_token']);
+                    unset($data['copy']);
                     if(!empty($data['orderNumber']))
                     {
                         $order = $em->getRepository('CoreShopBundle:Order')->find($data['orderNumber']);

@@ -46,16 +46,21 @@ class ContactType extends AbstractType
                         new Constraints\NotBlank(),
                     ),
                     'attr' => array(
-                        'placeholder' => 'Správa*'
+                        'placeholder' => 'Message'
                     )
+                ))
+                ->add('copy', 'checkbox', array(
+                    'required' => false,
+                    'label' => 'Send copy to your email',
                 ))
                 ->add('verification_code', 'text', array(
                     'required' => true,
+                    'label' => 'Verification code',
                     'constraints' => array(
                         new Constraints\NotBlank(),
                     ),
                     'attr' => array(
-                        'placeholder' => 'Verifikačný kód*'
+                        'placeholder' => 'Verification code'
                     )
                 ))
         ;

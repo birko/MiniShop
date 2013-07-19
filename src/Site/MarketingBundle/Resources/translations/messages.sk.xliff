@@ -30,6 +30,10 @@
                 <source>Customer service</source>
                 <target>Zákaznícky servis</target>
             </trans-unit>
+            <trans-unit id="9">
+                <source>Verification code</source>
+                <target>Verifikačný kód</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

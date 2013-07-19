@@ -1,10 +1,10 @@
-<form action="{{ path('checkout_useraddress')}}" method="post">
+<form action="{{ path('checkout_useraddress')}}" method="post" class="full">
     {{ form_errors(form) }}
     <div class="row-fluid">
         <div class="span12">
            <legend class="paymentaddress">{% trans %}Payment address{% endtrans %}</legend>
             <div class="row-fluid">
-                <div class="span10 paymentaddress">
+                <div class="span10 paymentaddress nolabel">
                     {{ form_widget(form.paymentAddress) }}
                 </div>
                 <div class="span2 paymentaddress">
@@ -22,7 +22,7 @@
         <div class="span12">
           <legend class="shippingaddress">{% trans %}Shipping address{% endtrans %}</legend>
             <div class="row-fluid">
-                <div class="span10 shippingaddress">
+                <div class="span10 shippingaddress nolabel">
                   {{ form_widget(form.shippingAddress) }}
                 </div>
                 <div class="span2 shippingaddress">

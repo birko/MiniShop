@@ -258,6 +258,10 @@
                 <source>Confirm order</source>
                 <target>Potvrdiť objednávku</target>
             </trans-unit>
+            <trans-unit id="79">
+                <source>Company information</source>
+                <target>Firemné údaje</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

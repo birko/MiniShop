@@ -7,7 +7,9 @@
         {% stylesheets
            '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less'
            '@MopaBootstrapBundle/Resources/bootstrap/less/responsive.less'
-           'css/main.less'
+           '@SiteDefaultBundle/Resources/public/less/style.less'
+           '@SiteMarketingBundle/Resources/public/less/style.less'
+           '@SiteShopBundle/Resources/public/less/style.less'
             output='css/main.css'
         %}
         <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
@@ -35,7 +37,7 @@
                 <header>
                     <div class="container">
                         <form class="navbar-search pull-right" action="{{path('product_search')}}" method="post">
-                                <input type="text" class="search-query" name="search[query]" value="" placeholder="Search" />
+                                <input type="text" class="search-query" name="search[query]" value="" placeholder="{% trans %}Search{% endtrans %}" />
                         </form>
                         <a class="brand" href="{{path('category_homepage')  }}" id="header-logo">
                             <span></span>
@@ -72,9 +74,10 @@
             </section>
         </div>
         {% javascripts
-           'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
-           'js/main.js'
-           output="js/bootstrap.js"
+           'http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'
+           '@SiteDefaultBundle/Resources/public/js/script.js'
+           '@SiteShopBundle/Resources/public/js/script.js'
+           output="js/site.js"
         %}
         <script src="{{ asset_url }}" type="text/javascript" ></script>
         {% endjavascripts %}

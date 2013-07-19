@@ -21,13 +21,13 @@ class DeliveryAddressType extends BaseAddressType
                     new Constraints\NotBlank(),
                 ),
                 'attr' => array(
-                    'placeholder' => 'Email*',
+                    'placeholder' => 'Email',
                 ))
             )
             ->add('phone', 'text', array(
                 'required' => false,
                 'attr' => array(
-                    'placeholder' => 'Telefón',
+                    'placeholder' => 'Phone',
                 ))
             );
     }

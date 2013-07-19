@@ -29,10 +29,6 @@ class ContactMultiType extends ContactType
                         'placeholder' => 'Číslo objednávky*',
                     ),
                 ))
-                ->add('copy', 'checkbox', array(
-                    'required' => false,
-                    'label' => 'Send copy to your email',
-                ))
                 ->add('type', 'choice', array(
                     'required' => true,
                     'constraints' => array(
@@ -45,14 +41,6 @@ class ContactMultiType extends ContactType
                         "Iné" => 'Iné',
                     ),
                 ))
-
-                
         ;
     }
-
-    public function getName()
-    {
-        return 'contact';
-    }
-
 }

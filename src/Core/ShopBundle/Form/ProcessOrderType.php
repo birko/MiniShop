@@ -11,8 +11,8 @@ class ProcessOrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('include', 'checkbox', array('required' => false))
-        ->add('orderId', 'hidden', array('required' => true));
+        ->add('include', 'checkbox', array('required' => false, 'label' => false))
+        ->add('orderId', 'hidden', array('required' => true, 'label' => false));
         
     }
 

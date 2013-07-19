@@ -22,23 +22,23 @@ class BaseAddressType extends AbstractType
                     new Constraints\Length(array('min' => 3)),
                 ),
                 'attr' => array(
-                    'placeholder' => 'Meno*',
+                    'placeholder' => 'Name',
                 )
             ))
-			->add('surname', 'text', array(
+            ->add('surname', 'text', array(
                 'required' => true,
                 'constraints' => array(
                     new Constraints\NotBlank(),
                     new Constraints\Length(array('min' => 3)),
                 ),
                 'attr' => array(
-                    'placeholder' => 'Priezvisko*',
+                    'placeholder' => 'Surname',
                 )
             ))
-			->add('company', 'text', array(
+            ->add('company', 'text', array(
                 'required' => false,
                 'attr' => array(
-                    'placeholder' => 'Spoločnosť',
+                    'placeholder' => 'Company',
                 )
             ))
             ->add('street', 'text', array(
@@ -47,18 +47,18 @@ class BaseAddressType extends AbstractType
                     new Constraints\NotBlank(),
                 ),
                 'attr' => array(
-                    'placeholder' => 'Ulica*',
+                    'placeholder' => 'Street',
                 )
             ))
-			 ->add('houseNumber', 'text', array(
+             ->add('houseNumber', 'text', array(
                 'required' => true,
                 'label' => 'Number',
                 'constraints' => array(
                     new Constraints\NotBlank(),
                 ),
                 'attr' => array(
-                    'placeholder' => 'Číslo*',
-					'size' => 10
+                    'placeholder' => 'Number',
+                    'size' => 10
                 )
             ))
             ->add('city', 'text', array(
@@ -67,7 +67,7 @@ class BaseAddressType extends AbstractType
                     new Constraints\NotBlank(),
                 ),
                 'attr' => array(
-                    'placeholder' => 'Mesto*',
+                    'placeholder' => 'City',
                 )
             ))
             ->add('ZIP', 'text', array(
@@ -78,7 +78,7 @@ class BaseAddressType extends AbstractType
                     new Constraints\Length(array('min' => 5)),
                 ),
                 'attr' => array(
-                    'placeholder' => 'PSČ*',
+                    'placeholder' => 'ZIP',
                 )
             ))
             ->add('state','entity',  array(

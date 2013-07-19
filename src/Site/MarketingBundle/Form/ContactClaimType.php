@@ -13,11 +13,15 @@ use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\Constraints\Email;
 use Core\ShopBundle\Form\BaseAddressType;
 
-class ContactClaimType extends AbstractType
+class ContactClaimType extends ContactType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
+        $builder->remove('name');
+        $builder->remove('phone');
+        $builder->remove('email');
         $builder->add('address', new BaseAddressType(), array('required' => true))
             ->add('orderNumber', 'text', array(
                     'required' => true,
@@ -26,47 +30,23 @@ class ContactClaimType extends AbstractType
                         new Constraints\NotBlank(),
                     ),
                     'attr' => array(
-                        'placeholder' => 'Číslo objednávky*',
+                        'placeholder' => 'Order number',
                     ),
             ))
             ->add('productNumber', 'text', array(
                     'required' => false,
                     'label' => 'Product number',
                     'attr' => array(
-                        'placeholder' => 'Číslo produktu',
+                        'placeholder' => 'Product number',
                     ),
             ))
             ->add('accountNumber', 'text', array(
                     'required' => false,
                     'label' => 'Account number',
                     'attr' => array(
-                        'placeholder' => 'Číslo účtu',
+                        'placeholder' => 'Account number',
                     ),
-            ))
-            ->add('message', 'textarea', array(
-                    'required' => true,
-                    'constraints' => array(
-                        new Constraints\NotBlank(),
-                    ),
-                    'attr' => array(
-                        'placeholder' => 'Správa*'
-                    )
-                ))
-            ->add('verification_code', 'text', array(
-                'required' => true,
-                'constraints' => array(
-                        new Constraints\NotBlank(),
-                ),
-                'attr' => array(
-                    'placeholder' => 'Verifikačný kód*'
-                )
             ))
         ;
     }
-    
-    public function getName()
-    {
-        return 'contactclaim';
-    }
-
 }

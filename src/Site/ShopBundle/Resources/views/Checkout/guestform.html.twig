@@ -1,16 +1,18 @@
-<form action="{{ path('checkout_guestaddress')}}" method="post">
+<form action="{{ path('checkout_guestaddress')}}" method="post" class="full">
     {{ form_errors(form) }}
     <div class="row-fluid">
       <div class="span12">
           <legend class="paymentaddress">{% trans %}Payment address{% endtrans %}</legend>
           <div class="row-fluid">
-              <div class="span6 paymentaddress">
+              <div class="span6 paymentaddress nolabel">
                   {% include 'CoreShopBundle:Address:baseform.html.twig' with {'form': form.paymentAddress} %}
               </div>
-              <div class="span6 paymentaddress">
+              <div class="span6 paymentaddress nolabel">
                   {% include "CoreShopBundle:Address:contactform.html.twig" with {'form': form.paymentAddress} %}
-                  <div class="company span12">
-                      {% include "CoreShopBundle:Address:companyform.html.twig" with {'form': form.paymentAddress} %}
+                  <div class="company row-fluid">
+                      <div class="span12">
+                        {% include "CoreShopBundle:Address:companyform.html.twig" with {'form': form.paymentAddress} %}
+                      </div>
                   </div>
               </div>
           </div>
@@ -26,10 +28,10 @@
       <div class="span12">
         <legend class="shippingaddress">{%trans%}Shipping address{%endtrans%}</legend>
         <div class="row-fluid">
-            <div class="span6 shippingaddress">
+            <div class="span6 shippingaddress nolabel">
                   {% include "CoreShopBundle:Address:baseform.html.twig" with {'form': form.shippingAddress} %}
               </div>
-              <div class="span6 shippingaddress">
+              <div class="span6 shippingaddress nolabel">
                   {% include "CoreShopBundle:Address:contactform.html.twig" with {'form': form.shippingAddress} %}
               </div>
           </div>
