@@ -46,6 +46,10 @@
                 <source>Category list</source>
                 <target>Zoznam kategórií</target>
             </trans-unit>
+            <trans-unit id="12">
+                <source>External</source>
+                <target>Externá</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

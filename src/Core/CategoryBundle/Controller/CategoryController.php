@@ -117,7 +117,7 @@ class CategoryController extends Controller
         $request = $this->getRequest();
         $form    = $this->createForm(new CategoryType(), $entity);
         $form->bind($request);
-
+        
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             if($parent !== null)
@@ -125,10 +125,17 @@ class CategoryController extends Controller
                 $parententity = $em->getRepository('CoreCategoryBundle:Category')->find($parent);
                 $entity->setParent($parententity);
             }
+            $slug = $entity->getSlug();
             $entity->setMenu($menu);
             $em->persist($entity);
             $em->flush();
-            if($entity->getHome())
+            if($entity->isExternal())
+            {
+                $entity->setSlug($slug);
+                $em->persist($entity);
+                $em->flush();
+            }
+            if($entity->isHome())
             {
                 $em->getRepository('CoreCategoryBundle:Category')->updateHomeCategory($entity->getId());
             }
@@ -191,9 +198,16 @@ class CategoryController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            $slug = $entity->getSlug();
             $em->persist($entity);
             $em->flush();
-            if($entity->getHome())
+            if($entity->isExternal())
+            {
+                $entity->setSlug($slug);
+                $em->persist($entity);
+                $em->flush();
+            }
+            if($entity->isHome())
             {
                 $em->getRepository('CoreCategoryBundle:Category')->updateHomeCategory($entity->getId());
             }

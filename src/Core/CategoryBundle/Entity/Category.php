@@ -52,6 +52,13 @@ class Category
     private $home;
     
     /**
+     * @var boolean $external
+     *
+     * @ORM\Column(name="external", type="boolean", nullable = true)
+     */
+    private $external;
+    
+    /**
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
@@ -193,9 +200,29 @@ class Category
      *
      * @return boolean 
      */
-    public function getHome()
+    public function isHome()
     {
         return $this->home;
+    }
+    
+    /**
+     * Set external
+     *
+     * @param boolean $external
+     */
+    public function setExternal($external)
+    {
+        $this->external = $external;
+    }
+
+    /**
+     * Get external
+     *
+     * @return boolean 
+     */
+    public function isExternal()
+    {
+        return $this->external;
     }
     
     /**
