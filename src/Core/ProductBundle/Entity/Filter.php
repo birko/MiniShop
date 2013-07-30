@@ -13,6 +13,7 @@ class Filter implements \Serializable
     protected $vendor = null;
     protected $order = null;
     protected $category = null;
+    protected $tags  = array();
     protected $page = 1;
     
     public function __construct()
@@ -56,6 +57,16 @@ class Filter implements \Serializable
         $this->vendor = $vendor;
     }
     
+    public function getTags()
+    {
+        return $this->tags;
+    }
+    
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+    
     public function getOrder()
     {
         return $this->order;
@@ -82,6 +93,7 @@ class Filter implements \Serializable
             $this->order,
             $this->words,
             $this->category,
+            $this->tags,
             $this->page
         ));
     }
@@ -92,6 +104,7 @@ class Filter implements \Serializable
             $this->order,
             $this->words,
             $this->category,
+            $this->tags,
             $this->page
         ) = unserialize($serialized);
     }

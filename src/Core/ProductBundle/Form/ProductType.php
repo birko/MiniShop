@@ -11,6 +11,12 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ProductType extends AbstractType
 {
+    protected $tags = array();
+    
+    public function __construct($tags = array())
+    {
+        $this->tags  = $tags;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -33,7 +39,23 @@ class ProductType extends AbstractType
                 'required' => false,
                 'label' => 'Long description',
             ))
+           ->add('enabled', 'checkbox', array('required' => false))
         ;
+        if(!empty($this->tags))
+        {
+            $tags = array();
+            foreach($this->tags as $tag)
+            {
+                $tags[$tag] = $tag;
+            }
+            
+            $builder->add('tags', 'choice', array(
+                'required' => false,
+                'choices' => $tags,
+                'multiple' => true,
+                'expanded' => true,
+            ));
+        }
     }
 
     public function getName()

@@ -25,6 +25,10 @@ class CoreProductExtension extends Extension
         {
             $container->setParameter('product.images', $config['images']);
         }
+        if(isset($config['tags']))
+        {
+            $container->setParameter('product.tags', $config['tags']);
+        }
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

@@ -98,6 +98,20 @@ class Product
      * @ORM\OneToOne(targetEntity="Stock", mappedBy="product")
      **/
     private $stock;
+    
+    /**
+     * @var boolean $anabled
+     *
+     * @ORM\Column(name="enabled", type="boolean", nullable = true)
+     */
+    private $enabled;
+    
+    /**
+     * @var string $tags
+     * @ORM\Column(name="tags", type="string", length=255, nullable = true)
+     */
+    private $tags;
+    
 
 
 
@@ -375,5 +389,63 @@ class Product
     public function getStock()
     {
         return $this->stock;
+    }
+    
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean 
+     */
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
+    
+    /**
+     * Set tags
+     *
+     * @param mixed $tags
+     */
+    public function setTags($tags)
+    {
+        if(!empty($tags))
+        {
+            $this->tags = implode(', ', $tags) .  ', ';
+        }
+        else
+        {
+            $this->tags = null;
+        }
+    }
+
+    /**
+     * Get tags
+     *
+     * @return mixed
+     */
+    public function getTags()
+    {
+        $tags = array();
+        if(!empty($this->tags))
+        {
+            $tags = explode(', ', $this->tags);
+            $end = trim(end($tags));
+            if(empty($end))
+            {
+                unset($tags[count($tags) - 1]);
+            }
+        }
+
+        return $tags;
     }
 }

@@ -20,6 +20,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('core_product')
                                 ->children()
+                                    ->variableNode("tags")->defaultValue(array())->end()
                                     ->variableNode("images")->defaultValue(array('thumb', 'large', 'small'))->end()
                                 ->end();
 

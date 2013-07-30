@@ -108,7 +108,8 @@ class ProductController extends Controller
     public function newAction($category = null)
     {
         $entity = new Product();
-        $form   = $this->createForm(new ProductType(), $entity);
+        $tags = $this->container->getParameter('product.tags');
+        $form   = $this->createForm(new ProductType($tags), $entity);
 
         return $this->render('CoreProductBundle:Product:new.html.twig', array(
             'entity' => $entity,
@@ -125,7 +126,8 @@ class ProductController extends Controller
     {
         $entity  = new Product();
         $request = $this->getRequest();
-        $form    = $this->createForm(new ProductType(), $entity);
+        $tags = $this->container->getParameter('product.tags');
+        $form    = $this->createForm(new ProductType($tags), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -168,7 +170,8 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
 
-        $editForm = $this->createForm(new ProductType(), $entity);
+        $tags = $this->container->getParameter('product.tags');
+        $editForm = $this->createForm(new ProductType($tags), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreProductBundle:Product:edit.html.twig', array(
@@ -193,7 +196,8 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
 
-        $editForm   = $this->createForm(new ProductType(), $entity);
+        $tags = $this->container->getParameter('product.tags');
+        $editForm   = $this->createForm(new ProductType($tags), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -261,6 +265,8 @@ class ProductController extends Controller
         $product = $em->getRepository('CoreProductBundle:Product')->find($id);
         $entity  = new Product();
         $entity->setTitle($product->getTitle());
+        $entity->setEnabled($product->getEnabled());
+        $entity->setTags($product->getTags());
         $entity->setShortDescription($product->getShortDescription());
         $entity->setLongDescription($product->getLongDescription());
         $entity->setVendor($product->getVendor());

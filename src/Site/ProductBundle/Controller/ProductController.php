@@ -32,7 +32,7 @@ class ProductController extends ShopController
     {
         $priceGroup = $this->getPriceGroup();
         $em = $this->getDoctrine()->getManager();
-        $query = $em->getRepository("CoreProductBundle:Product")->findByCategoryQuery($category, true);
+        $query = $em->getRepository("CoreProductBundle:Product")->findByCategoryQuery($category, true, true);
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $query,
@@ -48,7 +48,7 @@ class ProductController extends ShopController
         $em = $this->getDoctrine()->getManager();
         $filter = new Filter();
         $filter->setVendor($vendor);
-        $querybuilder  = $em->getRepository("CoreProductBundle:Product")->findByCategoryQueryBuilder(null, true);
+        $querybuilder  = $em->getRepository("CoreProductBundle:Product")->findByCategoryQueryBuilder(null, true, true);
         $query  = $em->getRepository("CoreProductBundle:Product")->filterQueryBuilder($querybuilder, $filter)->getQuery();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -72,7 +72,7 @@ class ProductController extends ShopController
             $request->getSession()->set('product-search', $filter);
         }
         $filter = $request->getSession()->get('product-search' , new Filter());   
-        $querybuilder =  $em->getRepository("CoreProductBundle:Product")->findByCategoryQueryBuilder();
+        $querybuilder =  $em->getRepository("CoreProductBundle:Product")->findByCategoryQueryBuilder(null, false, true);
         $query  = $em->getRepository("CoreProductBundle:Product")->filterQueryBuilder($querybuilder, $filter)->getQuery();
         $page = $request->get('page', 1);
         $paginator = $this->get('knp_paginator');

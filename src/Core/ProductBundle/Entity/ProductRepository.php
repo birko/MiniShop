@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProductRepository extends EntityRepository
 {
-    public function  findByCategoryQueryBuilder($category = null, $recursive = false, $join = true)
+    public function  findByCategoryQueryBuilder($category = null, $recursive = false, $onlyenabled = false, $join = true)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()
                 ->select("p, ps")
@@ -46,22 +46,27 @@ class ProductRepository extends EntityRepository
                 }
             }
         }
+        if($onlyenabled)
+        {
+            $queryBuilder->andWhere("p.enabled =:enabled")
+                ->setParameter("enabled", $onlyenabled);
+        }
         return $queryBuilder;
     }
    
-    public function  findByCategoryQuery($category = null, $recursive = false, $join = true)
+    public function  findByCategoryQuery($category = null, $recursive = false, $onlyenabled = false, $join = true)
     {
-        return $this->findByCategoryQueryBuilder($category, $recursive, $join)->getQuery();
+        return $this->findByCategoryQueryBuilder($category, $recursive, $onlyenabled, $join)->getQuery();
     }
 
-    public function  findByCategory($category = null, $recursive = false, $join = true)
+    public function  findByCategory($category = null, $recursive = false, $onlyenabled = false, $join = true)
     {
-        return $this->findByCategoryQuery($category, $recursive, $join)->getResult();
+        return $this->findByCategoryQuery($category, $recursive, $onlyenabled, $join)->getResult();
     }
     
-    public function findNotInCategoryQueryBuilder($categoryId = null, $recursive = false)
+    public function findNotInCategoryQueryBuilder($categoryId = null, $recursive = false, $onlyenabled = false)
     {
-        $queryBuilder2 = $this->findByCategoryQueryBuilder($categoryId, $recursive, false)
+        $queryBuilder2 = $this->findByCategoryQueryBuilder($categoryId, $recursive, $onlyenabled, false)
                 ->select("p")
                 ->andWhere("p2 = p");
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
@@ -75,14 +80,14 @@ class ProductRepository extends EntityRepository
         return $queryBuilder;  
     }
     
-    public function  findNotInCategoryQuery($categoryId  = null, $recursive = false)
+    public function  findNotInCategoryQuery($categoryId  = null, $recursive = false, $onlyenabled = false)
     {
-        return $this->findNotInCategoryQueryBuilder($categoryId , $recursive)->getQuery();
+        return $this->findNotInCategoryQueryBuilder($categoryId , $recursive, $onlyenabled)->getQuery();
     }
 
-    public function findNotInCategory($categoryId  = null, $recursive = false)
+    public function findNotInCategory($categoryId  = null, $recursive = false, $onlyenabled = false)
     {
-        return $this->findNotInCategoryQuery($categoryId , $recursive)->getResult();
+        return $this->findNotInCategoryQuery($categoryId , $recursive, $onlyenabled)->getResult();
     }
     
    public function  findMediaByProductQueryBuilder($product)
@@ -117,13 +122,15 @@ class ProductRepository extends EntityRepository
                         $queryBuilder->expr()->like("lower({$selector}.title)", ':word1'.$i),
                         $queryBuilder->expr()->like("lower({$selector}.shortDescription)", ':word2'.$i),
                         $queryBuilder->expr()->like("lower({$selector}.longDescription)", ':word3'.$i),
-                        $queryBuilder->expr()->like("lower(v.title)", ':word4'.$i)
+                        $queryBuilder->expr()->like("lower({$selector}.tags)", ':word4'.$i),
+                        $queryBuilder->expr()->like("lower(v.title)", ':word5'.$i)
                     );
                     $queryBuilder->andWhere($where);
                     $queryBuilder->setParameter('word1'.$i, '%' . strtolower($word) . '%');
                     $queryBuilder->setParameter('word2'.$i, '%' . strtolower($word) . '%');
                     $queryBuilder->setParameter('word3'.$i, '%' . strtolower($word) . '%');
                     $queryBuilder->setParameter('word4'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word5'.$i, '%' . strtolower($word) . '%');
                     $i ++;
                 }
             }
@@ -145,6 +152,16 @@ class ProductRepository extends EntityRepository
             {
                 $order[0] = str_replace("p.", $selector . "." , $order[0]);
                 $queryBuilder->addOrderBy($order[0], $order[1]);
+            }
+        }
+        
+        $tags = $filter->getTags();
+        if(!empty($tags))
+        {
+            foreach($tags as $key=>$tag)
+            {
+                $queryBuilder->andWhere($queryBuilder->expr()->like("{$selector}.tags", ':tag'.$key));
+                $queryBuilder->setParameter('tag'.$key, '%' . $tag . ', %');
             }
         }
         return $queryBuilder;
