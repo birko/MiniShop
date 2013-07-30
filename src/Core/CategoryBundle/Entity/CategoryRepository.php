@@ -13,7 +13,7 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
  */
 class CategoryRepository extends NestedTreeRepository
 {
-    public function getCategoriesByMenu($menu, $parent = null)
+    public function getCategoriesByMenu($menu, $parent = null, $onlyenabled = false)
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
                ->select("c")
@@ -29,6 +29,11 @@ class CategoryRepository extends NestedTreeRepository
         else
         {
             $qb ->andWhere("c.parent is NULL");
+        }
+        if($onlyenabled)
+        {
+            $qb->andWhere("c.enabled=:enabled")
+                ->setParameter("enabled", $onlyenabled);
         }
         $qb->addOrderBy("c.lft");
         return $qb->getQuery()->getResult();
@@ -47,7 +52,7 @@ class CategoryRepository extends NestedTreeRepository
        return $numUpdated;
     }
     
-    public function getTreeQueryBuilder($menu = null, $direct = false, $sortByField = null, $direction = 'ASC')
+    public function getTreeQueryBuilder($menu = null, $onlyenabled = false, $direct = false, $sortByField = null, $direction = 'ASC')
     {
         $qb = $this->childrenQueryBuilder(null, $direct, $sortByField, $direction);
         if($menu !== null)
@@ -55,13 +60,18 @@ class CategoryRepository extends NestedTreeRepository
             $qb->andWhere("node.menu = :mid")
             ->setParameter('mid', $menu);
         }
+        if($onlyenabled)
+        {
+            $qb->andWhere("node.enabled=:enabled")
+                ->setParameter("enabled", $onlyenabled);
+        }
         return $qb;
     }
     
     
-    public function getTreeQuery($menu = null, $direct = false, $sortByField = null, $direction = 'ASC')
+    public function getTreeQuery($menu = null, $onlyenabled = false, $direct = false, $sortByField = null, $direction = 'ASC')
     {
-        $query = $this->getTreeQueryBuilder($menu, $direct, $sortByField, $direction)->getQuery();
+        $query = $this->getTreeQueryBuilder($menu, $onlyenabled, $direct, $sortByField, $direction)->getQuery();
         //$query = $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
         return $query;
     }

@@ -59,6 +59,13 @@ class Category
     private $external;
     
     /**
+     * @var boolean $anabled
+     *
+     * @ORM\Column(name="enabled", type="boolean", nullable = true)
+     */
+    private $enabled;
+    
+    /**
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
@@ -109,6 +116,7 @@ class Category
     public function __construct()
     {
         $this->setHome(false);
+        $this->setEnabled(true);
         $this->setMenu(0);
         $this->children = new ArrayCollection();
         $this->contents = new ArrayCollection();
@@ -223,6 +231,26 @@ class Category
     public function isExternal()
     {
         return $this->external;
+    }
+    
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean 
+     */
+    public function isEnabled()
+    {
+        return $this->enabled;
     }
     
     /**

@@ -1,5 +1,12 @@
 <div class="tree-node">
     <div class="node-text pull-left">
+    {% if node.enabled %}
+    <i class="icon-ok"></i>
+    {% else %}
+    <i class="icon-remove"></i>
+    {% endif %}
+    </div>
+    <div class="node-text pull-left">
     {{ node.title }}
     </div>
     <div class="pull-right btn-toolbar">

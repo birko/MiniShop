@@ -47,7 +47,7 @@ class CategoryController extends Controller
         {
             throw $this->createNotFoundException("Menu not found: ". $menu);
         }
-        $categories = $em->getRepository('CoreCategoryBundle:Category')->getCategoriesByMenu($menu_index, $parent);
+        $categories = $em->getRepository('CoreCategoryBundle:Category')->getCategoriesByMenu($menu_index, $parent, true);
         return $this->render('SiteCategoryBundle:Category:list.html.twig', array(
             'categories' => $categories, 
             'id' => 'jcarousel'
@@ -98,7 +98,7 @@ class CategoryController extends Controller
                                         return $controller->renderView("SiteCategoryBundle:Category:Tree/nodeDecoration.html.twig", array("node" => $node));
                                     },
             );
-            $parentsQueryBuilder = $em->getRepository('CoreCategoryBundle:Category')->getTreeQueryBuilder($menu_index);
+            $parentsQueryBuilder = $em->getRepository('CoreCategoryBundle:Category')->getTreeQueryBuilder($menu_index, true);
             $query = $parentsQueryBuilder->getQuery();
             $parents = $query->getArrayResult();  
             $tree = (count($parents)> 0) ? $em->getRepository('CoreCategoryBundle:Category')->buildTree($parents, $options): "";
