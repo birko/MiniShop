@@ -290,26 +290,40 @@ class ImageManipulation
     {
         if (file_exists($watermarkFile) && $imageResource) 
         {
-            $watermark = self::resizeResource(self::createResource($watermarkFile), $dest_width, $dest_height);
+            $dest_width = null;
+            $dest_height = null;
             if (extension_loaded('imagick'))
             {
                 $dest_width = $imageResource->getImageWidth();
                 $dest_height = $imageResource->getImageHeight();
-                $watermark_width = $watermark->getImageWidth();
-                $watermark_height = $watermark->getImageHeight();
-                $target_x = abs($dest_width - $watermark_width) / 2;
-                $target_y = abs($dest_height - $watermark_height) / 2;
-                $imageResource->compositeImage($watermark, \Imagick::COMPOSITE_DEFAULT, $target_x, $target_y);
             }
             else if(function_exists('imagecreate'))
             {
                 $dest_width = imagesx($imageResource);
                 $dest_height = imagesy($imageResource);
-                $watermark_width = imagesx($watermark);
-                $watermark_height = imagesx($watermark);
-                $target_x = abs($dest_width - $watermark_width) / 2;
-                $target_y = abs($dest_height - $watermark_height) / 2;
-                imagecopy($imageResource, $watermark, $target_x, $target_y, 0, 0, $watermark_width, $watermark_height);
+            }
+            if($dest_height && $dest_width)
+            {
+                $watermark = self::resizeResource(self::createResource($watermarkFile), $dest_width, $dest_height);
+                if($watermark)
+                {
+                    if (extension_loaded('imagick'))
+                    {
+                        $watermark_width = $watermark->getImageWidth();
+                        $watermark_height = $watermark->getImageHeight();
+                        $target_x = abs($dest_width - $watermark_width) / 2;
+                        $target_y = abs($dest_height - $watermark_height) / 2;
+                        $imageResource->compositeImage($watermark, \Imagick::COMPOSITE_DEFAULT, $target_x, $target_y);
+                    }
+                    else if(function_exists('imagecreate'))
+                    {
+                        $watermark_width = imagesx($watermark);
+                        $watermark_height = imagesx($watermark);
+                        $target_x = abs($dest_width - $watermark_width) / 2;
+                        $target_y = abs($dest_height - $watermark_height) / 2;
+                        imagecopy($imageResource, $watermark, $target_x, $target_y, 0, 0, $watermark_width, $watermark_height);
+                    }
+                }
             }
         }
         return $imageResource;
