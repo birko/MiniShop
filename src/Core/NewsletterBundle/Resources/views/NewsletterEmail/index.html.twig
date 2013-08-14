@@ -6,19 +6,19 @@
 <table class="records_list table table-striped">
     <thead>
         <tr>
+            <td colspan="3">
+                <a href="{{ path('newsletter_email_new') }}" class="btn btn-primary pull-right">
+                    <i class="icon-plus"></i> {%trans%}Create a new email{%endtrans%}
+                </a>
+           </td>
+        </tr>
+        <tr>
             <th>{%trans%}Email{%endtrans%}</th>
             <th>{%trans%}Enabled{%endtrans%}</th>
             <th>{%trans%}Actions{%endtrans%}</th>
         </tr>
     </thead>
     <tfoot>
-        <tr>
-            <td colspan="3">
-                <a href="{{ path('newsletter_email_new') }}" class="btn btn-primary">
-                    <i class="icon-plus"></i> {%trans%}Create a new email{%endtrans%}
-                </a>
-           </td>
-        </tr>
     </tfoot>
     <tbody>
     {% for entity in entities %}
