@@ -23,7 +23,7 @@
         "leafo/lessphp": "dev-master",
         "mopa/bootstrap-bundle": "dev-master",
         "mopa/composer-bridge": "dev-master",
-        "twitter/bootstrap": "dev-master",
+        "twbs/bootstrap": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
         "craue/formflow-bundle": "dev-master",
         "whiteoctober/tcpdf-bundle": "dev-master",
