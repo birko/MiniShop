@@ -5,7 +5,7 @@
 <form action="{{ path('vendor_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
-        <button type="submit" class="btn btn-success"><i class="icon-ok"></i> {% trans %}Create{% endtrans %}</button>
+        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> {% trans %}Create{% endtrans %}</button>
     </p>
 </form>
 {% endblock %}

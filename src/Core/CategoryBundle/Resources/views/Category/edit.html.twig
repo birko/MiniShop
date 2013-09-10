@@ -3,14 +3,24 @@
 <h1>{% trans %}Category edit{% endtrans %}</h1>
 
 <form action="{{ path('category_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-    <p>
-        <button type="submit" class="btn btn-success"><i class="icon-ok"></i> {% trans %}Edit{% endtrans %}</button>
-    </p>
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <div class="form-group">
+            {{ form_row(edit_form.title) }}
+            {{ form_widget(edit_form.enabled) }}
+            {{ form_widget(edit_form.home) }}
+            {{ form_widget(edit_form.external) }}
+            {{ form_widget(edit_form.slug) }}
+        </div>
+            <p>
+                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> {% trans %}Edit{% endtrans %}</button>
+            </p>
+        </div>
+    </div>
 </form>
 
 <form action="{{ path('category_delete', { 'id': entity.id }) }}" method="post">
     {{ form_widget(delete_form) }}
-    <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {% trans %}Delete{% endtrans %}</button>
+    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> {% trans %}Delete{% endtrans %}</button>
 </form>
 {% endblock %}

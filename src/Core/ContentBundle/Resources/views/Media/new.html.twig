@@ -5,7 +5,7 @@
 <form action="{{ path('content_media_create', {'category': category, 'content': content}) }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
-        <button type="submit" class="btn btn-success"><i class="icon-ok"></i> {% trans %}Create{% endtrans %}</button>
+        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> {% trans %}Create{% endtrans %}</button>
         <a href="{{ path('content_media', {'category': category, 'content': content}) }}"> {% trans %}Back to the list{% endtrans %}</a>
     </p>
 </form>

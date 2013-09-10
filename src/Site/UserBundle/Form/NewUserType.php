@@ -27,8 +27,6 @@ class NewUserType extends BaseUserType
                     'required' => false,
                     'widget_remove_btn' => array('label' => 'Remove'),
                     'label_render' => false,
-                    'widget_control_group' => false,
-                    'widget_controls' => false,
                 )))
         ->remove('enabled')
         ->remove('priceGroup')

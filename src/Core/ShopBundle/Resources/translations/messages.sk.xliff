@@ -88,7 +88,7 @@
             </trans-unit> 
             <trans-unit id="22">
                 <source>Order list</source>
-                <target>Zoznam zákazníkov</target>
+                <target>Zoznam objednávok</target>
             </trans-unit>
             <trans-unit id="23">
                 <source>Invoice number</source>

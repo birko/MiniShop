@@ -4,9 +4,9 @@
 <div  id="cart">
     <h1>{% trans %}Payment and shipping{% endtrans %}</h1>
     <form action="{{ path('checkout_savepaymentshipping')}}" method="post">
-        <div class="row-fluid">
+        <div class="row">
             {{ form_errors(form) }}
-            <div class="payment span5">
+            <div class="payment col-sm-5 col-md-5 col-lg-5">
                 <table class="table">
                     <caption>{{ form_label(form.payment) }}</caption>
                     <tbody>
@@ -20,7 +20,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="shipping span5 offset2">
+            <div class="shipping col-sm-5 col-md-5 col-lg-5 pull-right">
                 <table class="table">
                     <caption>{{ form_label(form.shipping) }}</caption>
                     <tbody>
@@ -37,10 +37,10 @@
             <div class="cleaner"></div>
             {{ form_rest(form) }}
         </div>
-        <div class="row-fluid">
-          <div class="span12">
-            <a href="{{path('cart')}}" class="btn pull-left"><i class="icon-arrow-left icon-white"></i> {% trans %}Back to cart{% endtrans %} </a>
-            <button type="submit" class="btn pull-right">{% trans %}Continue{% endtrans %} <i class="icon-arrow-right"></i></button>
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <a href="{{path('cart')}}" class="btn btn-default pull-left"><span class="glyphicon glyphicon-arrow-left icon-white"></span> {% trans %}Back to cart{% endtrans %} </a>
+            <button type="submit" class="btn btn-default pull-right">{% trans %}Continue{% endtrans %} <span class="glyphicon glyphicon-arrow-right"></span></button>
             {{ form_rest(form) }}
           </div>
         </div>

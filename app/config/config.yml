@@ -81,6 +81,8 @@ mopa_bootstrap:
         render_required_asterisk: true # default is true
         render_optional_text: false # default is true
         error_type: 'block' # default is null
+        horizontal_label_class: ''
+        horizontal_input_wrapper_class: ''
         collection:
             widget_remove_btn:
                 attr:

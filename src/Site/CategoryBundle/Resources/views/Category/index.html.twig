@@ -3,7 +3,7 @@
 {% if category is not empty %}
 {% render controller("SiteCategoryBundle:Category:breadcrumb" ,{'id': category.id}) %}
 {% render controller("SiteContentBundle:Content:display", {'category': category.id, 'cpage': cpage }) %}
-<div class="class="row-fluid">
+<div class="row">
     {% render controller("SiteProductBundle:Product:list", {'category': category.id, 'page': page }) %}
 </div>
 {% endif %}

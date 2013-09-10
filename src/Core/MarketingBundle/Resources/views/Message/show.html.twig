@@ -23,9 +23,9 @@
 <form action="" method="post" class="">
 {{ form_widget(form)}}
     <div class="form-actions">
-         <button type="submit" class="btn btn-success"><i class="icon-envelope"></i> {% trans %}Send{% endtrans %}</button>
+         <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-envelope"></span> {% trans %}Send{% endtrans %}</button>
          {% if entity.updatedAt is empty %}
-          <a href="{{ path('message_updatedate', {'id': entity.id}) }}" class="btn btn-warning"><i class="icon-refresh"></i> {% trans %}Update{% endtrans %}</a>
+          <a href="{{ path('message_updatedate', {'id': entity.id}) }}" class="btn btn-warning"><span class="glyphicon glyphicon-refresh"></span> {% trans %}Update{% endtrans %}</a>
          {% endif %}
     </div>
 </form>
@@ -34,7 +34,7 @@
 {% endif %}
 <form action="{{ path('message_delete', { 'id': entity.id }) }}" method="post" class="form-actions">
     {{ form_widget(delete_form) }}
-    <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {% trans %}Delete{% endtrans %}</button>
+    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> {% trans %}Delete{% endtrans %}</button>
     <a href="{{ path('message', {'type': entity.type}) }}" class="btn">{% trans %}Back to the list{% endtrans %}</a>
 </form>
 {% endblock %}

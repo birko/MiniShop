@@ -15,13 +15,13 @@
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td>{% if entity.enabled %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+            <td>{% if entity.enabled %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
             <td>{{ entity.login }}</td>
             <td>{{ entity.email }}</td>
             <td>{{ entity.priceGroup }}</td>
             <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif%}</td>
             <td>
-                <a href="{{ path('user_edit', { 'id': entity.id }) }}" class="btn btn-warning"><i class="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>
+                <a href="{{ path('user_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
             </td>
         </tr>
     {% endfor %}

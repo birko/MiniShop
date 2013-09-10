@@ -9,14 +9,14 @@
     <div class="clear"></div>
     {{ form_widget(edit_form) }}
     <p>
-        <button type="submit" class="btn btn-success"><i class="icon-ok"></i> {% trans %}Edit{% endtrans %}</button>
+        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> {% trans %}Edit{% endtrans %}</button>
         <a href="{{ path('product_media', {'category': category, 'product': product}) }}"> {% trans %}Back to the list{% endtrans %}</a>
     </p>
 </form>
 
 <form action="{{ path('product_media_delete', { 'id': entity.id, 'category': category, 'product': product  }) }}" method="post">
     {{ form_widget(delete_form) }}
-    <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {% trans %}Delete{% endtrans %}</button>
+    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> {% trans %}Delete{% endtrans %}</button>
 </form>
 {% endblock %}
 {% block javascripts %}

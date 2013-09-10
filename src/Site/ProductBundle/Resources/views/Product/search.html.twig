@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block body %}
 <h1>{% trans %}Search{% endtrans %}</h1>
-<div class="class="row-fluid">
+<div class="class="row">
     {% include 'SiteProductBundle:Product:list.html.twig' with {'entities': entities} %} 
 </div>
 {% endblock %}

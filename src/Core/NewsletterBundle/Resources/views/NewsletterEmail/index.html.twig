@@ -7,8 +7,8 @@
     <thead>
         <tr>
             <td colspan="3">
-                <a href="{{ path('newsletter_email_new') }}" class="btn btn-primary pull-right">
-                    <i class="icon-plus"></i> {%trans%}Create a new email{%endtrans%}
+                <a href="{{ path('newsletter_email_new') }}" class="btn btn-xs btn-primary pull-right">
+                    <span class="glyphicon glyphicon-plus"></span> {%trans%}Create a new email{%endtrans%}
                 </a>
            </td>
         </tr>
@@ -24,9 +24,9 @@
     {% for entity in entities %}
         <tr>
             <td>{{ entity.email }}</td>
-            <td>{% if entity.enabled %}<i class="icon-ok"></i>{% endif %}</td>
+            <td>{% if entity.enabled %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
             <td>
-                <a href="{{ path('newsletter_email_edit', { 'id': entity.id }) }}" class="btn btn-warning"><i class="icon-edit"></i> {%trans%}Edit{%endtrans%}</a>     
+                <a href="{{ path('newsletter_email_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {%trans%}Edit{%endtrans%}</a>     
             </td>
         </tr>
     {% endfor %}

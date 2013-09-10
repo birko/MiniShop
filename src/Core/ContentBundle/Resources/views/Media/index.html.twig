@@ -4,28 +4,29 @@
 {# knp_pagination_render(entities)#}
 <table class="records_list table table-striped">
     <thead>
+        {% if content is not empty %}
+        <tr>
+            <td colspan="3">
+                <a href="{{ path('content_media_new', {'category': category, 'content': content}) }}" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new entry{% endtrans %}</a>
+            </td>
+        </tr>
+        {% endif %}
         <tr>
             <th>{% trans %}Image{% endtrans %}</th>
             <th>{% trans %}Title{% endtrans %}</th>
             <th>{% trans %}Actions{% endtrans %}</th>
         </tr>
     </thead>
-    {% if content is not empty %}
+    
     <tfoot>
-        <tr>
-            <td colspan="3">
-                <a href="{{ path('content_media_new', {'category': category, 'content': content}) }}" class="btn btn-primary"><i class="icon-plus"></i> {% trans %}Create a new entry{% endtrans %}</a>
-            </td>
-        </tr>
     </tfoot>
-    {% endif %}
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td>{% render (controller("CoreMediaBundle:Image:display", {'id': entity.id, 'dir': 'thumb'}) %}</td>
+            <td>{% render (controller("CoreMediaBundle:Image:display", {'id': entity.id, 'dir': 'thumb'})) %}</td>
             <td>{{ entity.title }}</td>
             <td>
-                <a href="{{ path('content_media_edit', { 'id': entity.id , 'category': category, 'content': content}) }}" class="btn btn-warning"><i class="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>
+                <a href="{{ path('content_media_edit', { 'id': entity.id , 'category': category, 'content': content}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
             </td>
         </tr>
     {% endfor %}

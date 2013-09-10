@@ -5,12 +5,12 @@
 <form action="{{ path('newsletter_group_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
     <p>
-        <button type="submit" class="btn btn-success"><i class="icon-ok"></i> {%trans%}Edit{%endtrans%}</button>
+        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> {%trans%}Edit{%endtrans%}</button>
     </p>
 </form>
 
 <form action="{{ path('newsletter_group_delete', { 'id': entity.id}) }}" method="post">
     {{ form_widget(delete_form) }}
-    <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {%trans%}Delete{%endtrans%}</button>
+    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> {%trans%}Delete{%endtrans%}</button>
 </form>
 {% endblock %}

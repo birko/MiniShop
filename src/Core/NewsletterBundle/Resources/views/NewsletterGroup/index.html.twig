@@ -5,25 +5,25 @@
 <table class="records_list table table-striped">
     <thead>
         <tr>
+            <td colspan="2">
+                <a href="{{ path('newsletter_group_new') }}" class="btn btn-xs btn-primary pull-right">
+                    <span class="glyphicon glyphicon-plus"></span> {%trans%}Create a new group{%endtrans%}
+                </a>
+           </td>
+        </tr>
+        <tr>
             <th>Name</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tfoot>
-        <tr>
-            <td colspan="2">
-                <a href="{{ path('newsletter_group_new') }}" class="btn btn-primary">
-                    <i class="icon-plus"></i> {%trans%}Create a new group{%endtrans%}
-                </a>
-           </td>
-        </tr>
     </tfoot>
     <tbody>
     {% for entity in entities %}
         <tr>
             <td>{{ entity.name }}</td>
             <td>
-                 <a href="{{ path('newsletter_group_edit', { 'id': entity.id }) }}" class="btn btn-warning"><i class="icon-edit"></i> {%trans%}Edit{%endtrans%}</a>
+                 <a href="{{ path('newsletter_group_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {%trans%}Edit{%endtrans%}</a>
             </td>
         </tr>
     {% endfor %}

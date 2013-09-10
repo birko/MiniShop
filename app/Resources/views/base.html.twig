@@ -6,7 +6,6 @@
         <title>{% block title %}Welcome to {{site_title}}{% endblock %}</title>
         {% stylesheets
            '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less'
-           '@MopaBootstrapBundle/Resources/bootstrap/less/responsive.less'
            '@SiteDefaultBundle/Resources/public/less/style.less'
            '@SiteMarketingBundle/Resources/public/less/style.less'
            '@SiteShopBundle/Resources/public/less/style.less'
@@ -21,23 +20,26 @@
     <body>
         <div id="body">
             <section>
-                <div class="navbar navbar-fixed-top">
-                    <div class="navbar-inner">
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div class="navbar-header">
                         <div class="container">
-                            <div class="pull-right navbar-text">
-                                {% render controller("SiteShopBundle:Cart:info") %}
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="navbar-header">
+                                    <a class="navbar-brand" href="{{ path('category_homepage') }})">{{site_title}}</a>
+                                </div>
+                                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                                    <ul class="nav navbar-nav pull-right">
+                                        <li class="navbar-text">{% render controller("SiteShopBundle:Cart:info") %}</li>
+                                        <li class="navbar-text">{% render controller("SiteUserBundle:User:info") %}</li>
+                                </div>
                             </div>
-                            <div class="pull-right navbar-text">
-                                {% render controller("SiteUserBundle:User:info") %}
-                            </div>
-                            <a class="brand" href="{{ path('category_homepage') }})">{{site_title}}</a>
                         </div>
                     </div>
-                </div>
+                </nav>
                 <header>
                     <div class="container">
                         <form class="navbar-search pull-right" action="{{path('product_search')}}" method="post">
-                                <input type="text" class="search-query" name="search[query]" value="" placeholder="{% trans %}Search{% endtrans %}" />
+                                <input type="search" class="search-query form-control" name="search[query]" value="" placeholder="{% trans %}Search{% endtrans %}" />
                         </form>
                         <a class="brand" href="{{path('category_homepage')  }}" id="header-logo">
                             <span></span>
@@ -46,13 +48,13 @@
                     </div>
                 </header>
                 <section id="main" class="container">
-                    <div class="row row-fluid">
-                        <aside id="main-menu" class="span2">
-                            <nav id="left-menu" class="well well-small">
-                                {% render controller("SiteCategoryBundle:Category:tree",{'menu': 0}) %}
+                    <div class="row">
+                        <aside id="main-menu" class="col-sm-2 col-md-2 col-lg-2">
+                            <nav id="left-menu" class="well well-sm">
+                                {% render controller("SiteCategoryBundle:Category:tree", {'menu': 0}) %}
                             </nav>
                         </aside>
-                        <section id="main-body" class="span10">
+                        <section id="main-body" class="col-sm-10 col-md-10 col-lg-10">
                             {% block body %}{% endblock body %}
                         </section>
                     </div>
@@ -68,7 +70,9 @@
                                 &COPY; 2013 | All rights reserved
                                 <br />
                             </div>
+                            {# render controller("SiteNewsletterBundle:Newsletter:form") #}
                         </div>
+                        
                     </div>
                 </footer>
             </section>

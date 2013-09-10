@@ -5,6 +5,11 @@
 <table class="records_list table table-striped">
     <thead>
         <tr>
+            <td colspan="4">
+                <a href="{{ path('option_new', {'category': category, 'product': product}) }}" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new entry{% endtrans %} </a>
+            </td>
+        </tr>
+        <tr>
             <th>{% trans %}Name{% endtrans %}</th>
             <th>{% trans %}Value{% endtrans %}</th>
             <th>{% trans %}Amount{% endtrans %}</th>
@@ -14,8 +19,7 @@
     <tfoot>
         <tr>
             <td colspan="4">
-                <a href="{{ path('option_new', {'category': category, 'product': product}) }}" class="btn btn-primary"><i class="icon-plus"></i> {% trans %}Create a new entry{% endtrans %} </a>
-                <a href="{{ path('product', {'category': category}) }}" class=""> {% trans %}Back to the list{% endtrans %}</a>
+                <a href="{{ path('product', {'category': category}) }}" class="btn"> {% trans %}Back to the list{% endtrans %}</a>
             </td>
         </tr>
     </tfoot>
@@ -26,9 +30,11 @@
             <td>{{ entity.value }}</td>
             <td>{% if entity.amount %}{{ entity.amount | number_format }}{% endif %}</td>
             <td>
-                <a href="{{ path('option_edit', { 'id': entity.id, 'category': category, 'product': product }) }}" class="btn btn-warning"><i class="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>
-                <a href="{{ path('option_up', { 'id': entity.id, 'position': 1, 'product': product, 'category': category }) }}" class="move-up btn"><i class="icon-arrow-up"></i> {% trans %}Move up{% endtrans %}</a>
-                <a href="{{ path('option_down', { 'id': entity.id, 'position': 1, 'product': product, 'category': category }) }}" class="move-down btn"><i class="icon-arrow-down"></i> {% trans %}Move down{% endtrans %}</a>
+                <div class="btn-group">
+                    <a href="{{ path('option_edit', { 'id': entity.id, 'category': category, 'product': product }) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
+                    <a href="{{ path('option_up', { 'id': entity.id, 'position': 1, 'product': product, 'category': category }) }}" class="move-up btn btn-xs"><span class="glyphicon glyphicon-arrow-up"></span> {% trans %}Move up{% endtrans %}</a>
+                    <a href="{{ path('option_down', { 'id': entity.id, 'position': 1, 'product': product, 'category': category }) }}" class="move-down btn btn-xs"><span class="glyphicon glyphicon-arrow-down"></span> {% trans %}Move down{% endtrans %}</a>
+                </div>
             </td>
         </tr>
     {% endfor %}

@@ -5,6 +5,11 @@
 <table class="records_list table table-striped">
     <thead>
         <tr>
+            <td colspan="7">
+                <a href="{{ path('coupon_new') }}" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new entry{% endtrans %}</a>
+            </td>
+        </tr>
+        <tr>
             <th>{% trans %}Code{% endtrans %}</th>
             <th>{% trans %}Active{% endtrans %}</th>
             <th>{% trans %}Used{% endtrans %}</th>
@@ -15,24 +20,21 @@
         </tr>
     </thead>
     <tfoot>
-        <tr>
-            <td colspan="7">
-                <a href="{{ path('coupon_new') }}" class="btn btn-primary"><i class="icon-plus"></i> {% trans %}Create a new entry{% endtrans %}</a>
-            </td>
-        </tr>
     </tfoot>
     <tbody>
     {% for entity in entities %}
         <tr>
             <td>{{ entity.code }}</td>
-            <td>{% if entity.active %}<i class="icon-ok"></i>{%else%}<i class="icon-remove"></i>{%endif%}</td>
-            <td>{% if entity.used %}<i class="icon-ok"></i>{%else%}<i class="icon-remove"></i>{%endif%}</td>
+            <td>{% if entity.active %}<span class="glyphicon glyphicon-ok"></span>{%else%}<span class="glyphicon glyphicon-remove"></span>{%endif%}</td>
+            <td>{% if entity.used %}<span class="glyphicon glyphicon-ok"></span>{%else%}<span class="glyphicon glyphicon-remove"></span>{%endif%}</td>
             <td>{{ entity.discount }}</td>
             <td>{{ entity.price }}</td>
             <td>{{ entity.priceVAT }}</td>         
             <td>
-                <a href="{{ path('coupon_products', { 'id': entity.id }) }}" class="btn btn-info"><i class="icon-list-alt"></i> {% trans %}Products{% endtrans %}</a>
-                <a href="{{ path('coupon_edit', { 'id': entity.id }) }}" class="btn btn-warning"><i class="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>
+                <div class="btn-group">
+                    <a href="{{ path('coupon_products', { 'id': entity.id }) }}" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-list-alt"></span> {% trans %}Products{% endtrans %}</a>
+                    <a href="{{ path('coupon_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
+                </div>
             </td>
         </tr>
     {% endfor %}

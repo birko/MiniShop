@@ -1,15 +1,12 @@
 <form action="{{ path('newsletter_email_subscribe') }}" method="post" {{ form_enctype(form) }}>
     <div class="row">
-    <div class="span3">
-        <label>{{form_label(form.email)}}</label>
-        <div class="input-append">
-        {{form_widget(form.email)}}
-        <span class="add-on">
-            <button type="submit" class="button-ok"></button>
-        </span>
+        <div class="col-sm-3 col-md-3 col-lg-3">
+            <label>{{form_label(form.email)}}</label>
+            <div class="input-group">
+                {{form_widget(form.email)}}
+                <button type="submit" class="button-ok input-group-addon"><span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+            {{form_rest(form)}}
         </div>
-        {{form_rest(form)}}
-    </div>
-    <div class="clear"></div>  
     </div> 
 </form>

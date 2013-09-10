@@ -262,6 +262,10 @@
                 <source>Company information</source>
                 <target>Firemné údaje</target>
             </trans-unit>
+            <trans-unit id="80">
+                <source>Invoice</source>
+                <target>Faktúra</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

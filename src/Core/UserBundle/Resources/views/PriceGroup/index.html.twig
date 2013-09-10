@@ -5,6 +5,13 @@
 <table class="records_list table table-striped">
     <thead>
         <tr>
+            <td colspan="4">
+                <a href="{{ path('pricegroup_new') }}" class="btn btn-xs btn-primary pull-right">
+                <span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new entry{% endtrans %}
+                </a>
+            </td>
+        </tr>
+        <tr>
             <th>{% trans %}Default{% endtrans %}</th>
             <th>{% trans %}Name{% endtrans %}</th>
             <th>{% trans %}Rate{% endtrans %}</th>
@@ -12,22 +19,15 @@
         </tr>
     </thead>
     <tfoot>
-        <tr>
-            <td colspan="4">
-                <a href="{{ path('pricegroup_new') }}" class="btn btn-primary">
-                <i class="icon-plus"></i> {% trans %}Create a new entry{% endtrans %}
-                </a>
-            </td>
-        </tr>
     </tfoot>
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td>{% if entity.default %}<i class="icon-ok"></i>{% endif %}</td>
+            <td>{% if entity.default %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
             <td>{{ entity.name }}</td>
             <td>{{ entity.rate }}</td>
             <td>
-                <a href="{{ path('pricegroup_edit', { 'id': entity.id }) }}" class="btn btn-warning"><i class="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>
+                <a href="{{ path('pricegroup_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
             </td>
         </tr>
     {% endfor %}

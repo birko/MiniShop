@@ -6,7 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% stylesheets
            '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less'
-           '@MopaBootstrapBundle/Resources/bootstrap/less/responsive.less'
            'css/admin.less'
            output='css/admin.css'
         %}
@@ -17,56 +16,80 @@
     <body>
         <section id="wrapper">
             <header>
-                <nav>
-                    <div class="navbar navbar-fixed-top">
-                        <div class="navbar-inner">
-                            <div class="container-fluid">
-                                <ul class="pull-right nav">
-                                    <li><a href="{{ path('CoreUserBundle_logout') }}"><i class="icon-off"></i> {% trans %}Logout{% endtrans %}</a></li>
-                                </ul>
-                                <a class="brand offest2" href="#">{{site_title}}</a>
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div class="navbar-header">
+                        <div class="container-fluid">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="navbar-header">
+                                    <a class="navbar-brand" offest2" href="#">{{site_title}}</a>
+                                </div>
+                                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                                    <ul class="nav navbar-nav pull-right">
+                                        {% if app.user is not empty and is_granted('ROLE_USER ')%}
+                                        <li><a href="{{ path('CoreUserBundle_logout') }}"><i class="icon-off"></i> {% trans %}Logout{% endtrans %}</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </nav>
             </header>
-            <div class="container-fluid">
-                <div class="row row-fluid">
-                    <aside id="sidebar" class="span2">
-                        <nav class="well well-small">
-                            <ul class="nav nav-list">
-                                <li class="align-center nav-header">{% trans %}Content{% endtrans %}</li>
-                                <li><a href="{{ path('category') }}">{% trans %}Categories{% endtrans %}</a></li>
-                                <li><a href="{{ path('product') }}">{% trans %}Products{% endtrans %}</a></li>
-                                <li><a href="{{ path('vendor') }}">{% trans %}Vendors{% endtrans %}</a></li>
-                                <li><a href="{{ path('usertext') }}">{% trans %}Text{% endtrans %}</a></li>
-                                <li class="divider"></li>
-                                <li class="align-center nav-header">{% trans %}Shop{% endtrans %}</li>
-                                <li><a href="{{path('order')}}">{% trans %}Orders{% endtrans %}</a></li> 
-                                <li><a href="{{path('orderstatus')}}">{% trans %}Order status{% endtrans %}</a></li>
-                                <li><a href="{{path('payment')}}">{% trans %}Payment{% endtrans %}</a></li>
-                                <li><a href="{{path('state')}}">{% trans %}States{% endtrans %}</a></li>
-                                <li><a href="{{path('shipping')}}">{% trans %}Shipping{% endtrans %}</a></li>
-                                <li><a href="{{path('shippingstatus')}}">{% trans %}Shipping status{% endtrans %}</a></li>
-                                <li><a href="{{path('coupon')}}">{% trans %}Coupons{% endtrans %}</a></li>
-                                <li class="divider"></li>
-                                <li class="align-center nav-header">{% trans %}Marketing{% endtrans %}</li>
-                                <li><a href="{{path('message', {'type': 'claim'})}}">{% trans %}Claims{% endtrans %}</a></li>
-                                <li><a href="{{path('message', {'type': 'contactmulti'})}}">{% trans %}Contact{% endtrans %}</a></li>
-                                <li class="divider"></li>
-                                <li><a href="{{path('newsletter')}}">{% trans %}Newsletter{% endtrans %}</a></li>
-                                <li><a href="{{path('newsletter_group')}}">{% trans %}Newsletter groups{% endtrans %}</a></li>
-                                <li><a href="{{path('newsletter_email')}}">{% trans %}Newsletter emails{% endtrans %}</a></li>
-                                <li class="divider"></li>
-                                <li><a href="{{path('user')}}">{% trans %}Users{% endtrans %}</a></li> 
-                                <li><a href="{{path('pricegroup')}}">{% trans %}Price groups{% endtrans %}</a></li> 
+            <div class="col-sm-12 col-md-12 col-lg-12"  id="content">
+                <div class="row">
+                    {% block content %}
+                    <aside id="sidebar" class="col-sm-2 col-md-2 col-lg-2">
+                        <nav>
+                            <ul class="nav list-group">
+                                <li class="list-group-item">
+                                    {% trans %}Content{% endtrans %}
+                                    <ul class="nav">
+                                        <li><a href="{{ path('category') }}">{% trans %}Categories{% endtrans %}</a></li>
+                                        <li><a href="{{ path('product') }}">{% trans %}Products{% endtrans %}</a></li>
+                                        <li><a href="{{ path('vendor') }}">{% trans %}Vendors{% endtrans %}</a></li>
+                                        <li><a href="{{ path('usertext') }}">{% trans %}Text{% endtrans %}</a></li>
+                                    </ul>
+                                </li>
+                                <li class="list-group-item">
+                                    {% trans %}Shop{% endtrans %}
+                                    <ul class="nav">
+                                        <li><a href="{{path('order')}}">{% trans %}Orders{% endtrans %}</a></li> 
+                                        <li><a href="{{path('orderstatus')}}">{% trans %}Order status{% endtrans %}</a></li>
+                                        <li><a href="{{path('payment')}}">{% trans %}Payment{% endtrans %}</a></li>
+                                        <li><a href="{{path('state')}}">{% trans %}States{% endtrans %}</a></li>
+                                        <li><a href="{{path('shipping')}}">{% trans %}Shipping{% endtrans %}</a></li>
+                                        <li><a href="{{path('shippingstatus')}}">{% trans %}Shipping status{% endtrans %}</a></li>
+                                        <li><a href="{{path('coupon')}}">{% trans %}Coupons{% endtrans %}</a></li>
+                                    </ul>
+                                </li>
+                                <li class="list-group-item">
+                                    {% trans %}Marketing{% endtrans %}
+                                    <ul class="nav">
+                                        <li><a href="{{path('message', {'type': 'claim'})}}">{% trans %}Claims{% endtrans %}</a></li>
+                                        <li><a href="{{path('message', {'type': 'contactmulti'})}}">{% trans %}Contact{% endtrans %}</a></li>
+                                    </ul>
+                                </li>
+                                <li class="list-group-item">
+                                     <ul class="nav">
+                                        <li><a href="{{path('newsletter')}}">{% trans %}Newsletter{% endtrans %}</a></li>
+                                        <li><a href="{{path('newsletter_group')}}">{% trans %}Newsletter groups{% endtrans %}</a></li>
+                                        <li><a href="{{path('newsletter_email')}}">{% trans %}Newsletter emails{% endtrans %}</a></li>
+                                    </ul>
+                                </li>
+                                <li class="list-group-item">
+                                     <ul class="nav">
+                                        <li><a href="{{path('user')}}">{% trans %}Users{% endtrans %}</a></li> 
+                                        <li><a href="{{path('pricegroup')}}">{% trans %}Price groups{% endtrans %}</a></li> 
+                                    </ul>
+                                </li>
                             </ul>
                             {% block sidebar %}{% endblock  sidebar %}
                         </nav>
                     </aside>
-                    <section id="main" class="span10">
+                    <section id="main" class="col-sm-10 col-md-10 col-lg-10">
                             {% block body %}{% endblock body %}
                     </section>
+                    {% endblock content %}
                 </div>
             </div>
             <footer>
@@ -74,7 +97,7 @@
         </section>
         {% javascripts
            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
-           '@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-dropdown.js'
+           '@MopaBootstrapBundle/Resources/bootstrap/js/dropdown.js'
            output="js/bootstrap.js"
         %}
         <script src="{{ asset_url }}" type="text/javascript" ></script>

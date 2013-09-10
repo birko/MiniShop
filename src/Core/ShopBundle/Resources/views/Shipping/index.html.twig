@@ -4,6 +4,11 @@
 
 <table class="records_list table table-striped">
     <thead>
+       <tr>
+            <td colspan="4">
+                <a href="{{ path('shipping_new') }}" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new entry{% endtrans %} </a>
+            </td>
+        </tr>
         <tr>
             <th>{% trans %}Name{% endtrans %}</th>
             <th>{% trans %}Price{% endtrans %}</th>
@@ -12,11 +17,6 @@
         </tr>
     </thead>
     <tfoot>
-        <tr>
-            <td colspan="4">
-                <a href="{{ path('shipping_new') }}" class="btn btn-primary"><i class="icon-plus"></i> {% trans %}Create a new entry{% endtrans %} </a>
-            </td>
-        </tr>
     </tfoot>
     <tbody>
     {% for entity in entities %}
@@ -25,7 +25,7 @@
             <td>{{ entity.price }}</td>
             <td>{{ entity.priceVAT }}</td>
             <td>
-                <a href="{{ path('shipping_edit', { 'id': entity.id }) }}" class="btn btn-warning"><i class="icon-edit"></i> {% trans %}Edit{% endtrans %}</a>
+                <a href="{{ path('shipping_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
             </td>
         </tr>
     {% endfor %}
