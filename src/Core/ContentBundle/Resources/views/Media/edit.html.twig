@@ -3,11 +3,14 @@
 <h1>{% trans %}Content Media edit{% endtrans %}</h1>
 
 <form action="{{ path('content_media_update', { 'id': entity.id, 'content': content, 'category': category }) }}" method="post" {{ form_enctype(edit_form) }}>
-    <div class="span3 pull-right">
-        {% render controller("CoreMediaBundle:Image:display", {'id': entity.id, 'dir': 'thumb'}) %}
+     <div class="row">
+        <div class="col-sm-10 col-md-10 col-lg-10">
+            {{ form_widget(edit_form) }}
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            {% render controller("CoreMediaBundle:Image:display", {'id': entity.id, 'dir': 'thumb'}) %}
+        </div>
     </div>
-    <div class="clear"></div>
-    {{ form_widget(edit_form) }}
     <p>
         <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> {% trans %}Edit{% endtrans %}</button>
         <a href="{{ path('content_media', {'category': category, 'content': content}) }}"> {% trans %}Back to the list{% endtrans %}</a>

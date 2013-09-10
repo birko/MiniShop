@@ -12,11 +12,11 @@
             {{ form_widget(edit_form.external) }}
             {{ form_widget(edit_form.slug) }}
         </div>
-            <p>
-                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> {% trans %}Edit{% endtrans %}</button>
-            </p>
         </div>
     </div>
+    <p>
+        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> {% trans %}Edit{% endtrans %}</button>
+    </p>
 </form>
 
 <form action="{{ path('category_delete', { 'id': entity.id }) }}" method="post">
