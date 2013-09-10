@@ -53,6 +53,7 @@
                             <nav id="left-menu" class="well well-sm">
                                 {% render controller("SiteCategoryBundle:Category:tree", {'menu': 0}) %}
                             </nav>
+                            {% render controller("SiteNewsletterBundle:Newsletter:form") %}
                         </aside>
                         <section id="main-body" class="col-sm-10 col-md-10 col-lg-10">
                             {% block body %}{% endblock body %}
@@ -70,9 +71,7 @@
                                 &COPY; 2013 | All rights reserved
                                 <br />
                             </div>
-                            {# render controller("SiteNewsletterBundle:Newsletter:form") #}
                         </div>
-                        
                     </div>
                 </footer>
             </section>

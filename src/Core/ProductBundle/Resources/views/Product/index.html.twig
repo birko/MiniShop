@@ -4,28 +4,28 @@
 <form action="" method="post" class="filter form-actions">
 <div class="row">
     <div class="col-sm-3 col-md-3 col-lg-3">
-         {{ form_row(filter.words) }}
+         {{ form_row(filter.words, {'attr': {'class': 'input-sm'}}) }}
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
-         {{ form_row(filter.vendor) }}
+         {{ form_row(filter.vendor, {'attr': {'class': 'input-sm'}}) }}
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2 input-append">
-         {{ form_row(filter.order) }}
+         {{ form_row(filter.order, {'attr': {'class': 'input-sm'}}) }}
     </div>
     <div class="col-sm-1 col-md-1 col-lg-1">
         <div>
             <label> &nbsp; </label><br />
             {{ form_rest(filter) }}
-            <button class="btn btn-default btn-small"><span class="glyphicon glyphicon-ok icon-white"></span></button>
+            <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-ok icon-white"></span></button>
         </div>
     </div>
 </div>
 </form>
 {{ knp_pagination_render(entities)}}
-<table class="records_list table table-striped table-hover-table-condensed">
+<table class="records_list table table-striped table-hover table-condensed">
     <thead>
     <tr>
-            <td colspan="4">
+            <td colspan="3">
                 <div class="btn-group pull-right">
                     <a href="{{ path('product_new', {'category': category}) }}" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new entry{% endtrans %}</a>
                     {% if category is not empty %}
@@ -40,7 +40,6 @@
             <th></th>
             <th>{% trans %}Title{% endtrans %}</th>
             <th>{% trans %}Actions{% endtrans %}</th>
-            <th></th>
         </tr>
     </thead>
     <tfoot>
@@ -58,8 +57,6 @@
                     <a href="{{ path('product_remove', { 'id': entity.id, 'category': category  }) }}" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span> {%trans%}Remove{%endtrans%}</a>
                     {% endif %}
                 </div>
-            </td>
-            <td class="btn-toolbar">
                 <div class="btn-group">
                     <a href="{{ path('product_media', { 'product': entity.id, 'category': category }) }}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-list"></span> {% trans %}Media{% endtrans %}</a>
                     <a href="{{ path('attribute', { 'product': entity.id, 'category': category }) }}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-list"></span> {% trans %}Attributes{% endtrans %}</a>

@@ -7,5 +7,16 @@
   <div class="content-longdescription">
       {{content.longDescription|raw}}
   </div>
+  {% if content.media is not empty %}
+  <div class="content-gallery gallery">
+      <div class="row">
+          {% for media in content.media %}
+          <div class="col-sm-4 col-md-4 col-lg-4">
+          {% render controller("CoreMediaBundle:Image:display", {'id': media.id, 'dir': 'thumb', 'link_path':'large'}) %}
+          </div>
+          {% endfor %}
+      </div>
+  </div>   
+  {% endif %} 
 </div>
 {% endif %}

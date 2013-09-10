@@ -1,5 +1,12 @@
-<table class="records_list table table-striped">
+<table class="records_list table table-striped table-condensed">
     <thead>
+       <tr>
+            <td colspan="2">
+                <a href="{{ path('address_new') }}"  class="btn btn-xs btn-default pull-right">
+                    <span class="glyphicon glyphicon-plus"></span> {% trans %}Create Address{% endtrans %}
+                </a>
+            </td>
+        </tr>
         <tr>
             <th>{% trans %}Address{% endtrans %}</th>
             <th>{% trans %}Actions{% endtrans %}</th>
@@ -8,9 +15,6 @@
     <tfoot>
         <tr>
             <td colspan="2">
-                <a href="{{ path('address_new') }}"  class="btn btn-default">
-                    <i class="icon-plus"></i> {% trans %}Create Address{% endtrans %}
-                </a>
                 <a href="{{ path('SiteUserBundle_index') }}" class="btn btn-default">{% trans %}Customer section{% endtrans %}</a> 
             </td>
         </tr>
@@ -20,7 +24,7 @@
         <tr>
             <td> {% include "CoreShopBundle:Address:address.html.twig" with {'entity': entity } %}</td>
             <td> 
-                <a href="{{ path('address_edit', { 'id': entity.id }) }}" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>            
+                <a href="{{ path('address_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>            
             </td>
         </tr>
     {% endfor %}
