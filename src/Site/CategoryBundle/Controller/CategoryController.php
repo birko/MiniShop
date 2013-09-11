@@ -85,7 +85,7 @@ class CategoryController extends Controller
                                             $active = true;
                                             $last = true;
                                         }
-                                        else if($category->getLeft() >= $node['lft'] && $category->getRight() <= $node['rgt'])
+                                        else if($category->getLeft() >= $node['lft'] && $category->getLeft() <= $node['rgt'])
                                         {
                                             $active = true;
                                         }
