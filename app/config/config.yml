@@ -37,7 +37,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ SiteUserBundle, SiteDefaultBundle, SiteProductBundle, SiteMarketingBundle ]
+    bundles:        [ SiteUserBundle, SiteDefaultBundle, SiteCategoryBundle, SiteProductBundle, SiteMarketingBundle ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
