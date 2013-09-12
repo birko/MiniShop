@@ -104,7 +104,7 @@ class ProductController extends ShopController
         $em = $this->getDoctrine()->getManager();
         $qb  = $em->getRepository("CoreProductBundle:Product")->createQueryBuilder("p");
         $qb->andWhere($qb->expr()->like('p.tags', ":tag"))
-           ->setParameter('tag', '%'.$tag.', %')
+           ->setParameter('tag', '%'.$tag.', %');
         $entities = $qb->distinct()->getQuery()
                 ->setMaxResults(12)
                 ->getResult();
