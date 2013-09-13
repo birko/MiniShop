@@ -265,7 +265,7 @@ class ProductController extends Controller
         $product = $em->getRepository('CoreProductBundle:Product')->find($id);
         $entity  = new Product();
         $entity->setTitle($product->getTitle());
-        $entity->setEnabled($product->getEnabled());
+        $entity->setEnabled($product->isEnabled());
         $entity->setTags($product->getTags());
         $entity->setShortDescription($product->getShortDescription());
         $entity->setLongDescription($product->getLongDescription());
