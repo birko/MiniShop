@@ -45,7 +45,9 @@
             <div class="row">
                 {% for media in product.media %}
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                {% render controller("CoreMediaBundle:Image:display", {'id': media.id, 'dir': 'thumb', 'link_path':'large'}) %}
+                    <div class="image">
+                        {% render controller("CoreMediaBundle:Image:display", {'id': media.id, 'dir': 'thumb', 'link_path':'large'}) %}
+                    </div>
                 </div>
                 {% endfor %}
             </div>

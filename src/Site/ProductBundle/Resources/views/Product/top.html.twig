@@ -1,5 +1,7 @@
 <div class="product-list col-sm-12 col-md-12 col-lg-12">
-{% for product in entities %}
-{% include 'SiteProductBundle:Product:item.html.twig' with {'entity': product} %}
-{% endfor %}
+    <div class="row">
+        {% for product in entities %}
+        {% include 'SiteProductBundle:Product:item.html.twig' with {'entity': product} %}
+        {% endfor %}
+    </div>
 </div>
