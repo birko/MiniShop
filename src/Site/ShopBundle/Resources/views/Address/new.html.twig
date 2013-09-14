@@ -1,5 +1,6 @@
 {% extends '::base.html.twig' %}
 {% block body %}
+<div id="content-container">
 <form action="{{ path('address_create') }}" method="post" {{ form_enctype(form) }} class="full">
   <fieldset>
   <legend>{% trans %}Address creation{% endtrans %}</legend>
@@ -23,4 +24,5 @@
     </div>
   </fieldset>
 </form>
+</div>
 {% endblock %}

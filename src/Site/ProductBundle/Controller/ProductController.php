@@ -3,6 +3,7 @@
 namespace Site\ProductBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Gedmo\Sluggable\Util\Urlizer as GedmoUrlizer;
 use Site\ShopBundle\Controller\ShopController;
 use Core\ProductBundle\Entity\Filter;
 
@@ -98,17 +99,20 @@ class ProductController extends ShopController
         return $this->render('SiteProductBundle:Product:top.html.twig', array('entities' => $entities, 'pricegroup' => $priceGroup));
     }
     
-    public function tagAction($tag)
+    public function tagAction($tag, $limit = null)
     {
         $priceGroup = $this->getPriceGroup();
         $em = $this->getDoctrine()->getManager();
         $qb  = $em->getRepository("CoreProductBundle:Product")->createQueryBuilder("p");
         $qb->andWhere($qb->expr()->like('p.tags', ":tag"))
            ->setParameter('tag', '%'.$tag.', %');
-        $entities = $qb->distinct()->getQuery()
-                ->setMaxResults(12)
-                ->getResult();
-        return $this->render('SiteProductBundle:Product:top.html.twig', array('entities' => $entities, 'pricegroup' => $priceGroup));
+        $query = $qb->distinct()->getQuery();
+        if($limit)
+        {
+                $query->setMaxResults($limit);
+        }
+        $entities = $query->getResult();
+        return $this->render('SiteProductBundle:Product:top.html.twig', array('entities' => $entities, 'pricegroup' => $priceGroup, 'tag' => $tag, 'slug' => GedmoUrlizer::urlize($tag)));
     }
     
     public function productMainMediaAction($product, $type = 'thumb', $link_path=null)

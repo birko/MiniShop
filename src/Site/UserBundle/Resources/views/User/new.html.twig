@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-<div class="box">
+<div class="box" id="content-container">
     <h1>{%trans%}Registration{% endtrans %}</h1>
     <form action="{{ path('SiteUserBundle_create') }}" method="post" {{ form_enctype(form) }} class="full">
         {{ form_errors(form) }}
