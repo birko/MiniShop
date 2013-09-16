@@ -67,7 +67,7 @@ class CouponController extends Controller
     public function newAction()
     {
         $entity = new Coupon();
-        $form   = $this->createForm(new CouponType(), $entity);
+        $form   = $this->createForm(new CouponType(true), $entity);
 
         return $this->render('CoreShopBundle:Coupon:new.html.twig', array(
             'entity' => $entity,
@@ -83,11 +83,12 @@ class CouponController extends Controller
     {
         $entity  = new Coupon();
         $request = $this->getRequest();
-        $form    = $this->createForm(new CouponType(), $entity);
+        $form    = $this->createForm(new CouponType(true), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
 
@@ -115,7 +116,7 @@ class CouponController extends Controller
             throw $this->createNotFoundException('Unable to find Coupon entity.');
         }
 
-        $editForm = $this->createForm(new CouponType(), $entity);
+        $editForm = $this->createForm(new CouponType(true), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreShopBundle:Coupon:edit.html.twig', array(
@@ -139,7 +140,7 @@ class CouponController extends Controller
             throw $this->createNotFoundException('Unable to find Coupon entity.');
         }
 
-        $editForm   = $this->createForm(new CouponType(), $entity);
+        $editForm   = $this->createForm(new CouponType(true), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -147,6 +148,7 @@ class CouponController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
 

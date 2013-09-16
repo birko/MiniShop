@@ -58,7 +58,7 @@ class ShippingController extends Controller
     public function newAction()
     {
         $entity = new Shipping();
-        $form   = $this->createForm(new ShippingType(), $entity);
+        $form   = $this->createForm(new ShippingType(true), $entity);
 
         return $this->render('CoreShopBundle:Shipping:new.html.twig', array(
             'entity' => $entity,
@@ -74,11 +74,12 @@ class ShippingController extends Controller
     {
         $entity  = new Shipping();
         $request = $this->getRequest();
-        $form    = $this->createForm(new ShippingType(), $entity);
+        $form    = $this->createForm(new ShippingType(true), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
 
@@ -106,7 +107,7 @@ class ShippingController extends Controller
             throw $this->createNotFoundException('Unable to find Shipping entity.');
         }
 
-        $editForm = $this->createForm(new ShippingType(), $entity);
+        $editForm = $this->createForm(new ShippingType(true), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreShopBundle:Shipping:edit.html.twig', array(
@@ -130,7 +131,7 @@ class ShippingController extends Controller
             throw $this->createNotFoundException('Unable to find Shipping entity.');
         }
 
-        $editForm   = $this->createForm(new ShippingType(), $entity);
+        $editForm   = $this->createForm(new ShippingType(true), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -138,6 +139,7 @@ class ShippingController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
 

@@ -6,9 +6,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Core\PriceBundle\Form\AbstractPriceType;
 
 
-class CouponType extends AbstractType
+class CouponType extends AbstractPriceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -17,13 +18,9 @@ class CouponType extends AbstractType
             ->add('discountPerc', 'text', array(
                 'required' => false,
                 'label' => 'Discount percentage'
-                ))
-            ->add('price', 'text', array('required' => false))
-            ->add('priceVAT', 'text', array(
-                'required' => false,
-                'label' => 'Price VAT'
-                ))
-            ->add('active', 'checkbox', array('required' => false))
+                ));
+        parent::buildForm($builder, $options);
+        $builder->add('active', 'checkbox', array('required' => false))
         ;
     }
 

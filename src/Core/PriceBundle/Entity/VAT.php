@@ -1,47 +1,41 @@
 <?php
 
-namespace Core\ShopBundle\Entity;
+namespace Core\PriceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Core\PriceBundle\Entity\AbstractPrice;
 
 /**
- * Core\ShopBundle\Entity\Payment
+ * VAT
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Core\ShopBundle\Entity\PaymentRepository")
+ * @ORM\Entity(repositoryClass="Core\PriceBundle\Entity\VATRepository")
  */
-class Payment  extends AbstractPrice implements \Serializable
+class VAT implements \Serializable
 {
-
     /**
-     * @var integer $id
+     * @var integer
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    protected $id;
+    private $id;
+
     /**
-     * @var string $name
+     * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
-     * @var text $description
+     * @var float
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * @ORM\Column(name="rate", type="decimal", precision=10, scale=6)
      */
-    private $description;
-    
+    private $rate;
 
 
-    public function __construct()
-    {
-    }
-    
     /**
      * Get id
      *
@@ -51,15 +45,18 @@ class Payment  extends AbstractPrice implements \Serializable
     {
         return $this->id;
     }
-    
+
     /**
      * Set name
      *
      * @param string $name
+     * @return VAT
      */
     public function setName($name)
     {
         $this->name = $name;
+    
+        return $this;
     }
 
     /**
@@ -73,33 +70,55 @@ class Payment  extends AbstractPrice implements \Serializable
     }
 
     /**
-     * Set description
+     * Set rate
      *
-     * @param text $description
+     * @param float $rate
+     * @return VAT
      */
-    public function setDescription($description)
+    public function setRate($rate)
     {
-        $this->description = $description;
+        $this->rate = $rate;
+    
+        return $this;
     }
 
     /**
-     * Get description
+     * Get rate
      *
-     * @return text 
+     * @return float 
      */
-    public function getDescription()
+    public function getRate()
     {
-        return $this->description;
+        return $this->rate;
     }
-
+    
+    /**
+     * Set ratePercentage
+     *
+     * @param float $rate
+     * @return VAT
+     */
+    public function setRatePercentage($rate)
+    {        
+        return $this->setRate($rate / 100);
+    }
+    
+    /**
+     * Get ratePercentage
+     *
+     * @return float 
+     */
+    
+    public function getRatePercentage()
+    {
+        return $this->getRate() * 100;
+    }
+    
     public function serialize() {
         return serialize(array(
             $this->id,
-            $this->price,
-            $this->priceVAT,
             $this->name,
-            $this->description,
-            $this->vat
+            $this->rate
             
         ));
     }
@@ -107,17 +126,14 @@ class Payment  extends AbstractPrice implements \Serializable
     public function unserialize($serialized) {
         list(
             $this->id,
-            $this->price,
-            $this->priceVAT,    
             $this->name,
-            $this->description,
-            $this->vat
+            $this->rate
         ) = unserialize($serialized);
         
     }
     
     public function __toString()
     {
-        return $this->getName() . " " . number_format($this->getPriceVAT(), 2);
+        return $this->getName() . " (" . $this->getRatePercentage() . "%)";
     }
 }

@@ -80,7 +80,7 @@ class Product
      * @ORM\OneToMany(targetEntity="Core\ProductBundle\Entity\ProductOption", mappedBy="product")
      * @ORM\OrderBy({"name" = "ASC", "position" = "ASC", "value" = "ASC"})
      */
-    private $options;
+    private $options; 
     
     /**
      * @ORM\ManyToMany(targetEntity="Core\MediaBundle\Entity\Media")

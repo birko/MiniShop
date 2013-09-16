@@ -7,12 +7,14 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
+use Core\PriceBundle\Form\AbstractPriceType;
 
 
-class PriceType extends AbstractType
+class PriceType extends AbstractPriceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        
         $builder
             ->add('type', 'choice', array(
                 'choices' => array(
@@ -21,13 +23,9 @@ class PriceType extends AbstractType
                 ),
                 'required'    => true,
                 'empty_value' => 'Choose price type',
-                'empty_data'  => null))
-            ->add('price', 'text', array('required' => true))
-            ->add('priceVAT', 'text', array(
-                'required' => true,
-                'label' => 'Price VAT'
-            ))
-            ->add('priceGroup','entity',  array(
+                'empty_data'  => null));
+        parent::buildForm($builder, $options);
+        $builder ->add('priceGroup','entity',  array(
                 'class' => 'CoreUserBundle:PriceGroup',
                 'label' => 'Price group',
                 'property' => 'name' ,

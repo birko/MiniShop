@@ -58,7 +58,7 @@ class PaymentController extends Controller
     public function newAction()
     {
         $entity = new Payment();
-        $form   = $this->createForm(new PaymentType(), $entity);
+        $form   = $this->createForm(new PaymentType(true), $entity);
 
         return $this->render('CoreShopBundle:Payment:new.html.twig', array(
             'entity' => $entity,
@@ -74,11 +74,12 @@ class PaymentController extends Controller
     {
         $entity  = new Payment();
         $request = $this->getRequest();
-        $form    = $this->createForm(new PaymentType(), $entity);
+        $form    = $this->createForm(new PaymentType(true), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
 
@@ -106,7 +107,7 @@ class PaymentController extends Controller
             throw $this->createNotFoundException('Unable to find Payment entity.');
         }
 
-        $editForm = $this->createForm(new PaymentType(), $entity);
+        $editForm = $this->createForm(new PaymentType(true), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreShopBundle:Payment:edit.html.twig', array(
@@ -130,7 +131,7 @@ class PaymentController extends Controller
             throw $this->createNotFoundException('Unable to find Payment entity.');
         }
 
-        $editForm   = $this->createForm(new PaymentType(), $entity);
+        $editForm   = $this->createForm(new PaymentType(true), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -138,6 +139,7 @@ class PaymentController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
 

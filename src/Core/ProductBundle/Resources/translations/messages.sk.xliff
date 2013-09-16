@@ -134,6 +134,10 @@
                 <source>Not available</source>
                 <target>Nedostupný</target>
             </trans-unit>
+            <trans-unit id="34">
+                <source>Price list</source>
+                <target>Zoznam cien</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

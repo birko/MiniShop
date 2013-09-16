@@ -4,14 +4,14 @@ namespace Core\ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Core\UserBundle\Entity\PriceGroup;
-
+use Core\PriceBundle\Entity\AbstractPrice;
 /**
  * Core\ProductBundle\Entity\Price
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ProductBundle\Entity\PriceRepository")
  */
-class Price
+class Price extends AbstractPrice
 {
     /**
      * @var integer $id
@@ -20,21 +20,7 @@ class Price
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
-    /**
-     * @var decimal $price
-     *
-     * @ORM\Column(name="price", type="decimal", precision=10, scale=6)
-     */
-    private $price;
-
-    /**
-     * @var decimal $priceVAT
-     *
-     * @ORM\Column(name="priceVAT", type="decimal", precision=10, scale=6)
-     */
-    private $priceVAT;
+    protected $id;
 
     /**
      * @var string $type
@@ -71,55 +57,6 @@ class Price
     public function __construct()
     {
         $this->setPriceAmount(0);
-    }
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set price
-     *
-     * @param decimal $price
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-    }
-
-    /**
-     * Get price
-     *
-     * @return decimal 
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set priceVAT
-     *
-     * @param decimal $priceVAT
-     */
-    public function setPriceVAT($priceVAT)
-    {
-        $this->priceVAT = $priceVAT;
-    }
-
-    /**
-     * Get priceVAT
-     *
-     * @return decimal 
-     */
-    public function getPriceVAT()
-    {
-        return $this->priceVAT;
     }
 
     /**
@@ -173,7 +110,7 @@ class Price
     }
 
     /**
-     * Get priceGrpup
+     * Get priceGroup
      *
      * @return PriceGroup
      */

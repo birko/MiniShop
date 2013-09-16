@@ -358,6 +358,10 @@
               <source>Order No.:%title% changed status %subject%</source>
               <target>Objednávka č.:%subject% zmenila svoj stav %subject%</target>
             </trans-unit>
+            <trans-unit id="90">
+                <source>Payment edit</source>
+                <target>Úprava platby</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -1,6 +1,6 @@
-site_marketing:
-    resource: "@SiteMarketingBundle/Resources/config/routing.yml"
-    prefix:   /
+core_price:
+    resource: "@CorePriceBundle/Resources/config/routing.yml"
+    prefix:   /admin
 
 core_marketing:
     resource: "@CoreMarketingBundle/Resources/config/routing.yml"
@@ -45,6 +45,10 @@ CoreCategoryBundle:
 CoreCommonBundle:
     resource: "@CoreCommonBundle/Resources/config/routing.yml"
     prefix:   /admin
+
+site_marketing:
+    resource: "@SiteMarketingBundle/Resources/config/routing.yml"
+    prefix:   /
 
 site_vendor:
     resource: "@SiteVendorBundle/Resources/config/routing.yml"

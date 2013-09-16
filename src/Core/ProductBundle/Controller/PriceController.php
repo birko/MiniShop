@@ -60,7 +60,7 @@ class PriceController extends Controller
     public function newAction($product, $category = null)
     {
         $entity = new Price();
-        $form   = $this->createForm(new PriceType(), $entity);
+        $form   = $this->createForm(new PriceType(true), $entity);
 
         return $this->render('CoreProductBundle:Price:new.html.twig', array(
             'entity' => $entity,
@@ -78,7 +78,7 @@ class PriceController extends Controller
     {
         $entity  = new Price();
         $request = $this->getRequest();
-        $form    = $this->createForm(new PriceType(), $entity);
+        $form    = $this->createForm(new PriceType(true), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -88,6 +88,7 @@ class PriceController extends Controller
             {
                 $entity->setProduct($productEntity);
             }
+            $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
             if($entity->isDefault())
@@ -121,7 +122,7 @@ class PriceController extends Controller
             throw $this->createNotFoundException('Unable to find Price entity.');
         }
 
-        $editForm = $this->createForm(new PriceType(), $entity);
+        $editForm = $this->createForm(new PriceType(true), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreProductBundle:Price:edit.html.twig', array(
@@ -147,7 +148,7 @@ class PriceController extends Controller
             throw $this->createNotFoundException('Unable to find Price entity.');
         }
 
-        $editForm   = $this->createForm(new PriceType(), $entity);
+        $editForm   = $this->createForm(new PriceType(true), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -155,6 +156,7 @@ class PriceController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
             if($entity->isDefault())

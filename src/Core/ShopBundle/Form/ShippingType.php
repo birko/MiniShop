@@ -7,19 +7,16 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
+use Core\PriceBundle\Form\AbstractPriceType;
 
-class ShippingType extends AbstractType
+class ShippingType extends AbstractPriceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array('required' => true))
-            ->add('price', 'text', array('required' => true))
-            ->add('priceVAT', 'text', array(
-                'required' => true, 
-                'label' => 'Price VAT',
-            ))
-            ->add('description', 'textarea', array('required' => false))
+            ->add('name', 'text', array('required' => true));
+        parent::buildForm($builder, $options);
+        $builder->add('description', 'textarea', array('required' => false))
             ->add('state','entity',  array(
                 'class' => 'CoreShopBundle:State',
                 'label' => 'State',
