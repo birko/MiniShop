@@ -58,6 +58,10 @@
                 <source>Sort by</source>
                 <target>Zoradiť podľa</target>
             </trans-unit>
+            <trans-unit id="15">
+                <source>Newie</source>
+                <target>Vytvorenie</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
