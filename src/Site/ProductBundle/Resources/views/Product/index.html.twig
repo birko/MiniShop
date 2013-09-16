@@ -1,12 +1,14 @@
 {% extends '::base.html.twig' %}
 {% block body %}
+{% if  product.categories | length > 0 %}
 {% render  controller("SiteCategoryBundle:Category:breadcrumb" , {'id': product.categories.0.id, 'end': product.title}) %}
+{% endif %}
 <div id="product">
     <div class="row">
         <div class="image col-sm-4 col-md-4 col-lg-4">
         {% if product.media is not empty %}
             <div class="full-image">
-            {% render controller("CoreMediaBundle:Image:display" , {'id': product.media.0.id, 'dir': 'small', 'link_path':'large'}) %}
+            {% render controller("CoreMediaBundle:Image:display" , {'id': product.media.0.id, 'dir': 'small', 'link_path':'original'}) %}
             </div>
         {% endif %}
         </div>
@@ -25,21 +27,22 @@
             <div class="row">
             {% set price  = product.getMinimalPrice(pricegroup) %}
             {% if price is not empty %}
-            <div class="price pull-left lead col-sm-4 col-md-4 col-lg-4">
+            <div class="price pull-left lead col-sm-5 col-md-5 col-lg-5">
                 <strong>{{price.priceVAT |number_format(2)}} €</strong>
                 <small>vrátane DPH</small>
                 <span class="stock">
                 {% include "SiteProductBundle:Stock:info.html.twig" with {'entity': product.stock }%}
                 </span>
             </div>
-            <div class="cart pull-right col-sm-8 col-md-8 col-lg-8">
+            <div class="cart pull-right col-sm-7 col-md-7 col-lg-7">
                 {% include "SiteShopBundle:Cart:add.html.twig" with {'product': product.id, 'title': product.title, 'price':  price.price, 'priceVAT': price.priceVAT, 'amount': 1, 'productId':product.id , 'options': options}%}
             </div>
             {%endif %}
             </div>
         </div>
     </div>
-    <div class="info row">
+    <hr />
+    <div class="info">
         <div class="col-sm-12 col-md-12 col-lg-12">
         {% if product.media is not empty %}
         <div class="product-gallery gallery col-sm-4 col-md-4 col-lg-4">
@@ -47,7 +50,7 @@
                 {% for media in product.media %}
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <div class="image">
-                        {% render controller("CoreMediaBundle:Image:display", {'id': media.id, 'dir': 'thumb', 'link_path':'large'}) %}
+                        {% render controller("CoreMediaBundle:Image:display", {'id': media.id, 'dir': 'thumb', 'link_path':'original'}) %}
                     </div>
                 </div>
                 {% endfor %}
@@ -57,7 +60,9 @@
         <div class="tab-pane active fade in" id="longdescription">
             {{product.longDescription|raw}}
         </div>
+        <div class="clearfix"></div>
         {% include "SiteProductBundle:Attribute:list.html.twig" with {'entities': product.getGroupedAttributes()} %}
+        <div class="clearfix"></div>
         </div>
     </div>
 </div>    
