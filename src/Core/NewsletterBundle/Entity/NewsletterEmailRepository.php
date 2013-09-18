@@ -3,6 +3,7 @@
 namespace Core\NewsletterBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Core\CommonBundle\Entity\Filter;
 
 /**
  * NewlsetterEmailRepository
@@ -94,5 +95,27 @@ class NewsletterEmailRepository extends EntityRepository
     public function getEnabledEmailsInGroups($groups = array(), $not = false)
     {
         return $this->getEnabledEmailsInGroupsQuery($groups, $not)->getResult();
+    }
+    
+    public function filterQueryBuilder($queryBuilder, Filter $filter = null)
+    {
+        if($filter)
+        {
+            $words = $filter->getWordsArray();
+            if(!empty($words))
+            {
+                $i = 0;
+                foreach($words as $word)
+                {
+                    $where = $queryBuilder->expr()->orX(
+                        $queryBuilder->expr()->like("ne.email", ':word1'.$i)
+                    );
+                    $queryBuilder->andWhere($where);
+                    $queryBuilder->setParameter('word1'.$i, '%' . strtolower($word) . '%');
+                    $i ++;
+                }
+            }
+        }
+        return $queryBuilder;
     }
 }

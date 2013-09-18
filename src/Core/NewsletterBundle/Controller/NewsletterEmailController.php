@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Core\NewsletterBundle\Entity\NewsletterEmail;
 use Core\NewsletterBundle\Form\NewsletterEmailType;
 use Core\NewsletterBundle\Form\SendGroupNewsletterType;
+use Core\CommonBundle\Entity\Filter;
+use Core\CommonBundle\Form\SearchType;
 
 /**
  * NewsletterEmail controller.
@@ -21,18 +23,44 @@ class NewsletterEmailController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $query = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->getEmailsQuery();
-        $page = $this->getRequest()->get("page", 1);
+        //filter
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $filter = $session->get('adminnewsletterfilter', new Filter());
+        if(empty($filter))
+        {
+            $filter = new Filter();
+            $session->set('adminnewsletterfilter', $filter);
+        }
+        $page = $this->getRequest()->get("page", $filter->getPage());
+        $filter->setPage($page);
+        $session->set('adminnewsletterfilter', $filter);
+        $form   = $this->createForm(new SearchType(), $filter);
+        
+        if($request->getMethod() == "POST")
+        {
+            $form->bind($request);
+            if($form->isValid())
+            {
+                $filter->setPage(1);
+                $page = 1;
+                $session->set('adminnewsletterfilter', $filter);
+            }
+        }
+        
+        $queryBuilder = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->getEmailsQueryBuilder();
+        $queryBuilder = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->filterQueryBuilder($queryBuilder, $filter);
+        
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-            $query,
+            $queryBuilder ->getQuery(),
             $page/*page number*/,
             200/*limit per page*/
         );
 
         return $this->render('CoreNewsletterBundle:NewsletterEmail:index.html.twig', array(
-            'entities' => $pagination
+            'entities' => $pagination,
+            'filter' => $form->createView(),
         ));
     }
 

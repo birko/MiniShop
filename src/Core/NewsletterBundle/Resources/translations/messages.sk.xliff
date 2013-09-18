@@ -74,6 +74,18 @@
                 <source>Newsletter %title% %subject%'</source>
                 <target>Newsletter %title% %subject%'</target>
             </trans-unit>
+            <trans-unit id="19">
+                <source>Newsletter Email list</source>
+                <target>Zoznam emailov newslettra</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>Newsletter Email creation</source>
+                <target>Tvorba emailu newslettra</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>Newsletter Email edit</source>
+                <target>Úprava emailu newslettra</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

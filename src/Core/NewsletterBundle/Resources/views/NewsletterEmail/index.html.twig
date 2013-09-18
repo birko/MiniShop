@@ -1,6 +1,20 @@
 {% extends '::admin.html.twig' %}
 {% block body %}
 <h1>{%trans%}Newsletter Email list{%endtrans%}</h1>
+<form action="" method="post" class="filter form-actions">
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-3">
+         {{ form_row(filter.words, {'attr': {'class': 'input-sm'}}) }}
+    </div>
+    <div class="col-sm-1 col-md-1 col-lg-1">
+        <div>
+            <label> &nbsp; </label><br />
+            {{ form_rest(filter) }}
+            <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-ok icon-white"></span></button>
+        </div>
+    </div>
+</div>
+</form>
 
 {{ knp_pagination_render(entities)}}
 <table class="records_list table table-striped table-condensed">
@@ -13,8 +27,8 @@
            </td>
         </tr>
         <tr>
-            <th>{%trans%}Email{%endtrans%}</th>
             <th>{%trans%}Enabled{%endtrans%}</th>
+            <th>{%trans%}Email{%endtrans%}</th>
             <th>{%trans%}Actions{%endtrans%}</th>
         </tr>
     </thead>
@@ -23,8 +37,8 @@
     <tbody>
     {% for entity in entities %}
         <tr>
+            <td>{% if entity.enabled %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
             <td>{{ entity.email }}</td>
-            <td>{% if entity.enabled %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
             <td>
                 <a href="{{ path('newsletter_email_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {%trans%}Edit{%endtrans%}</a>     
             </td>

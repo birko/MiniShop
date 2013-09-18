@@ -6,6 +6,7 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
+use Core\CommonBundle\Form\SearchType;
 
 /**
  * Description of ProductFilterType
