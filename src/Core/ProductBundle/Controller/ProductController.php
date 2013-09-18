@@ -279,6 +279,7 @@ class ProductController extends Controller
             $price->setType($productprice->getType());
             $price->setPrice($productprice->getPrice());
             $price->setPriceVAT($productprice->getPriceVAT());
+            $price->setVAT($productprice->getVAT());
             $price->setPriceGroup($productprice->getPriceGroup());
             $price->setPriceAmount($productprice->getPriceAmount());
             $price->setDefault($productprice->isDefault());
