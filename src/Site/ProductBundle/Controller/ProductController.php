@@ -103,7 +103,7 @@ class ProductController extends ShopController
     {
         $priceGroup = $this->getPriceGroup();
         $em = $this->getDoctrine()->getManager();
-        $qb  = $em->getRepository("CoreProductBundle:Product")->createQueryBuilder("p");
+        $qb  = $em->getRepository("CoreProductBundle:Product")->findByCategoryQueryBuilder(null, false, true, true);
         $qb->andWhere($qb->expr()->like('p.tags', ":tag"))
            ->setParameter('tag', '%'.$tag.', %');
         $query = $qb->distinct()->getQuery();
