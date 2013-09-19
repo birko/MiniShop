@@ -1,4 +1,4 @@
-﻿function testPlaceholder()
+function testPlaceholder()
 {
     var test = document.createElement('input');
     if (!('placeholder' in test))
@@ -12,8 +12,7 @@
             var jItem = jQuery(item);
             if (jItem.hasClass('required'))
             {
-
-                jQuery('#' + jItem.prop('for')).prop('placeholder', jItem.html().replace(/<\/?[^>]+>/gi, '').replace(/\s{2,}/g, ' ').trim());
+                jQuery('#' + jItem.prop('for'), jItem.parents('form')).prop('placeholder', jItem.html().replace(/<\/?[^>]+>/gi, '').replace(/\s{2,}/g, ' ').trim());
             }
         });
     }
