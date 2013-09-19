@@ -355,8 +355,8 @@
               <target>Nová objednávka %subject%</target>
             </trans-unit>
             <trans-unit id="89">
-              <source>Order No.:%title% changed status %subject%</source>
-              <target>Objednávka č.:%subject% zmenila svoj stav %subject%</target>
+              <source>Order No.:%title% changed status to %status% - %subject%</source>
+              <target>Objednávka č.:%title% zmenila svoj stav na %status% - %subject%</target>
             </trans-unit>
             <trans-unit id="90">
                 <source>Payment edit</source>

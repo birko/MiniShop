@@ -208,7 +208,7 @@
             </trans-unit>
             <trans-unit id="66">
                 <source>Comment</source>
-                <target>Komantár</target>
+                <target>Komentár</target>
             </trans-unit>
             <trans-unit id="67">
                 <source>Total Price</source>
@@ -265,6 +265,14 @@
             <trans-unit id="80">
                 <source>Invoice</source>
                 <target>Faktúra</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>Thank you for your order.</source>
+                <target>Ďakujeme za objednávku</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>%date% - New order %subject%</source>
+                <target>%date% - Nová objednávka %subject%</target>
             </trans-unit>
         </body>
     </file>

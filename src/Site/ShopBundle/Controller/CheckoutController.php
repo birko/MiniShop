@@ -327,7 +327,10 @@ class CheckoutController extends ShopController
         //emails
         // TODO: Send emails
         $emails = $this->container->getParameter('default.emails');
-        $t = $this->get('translator')->trans('New order %subject%', array('%subject%' => $this->container->getParameter('site_title')));
+        $t = $this->get('translator')->trans('%date% - New order %subject%', array(
+            '%subject%' => $this->container->getParameter('site_title'),
+            '%date%' => $order->getCreatedAt()->format('Y.m.d'),
+        ));
         $message = \Swift_Message::newInstance()
             ->setSubject($t)   
             ->setFrom($emails['default'])   //settings

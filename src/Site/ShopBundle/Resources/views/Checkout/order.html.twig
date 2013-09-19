@@ -2,5 +2,6 @@
 {% block body %}
 <div id="cart">
     <h1>{% trans %}Thank you for your order.{% endtrans %}</h1>
+    {% render controller('CoreUserTextBundle:UserText:display', {'name': 'order-thankyou-page', 'create': 1}) %}
 </div>
 {% endblock %}
