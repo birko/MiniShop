@@ -207,9 +207,16 @@ class OrderController extends Controller
         $sendEmail= $entity->getInvoiceEmail();
         $emails = $this->container->getParameter('default.emails');
         $name = ($entity->getStatus()) ? $entity->getStatus()->getName(): 'order-change';
+        $title = $entity->getId();
+        $trackingid = $entity->getTrackingId();
+        if(!empty($trackingid))
+        {
+            $title .= " " . $trackingid;
+        }
+        
         $t = $this->get('translator')->trans('Order No.:%title% changed status to %status% - %subject%', array(
             '%subject%' => $this->container->getParameter('site_title'), 
-            '%title%' => $entity->getId(),
+            '%title%' => $title,
             '%status%' => $name,
          ));
         $message = \Swift_Message::newInstance()
