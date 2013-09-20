@@ -1,7 +1,7 @@
 {% extends '::email.html.twig' %}
 {% block content%}
 {% if text %}
-{{ text| raw }}
+{{ text.text| raw }}
 {% else %}
 {% render controller('CoreUserTextBundle:UserText:display',{'name': 'order-change', 'create': 1}) %}
 {% endif %}
