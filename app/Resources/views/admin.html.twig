@@ -54,12 +54,17 @@
                                     {% trans %}Shop{% endtrans %}
                                     <ul class="nav">
                                         <li><a href="{{path('order')}}">{% trans %}Orders{% endtrans %}</a></li> 
+                                        <li><a href="{{path('coupon')}}">{% trans %}Coupons{% endtrans %}</a></li>
+                                    </ul>
+                                </li>
+                                <li class="list-group-item">
+                                    {% trans %}Settings{% endtrans %}
+                                    <ul class="nav">
                                         <li><a href="{{path('orderstatus')}}">{% trans %}Order status{% endtrans %}</a></li>
                                         <li><a href="{{path('payment')}}">{% trans %}Payment{% endtrans %}</a></li>
-                                        <li><a href="{{path('state')}}">{% trans %}States{% endtrans %}</a></li>
                                         <li><a href="{{path('shipping')}}">{% trans %}Shipping{% endtrans %}</a></li>
                                         <li><a href="{{path('shippingstatus')}}">{% trans %}Shipping status{% endtrans %}</a></li>
-                                        <li><a href="{{path('coupon')}}">{% trans %}Coupons{% endtrans %}</a></li>
+                                        <li><a href="{{path('state')}}">{% trans %}States{% endtrans %}</a></li>
                                     </ul>
                                 </li>
                                 <li class="list-group-item">

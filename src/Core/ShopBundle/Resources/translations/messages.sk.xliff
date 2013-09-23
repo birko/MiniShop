@@ -370,6 +370,10 @@
                 <source>Process</source>
                 <target>Spracovať</target>
             </trans-unit>
+            <trans-unit id="93">
+                <source>Settings</source>
+                <target>Nastavenia</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
