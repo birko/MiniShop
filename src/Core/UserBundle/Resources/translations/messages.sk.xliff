@@ -122,6 +122,10 @@
                 <source>Logged in</source>
                 <target>Prihlásený</target>
             </trans-unit>
+            <trans-unit id="31">
+                <source>Repeat Password</source>
+                <target>Opakovať Heslo</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
