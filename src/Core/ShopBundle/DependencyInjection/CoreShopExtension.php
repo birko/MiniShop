@@ -27,6 +27,14 @@ class CoreShopExtension extends Extension
             {
                 $container->setParameter('admin.order.export', $config['order']['export']);
             }
+            else
+            {
+                $container->setParameter('admin.order.export', array());
+            }
+        }
+        else
+        {
+            $container->setParameter('admin.order.export', array());
         }
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
