@@ -4,7 +4,7 @@ MiniShop
 E-shop system based on Symfony2 framework
 
 
-Instalation:
+Installation:
 ============
 1. download codes (via github ;))
 2. open preferred shell and locate the source code directory.
