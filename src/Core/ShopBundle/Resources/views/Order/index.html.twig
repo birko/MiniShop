@@ -38,27 +38,37 @@
         </tr>
     </thead>
     <tfoot>
+        {% if processConfig is not empty %}
         <tr>
             <td colspan="3" class="process">
+                {% if processConfig is not empty %}
                 <div class="span3 select">
                     {{ form_widget(process.type, {'attr': {'class': 'input-sm'}}) }}
                 </div>
+                {% endif %}
             </td>
             <td colspan="7" class="process">
+                {% if processConfig.status %}
                 <div class="span3 orderstatus selecttype">
                     {{ form_widget(process.orderStatus, {'attr': {'class': 'input-sm'}}) }}
                 </div>
+                {% endif %}
+                {% if processConfig.shipping %}
                 <div class="span3 shippingstatus selecttype">
                     {{ form_widget(process.shippingStatus, {'attr': {'class': 'input-sm'}}) }}
                 </div>
+                {% endif %}
+                {% if processConfig.export %}
                 <div class="span3 export selecttype">
                     {{ form_widget(process.export, {'attr': {'class': 'input-sm'}}) }}
                 </div>
+                {% endif %}
             </td>
             <td>
-                <button class="btn btn-sm btn-default" type="submit" value="Process"><span class="glyphicon glyphicon-refresh icon-white"></span> Process</button>
+                <button class="btn btn-sm btn-default" type="submit" value="Process"><span class="glyphicon glyphicon-refresh icon-white"></span> {% trans%}Process{% endtrans %}</button>
             </td>
         </tr>
+        {% endif %}
     </tfoot>
     <tbody>
     {% for entity in entities %}
@@ -83,7 +93,9 @@
     {% endfor %}
     </tbody>
 </table>
+{% if processConfig is not empty %}
 {{ form_rest(process) }}
+{% endif %}
 </form>
 {{ knp_pagination_render(entities)}}
 {% endblock %}

@@ -95,11 +95,13 @@ class OrderController extends Controller
         $process->setProcessOrders($processOrders);
         
         $export = $this->container->getParameter('admin.order.export');
-        $processForm = $this->createForm(new ProcessType(), $process, array('export' => $export));
+        $processConfig = $this->container->getParameter('admin.order.process');
+        $processForm = $this->createForm(new ProcessType(), $process, array('export' => $export, 'config' => $processConfig));
         return $this->render('CoreShopBundle:Order:index.html.twig', array(
             'entities' => $pagination,
             'form' => $form->createView(),
             'process' => $processForm->createView(),
+            'processConfig' => $processConfig,
         ));
     }
 

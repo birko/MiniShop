@@ -23,6 +23,10 @@ class CoreShopExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         if(isset($config['order']))
         {
+            if(isset($config['order']['process']))
+            {
+                $container->setParameter('admin.order.process', $config['order']['process']);
+            }
             if(isset($config['order']['export']))
             {
                 $container->setParameter('admin.order.export', $config['order']['export']);
