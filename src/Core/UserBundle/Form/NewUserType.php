@@ -17,15 +17,13 @@ class NewUserType extends UserType
                 'type' => 'password',
                 'invalid_message' => 'The password fields must match,', 
                 'first_options' => array(
-					'label' => 'Password', 
-					'attr' => array(
-						'placeholder' => 'Heslo *',
-				)),
+                    'label' => 'Password', 
+                    'attr' => array(
+                )),
                 'second_options' => array(
-					'label' => 'Repeat Password',
-					'attr' => array(
-						'placeholder' => 'Opakovať Heslo *',
-				))
+                    'label' => 'Repeat Password',
+                    'attr' => array(
+                ))
             ))           
         ;
     }

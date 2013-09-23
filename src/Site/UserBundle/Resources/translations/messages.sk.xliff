@@ -74,6 +74,18 @@
                 <source>change.password</source>
                 <target>Zmeniť heslo</target>
             </trans-unit>
+            <trans-unit id="19">
+                <source>New registration - %subject%</source>
+                <target>Nová registrácia - %subject%</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>You have been registered at %portal%.</source>
+                <target>Boli ste registrovaný na %portal%.</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>Your login information are</source>
+                <target>Vaše prihlasovacie údaje sú</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -8,6 +8,7 @@ use Core\ShopBundle\Entity\Address;
 use Core\ShopBundle\Entity\Cart;
 use Core\ShopBundle\Entity\Order;
 use Core\ShopBundle\Entity\OrderItem;
+use Core\UserBundle\Entity\User;
 use Core\ShopBundle\Form\AddressType;
 use Site\ShopBundle\Form\CartBaseAddressType;
 use Site\ShopBundle\Form\CartUserAddressType;
@@ -252,6 +253,52 @@ class CheckoutController extends ShopController
         if(!empty($user))
         {
            $order->setUser($user);
+        }
+        elseif($this->container->getParameter('site.shop.register_guest'))
+        {
+            $newUser = new User();
+            $factory = $this->get('security.encoder_factory');
+            $encoder = $factory->getEncoder($newUser);
+            $newUser->setEnabled(true);
+            $newUser->setLogin($order->getInvoiceAddress()->getEmail());
+            $newUser->setEmail($order->getInvoiceAddress()->getEmail());
+            $hash = md5($newUser->getLogin());
+            $password = substr($hash,1,5);
+            $passwordhash = $encoder->encodePassword($password, $newUser->getSalt());
+            $newUser->setPassword($passwordhash);
+            $priceGroup = $em->getRepository('CoreUserBundle:PriceGroup')->findOneBy(array("default" => true));
+            if ($priceGroup) {
+                $newUser->setPriceGroup($priceGroup); 
+            }
+            $em->persist($newUser);
+            $em->flush();
+            $address = $order->getInvoiceAddress();
+            $address->setUser($newUser);
+            $em->persist($address);
+            $newUser->getAddresses()->add($address);
+            if(!$cart->isSameAddress())
+            {
+                $address = $order->getDeliveryAddress();
+                $address->setUser($newUser);
+                $em->persist($address);
+                $newUser->getAddresses()->add($address);
+            }
+            $em->persist($newUser);
+            $em->flush();
+            $t = $this->get('translator')->trans('New registration - %subject%', array(
+                '%subject%' => $this->container->getParameter('site_title'),
+            ));
+            $emails = $this->container->getParameter('default.emails');
+            $message = \Swift_Message::newInstance()
+                    ->setSubject($t)
+                    ->setFrom($emails['default'])
+                    ->setTo(array($newUser->getEmail()))
+                    ->setBody($this->renderView('SiteUserBundle:Email:new.html.twig', array(
+                        'login' => $newUser->getLogin(),
+                        'password' => $password,
+                    )), 'text/html');
+            $this->get('mailer')->send($message);
+            $order->setUser($newUser);
         }
         
         //items

@@ -13,10 +13,9 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email', 'email', array(
-				'required' => true,
-				'attr' => array(
-					'placeholder' => 'Email *'
-			)))
+                'required' => true,
+                'attr' => array(
+            )))
             ->add('priceGroup','entity',  array(
                 'class' => 'CoreUserBundle:PriceGroup',
                 'label' => 'Price Group',
@@ -26,7 +25,8 @@ class UserType extends AbstractType
                 },
                 'required'    => true,
                 'empty_value' => 'Choose Price Group',
-                'empty_data'  => null))
+                'empty_data'  => null
+            ))
             ->add('enabled', 'checkbox', array('required' => false))
         ;
     }
