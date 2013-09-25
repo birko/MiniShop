@@ -48,22 +48,25 @@ class OrderController extends Controller
         }
         
         $form   = $this->createForm(new OrderFilterType(), $filter);
-        
+        $page = $this->getRequest()->get('page', $filter->getPage());
         if($request->getMethod() == "POST")
         {
             $form->bind($request);
             if($form->isValid())
             {
-                 $session->set('adminorderfilter', $filter);
+                $page = 1;
+                $session->set('adminorderfilter', $filter);
             }
         }
-
+        $filtger->setPage($page);
+        $session->set('adminorderfilter', $filter);
+        
         $querybuilder = $em->getRepository('CoreShopBundle:Order')->createQueryBuilder('o');
         $querybuilder =  $em->getRepository('CoreShopBundle:Order')->filterOrderQuieryBuilder($querybuilder, $filter);
         $querybuilder->addOrderBy('o.createdAt', 'desc');
         $query = $querybuilder->getQuery();
         $paginator = $this->get('knp_paginator');
-        $page = $this->getRequest()->get('page', 1);
+        
         $pagination = $paginator->paginate(
             $query,
             $page/*page number*/,
