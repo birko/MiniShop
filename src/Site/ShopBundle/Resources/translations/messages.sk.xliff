@@ -274,6 +274,10 @@
                 <source>%date% - New order No.: %title%  - %subject%</source>
                 <target>%date% - Nová objednávka Č.: %title% %subject%</target>
             </trans-unit>
+            <trans-unit id="83">
+                <source>Coupon code</source>
+                <target>Kód zľavového kupónu</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

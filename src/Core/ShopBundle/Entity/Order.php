@@ -276,6 +276,7 @@ class Order
     
     /**
      * @ORM\OneToMany(targetEntity="Core\ShopBundle\Entity\OrderItem", mappedBy="order", cascade={"persist", "remove"})
+     * @ORM\OrderBy({ "id" = "ASC"})
      */
     protected $items;
     

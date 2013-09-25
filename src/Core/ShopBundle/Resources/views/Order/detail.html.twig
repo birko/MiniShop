@@ -23,6 +23,10 @@
                 <hr />
                 {{ item.options }}
             {% endif %}
+            {% if item.description is not empty %}
+                <hr />
+                {{ item.description|raw }}
+            {% endif %}
         </td>
         <td>
             {{ item.amount| number_format }}

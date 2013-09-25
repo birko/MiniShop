@@ -13,14 +13,6 @@
                 <th>{% trans %}Total price{% endtrans %}</th>
             </tr>
         </thead>
-        <tfoot>
-            <tr>
-                <td class="image"></td>
-                <td colspan="4">
-                    {% render controller("SiteShopBundle:Coupon:form") %}
-                </td>
-            </tr>
-        </tfoot>
         <tbody>
             {% for item in cart.items %}
             <tr>
@@ -58,18 +50,27 @@
             {% endfor %}
         </tbody>
     </table>
-    <div class="row cart-navigation">
-        <a href="{{path('category_homepage')}}" class="col-sm-3 col-md-3 col-lg-3 btn btn-default pull-left">
-            <span class="glyphicon glyphicon-arrow-left"></span>  {% trans %}Back to shop{% endtrans %}
-        </a>
-        <a href="{{path('checkout')}}" class="col-sm-3 col-md-3 col-lg-3 btn-default btn pull-right">
-            {% trans %}Checkout order{% endtrans %} <span class="glyphicon glyphicon-arrow-right"></span>
-        </a>
-    </div>
     {% else %}
     <div class="info">
         {% trans %}Your cart is empty.{% endtrans %}
     </div>
     {% endif %}
+    <hr />
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            {% render controller("SiteShopBundle:Coupon:form") %}
+        </div>
+    </div>
+    <hr />
+    <div class="cart-navigation">
+        <a href="{{path('category_homepage')}}" class="col-sm-3 col-md-3 col-lg-3 btn btn-default pull-left">
+            <span class="glyphicon glyphicon-arrow-left"></span>  {% trans %}Back to shop{% endtrans %}
+        </a>
+        {% if cart is not empty and cart.items is not empty %}
+        <a href="{{path('checkout')}}" class="col-sm-3 col-md-3 col-lg-3 btn-default btn pull-right">
+            {% trans %}Checkout order{% endtrans %} <span class="glyphicon glyphicon-arrow-right"></span>
+        </a>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

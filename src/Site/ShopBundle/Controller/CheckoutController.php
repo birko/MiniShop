@@ -352,6 +352,7 @@ class CheckoutController extends ShopController
             $orderItem->setPrice($cart->getShipping()->getPrice());
             $orderItem->setPriceVAT($cart->getShipping()->getPriceVAT());
             $orderItem->setName($cart->getShipping()->getName());
+            $orderItem->setDescription($cart->getShipping()->getDescription());
             $orderItem->setShipping($cart->getShipping());
             $order->setShipping($cart->getShipping());
             $orderItem->setOrder($order);
@@ -366,6 +367,7 @@ class CheckoutController extends ShopController
             $orderItem->setPriceVAT($cart->getPayment()->getPrice());
             $orderItem->setName($cart->getPayment()->getName());
             $orderItem->setPayment($cart->getPayment());
+            $orderItem->setDescription($cart->getPayment()->getDescription());
             $order->setPayment($cart->getPayment());
             $orderItem->setOrder($order);
             $order->addItem($orderItem);

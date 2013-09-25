@@ -13,8 +13,9 @@ class CouponType extends AbstractType
         $builder
             ->add('code', 'text', array(
                 'required' => true,
+                'label' => 'Coupon code',
                 'attr' => array(
-                    'placeholder' => 'Zadajte číslo kupónu'
+                    'placeholder' => 'Coupon code'
                 )
             ))
         ;

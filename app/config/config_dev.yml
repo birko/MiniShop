@@ -22,5 +22,6 @@ monolog:
 assetic:
     use_controller: true
 
-#swiftmailer:
+swiftmailer:
+    spool:     { type: memory }
 #    delivery_address: me@example.com
