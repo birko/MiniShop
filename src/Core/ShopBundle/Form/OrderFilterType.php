@@ -6,6 +6,7 @@ use Symfony\Component\Form\FormBuilder;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Core\CommonBundle\Form\SearchType;
 
 
 /**
@@ -13,10 +14,11 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author Birko
  */
-class OrderFilterType extends AbstractType
+class OrderFilterType extends SearchType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent:: buildForm($builder, $options);
         $builder
             ->add('orderStatus','entity',  array(
                 'class' => 'CoreShopBundle:OrderStatus',

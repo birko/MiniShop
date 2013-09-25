@@ -3,6 +3,7 @@
 namespace Core\ShopBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  *
@@ -67,5 +68,86 @@ class OrderRepository extends EntityRepository
             return $numUpdated;
         }
         return 0;
+    }
+    
+    public function filterOrderQuieryBuilder(QueryBuilder $queryBuilder, OrderFilter $filter = null)
+    {
+        if(!empty($filter))
+        {
+            $words = $filter->getWordsArray();
+            if(!empty($words))
+            {
+                $i = 0;
+                foreach($words as $word)
+                {
+                    $where = $queryBuilder->expr()->orX(
+                        $queryBuilder->expr()->like("lower(o.order_number)",     ':word01i'.$i),
+                        $queryBuilder->expr()->like("lower(o.invoice_number)",   ':word02i'.$i),
+                        $queryBuilder->expr()->like("lower(o.variable_number)",  ':word03i'.$i),
+                        $queryBuilder->expr()->like("lower(o.tracking_id)",      ':word04i'.$i),
+                        $queryBuilder->expr()->like("lower(o.delivery_name)",    ':word05i'.$i),
+                        $queryBuilder->expr()->like("lower(o.delivery_surname)", ':word06i'.$i),
+                        $queryBuilder->expr()->like("lower(o.delivery_company)", ':word07i'.$i),
+                        $queryBuilder->expr()->like("lower(o.delivery_street)",  ':word08i'.$i),
+                        $queryBuilder->expr()->like("lower(o.delivery_city)",    ':word09i'.$i),
+                        $queryBuilder->expr()->like("lower(o.delivery_zip)",     ':word10i'.$i),
+                        $queryBuilder->expr()->like("lower(o.delivery_email)",   ':word11i'.$i),
+                        $queryBuilder->expr()->like("lower(o.delivery_phone)",   ':word12i'.$i),
+                        $queryBuilder->expr()->like("lower(o.invoice_name)",     ':word13i'.$i),
+                        $queryBuilder->expr()->like("lower(o.invoice_surname)",  ':word14i'.$i),
+                        $queryBuilder->expr()->like("lower(o.invoice_company)",  ':word15i'.$i),
+                        $queryBuilder->expr()->like("lower(o.invoice_street)",   ':word16i'.$i),
+                        $queryBuilder->expr()->like("lower(o.invoice_city)",     ':word17i'.$i),
+                        $queryBuilder->expr()->like("lower(o.invoice_zip)",      ':word18i'.$i),
+                        $queryBuilder->expr()->like("lower(o.invoice_email)",    ':word19i'.$i),
+                        $queryBuilder->expr()->like("lower(o.invoice_phone)",    ':word20i'.$i),
+                        $queryBuilder->expr()->like("lower(o.invoice_TIN)",      ':word21i'.$i),
+                        $queryBuilder->expr()->like("lower(o.invoice_OIN)",      ':word22i'.$i),
+                        $queryBuilder->expr()->like("lower(o.invoice_VATIN)",    ':word23i'.$i)
+                    );
+                    $queryBuilder->andWhere($where);
+                    $queryBuilder->setParameter('word01i'.$i, strtolower($word));
+                    $queryBuilder->setParameter('word02i'.$i, strtolower($word));
+                    $queryBuilder->setParameter('word03i'.$i, strtolower($word));
+                    $queryBuilder->setParameter('word04i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word05i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word06i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word07i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word08i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word09i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word10i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word11i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word12i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word13i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word14i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word15i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word16i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word17i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word18i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word19i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word20i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word21i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word22i'.$i, '%' . strtolower($word) . '%');
+                    $queryBuilder->setParameter('word23i'.$i, '%' . strtolower($word) . '%');
+                    $i ++;
+                }
+            }
+            if($filter->getOrderStatus() != null)
+            {
+                $queryBuilder->andWhere('o.order_status =:ostatus')
+                        ->setParameter('ostatus', $filter->getOrderStatus()->getId());
+            }
+            if($filter->getShippingStatus() != null)
+            {
+                $queryBuilder->andWhere('o.shipping_status =:sstatus')
+                        ->setParameter('sstatus', $filter->getShippingStatus()->getId());
+            }
+            if($filter->getShippingState() != null)
+            {
+                $queryBuilder->andWhere('o.delivery_state =:sstate')
+                        ->setParameter('sstate', $filter->getShippingState()->getId());
+            }
+        }
+        return $queryBuilder;
     }
 }

@@ -58,23 +58,9 @@ class OrderController extends Controller
             }
         }
 
-        $querybuilder = $em->getRepository('CoreShopBundle:Order')->createQueryBuilder('o')
-                ->addOrderBy('o.createdAt', 'desc');
-        if($filter->getOrderStatus() != null)
-        {
-            $querybuilder->andWhere('o.order_status =:ostatus')
-                    ->setParameter('ostatus', $filter->getOrderStatus()->getId());
-        }
-        if($filter->getShippingStatus() != null)
-        {
-            $querybuilder->andWhere('o.shipping_status =:sstatus')
-                    ->setParameter('sstatus', $filter->getShippingStatus()->getId());
-        }
-        if($filter->getShippingState() != null)
-        {
-            $querybuilder->andWhere('o.delivery_state =:sstate')
-                    ->setParameter('sstate', $filter->getShippingState()->getId());
-        }
+        $querybuilder = $em->getRepository('CoreShopBundle:Order')->createQueryBuilder('o');
+        $querybuilder =  $em->getRepository('CoreShopBundle:Order')->filterOrderQuieryBuilder($querybuilder, $filter);
+        $querybuilder->addOrderBy('o.createdAt', 'desc');
         $query = $querybuilder->getQuery();
         $paginator = $this->get('knp_paginator');
         $page = $this->getRequest()->get('page', 1);

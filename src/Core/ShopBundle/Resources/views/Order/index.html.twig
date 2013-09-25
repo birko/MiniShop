@@ -4,13 +4,16 @@
 <form action="" method="post" class="filter">
     <div class="row">
         <div class="col-sm-3 col-md-3 col-lg-3">
-             {{ form_row(form.orderStatus, {'attr': {'class': 'input-sm'}}) }}
+             {{ form_row(form.words) }}
         </div>
         <div class="col-sm-3 col-md-3 col-lg-3">
-             {{ form_row(form.shippingStatus, {'attr': {'class': 'input-sm'}}) }}
+             {{ form_row(form.orderStatus) }}
         </div>
         <div class="col-sm-3 col-md-3 col-lg-3">
-             {{ form_row(form.shippingState, {'attr': {'class': 'input-sm'}}) }}
+             {{ form_row(form.shippingStatus) }}
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2">
+             {{ form_row(form.shippingState) }}
         </div>
         <div class="col-sm-1 col-md-1 col-lg-1">
             <br />

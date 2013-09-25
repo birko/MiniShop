@@ -26,7 +26,7 @@ class SearchType extends AbstractType
                 'required' => false,
                 'label' => 'Search',
                 'attr' => array(
-                    'placeholder' => "Hľadať", 
+                    'placeholder' => "Search", 
                 ))); 
     }
 

@@ -1,7 +1,10 @@
 <?php
 namespace Core\ShopBundle\Entity;
 
-class OrderFilter {
+use Core\CommonBundle\Entity\Filter as BaseFilter;
+
+class OrderFilter  extends BaseFilter
+{
    private $shipping_status = null;
    private $order_status = null;
    private $shipping_state = null;
