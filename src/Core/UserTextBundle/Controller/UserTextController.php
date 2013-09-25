@@ -24,8 +24,8 @@ class UserTextController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('CoreUserTextBundle:UserText')->createQueryBuilder("ut")
-            ->adOrderBy("ut.name", "asc")
-            ->adOrderBy("ut.id", "asc")
+            ->addOrderBy("ut.name", "asc")
+            ->addOrderBy("ut.id", "asc")
             ->getQuery()
             ->getResult();
 
