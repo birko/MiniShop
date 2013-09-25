@@ -26,7 +26,7 @@ class UserTextController extends Controller
         $entities = $em->getRepository('CoreUserTextBundle:UserText')->createQueryBuilder("ut")
             ->adOrderBy("ut.name", "asc")
             ->adOrderBy("ut.id", "asc")
-            ->getquery()
+            ->getQuery()
             ->getResult();
 
         return $this->render('CoreUserTextBundle:UserText:index.html.twig', array(
