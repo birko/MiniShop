@@ -198,7 +198,8 @@ class OrderController extends Controller
         $sendEmail= $entity->getInvoiceEmail();
         $emails = $this->container->getParameter('default.emails');
         $name = ($entity->getStatus()) ? $entity->getStatus()->getName(): 'order-change';
-        $title = $entity->getId();
+        $ordernumber = $entity->getOrderNumber();
+        $title = (!empty($ordernumber)) ? $ordernumber : $entity->getId();
         $trackingid = $entity->getTrackingId();
         if(!empty($trackingid))
         {

@@ -271,8 +271,8 @@
                 <target>Ďakujeme za objednávku</target>
             </trans-unit>
             <trans-unit id="82">
-                <source>%date% - New order %subject%</source>
-                <target>%date% - Nová objednávka %subject%</target>
+                <source>%date% - New order No.: %title%  - %subject%</source>
+                <target>%date% - Nová objednávka Č.: %title% %subject%</target>
             </trans-unit>
         </body>
     </file>
