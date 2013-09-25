@@ -15,7 +15,7 @@ class AddressType extends DeliveryAddressType
     {
         parent::buildForm($builder, $options);
         $builder->add('TIN', 'text', array(
-                'required' => false,
+                'required' => isset($options['requiredFields']['TIN']) ? $options['requiredFields']['TIN'] : false,
                 'label' => 'TIN',
                 'attr' => array(
                     'placeholder' => 'TIN',
@@ -23,14 +23,14 @@ class AddressType extends DeliveryAddressType
             ))
             ->add('OIN', 'text', array(
                 'required' => false,
-                'label' => 'OIN',
+                'label' => isset($options['requiredFields']['OIN']) ? $options['requiredFields']['OIN'] : 'OIN',
                 'attr' => array(
                     'placeholder' => 'OIN',
                 )
             ))
             ->add('VATIN', 'text', array(
                 'required' => false,
-                'label' => 'VATIN',
+                'label' => isset($options['requiredFields']['VATIN']) ? $options['requiredFields']['VATIN'] : 'VATIN',
                 'attr' => array(
                     'placeholder' => 'VATIN',
                 )

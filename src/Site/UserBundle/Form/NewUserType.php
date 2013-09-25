@@ -24,12 +24,20 @@ class NewUserType extends BaseUserType
                 'prototype' => true, 
                 'by_reference' => false,
                 'options' => array(
-                    'required' => false,
+                    'required' => true,
                     'widget_remove_btn' => array('label' => 'Remove'),
                     'label_render' => false,
+                    'requiredFields' => isset($options['address']['required']) ? $options['address']['required']: array(),
                 )))
         ->remove('enabled')
         ->remove('priceGroup')
         ;
+    }
+    
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'address' => array()
+        ));
     }
 }

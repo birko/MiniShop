@@ -53,8 +53,8 @@ class UserController extends Controller
     {
         $entity = new User();
         $entity->getAddresses()->add(new Address());
-        $form   = $this->createForm(new NewUserType(), $entity);
-
+        $addressRequiredConfiguration = $this->container->getParameter("address.required");
+        $form    = $this->createForm(new NewUserType(), $entity, array('address' => array('required' => $addressRequiredConfiguration)));
         return $this->render('SiteUserBundle:User:new.html.twig', array(
         'entity' => $entity,
         'form'   => $form->createView()
@@ -65,7 +65,8 @@ class UserController extends Controller
     {
         $entity  = new User();
         $request = $this->getRequest();
-        $form    = $this->createForm(new NewUserType(), $entity);
+        $addressRequiredConfiguration = $this->container->getParameter("address.required");
+        $form    = $this->createForm(new NewUserType(), $entity, array('address' => array('required' => $addressRequiredConfiguration)));
         $form->bind($request);
 
         if ($form->isValid()) {

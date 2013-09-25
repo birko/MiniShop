@@ -21,6 +21,17 @@ class CoreShopExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+        $container->setParameter('address.required', array());
+        $container->setParameter('admin.order.export', array());
+        $container->setParameter('admin.order.proccess', array());
+        
+        if(isset($config['address']))
+        {
+            if(isset($config['address']['required']))
+            {
+                $container->setParameter('address.required', $config['address']['required']);
+            }
+        }
         if(isset($config['order']))
         {
             if(isset($config['order']['process']))
@@ -31,14 +42,6 @@ class CoreShopExtension extends Extension
             {
                 $container->setParameter('admin.order.export', $config['order']['export']);
             }
-            else
-            {
-                $container->setParameter('admin.order.export', array());
-            }
-        }
-        else
-        {
-            $container->setParameter('admin.order.export', array());
         }
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));

@@ -66,7 +66,8 @@ class AddressController extends ShopController
     public function newAction()
     {
         $entity = new Address();
-        $form   = $this->createForm(new AddressType(), $entity);
+        $addressRequiredConfiguration = $this->container->getParameter("address.required");
+        $form   = $this->createForm(new AddressType(), $entity, array('requiredFields' => $addressRequiredConfiguration));
         $user = $this->getUser();
         if($user === null)
         {
@@ -87,7 +88,8 @@ class AddressController extends ShopController
     {
         $entity  = new Address();
         $request = $this->getRequest();
-        $form    = $this->createForm(new AddressType(), $entity);
+        $addressRequiredConfiguration = $this->container->getParameter("address.required");
+        $form   = $this->createForm(new AddressType(), $entity, array('requiredFields' => $addressRequiredConfiguration));
         $form->bind($request);
         $user = $this->getShopUser();
         if($user === null)
@@ -135,7 +137,8 @@ class AddressController extends ShopController
             throw new AccessDeniedException();
         }
 
-        $editForm = $this->createForm(new AddressType(), $entity);
+        $addressRequiredConfiguration = $this->container->getParameter("address.required");
+        $editForm   = $this->createForm(new AddressType(), $entity, array('requiredFields' => $addressRequiredConfiguration));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('SiteShopBundle:Address:edit.html.twig', array(
@@ -169,7 +172,8 @@ class AddressController extends ShopController
             throw new AccessDeniedException();
         }
 
-        $editForm   = $this->createForm(new AddressType(), $entity);
+        $addressRequiredConfiguration = $this->container->getParameter("address.required");
+        $editForm   = $this->createForm(new AddressType(), $entity, array('requiredFields' => $addressRequiredConfiguration));
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();

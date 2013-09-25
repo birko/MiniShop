@@ -112,7 +112,8 @@ class CheckoutController extends ShopController
     {
         $this->testCart();
         $cart = $this->getCart(); 
-        $form = $this->createForm(new CartBaseAddressType($cart->isSameAddress()), $cart);
+        $addressRequiredConfiguration = $this->container->getParameter("address.required");
+        $form = $this->createForm(new CartBaseAddressType($cart->isSameAddress()), $cart, array('address' => array('required' => $addressRequiredConfiguration)));
 
         return $this->render('SiteShopBundle:Checkout:guestform.html.twig', array(
             'form'   => $form->createView(),
@@ -124,7 +125,8 @@ class CheckoutController extends ShopController
         $this->testCart();
         $cart = $this->getCart(); 
         $request = $this->getRequest();
-        $form = $this->createForm(new CartBaseAddressType($cart->isSameAddress()), $cart);
+        $addressRequiredConfiguration = $this->container->getParameter("address.required");
+        $form = $this->createForm(new CartBaseAddressType($cart->isSameAddress()), $cart, array('address' => array('required' => $addressRequiredConfiguration)));
         $form->bind($request);
         $form->isValid();
         if($cart->isSameAddress())

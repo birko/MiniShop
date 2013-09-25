@@ -25,12 +25,20 @@ class CartBaseAddressType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('shippingAddress', new DeliveryAddressType(), array('required' => !$this->sameaddress, 'error_bubbling' => true))
+            ->add('shippingAddress', new DeliveryAddressType(), array(
+                'required' => !$this->sameaddress, 
+                'error_bubbling' => true,
+                'requiredFields' => isset($options['address']['required']) ? $options['address']['required']: array(),
+            ))
             ->add('sameAddress', 'checkbox', array(
                 'required' => false,
                 'label'     => 'Is payment address same as shipping?',
-                ))
-            ->add('paymentAddress', new AddressType(), array('required' => true, 'error_bubbling' => true));
+            ))
+            ->add('paymentAddress', new AddressType(), array(
+                'required' => true, 
+                'error_bubbling' => true,
+                'requiredFields' => isset($options['address']['required']) ? $options['address']['required']: array(),
+            ));
     }
     
     public function getName() 
@@ -42,6 +50,7 @@ class CartBaseAddressType extends AbstractType {
     {
         $resolver->setDefaults(array(
             'data_class' => 'Site\ShopBundle\Entity\Cart',
+            'address' =>  array(),
         ));
     }
 }

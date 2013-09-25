@@ -16,7 +16,7 @@ class DeliveryAddressType extends BaseAddressType
     {
         parent::buildForm($builder, $options);
         $builder->add('email', 'text', array(
-                'required' => true,
+                'required' => isset($options['requiredFields']['email']) ? $options['requiredFields']['email'] : true,
                 'constraints' => array(
                     new Constraints\NotBlank(),
                 ),
@@ -25,7 +25,7 @@ class DeliveryAddressType extends BaseAddressType
                 ))
             )
             ->add('phone', 'text', array(
-                'required' => false,
+                'required' => isset($options['requiredFields']['phone']) ? $options['requiredFields']['phone'] : false,
                 'attr' => array(
                     'placeholder' => 'Phone',
                 ))

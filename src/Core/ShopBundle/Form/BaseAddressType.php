@@ -36,7 +36,7 @@ class BaseAddressType extends AbstractType
                 )
             ))
             ->add('company', 'text', array(
-                'required' => false,
+                'required' => isset($options['requiredFields']['company']) ? $options['requiredFields']['company'] : false,
                 'attr' => array(
                     'placeholder' => 'Company',
                 )
@@ -109,6 +109,7 @@ class BaseAddressType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Core\ShopBundle\Entity\Address',
+            'requiredFields' => array(),
         ));
     }
 
