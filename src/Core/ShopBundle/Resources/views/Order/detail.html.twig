@@ -1,4 +1,5 @@
 {% if entity is not empty %}
+<h4>{%trans%}Order number{% endtrans %}: {% if entity.orderNumber %}{{ entity.orderNumber }}{% else %}{{ entity.id }}{% endif%}</h4>
 <table class="cart table table-bordered table-stripped">
     <tr>
         <td class="shipping address">
