@@ -275,6 +275,20 @@ class Order
     private $updatedAt;
     
     /**
+     * @var datetime $invoicedAt
+     *
+     * @ORM\Column(name="invoiced_at", type="datetime", nullable = true)
+     */
+    private $invoicedAt;
+    
+    /**
+     * @var string $dueDays
+     *
+     * @ORM\Column(name="due_days", type="integer", nullable = true)
+     */
+    private $dueDays;
+    
+    /**
      * @ORM\OneToMany(targetEntity="Core\ShopBundle\Entity\OrderItem", mappedBy="order", cascade={"persist", "remove"})
      * @ORM\OrderBy({ "id" = "ASC"})
      */
@@ -804,6 +818,63 @@ class Order
     {
         return $this->updatedAtAt;
     }
+    
+    /**
+     * Set invoicedAt
+     *
+     * @param datetime $invoicedAt
+     */
+    public function setInvoicedAt($invoicedAt)
+    {
+        $this->invoicedAt = $invoicedAt;
+    }
+
+    /**
+     * Get invoicedAt
+     *
+     * @return datetime 
+     */
+    public function getInvoicedAt()
+    {
+        return $this->invoicedAt;
+    }
+    
+    /**
+     * Set dueDays
+     *
+     * @param integer $days
+     */
+    public function setDueDays($days)
+    {
+        $this->dueDays = $days;
+    }
+
+    /**
+     * Get dueDays
+     *
+     * @return integer
+     */
+    public function getDueDays()
+    {
+        return $this->dueDays;
+    }
+    
+    public function getDueAt()
+    {
+        $date = $this->getInvoicedAt();
+        if($date)
+        {
+            $date = clone $date;
+            $days = $this->getDueDays();
+            if($days)
+            {
+                return $date->add(new \DateInterval("P" . $days. "D"));
+            }
+        }
+        return $date;
+    }
+    
+    
     
     /**
      * Set User

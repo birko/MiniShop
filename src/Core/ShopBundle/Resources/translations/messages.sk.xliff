@@ -92,7 +92,7 @@
             </trans-unit>
             <trans-unit id="23">
                 <source>Invoice number</source>
-                <target>Číslo objednávky</target>
+                <target>Číslo faktúry</target>
             </trans-unit>
             <trans-unit id="24">
                 <source>Variable number</source>
@@ -373,6 +373,42 @@
             <trans-unit id="93">
                 <source>Settings</source>
                 <target>Nastavenia</target>
+            </trans-unit>
+            <trans-unit id="95">
+                <source>Supplier</source>
+                <target>Dodávateľ</target>
+            </trans-unit>
+            <trans-unit id="96">
+                <source>Reciever</source>
+                <target>Príjemca</target>
+            </trans-unit>
+            <trans-unit id="97">
+                <source>Due date</source>
+                <target>Dátum splatnosti</target>
+            </trans-unit>
+            <trans-unit id="98">
+                <source>Order date</source>
+                <target>Dátum objednávky</target>
+            </trans-unit>
+            <trans-unit id="99">
+                <source>Invoice date</source>
+                <target>Dátum faktúry</target>
+            </trans-unit>
+            <trans-unit id="100">
+                <source>Invoice edit</source>
+                <target>Úprava faktúry</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>Edit invoice</source>
+                <target>Úpraviť faktúru</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>Order edit</source>
+                <target>Úprava objednávky</target>
+            </trans-unit>
+            <trans-unit id="103">
+                <source>Due days</source>
+                <target>Dni splatnosti</target>
             </trans-unit>
         </body>
     </file>

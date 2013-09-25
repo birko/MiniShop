@@ -90,7 +90,10 @@
                 <div class="btn-group">
                     <a href="{{ path('order_show', { 'id': entity.id }) }}" class="btn btn-xs btn-primary btn-xs"><span class="glyphicon glyphicon-bar"></span> {% trans %}Show{% endtrans %}</a>
                     <a href="{{ path('order_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
+                    <a href="{{ path('order_edit_invoice', { 'id': entity.id }) }}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-print"></span> {% trans %}Edit invoice{% endtrans %}</a>
+                    {% if entity.invoicedAt %}
                     <a href="{{ path('order_pdfadmin', { 'id': entity.id }) }}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-print"></span> {% trans %}Invoice{% endtrans %}</a>
+                    {% endif %}
                 </div>
             </td>
         </tr>

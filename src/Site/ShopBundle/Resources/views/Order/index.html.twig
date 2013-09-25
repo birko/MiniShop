@@ -19,7 +19,9 @@
             <td>{% if entity.createdAt %}{{ entity.createdAt|date('d.m.Y H:i:s') }}{% endif%}</td>
             <td>
                 <a href="{{ path('order_detail', { 'id': entity.id }) }}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-asterisk"></span> {% trans %}Show{% endtrans %}</a>
-                <a href="{{ path('order_pdf', { 'id': entity.id }) }}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-print"></span> {% trans %}Invoice{% endtrans %}</a>                
+                {% if entity.invoicedAt %}
+                <a href="{{ path('order_pdf', { 'id': entity.id }) }}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-print"></span> {% trans %}Invoice{% endtrans %}</a>
+                {% endif %}             
             </td>
         </tr>
     {% endfor %}

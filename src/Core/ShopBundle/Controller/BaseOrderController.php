@@ -42,10 +42,9 @@ class BaseOrderController extends Controller
             }
         }
         
-        $view = $this->renderView('SiteShopBundle:Order:pdf.html.twig', array(
+        $view = $this->renderView('CoreShopBundle:Order:pdf.html.twig', array(
             'entity'      => $entity,
         ));
-        
         $pdf = $this->container->get("white_october.tcpdf")->create();
         $pdf->SetHeaderMargin(0);
         $pdf->SetFooterMargin(0);

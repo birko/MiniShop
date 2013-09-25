@@ -90,10 +90,6 @@
                 <source>Order list</source>
                 <target>Zoznam zákazníkov</target>
             </trans-unit>
-            <trans-unit id="23">
-                <source>Invoice number</source>
-                <target>Číslo objednávky</target>
-            </trans-unit>
             <trans-unit id="24">
                 <source>Variable number</source>
                 <target>Variabilné číslo</target>

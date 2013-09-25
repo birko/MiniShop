@@ -23,7 +23,11 @@ class UserTextController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoreUserTextBundle:UserText')->findAll();
+        $entities = $em->getRepository('CoreUserTextBundle:UserText')->createQueryBuilder("ut")
+            ->adOrderBy("ut.name", "asc")
+            ->adOrderBy("ut.id", "asc")
+            ->getquery()
+            ->getResult();
 
         return $this->render('CoreUserTextBundle:UserText:index.html.twig', array(
             'entities' => $entities,

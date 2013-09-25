@@ -9,6 +9,7 @@ use Core\ShopBundle\Entity\OrderFilter;
 use Core\ShopBundle\Entity\Process;
 use Core\ShopBundle\Entity\ProcessOrder;
 use Core\ShopBundle\Form\OrderType;
+use Core\ShopBundle\Form\OrderInvoiceType;
 use Core\ShopBundle\Form\OrderFilterType;
 use Core\ShopBundle\Form\ProcessType;
 
@@ -193,6 +194,56 @@ class OrderController extends BaseOrderController
         ));
     }
     
+    
+    public function editInvoiceAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('CoreShopBundle:Order')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Order entity.');
+        }
+
+        $editForm = $this->createForm(new OrderInvoiceType(), $entity);
+
+        return $this->render('CoreShopBundle:Order:editinvoice.html.twig', array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+        ));
+    }
+
+    /**
+     * Edits an existing Order entity.
+     *
+     */
+    public function updateInvoiceAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('CoreShopBundle:Order')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Order entity.');
+        }
+        
+        $editForm   = $this->createForm(new OrderInvoiceType(), $entity);
+        $request = $this->getRequest();
+        $editForm->bind($request);
+
+        if ($editForm->isValid()) 
+        {
+            $entity->setInvoicedAt(new \DateTime());
+            $em->persist($entity);
+            $em->flush();
+            return $this->redirect($this->generateUrl('order'));
+        }
+
+        return $this->render('CoreShopBundle:Order:editinvoice.html.twig', array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+        ));
+    }
     protected function sendEmail(Order $entity)
     {
         $sendEmail= $entity->getInvoiceEmail();
