@@ -58,7 +58,7 @@ class OrderController extends Controller
                 $session->set('adminorderfilter', $filter);
             }
         }
-        $filtger->setPage($page);
+        $filter->setPage($page);
         $session->set('adminorderfilter', $filter);
         
         $querybuilder = $em->getRepository('CoreShopBundle:Order')->createQueryBuilder('o');

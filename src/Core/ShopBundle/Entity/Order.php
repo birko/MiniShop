@@ -1089,7 +1089,7 @@ class Order
      */
     public function updateOrderNumber()
     {
-        $this->order_number = $this->createdAt()->format("ym") . str_pad($this->getId(), 5, "0", STR_PAD_LEFT);
+        $this->order_number = $this->getCreatedAt()->format("ym") . str_pad($this->getId(), 5, "0", STR_PAD_LEFT);
     }
     
     public function setDeliveryAddress(Address $address)
