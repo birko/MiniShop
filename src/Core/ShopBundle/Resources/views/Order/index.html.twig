@@ -77,7 +77,7 @@
     {% for entity in entities %}
         <tr>
             <td class="include">{{ form_widget(process.processOrders[loop.index0].include )}}{{ form_widget(process.processOrders[loop.index0].orderId )}}</td>
-            <td>{{ entity.id }}</td>
+            <td>{% if entity.orderNumber %}{{ entity.orderNumber }}{% else %}{{ entity.id }}{% endif%}</td>
             <td>{% if entity.createdAt %}{{ entity.createdAt|date('d.m.Y H:i:s') }}{% endif %}</td>
             <td>{{ entity.price|number_format(2) }}</td>
             <td>{{ entity.priceVAT|number_format(2) }}</td>
