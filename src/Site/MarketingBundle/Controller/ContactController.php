@@ -143,7 +143,11 @@ class ContactController extends Controller
                     unset($data['copy']);
                     if(!empty($data['orderNumber']))
                     {
-                        $order = $em->getRepository('CoreShopBundle:Order')->find($data['orderNumber']);
+                        $order = $em->getRepository('CoreShopBundle:Order')->findOneByOrderNumber($data['orderNumber']);
+                        if(!$order)
+                        {
+                            $order = $em->getRepository('CoreShopBundle:Order')->find($data['orderNumber']);
+                        }
                         if($order)
                         {
                             $msg->setOrder($order);
@@ -219,7 +223,11 @@ class ContactController extends Controller
                     unset($data['copy']);
                     if(!empty($data['orderNumber']))
                     {
-                        $order = $em->getRepository('CoreShopBundle:Order')->find($data['orderNumber']);
+                        $order = $em->getRepository('CoreShopBundle:Order')->findOneByOrderNumber($data['orderNumber']);
+                        if(!$order)
+                        {
+                            $order = $em->getRepository('CoreShopBundle:Order')->find($data['orderNumber']);
+                        }
                         if($order)
                         {
                             $msg->setOrder($order);
