@@ -14,11 +14,14 @@ order_update:
     pattern:  /{id}/update
     defaults: { _controller: "CoreShopBundle:Order:update" }
     requirements: { _method: post }
-    
-    
+
+order_pdfadmin:
+    pattern:  /{id}/pdf
+    defaults: { _controller: "CoreShopBundle:Order:pdf", checkUser:false }
+
 order_process:
     pattern:  /process
-    defaults: { _controller: "CoreShopBundle:Order:process" }
+    defaults: { _controller: "CoreShopBundle:Order:process"}
     requirements: { _method: post }
 
 

@@ -5,9 +5,10 @@ namespace Site\ShopBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Site\ShopBundle\Entity\Cart;
 use Site\ShopBundle\Entity\CartItem;
+use Core\ShopBundle\Controller\BaseOrderController;
 
 
-class ShopController extends Controller
+class ShopController extends BaseOrderController
 {
     protected function getCart()
     {

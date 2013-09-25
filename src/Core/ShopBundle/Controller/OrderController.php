@@ -16,7 +16,7 @@ use Core\ShopBundle\Form\ProcessType;
  * Order controller.
  *
  */
-class OrderController extends Controller
+class OrderController extends BaseOrderController
 {
     /**
      * Lists all Order entities.
