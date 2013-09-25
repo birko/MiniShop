@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="coreorder")
  * @ORM\Entity(repositoryClass="Core\ShopBundle\Entity\OrderRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Order 
 {
@@ -245,6 +246,13 @@ class Order
      * @ORM\Column(name="variable_number", type="string", length=255, nullable = true)
      */
     private $variable_number;
+    
+    /**
+     * @var string $order_number
+     *
+     * @ORM\Column(name="order_number", type="string", length=255, nullable = true)
+     */
+    private $order_number;
     
     /**
      * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="orders")
@@ -1064,6 +1072,24 @@ class Order
     public function getTrackingId()
     {
         return $this->tracking_id;
+    }
+    
+    /**
+     * Get order_number
+     *
+     * @return string 
+     */
+    public function getOrderNumber()
+    {
+        return $this->order_number;
+    }
+    
+    /**
+     * @ORM\PostPersist()
+     */
+    public function updateOrderNumber()
+    {
+        $this->order_number = $this->createdAt()->format("ym") . str_pad($this->getId(), 5, "0", STR_PAD_LEFT);
     }
     
     public function setDeliveryAddress(Address $address)

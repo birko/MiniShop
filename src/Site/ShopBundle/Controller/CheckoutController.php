@@ -372,6 +372,10 @@ class CheckoutController extends ShopController
         }
         $em->persist($order);
         $em->flush();
+        // Ordder has  "HasLifecycleCallbacks" to create order_number after insert
+        $em->persist($order);
+        $em->flush();
+        
         $sendEmail= $cart->getPaymentAddress()->getEmail();
         //emails
         // TODO: Send emails
