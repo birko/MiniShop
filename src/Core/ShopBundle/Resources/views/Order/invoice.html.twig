@@ -1,6 +1,6 @@
 {%- spaceless %}
 {% if entity is not empty %}
-<table style="border-collapse:collapse; border: 1px solid black;  width:100%;">
+<table style="border-collapse:collapse; width:100%;">
     <tr>
         <td style="border-collapse:collapse; border: 1px solid black; width:50%; ">
             <strong><u>{% trans %}Supplier{% endtrans %}</u></strong>
@@ -13,13 +13,13 @@
             </p>
         </td>
         <td style="border-collapse:collapse; border: 1px solid black; width:50%;">
-            <table style="border-collapse:collapse; border: 1px solid black;  width:100%;">
+            <table style="border-collapse:collapse; width:100%;">
                 <tr>
                     <td><h3>{%trans%}Invoice number{% endtrans %}:</h3></td>
                     <td style="text-align:right"><h3>{{entity.invoiceNumber}}</h3></td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="border-collapse:collapse; border: 1px solid black;">
+                    <td colspan="2" style="border-collapse:collapse; border: 1px solid black; border-left:none; border-right:none;">
                         <strong><u>{% trans %}Delivery address{% endtrans %}</u></strong>
                         <p>
                             {% include "CoreShopBundle:Address:address.html.twig" with {'entity': entity.deliveryAddress} %}
@@ -28,26 +28,26 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                       <table style="border-collapsed:collapsed; border:1px solid black;  width:100%;">
+                       <table style="border-collapsed:collapsed; width:100%;">
                             <tr>
-                                <th style="border:1px solid black; text-align:center; width:33%">
+                                <th style="border:1px solid black; border-left:none; border-top:none; text-align:center; width:33%">
                                     {% trans %}Order date{% endtrans%}:
                                 </th>
-                                <th style="border:1px solid black; text-align:center; width:33%">
+                                <th style="border:1px solid black;  border-top:none; text-align:center; width:33%">
                                     {% trans %}Invoice date{% endtrans%}:
                                 </th>
-                                <th style="border:1px solid black; text-align:center; width:33%">
+                                <th style="border:1px solid black; border-right:none;  border-top:none; text-align:center; width:33%">
                                      {% trans %}Due date{% endtrans%}:
                                 </th>
                             </tr>
                             <tr>
-                                <td style="border:1px solid black; text-align:center; width:33%">
+                                <td style="border:1px solid black; border-left:none; border-bottom:none; text-align:center; width:33%">
                                     {% if entity.createdAt %}{{ entity.createdAt|date('d.m.Y') }}{% endif %}
                                 </td>
-                                <td style="border:1px solid black; text-align:center; width:33%">
+                                <td style="border:1px solid black; text-align:center; border-bottom:none; width:33%">
                                     {% if entity.invoicedAt %}{{ entity.invoicedAt|date('d.m.Y') }}{% endif %}
                                 </td>
-                                <td style="border:1px solid black; text-align:center; width:33%">
+                                <td style="border:1px solid black; border-right:none; border-bottom:none; text-align:center; width:33%">
                                     {% if entity.dueAt %}{{ entity.dueAt|date('d.m.Y') }}{% endif %}
                                 </td>
                             </tr>
@@ -55,20 +55,20 @@
                     </td>
                 </tr>
                 <tr>
-                    <th style="border:1px solid black; text-align:left;">{%trans%}Payment{% endtrans %}:</th>
-                    <td style="border:1px solid black;">{{ entity.payment.name }}</td>
+                    <th style="border:1px solid black; text-align:left; border-left:none;">{%trans%}Payment{% endtrans %}:</th>
+                    <td style="border:1px solid black; border-right:none;">{{ entity.payment.name }}</td>
                 </tr>
                 <tr>
-                    <th style="border:1px solid black; text-align:left;">{%trans%}Shipping{% endtrans %}:</th>
-                    <td style="border:1px solid black;">{{ entity.shipping.name }}</td>
+                    <th style="border:1px solid black; text-align:left; border-left:none;">{%trans%}Shipping{% endtrans %}:</th>
+                    <td style="border:1px solid black; border-right:none;">{{ entity.shipping.name }}</td>
                 </tr>
                 <tr>
-                    <th style="border:1px solid black;  text-align:left;">{%trans%}Order number{% endtrans %}:</th>
-                    <td style="border:1px solid black;">{{ entity.orderNumber }}</td>
+                    <th style="border:1px solid black; text-align:left; border-left:none;">{%trans%}Order number{% endtrans %}:</th>
+                    <td style="border:1px solid black; border-right:none;">{{ entity.orderNumber }}</td>
                 </tr>
                 <tr>
-                    <th style="border:1px solid black;  text-align:left;">{%trans%}Variable number{% endtrans %}:</th>
-                    <td style="border:1px solid black;">{{ entity.variableNumber }}</td>
+                    <th style="border:1px solid black; text-align:left; border-left:none;  border-bottom:none;">{%trans%}Variable number{% endtrans %}:</th>
+                    <td style="border:1px solid black; border-right:none;  border-bottom:none;">{{ entity.variableNumber }}</td>
                 </tr>
             </table>
         </td>
@@ -78,7 +78,7 @@
 <p>
     {% render controller('CoreUserTextBundle:UserText:display', {'name': 'fakturacia-text', 'create': 1}) %}
 </p>
-<table style="border-collapse:collapse; border: 1px solid black; width:100%;">
+<table style="border-collapse:collapse; width:100%;">
         <tr>
             <th style="width:70%; border: 1px solid black;">{% trans %}Product{% endtrans %}</th>
             <th style="width:10%; border: 1px solid black;">{% trans %}Amount{% endtrans %}</th>
