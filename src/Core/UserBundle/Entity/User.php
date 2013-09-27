@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @UniqueEntity("email")
  * @UniqueEntity("login")
+ * @ORM\Entity(repositoryClass="Core\UserBundle\Entity\UserRepository")
  */
 class User implements AdvancedUserInterface, EquatableInterface, \Serializable
 {

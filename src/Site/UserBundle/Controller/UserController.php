@@ -71,49 +71,43 @@ class UserController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            //user settup
             $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder($entity);
-            $password = $encoder->encodePassword($entity->getPassword(), $entity->getSalt());
-            $entity->setPassword($password);
+            $password = $entity->getPassword();
+            $passwordhash = $encoder->encodePassword($password, $entity->getSalt());
+            $entity->setPassword($passwordhash);
             $login = $entity->getEmail();
             $entity->setLogin($login);
             $entity->setEnabled(true);
-            $priceGroup = $em->getRepository('CoreUserBundle:PriceGroup')->findOneBy(array("default" => true));
-            if ($priceGroup) {
-                $entity->setPriceGroup($priceGroup); 
-            }
             $addresses = $entity->getAddresses()->toArray();
-            $entity->getAddresses()->clear();
-            foreach($addresses as $addr)
+            //user save
+            $entity = $em->getRepository('CoreUserBundle:User')->createUser($entity, $addresses);
+            if($entity)
             {
-                if(!empty($addr))
-                {
-                    $addr->setUser($entity);
-                    $em->persist($addr);
-                    $entity->getAddresses()->add($addr);
-                }
+                $t = $this->get('translator')->trans('New registration - %subject%', array(
+                       '%subject%' => $this->container->getParameter('site_title'),
+                   ));
+                //send register email
+                $emails = $this->container->getParameter('default.emails');
+                $message = \Swift_Message::newInstance()
+                        ->setSubject($t)
+                        ->setFrom($emails['default'])
+                        ->setTo(array($entity->getEmail()))
+                        ->setBody($this->renderView('SiteUserBundle:Email:new.html.twig', array(
+                            'login' => $entity->getLogin(),
+                            'password' => $password,
+                        )), 'text/html');
+                $this->get('mailer')->send($message);
+                //login
+                $session = $this->getRequest()->getSession();
+                $cart = $session->get('cart');
+                $token = new UsernamePasswordToken($entity, $entity->getPassword(), 'secured_area', $entity->getRoles());
+                $this->get('security.context')->setToken($token);
+                $session->set('cart', $cart);
+                
+                return $this->redirect($this->generateUrl('cart'));
             }
-            $em->persist($entity);
-            $em->flush();
-            
-            foreach($addresses as $addr)
-            {
-                if(!empty($addr))
-                {
-                    $addr->setUser($entity);
-                    $em->persist($addr);
-                }
-            }
-            $em->flush();
-            //login
-            $session = $this->getRequest()->getSession();
-            $cart = $session->get('cart');
-            $token = new UsernamePasswordToken($entity, $entity->getPassword(), 'secured_area', $entity->getRoles());
-            $this->get('security.context')->setToken($token);
-            $session->set('cart', $cart);
-            
-            return $this->redirect($this->generateUrl('cart'));
-            
         }
 
         return $this->render('SiteUserBundle:User:new.html.twig', array(
