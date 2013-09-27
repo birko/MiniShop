@@ -410,6 +410,10 @@
                 <source>Due days</source>
                 <target>Dni splatnosti</target>
             </trans-unit>
+            <trans-unit id="104">
+                <source>Billing</source>
+                <target>Vyúčtovanie</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
