@@ -34,10 +34,6 @@ class CartController extends ShopController
                 $cart->setPaymentAddress($user->getAddresses()->first());
                 $cart->setShippingAddress($user->getAddresses()->first());
             }
-            else
-            {
-                throw $this->createNotFoundException('Unable to find User Address entity.');
-            }
             $form = $this->createForm(new CartUserType($user->getId(), true), $cart);
         }
         return $this->render('SiteShopBundle:Cart:index.html.twig', array(
@@ -66,10 +62,6 @@ class CartController extends ShopController
             {
                 $cart->setPaymentAddress($user->getAddresses()->first());
                 $cart->setShippingAddress($user->getAddresses()->first());
-            }
-            else
-            {
-                throw $this->createNotFoundException('Unable to find User Address entity.');
             }
             $form = $this->createForm(new CartUserType($user->getId(), true), $cart);
         }
