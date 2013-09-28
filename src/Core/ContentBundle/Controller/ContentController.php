@@ -189,7 +189,15 @@ class ContentController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Content entity.');
             }
-
+            
+            $imageOptions = $this->container->getParameter('images');
+            foreach($entity->getMedia() as $media)
+            {
+                $media->setOptions($imageOptions);
+                $entity->getMedia()->removeElement($media);
+                $em->remove($media);
+            }
+            
             if($entity->getCategory())
             {
                 $category = $entity->getCategory()->getId();
