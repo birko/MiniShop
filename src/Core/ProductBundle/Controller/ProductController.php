@@ -238,27 +238,27 @@ class ProductController extends Controller
                 throw $this->createNotFoundException('Unable to find Product entity.');
             }
             
-            foreach($product->getPrices() as $price)
+            foreach($entity->getPrices() as $price)
             {
-                $product->getPrices()->removeElement($price);
+                $entity->getPrices()->removeElement($price);
                 $em->remove($price);
             }
             
-            foreach($product->getOptions() as $option)
+            foreach($entity->getOptions() as $option)
             {
-                $product->getOptions()->removeElement($option);
+                $entity->getOptions()->removeElement($option);
                 $em->remove($option);
             }
             
-            foreach($product->getAttributes() as $attribute)
+            foreach($entity->getAttributes() as $attribute)
             {
-                $product->getAttributes()->removeElement($attribute);
+                $entity->getAttributes()->removeElement($attribute);
                 $em->remove($attribute);
             }
             
-            foreach($product->getMedia() as $media)
+            foreach($entity->getMedia() as $media)
             {
-                $product->getMedia()->removeElement($media);
+                $entity->getMedia()->removeElement($media);
                 $em->remove($media);
             }
             
