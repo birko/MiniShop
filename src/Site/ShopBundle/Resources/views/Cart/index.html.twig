@@ -34,9 +34,9 @@
                 <td class="form col-sm-2 col-md-2 col-lg-2">
                     <form action="{{ path('cart_update') }}" method="post">
                         <div class="input-group">
-                            {% if item.changeAmount %}<button type="submit" class="btn input-group-addon"><span class="glyphicon glyphicon-refresh"></span></button>{% else %}<a class="btn"></a>{% endif %}
-                            <input type="text" class="form-control" name="items[{{loop.index0}}][amount]" value="{{ item.amount }}" size="3" {% if not item.changeAmount %}readonly="readonly" disabled="disables"{% endif %}/>
-                            <a href="{{ path('cart_remove', {'index': loop.index0})}}" class="btn input-group-addon"><span class="glyphicon glyphicon-remove"></span></a>
+                            {% if item.changeAmount %}<button type="submit" class="btn  btn-sm input-group-addon"><span class="glyphicon glyphicon-refresh"></span></button>{% else %}<a class="btn btn-sm input-group-addon disabled"><span class="glyphicon"></span></a>{% endif %}
+                            <input type="text" class="form-control input-sm" name="items[{{loop.index0}}][amount]" value="{{ item.amount }}" size="3" {% if not item.changeAmount %}readonly="readonly" disabled="disables"{% endif %}/>
+                            <a href="{{ path('cart_remove', {'index': loop.index0})}}" class="btn btn-sm input-group-addon"><span class="glyphicon glyphicon-remove"></span></a>
                         </div>
                     </form>
                 </td>

@@ -15,11 +15,19 @@ class CouponType extends AbstractPriceType
     {
         $builder
             ->add('code', 'text', array('required' => true))
-            ->add('discountPerc', 'text', array(
+            ->add('discount', 'percent', array(
                 'required' => false,
                 'label' => 'Discount percentage'
                 ));
         parent::buildForm($builder, $options);
+        if($builder->has("price"))
+        {
+            $builder->get("price")->setRequired(false);
+        }
+        if($builder->has("priceVAT"))
+        {
+            $builder->get("priceVAT")->setRequired(false);
+        }
         $builder->add('active', 'checkbox', array('required' => false))
         ;
     }

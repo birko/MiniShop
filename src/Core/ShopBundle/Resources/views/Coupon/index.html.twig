@@ -13,7 +13,7 @@
             <th>{% trans %}Code{% endtrans %}</th>
             <th>{% trans %}Active{% endtrans %}</th>
             <th>{% trans %}Used{% endtrans %}</th>
-            <th>{% trans %}Discount{% endtrans %}</th>
+            <th>{% trans %}Discount percentage{% endtrans %}</th>
             <th>{% trans %}Price{% endtrans %}</th>
             <th>{% trans %}Price VAT{% endtrans %}</th>
             <th>{% trans %}Actions{% endtrans %}</th>
@@ -27,7 +27,7 @@
             <td>{{ entity.code }}</td>
             <td>{% if entity.active %}<span class="glyphicon glyphicon-ok"></span>{%else%}<span class="glyphicon glyphicon-remove"></span>{%endif%}</td>
             <td>{% if entity.used %}<span class="glyphicon glyphicon-ok"></span>{%else%}<span class="glyphicon glyphicon-remove"></span>{%endif%}</td>
-            <td>{{ entity.discount }}</td>
+            <td>{{ entity.discountPerc }}</td>
             <td>{{ entity.price }}</td>
             <td>{{ entity.priceVAT }}</td>         
             <td>

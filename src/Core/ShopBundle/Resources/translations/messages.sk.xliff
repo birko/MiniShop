@@ -414,6 +414,18 @@
                 <source>Billing</source>
                 <target>Vyúčtovanie</target>
             </trans-unit>
+            <trans-unit id="105">
+                <source>Coupon products list</source>
+                <target>Zoznam produktov kupónu</target>
+            </trans-unit>
+            <trans-unit id="106">
+                <source>Coupon products add list</source>
+                <target>Zoznam produktov kupónu na pridanie</target>
+            </trans-unit>
+            <trans-unit id="107">
+                <source>Back to the coupon products list</source>
+                <target>Späť na zoznam produktov kupónu</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
