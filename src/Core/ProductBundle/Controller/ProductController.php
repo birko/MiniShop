@@ -256,8 +256,10 @@ class ProductController extends Controller
                 $em->remove($attribute);
             }
             
+            $imageOptions = $this->container->getParameter('images');
             foreach($entity->getMedia() as $media)
             {
+                $media->setOptions($imageOptions);
                 $entity->getMedia()->removeElement($media);
                 $em->remove($media);
             }
