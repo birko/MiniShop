@@ -1,4 +1,4 @@
-{%- spaceless %}
+{% spaceless %}
 {% if entity is not empty %}
 <table style="border-collapse:collapse; width:100%;">
     <tr>
@@ -19,7 +19,7 @@
                     <td style="text-align:right"><h3>{{entity.invoiceNumber}}</h3></td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="border-collapse:collapse; border: 1px solid black; border-left:none; border-right:none;">
+                    <td colspan="2" style="border-collapse:collapse; border-top: 1px solid black;">
                         <strong><u>{% trans %}Delivery address{% endtrans %}</u></strong>
                         <p>
                             {% include "CoreShopBundle:Address:address.html.twig" with {'entity': entity.deliveryAddress} %}
@@ -27,27 +27,27 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="2" style="border-top:1px solid black;">
                        <table style="border-collapsed:collapsed; width:100%;">
                             <tr>
-                                <th style="border:1px solid black; border-left:none; border-top:none; text-align:center; width:33%">
+                                <th style="border-right:1px solid black; border-bottom: 1px solid black; text-align:center; width:33.3%">
                                     {% trans %}Order date{% endtrans%}:
                                 </th>
-                                <th style="border:1px solid black;  border-top:none; text-align:center; width:33%">
+                                <th style="border-right:1px solid black; border-bottom: 1px solid black; text-align:center; width:33.3%">
                                     {% trans %}Invoice date{% endtrans%}:
                                 </th>
-                                <th style="border:1px solid black; border-right:none;  border-top:none; text-align:center; width:33%">
+                                <th style="border-bottom: 1px solid black; text-align:center; width:33.3%">
                                      {% trans %}Due date{% endtrans%}:
                                 </th>
                             </tr>
                             <tr>
-                                <td style="border:1px solid black; border-left:none; border-bottom:none; text-align:center; width:33%">
+                                <td style="border-right:1px solid black; text-align:center; width:33.3%">
                                     {% if entity.createdAt %}{{ entity.createdAt|date('d.m.Y') }}{% endif %}
                                 </td>
-                                <td style="border:1px solid black; text-align:center; border-bottom:none; width:33%">
+                                <td style="border-right:1px solid black; text-align:center; width:33.3%">
                                     {% if entity.invoicedAt %}{{ entity.invoicedAt|date('d.m.Y') }}{% endif %}
                                 </td>
-                                <td style="border:1px solid black; border-right:none; border-bottom:none; text-align:center; width:33%">
+                                <td style="text-align:center; width:33.3%">
                                     {% if entity.dueAt %}{{ entity.dueAt|date('d.m.Y') }}{% endif %}
                                 </td>
                             </tr>
@@ -55,20 +55,20 @@
                     </td>
                 </tr>
                 <tr>
-                    <th style="border:1px solid black; text-align:left; border-left:none;">{%trans%}Payment{% endtrans %}:</th>
-                    <td style="border:1px solid black; border-right:none;">{{ entity.payment.name }}</td>
+                    <th style="border-top:1px solid black; border-right:1px solid black; text-align:left; ">{%trans%}Payment{% endtrans %}:</th>
+                    <td style="border-top:1px solid black;">{{ entity.payment.name }}</td>
                 </tr>
                 <tr>
-                    <th style="border:1px solid black; text-align:left; border-left:none;">{%trans%}Shipping{% endtrans %}:</th>
-                    <td style="border:1px solid black; border-right:none;">{{ entity.shipping.name }}</td>
+                    <th style="border-top:1px solid black; border-right:1px solid black; text-align:left;">{%trans%}Shipping{% endtrans %}:</th>
+                    <td style="border-top:1px solid black;">{{ entity.shipping.name }}</td>
                 </tr>
                 <tr>
-                    <th style="border:1px solid black; text-align:left; border-left:none;">{%trans%}Order number{% endtrans %}:</th>
-                    <td style="border:1px solid black; border-right:none;">{{ entity.orderNumber }}</td>
+                    <th style="border-top:1px solid black; border-right:1px solid black; text-align:left;">{%trans%}Order number{% endtrans %}:</th>
+                    <td style="border-top:1px solid black;">{{ entity.orderNumber }}</td>
                 </tr>
                 <tr>
-                    <th style="border:1px solid black; text-align:left; border-left:none;  border-bottom:none;">{%trans%}Variable number{% endtrans %}:</th>
-                    <td style="border:1px solid black; border-right:none;  border-bottom:none;">{{ entity.variableNumber }}</td>
+                    <th style="border-top:1px solid black; border-right:1px solid black; text-align:left;">{%trans%}Variable number{% endtrans %}:</th>
+                    <td style="border-top:1px solid black;">{{ entity.variableNumber }}</td>
                 </tr>
             </table>
         </td>
@@ -80,28 +80,28 @@
 </p>
 <table style="border-collapse:collapse; width:100%;">
         <tr>
-            <th style="width:70%; border: 1px solid black;">{% trans %}Product{% endtrans %}</th>
-            <th style="width:10%; border: 1px solid black;">{% trans %}Amount{% endtrans %}</th>
-            <th style="width:10%; border: 1px solid black;">{% trans %}Price{% endtrans %}</th>
-            <th style="width:10%; border: 1px solid black;">{% trans %}Price VAT{% endtrans %}</th>
+            <th style="width:67%; border: 1px solid black;">{% trans %}Product{% endtrans %}</th>
+            <th style="width:11%; border-top: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">{% trans %}Amount{% endtrans %}</th>
+            <th style="width:11%; border-top: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">{% trans %}Price{% endtrans %}</th>
+            <th style="width:11%; border-top: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">{% trans %}Price VAT{% endtrans %}</th>
         </tr>
         {% for item in entity.items %}
         <tr>
-            <td style="width:70%; border: 1px solid black;">
+            <td style="width:67%; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
                 {{ item.name }}
                 {% if item.options is not empty %}
                     <hr />
                     {{ item.options }}
                 {% endif %}
             </td>
-            <td style="width:10%; border: 1px solid black;">
+            <td style="width:11%; border-right: 1px solid black; border-bottom: 1px solid black;">
                 {{ item.amount }}
             </td>
-            <td style="width:10%; border: 1px solid black; text-align:right;">
-                {{ item.priceVAT | number_format(2) }}
+            <td style="width:11%; border-right: 1px solid black; border-bottom: 1px solid black;; text-align:right;">
+                {{ item.priceVAT | number_format(2) }} €
             </td>
-            <td style="width:10%; border: 1px solid black; text-align:right;">
-                {{ item.priceVATTotal | number_format(2) }}
+            <td style="width:11%; border-right: 1px solid black; border-bottom: 1px solid black;; text-align:right;">
+                {{ item.priceVATTotal | number_format(2) }} €
             </td>
         </tr>
         {% endfor %}
@@ -111,30 +111,30 @@
 </p>
 <table style="width:100%; border-collapse:collapse">
     <tr>
-       <td style="width:50%"></td>
-       <td style="width:40%; border: 1px solid black; text-align:left;">
+       <td style="width:50%;"></td>
+       <td style="width:39%; border: 1px solid black; text-align:left;">
             {% trans %}Total price{% endtrans %}
         </td>
-        <th style="width:10%; border: 1px solid black;  text-align:right;">
-            {{entity.price | number_format(2) }}
+        <th style="width:11%; border-top: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;  text-align:right;">
+            {{entity.price | number_format(2) }} €
         </th>
     </tr>
     <tr>
-       <td style="width:50%"></td>
-       <td style="width:40%; border: 1px solid black;  text-align:left;">
+       <td style="width:50%;"></td>
+       <td style="width:39%; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;  text-align:left;">
             {% trans %}VAT{% endtrans %}
         </td>
-        <th style="width:10%; border: 1px solid black;  text-align:right;">
-            {{ (entity.priceVAT - entity.price) | number_format(2) }}
+        <th style="width:11%; border-right: 1px solid black; border-bottom: 1px solid black;  text-align:right;">
+            {{ (entity.priceVAT - entity.price) | number_format(2) }} €
         </th>
     </tr>
     <tr>
-        <td style="width:50%"></td>
-        <td style="width:40%; border: 1px solid black; text-align:left;">
+        <td style="width:50%;"></td>
+        <td style="width:39%; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; text-align:left;">
             {% trans %}Total price VAT{% endtrans %}
         </td>
-        <th style="width:10%; border: 1px solid black; text-align:right;">
-            {{ entity.priceVAT | number_format(2) }}
+        <th style="width:11%; border-right: 1px solid black; border-bottom: 1px solid black; text-align:right;">
+            {{ entity.priceVAT | number_format(2) }} €
         </th>
     </tr>
 </table>
@@ -143,4 +143,4 @@
 </p>
 {% endif %}
 {% endif %}
-{% endspaceless -%}
+{% endspaceless %}
