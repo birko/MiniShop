@@ -14,7 +14,7 @@ use Gedmo\Sluggable\Util\Urlizer as GedmoUrlizer;
  * @ORM\Entity(repositoryClass="Core\MediaBundle\Entity\MediaRepository")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"image" = "Image"})
+ * @ORM\DiscriminatorMap({"image" = "Image", "video" = "Video"})
  * @UniqueEntity("hash")
  * @UniqueEntity("source")
  * @ORM\HasLifecycleCallbacks

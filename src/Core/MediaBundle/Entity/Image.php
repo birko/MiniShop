@@ -167,7 +167,6 @@ class Image extends Media
             unset($afile);
             throw new \Exception("Unknown file format");
         }
-        unset($file);
     }
     
     public function update($dir, $values)

@@ -2,13 +2,13 @@
 {% block body %}
 <h1>{% trans %}Product Media edit{% endtrans %}</h1>
 
-<form action="{{ path('product_media_update', { 'id': entity.id, 'category': category, 'product': product }) }}" method="post" {{ form_enctype(edit_form) }}>
+<form action="{{ path('product_media_update', { 'id': entity.id, 'category': category, 'product': product, 'type': entity.type }) }}" method="post" {{ form_enctype(edit_form) }}>
     <div class="row">
         <div class="col-sm-10 col-md-10 col-lg-10">
             {{ form_widget(edit_form) }}
         </div>
         <div class="col-sm-2 col-md-2 col-lg-2">
-            {% render controller("CoreMediaBundle:Image:display", {'id': entity.id, 'dir': 'thumb'}) %}
+            {% include "CoreMediaBundle:Media:display.html.twig" with {'entity': entity, 'dir': 'thumb'} %}
         </div>
     </div>
     <p>
@@ -17,7 +17,7 @@
     </p>
 </form>
 
-<form action="{{ path('product_media_delete', { 'id': entity.id, 'category': category, 'product': product  }) }}" method="post">
+<form action="{{ path('product_media_delete', { 'id': entity.id, 'category': category, 'product': product, 'type': entity.type  }) }}" method="post">
     {{ form_widget(delete_form) }}
     <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> {% trans %}Delete{% endtrans %}</button>
 </form>

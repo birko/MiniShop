@@ -7,23 +7,30 @@
         {% if product is not empty %}
         <tr>
             <td colspan="3">
-                <a href="{{ path('product_media_new', {'category': category, 'product': product}) }}" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new entry{% endtrans %}</a>
+                <div class="btn-group  pull-right">
+                    <a href="{{ path('product_media_new', {'category': category, 'product': product, 'type': 'image'}) }}" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new image{% endtrans %}</a>
+                    <a href="{{ path('product_media_new', {'category': category, 'product': product, 'type': 'video'}) }}" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new video{% endtrans %}</a>
+                </div>
             </td>
         </tr>
         {% endif %}
         <tr>
             <th>{% trans %}Image{% endtrans %}</th>
             <th>{% trans %}Title{% endtrans %}</th>
-            <th>{% trans %}Actions{% endtrans %}</th>
+            <th class="col-sm-2 col-md-2 col-lg-2">{% trans %}Actions{% endtrans %}</th>
         </tr>
     </thead>
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td>{% render controller("CoreMediaBundle:Image:display", {'id': entity.id, 'dir': 'thumb'}) %}</td>
-            <td>{{ entity.title }}</td>
             <td>
-                <a href="{{ path('product_media_edit', { 'id': entity.id , 'category': category, 'product': product}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                {% include "CoreMediaBundle:Media:display.html.twig" with {'entity': entity, 'dir': 'thumb', 'link_path': ''} %}
+                </div>
+            </td>
+            <td>{{ entity.title }}</td>
+            <td class="col-sm-2 col-md-2 col-lg-2">
+                <a href="{{ path('product_media_edit', { 'id': entity.id , 'category': category, 'product': product, 'type': entity.type}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
             </td>
         </tr>
     {% endfor %}

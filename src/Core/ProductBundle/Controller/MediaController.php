@@ -7,9 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Core\ProductBundle\Entity\Product;
 use Core\MediaBundle\Entity\Media;
 use Core\MediaBundle\Entity\Image;
+use Core\MediaBundle\Entity\Video;
 use Core\MediaBundle\Form\MediaType;
 use Core\MediaBundle\Form\ImageType;
+use Core\MediaBundle\Form\VideoType;
 use Core\MediaBundle\Form\EditImageType;
+use Core\MediaBundle\Form\EditVideoType;
 
 /**
  * Content controller.
@@ -37,16 +40,27 @@ class MediaController extends Controller
      * Displays a form to create a new Content entity.
      *
      */
-    public function newAction($product, $category = null)
+    public function newAction($product, $type, $category = null)
     {
-        $entity = new Image();
-        $form   = $this->createForm(new ImageType(), $entity);
+        switch($type)
+        {
+            case "video":
+                $entity = new Video();
+                $form   = $this->createForm(new VideoType(), $entity);
+                break;
+            case "image":
+            default:
+                $entity = new Image();
+                $form   = $this->createForm(new ImageType(), $entity);
+                break;
+        }
 
         return $this->render('CoreProductBundle:Media:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'category' => $category,
             'product' => $product,
+            'type' => $type
         ));
     }
 
@@ -54,22 +68,35 @@ class MediaController extends Controller
      * Creates a new Content entity.
      *
      */
-    public function createAction($product, $category = null)
+    public function createAction($product, $type, $category = null)
     {
-        $entity = new Image();
-        $form   = $this->createForm(new ImageType(), $entity);
+        switch($type)
+        {
+            case "video":
+                $entity = new Video();
+                $form   = $this->createForm(new VideoType(), $entity);
+                break;
+            case "image":
+            default:
+                $entity = new Image();
+                $form   = $this->createForm(new ImageType(), $entity);
+                break;
+        }
         $request = $this->getRequest();
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $imageOptions = $this->container->getParameter('images');
-            $opts = array();
-            foreach($this->container->getParameter('product.images') as $val)
+            if($type == 'image')
             {
-                $opts[$val] = $imageOptions[$val];
+                $imageOptions = $this->container->getParameter('images');
+                $opts = array();
+                foreach($this->container->getParameter('product.images') as $val)
+                {
+                    $opts[$val] = $imageOptions[$val];
+                }
+                $entity->setOptions($opts);
             }
-            $entity->setOptions($opts);
             $em->persist($entity);
             $em->flush();
             $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
@@ -88,6 +115,7 @@ class MediaController extends Controller
             'form'   => $form->createView(),
             'category' => $category,
             'product' => $product,
+            'type' => $type
         ));
     }
 
@@ -95,17 +123,37 @@ class MediaController extends Controller
      * Displays a form to edit an existing Content entity.
      *
      */
-    public function editAction($id, $product, $category = null)
+    public function editAction($id, $product, $type, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+        switch($type)
+        {
+            case "video":
+                $entity = $em->getRepository('CoreMediaBundle:Video')->find($id);
+                break;
+            case "image":
+            default:
+                $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+                break;
+        }
+       
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Media entity.');
         }
+        
+        switch($type)
+        {
+            case "video":
+                $editForm = $this->createForm(new EditVideoType(), $entity);
+                break;
+            case "image":
+            default:
+                $editForm = $this->createForm(new EditImageType(), $entity);
+                break;
+        }
 
-        $editForm = $this->createForm(new EditImageType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreProductBundle:Media:edit.html.twig', array(
@@ -121,17 +169,34 @@ class MediaController extends Controller
      * Edits an existing Content entity.
      *
      */
-    public function updateAction($id, $product, $category = null)
+    public function updateAction($id, $product, $type, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
-
+        switch($type)
+        {
+            case "video":
+                $entity = $em->getRepository('CoreMediaBundle:Video')->find($id);
+                break;
+            case "image":
+            default:
+                $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+                break;
+        }
+        
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Media entity.');
         }
 
-        $editForm   = $this->createForm(new EditImageType(), $entity);
+        switch($type)
+        {
+            case "video":
+                $editForm = $this->createForm(new EditVideoType(), $entity);
+                break;
+            case "image":
+            default:
+                $editForm = $this->createForm(new EditImageType(), $entity);
+                break;
+        }
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -158,7 +223,7 @@ class MediaController extends Controller
      * Deletes a Content entity.
      *
      */
-    public function deleteAction($id, $product, $category = null)
+    public function deleteAction($id, $product, $type, $category = null)
     {
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -171,8 +236,11 @@ class MediaController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Image entity.');
             }
-            $imageOptions = $this->container->getParameter('images');
-            $entity->setOptions($imageOptions);
+            if($type == 'image')
+            {
+                $imageOptions = $this->container->getParameter('images');
+                $entity->setOptions($imageOptions);
+            }
             $em->remove($entity);
             $em->flush();
         }
