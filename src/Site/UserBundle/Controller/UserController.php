@@ -92,7 +92,7 @@ class UserController extends Controller
                 $emails = $this->container->getParameter('default.emails');
                 $message = \Swift_Message::newInstance()
                         ->setSubject($t)
-                        ->setFrom($emails['default'])
+                        ->setFrom($emails['default'], $this->container->getParameter('site_title'))
                         ->setTo(array($entity->getEmail()))
                         ->setBody($this->renderView('SiteUserBundle:Email:new.html.twig', array(
                             'login' => $entity->getLogin(),
@@ -204,7 +204,7 @@ class UserController extends Controller
                     $emails = $this->container->getParameter('default.emails');
                     $message = \Swift_Message::newInstance()
                             ->setSubject($t)
-                            ->setFrom($emails['default'])
+                            ->setFrom($emails['default'], $this->container->getParameter('site_title'))
                             ->setTo(array($user->getEmail()))
                             ->setBody($this->renderView('SiteUserBundle:Email:password_recovery.html.twig', array(
                                     'link' => $this->generateUrl('SiteUserBundle_password_recovery_do', array(

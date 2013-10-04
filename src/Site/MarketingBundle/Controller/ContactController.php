@@ -57,7 +57,7 @@ class ContactController extends Controller
                     }
                     $message = \Swift_Message::newInstance()
                             ->setSubject($t)
-                            ->setFrom($emails['default'])
+                            ->setFrom($emails['default'], $this->container->getParameter('site_title'))
                             ->setTo($send)
                             ->setBody($this->renderView('SiteMarketingBundle:Email:message.html.twig', array(
                                 'data'    => $data,
@@ -125,7 +125,7 @@ class ContactController extends Controller
                     $t = $this->get('translator')->trans('Contact %type% %subject%', array('%subject%' => $request->getHost(), '%type%' => $data['type']));
                     $message = \Swift_Message::newInstance()
                             ->setSubject($t)
-                            ->setFrom($emails['default'])
+                            ->setFrom($emails['default'], $this->container->getParameter('site_title'))
                             ->setTo($send)
                             ->setBody($this->renderView('SiteMarketingBundle:Email:message.html.twig', array(
                                 'data'    => $data,
@@ -205,7 +205,7 @@ class ContactController extends Controller
                     }
                     $message = \Swift_Message::newInstance()
                             ->setSubject($t)
-                            ->setFrom($emails['default'])
+                            ->setFrom($emails['default'], $this->container->getParameter('site_title'))
                             ->setTo($send)
                             ->setBody($this->renderView('SiteMarketingBundle:Email:message.html.twig', array(
                                 'data'    => $data,

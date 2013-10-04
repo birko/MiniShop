@@ -100,7 +100,7 @@ class MessageController extends Controller
                 }
                 $message = \Swift_Message::newInstance()
                     ->setSubject('Re:'  .$entity->getTitle())   
-                    ->setFrom($frommail)   //settings
+                    ->setFrom($frommail, $this->container->getParameter('site_title'))   //settings
                     ->setTo(array($data['email'])) 
                     ->setBody($this->renderView('CoreMarketingBundle:Email:answer.html.twig', array(  
                         'data' => $data,

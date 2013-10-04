@@ -264,7 +264,7 @@ class OrderController extends BaseOrderController
          ));
         $message = \Swift_Message::newInstance()
             ->setSubject($t)   
-            ->setFrom($emails['default'])   //settings
+            ->setFrom($emails['default'], $this->container->getParameter('site_title'))   //settings
             ->setTo(array($sendEmail)) 
             ->setBody($this->renderView('CoreShopBundle:Email:orderstatus.html.twig', array(  
                 'order' => $entity,

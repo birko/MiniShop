@@ -372,10 +372,9 @@ class NewsletterController extends Controller
                 $email = $email->getEmail();
             }
             $emails = $this->container->getParameter('default.emails');
-            $t = $this->get('translator')->trans('Newsletter %title% %subject%', array('%subject%' => $this->container->getParameter('site_title'), '%title%' => $newsletter->getTitle()));
             $message = \Swift_Message::newInstance()
-                ->setSubject($t)   
-                ->setFrom($emails['default'])   //settings
+                ->setSubject($newsletter->getTitle())   
+                ->setFrom($emails['default'], $this->container->getParameter('site_title'))   //settings
                 ->setTo(array($email)) //settings admin
                 ->setBody($this->renderView('CoreNewsletterBundle:Email:newsletter.html.twig', array(  
                         'entity' => $newsletter,

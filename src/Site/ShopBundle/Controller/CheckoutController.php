@@ -287,7 +287,7 @@ class CheckoutController extends ShopController
                     $emails = $this->container->getParameter('default.emails');
                     $message = \Swift_Message::newInstance()
                             ->setSubject($t)
-                            ->setFrom($emails['default'])
+                            ->setFrom($emails['default'], $this->container->getParameter('site_title'))
                             ->setTo(array($newUser->getEmail()))
                             ->setBody($this->renderView('SiteUserBundle:Email:new.html.twig', array(
                                 'login' => $newUser->getLogin(),
@@ -387,7 +387,7 @@ class CheckoutController extends ShopController
         ));
         $message = \Swift_Message::newInstance()
             ->setSubject($t)   
-            ->setFrom($emails['default'])   //settings
+            ->setFrom($emails['default'], $this->container->getParameter('site_title'))   //settings
             ->setTo(array($emails['order'], $sendEmail)) 
             ->setBody($this->renderView('SiteShopBundle:Email:order.html.twig', array(  
                 'order' => $order,
