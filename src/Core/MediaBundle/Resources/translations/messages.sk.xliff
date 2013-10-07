@@ -114,6 +114,14 @@
                 <source>Image</source>
                 <target>Obrázok</target>
             </trans-unit>
+            <trans-unit id="29">
+                <source>Create a new video</source>
+                <target>Vytvoriť nové video</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>Video type</source>
+                <target>Typ videa</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

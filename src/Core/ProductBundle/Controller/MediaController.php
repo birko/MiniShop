@@ -231,10 +231,21 @@ class MediaController extends Controller
         $form->bind($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+            $entity = null;
+            switch($type)
+            {
+                case "video":
+                     $entity = $em->getRepository('CoreMediaBundle:Video')->find($id);
+                    break;
+                case "image":
+                default:
+                    $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+                    break;
+            }
+           
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Image entity.');
+                throw $this->createNotFoundException('Unable to find ' . $type . ' entity.');
             }
             if($type == 'image')
             {
