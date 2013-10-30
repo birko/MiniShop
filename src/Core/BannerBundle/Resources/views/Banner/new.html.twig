@@ -1,0 +1,18 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>{%trans%}Banner creation{%endtrans%}</h1>
+
+<form action="{{ path('banner_create', {'category': category}) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_row(form.media.file) }}
+    {{ form_errors(form) }}
+    {{ form_row(form.title) }}
+    {# form_row(form.media.title) #}
+    {# form_row(form.media.description) #}
+    {{ form_row(form.link) }}
+    {{ form_row(form.description) }}
+    <p>
+        {{ form_row(form._token) }}
+        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> {%trans%}Create{%endtrans%}</button>
+    </p>
+</form>
+{% endblock%}

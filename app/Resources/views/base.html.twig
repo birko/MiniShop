@@ -9,6 +9,7 @@
            '@SiteDefaultBundle/Resources/public/less/style.less'
            '@SiteMarketingBundle/Resources/public/less/style.less'
            '@SiteShopBundle/Resources/public/less/style.less'
+           '@SiteBannerBundle/Resources/public/less/style.less'
             output='css/main.css'
         %}
         <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
@@ -75,6 +76,7 @@
         </div>
         {% javascripts
            'http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'
+           '@MopaBootstrapBundle/Resources/public/bootstrap/js/carousel.js'
            '@SiteDefaultBundle/Resources/public/js/script.js'
            '@SiteShopBundle/Resources/public/js/script.js'
            output="js/site.js"

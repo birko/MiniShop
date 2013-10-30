@@ -1,3 +1,7 @@
+core_banner:
+    resource: "@CoreBannerBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
 core_price:
     resource: "@CorePriceBundle/Resources/config/routing.yml"
     prefix:   /admin
@@ -45,6 +49,10 @@ CoreCategoryBundle:
 CoreCommonBundle:
     resource: "@CoreCommonBundle/Resources/config/routing.yml"
     prefix:   /admin
+
+site_banner:
+    resource: "@SiteBannerBundle/Resources/config/routing.yml"
+    prefix:   /
 
 site_marketing:
     resource: "@SiteMarketingBundle/Resources/config/routing.yml"

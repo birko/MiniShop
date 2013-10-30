@@ -2,6 +2,7 @@
 {% block body %}
 {% if category is not empty %}
 {% render controller("SiteCategoryBundle:Category:breadcrumb" ,{'id': category.id}) %}
+{% render controller("SiteBannerBundle:Banner:banner", {'category': category.id, 'type': 'original' }) %}
 {% render controller("SiteContentBundle:Content:display", {'category': category.id, 'cpage': cpage }) %}
 {% endif %}
 </div>

@@ -1,0 +1,4 @@
+CoreBannerBundle_banner:
+    resource: "@CoreBannerBundle/Resources/config/routing/banner.yml"
+    prefix:   /banner
+

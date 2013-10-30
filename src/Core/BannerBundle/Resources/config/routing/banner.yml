@@ -1,0 +1,30 @@
+banner:
+    pattern:  /{category}
+    defaults: { _controller: "CoreBannerBundle:Banner:index", category: ~ }
+
+banner_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "CoreBannerBundle:Banner:show" }
+
+banner_new:
+    pattern:  /new/{category}
+    defaults: { _controller: "CoreBannerBundle:Banner:new" }
+
+banner_create:
+    pattern:  /create/{category}
+    defaults: { _controller: "CoreBannerBundle:Banner:create" }
+    requirements: { _method: post }
+
+banner_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "CoreBannerBundle:Banner:edit" }
+
+banner_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "CoreBannerBundle:Banner:update" }
+    requirements: { _method: post }
+
+banner_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "CoreBannerBundle:Banner:delete" }
+    requirements: { _method: post }

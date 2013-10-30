@@ -5,12 +5,13 @@
             <td class="slug">{{ entity.slug }}</td>
             <td class="home">{% if entity.home %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
             <td class="content">
-                 <a href="{{ path('content', { 'category': entity.id }) }}" class="btn btn-info"><span class="glyphicon glyphicon-list"></span> Content</a>
-                 <a href="{{ path('product', { 'category': entity.id }) }}" class="btn btn-info"><span class="glyphicon glyphicon-list"></span> Products</a>
+                 <a href="{{ path('content', { 'category': entity.id }) }}" class="btn btn-info"><span class="glyphicon glyphicon-list"></span> {% trans %}Content{% endtrans %}</a>
+                 <a href="{{ path('product', { 'category': entity.id }) }}" class="btn btn-info"><span class="glyphicon glyphicon-list"></span> {% trans %}Products{% endtrans %}</a>
+                 <a href="{{ path('banner', { 'category': entity.id }) }}" class="btn btn-info"><span class="glyphicon glyphicon-list"></span> {% trans %}Banner{% endtrans %}</a>
             </td>
             <td class="actions">
-                <a href="{{ path('category_edit', { 'id': entity.id }) }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Edit</a>
-                <a href="{{ path('category_new', {'menu': active, 'parent': entity.id}) }}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create a new child </a>
+                <a href="{{ path('category_edit', { 'id': entity.id }) }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit</a>
+                <a href="{{ path('category_new', {'menu': active, 'parent': entity.id}) }}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new child{% endtrans %} </a>
             </td>
         </tr>
         {% if entity.children is not empty %}
