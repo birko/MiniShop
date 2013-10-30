@@ -18,6 +18,7 @@ class ImageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+        $webpath = null;
         if($entity !== null)
         {
             $imageOptions = $this->container->getParameter('images');
@@ -29,10 +30,11 @@ class ImageController extends Controller
             {
                 $entity->update($link_path, $imageOptions[$link_path]);
             }
+            $webpath = $entity->getWebPath($dir);
         }
         return $this->render('CoreMediaBundle:Image:display.html.twig', array(
             'image'      => $entity,
-            'source'    => $entity->getWebPath($dir),
+            'source'    =>  $webpath,
             'link_path' => $link_path,
 
         ));
