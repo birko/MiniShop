@@ -33,7 +33,7 @@ class ProductController extends ShopController
     {
         $priceGroup = $this->getPriceGroup();
         $em = $this->getDoctrine()->getManager();
-        $query = $em->getRepository("CoreProductBundle:Product")->findByCategoryQuery($category, true, true);
+        $query = $em->getRepository("CoreProductBundle:Product")->findByCategoryQuery($category, $this->container->getParameter("site.product.recursive"), true);
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $query,
@@ -49,7 +49,7 @@ class ProductController extends ShopController
         $em = $this->getDoctrine()->getManager();
         $filter = new Filter();
         $filter->setVendor($vendor);
-        $querybuilder  = $em->getRepository("CoreProductBundle:Product")->findByCategoryQueryBuilder(null, true, true);
+        $querybuilder  = $em->getRepository("CoreProductBundle:Product")->findByCategoryQueryBuilder(null, $this->container->getParameter("site.product.recursive"), true);
         $query  = $em->getRepository("CoreProductBundle:Product")->filterQueryBuilder($querybuilder, $filter)->getQuery();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(

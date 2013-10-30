@@ -25,6 +25,10 @@ class SiteProductExtension extends Extension
         {
             $container->setParameter("site.product.perpage", $config['per_page']);
         }
+        if(isset($config['recursive']))
+        {
+            $container->setParameter("site.product.recursive", $config['recursive']);
+        }
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

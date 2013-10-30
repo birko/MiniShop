@@ -21,6 +21,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('site_product')
             ->children()
                 ->variableNode('per_page')->defaultValue(12)->end()
+                ->booleanNode('recursive')->defaultTrue()->end()
             ->end();
 
         // Here you should define the parameters that are allowed to
