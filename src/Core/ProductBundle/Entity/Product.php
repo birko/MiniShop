@@ -57,13 +57,12 @@ class Product
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="Core\CategoryBundle\Entity\Category", inversedBy="products")
-     * @ORM\JoinTable(name="products_categorises")
-     */
-     private $categories;
      
+     /**
+      * @ORM\OneToMany(targetEntity="ProductCategory", mappedBy="product")
+      */
+     
+     protected $productCategories;
     /**
      * @ORM\OneToMany(targetEntity="Core\ProductBundle\Entity\Price", mappedBy="product")
      * @ORM\OrderBy({ "priceVAT" = "ASC"})
@@ -118,7 +117,7 @@ class Product
     public function __construct() 
     {
         $this->setCreatedAt(new \DateTime());
-        $this->categories = new ArrayCollection();
+        $this->productCategories = new ArrayCollection();
         $this->prices = new ArrayCollection();
         $this->options = new ArrayCollection();
         $this->media = new ArrayCollection();
@@ -215,13 +214,54 @@ class Product
     }
     
     /**
-     * Get categories
+     * Add category
+     *
+     * @param Core\CategoryBundle\Category
+     */
+    public function addCategory($category)
+    {
+        $productCategory = $this->getProductCategory($category->getId());
+        if(empty($productCategory))
+        {
+            $productCategory = new ProductCategory();
+            $productCategory->setProduct($this);
+            $productCategory->setCategory($category);
+            $this->getProductCategories()->add($productCategory);
+        }
+        return $productCategory;
+    }
+    
+    /**
+     * Remove category
+     *
+     * @param Core\CategoryBundle\Category
+     */
+    public function removeCategory($category)
+    {  
+        $productCategory = $this->getProductCategory($category->getId());
+        if($productCategory !== null)
+        {
+            $this->getProductCategories()->removeElement($productCategory);
+        }
+        return $productCategory;
+    }
+    
+    /**
+     * Get ProductCategories
      *
      * @return ArrayCollection
-     */    
-    public function getCategories()
+     */
+    public function getProductCategories()
     {
-        return $this->categories;   
+        return $this->productCategories;
+    }
+    
+    public function getProductCategory($categoryID)
+    {
+        return $this->getProductCategories()->filter(function($entry) use ($categoryID)
+        {
+            return ($entry->getCategory()->getId() == $categoryID);
+        })->first();
     }
     
     /**

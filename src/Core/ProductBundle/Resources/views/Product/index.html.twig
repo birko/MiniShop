@@ -54,6 +54,11 @@
                     <a href="{{ path('product_edit', { 'id': entity.id, 'category': category }) }}" class="btn btn-xs btn-warning "><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
                     <a href="{{ path('product_copy', { 'id': entity.id, 'category': category }) }}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-leaf"></span> {% trans %}Copy{% endtrans %}</a>
                     {% if category is not empty %}
+                    <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="#">{% trans %}Move{% endtrans%} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('product_up', { 'id': entity.id, 'category': category, 'position': 1 }) }}" class="move-up"><span class="glyphicon glyphicon-arrow-up"></span> {% trans %}Move up{% endtrans %}</a></li>
+                        <li><a href="{{ path('product_down', { 'id': entity.id, 'category': category, 'position': 1 }) }}" class="move-down"><span class="glyphicon glyphicon-arrow-down"></span> {% trans %}Move down{% endtrans %}</a></li>
+                    </ul>
                     <a href="{{ path('product_remove', { 'id': entity.id, 'category': category  }) }}" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span> {%trans%}Remove{%endtrans%}</a>
                     {% endif %}
                 </div>

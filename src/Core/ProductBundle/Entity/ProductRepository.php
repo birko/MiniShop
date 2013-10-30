@@ -18,11 +18,12 @@ class ProductRepository extends EntityRepository
                 ->select("p, ps")
                 ->from("CoreProductBundle:Product", "p")
                 ->leftJoin("p.stock", "ps")
-                ->leftJoin("p.categories", "pc");
+                ->leftJoin("p.productCategories", "pc")
+                ->leftJoin("pc.category", "c");
         if($join)
         {
             $queryBuilder
-                ->select("p, ps, pp, pa, po, pm, v")
+                ->select("p, ps, pp, pa, po, pm, v, pc, c")
                 ->leftJoin("p.prices", "pp")
                 ->leftJoin("p.attributes", "pa")
                 ->leftJoin("p.options", "po")
@@ -31,7 +32,7 @@ class ProductRepository extends EntityRepository
         }
         if($category !== null)
         {
-            $expr = $queryBuilder->expr()->orX($queryBuilder->expr()->eq("pc.id",":category"));
+            $expr = $queryBuilder->expr()->orX($queryBuilder->expr()->eq("pc.category",":category"));
             $queryBuilder->andWhere($expr)
             ->setParameter('category', $category);
             if($recursive)
@@ -39,7 +40,7 @@ class ProductRepository extends EntityRepository
                 $categoryEntity = $this->getEntityManager()->getRepository("CoreCategoryBundle:Category")->find($category);
                 if($categoryEntity)
                 {
-                    $expr2 = $queryBuilder->expr()->andX($queryBuilder->expr()->gte("pc.lft", ":cleft"), $queryBuilder->expr()->lte("pc.lft", ":cright"));
+                    $expr2 = $queryBuilder->expr()->andX($queryBuilder->expr()->gte("c.lft", ":cleft"), $queryBuilder->expr()->lte("c.lft", ":cright"));
                     $expr->add($expr2);
                     $queryBuilder->setParameter('cleft', $categoryEntity->getLeft());
                     $queryBuilder->setParameter('cright', $categoryEntity->getRight());
@@ -48,9 +49,13 @@ class ProductRepository extends EntityRepository
         }
         if($onlyenabled)
         {
-            $queryBuilder->andWhere("p.enabled =:enabled")
+            $queryBuilder
+                ->andWhere("p.enabled =:enabled")
                 ->setParameter("enabled", $onlyenabled);
         }
+        $queryBuilder
+            ->addOrderBy("pc.position", 'asc')
+            ->addOrderBy("p.id", 'asc');
         return $queryBuilder;
     }
    
@@ -150,8 +155,11 @@ class ProductRepository extends EntityRepository
             $order = explode(" ", $filter->getOrder());
             if(!empty($order))
             {
-                $order[0] = str_replace("p.", $selector . "." , $order[0]);
-                $queryBuilder->addOrderBy($order[0], $order[1]);
+                if(!empty($order[0]))
+                {
+                    $order[0] = str_replace("p.", $selector . "." , $order[0]);
+                    $queryBuilder->orderBy($order[0], (isset($order[1]) && !empty($order[1]))? $order[1] : "asc");
+                }
             }
         }
         

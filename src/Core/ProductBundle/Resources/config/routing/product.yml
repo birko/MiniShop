@@ -54,3 +54,11 @@ product_remove:
     requirements:
         category: \d+
         id: \d+
+
+product_up:
+    pattern:  /{id}/moveup/{position}/{category}
+    defaults: { _controller: "CoreProductBundle:Product:moveUp", category: ~  }
+
+product_down:
+    pattern:  /{id}/movedown/{position}/{category}
+    defaults: { _controller: "CoreProductBundle:Product:moveDown", category: ~  }

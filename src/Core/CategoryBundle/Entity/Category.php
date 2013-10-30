@@ -83,9 +83,9 @@ class Category
     private $contents;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Core\ProductBundle\Entity\Product", mappedBy="categories")
+     * @ORM\OneToMany(targetEntity="Core\ProductBundle\Entity\ProductCategory", mappedBy="category")
      */
-    private $products;
+    private $productCategories;
     
     /**
      * @Gedmo\Locale
@@ -120,7 +120,7 @@ class Category
         $this->setMenu(0);
         $this->children = new ArrayCollection();
         $this->contents = new ArrayCollection();
-        $this->products = new ArrayCollection();
+        $this->productCategories = new ArrayCollection();
     }
     
     /**
@@ -293,14 +293,9 @@ class Category
         return $this->contents;   
     }
     
-    /**
-     * Get products
-     *
-     * @return ArrayCollection
-     */    
-    public function getProducts()
+    public function getProductCategories()
     {
-        return $this->products;   
+        return $this->productCategories;   
     }
     
     public function __toString()

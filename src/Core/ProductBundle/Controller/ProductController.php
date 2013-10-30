@@ -132,19 +132,18 @@ class ProductController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
             if($category !== null)
             {
                 $categoryEntity = $em->getRepository('CoreCategoryBundle:Category')->find($category);
                 if($categoryEntity != null)
                 {
-                    $entity->getCategories()->add($categoryEntity);
-                    $categoryEntity->getProducts()->add($entity);
-                    $em->persist($categoryEntity);
+                    $productCategory = $entity->addCategory($categoryEntity);
+                    $em->persist($productCategory);
+                    $em->flush();
                 }
             }
-            $em->persist($entity);
-            $em->flush();
-
             return $this->redirect($this->generateUrl('product', array('category' => $category)));
             
         }
@@ -264,10 +263,9 @@ class ProductController extends Controller
                 $em->remove($media);
             }
             
-            foreach($entity->getCategories() as $productcategory)
+            foreach($entity->getProductCategories() as $productcategory)
             {
-                $productcategory->getProducts()->removeElement($entity);
-                $em->persist($productcategory);
+                $em->remove($productcategory);
             }
 
             $em->remove($entity);
@@ -335,11 +333,10 @@ class ProductController extends Controller
             $em->persist($attribute);
         }
         
-        foreach($product->getCategories() as $productcategory)
+        foreach($product->getProductCategories() as $productcategory)
         {
-            $entity->getCategories()->add($productcategory);
-            $productcategory->getProducts()->add($entity);
-            $em->persist($productcategory);
+            $productCategory = $entity->addCategory($productcategory->getCategory());
+            $em->persist($productCategory);
         }
         
         $em->flush();
@@ -409,12 +406,10 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
         $categoryEntity  = $em->getRepository('CoreCategoryBundle:Category')->find($category);
-        if($categoryEntity)
+        if($categoryEntity != null)
         {
-            $entity->getCategories()->add($categoryEntity);
-            $categoryEntity->getProducts()->add($entity);
-            $em->persist($categoryEntity);
-            $em->persist($entity);
+            $productCategory = $entity->addCategory($categoryEntity);
+            $em->persist($productCategory);
             $em->flush();
         }
         return $this->redirect($this->generateUrl('product_addlist', array('category' => $category)));
@@ -423,15 +418,40 @@ class ProductController extends Controller
     public function removeAction($id, $category)
     {
         $em = $this->getDoctrine()->getManager();
-        $cat = $em->getRepository('CoreCategoryBundle:Category')->find($category);
+        $em->getRepository('NwsProductBundle:ProductCategory')->removeProductCategory($category, $id);
+        return $this->redirect($this->generateUrl('product', array('category' => $category)));
+    }
+    
+    public function moveUpAction($id, $position, $category)
+    {
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreProductBundle:Product')->find($id);
-        if($cat && $entity)
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.');
+        }
+        $productCategory = $entity->getProductCategory($category);
+        if($productCategory)
         {
-            $entity->getCategories()->removeElement($cat);
-            $cat->getProducts()->removeElement($entity);
-            $em->persist($entity);
-            $em->persist($cat);
-            $em->flush(); 
+            $productCategory->setPosition($productCategory->getPosition() - $position);
+            $em->persist($productCategory);
+            $em->flush();
+        }
+        return $this->redirect($this->generateUrl('product', array('category' => $category)));
+    }
+    
+    public function moveDownAction($id, $position, $category)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreProductBundle:Product')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.');
+        }
+        $productCategory = $entity->getProductCategory($category);
+        if($productCategory)
+        {
+            $productCategory->setPosition($productCategory->getPosition() + $position);
+            $em->persist($productCategory);
+            $em->flush();
         }
         return $this->redirect($this->generateUrl('product', array('category' => $category)));
     }

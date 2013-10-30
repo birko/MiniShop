@@ -18,7 +18,7 @@ class Filter extends BaseFilter implements \Serializable
     public function __construct()
     {
         parent::__construct();
-        $this->order = "p.createdAt desc";
+        $this->order = "pc.position asc";
     }
     
     public function getCategory()
