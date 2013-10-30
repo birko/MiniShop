@@ -17,20 +17,16 @@
         <section id="wrapper">
             <header>
                 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-                    <div class="navbar-header">
-                        <div class="container-fluid">
-                            <div class="col-sm-12 col-md-12 col-lg-12">
-                                <div class="navbar-header">
-                                    <a class="navbar-brand" offest2" href="#">{{site_title}}</a>
-                                </div>
-                                <div class="collapse navbar-collapse navbar-ex1-collapse">
-                                    <ul class="nav navbar-nav pull-right">
-                                        {% if app.user is not empty and is_granted('ROLE_USER ')%}
-                                        <li><a href="{{ path('CoreUserBundle_logout') }}"><i class="icon-off"></i> {% trans %}Logout{% endtrans %}</a></li>
-                                        {% endif %}
-                                    </ul>
-                                </div>
-                            </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" offest2" href="#">{{site_title}}</a>
+                        </div>
+                        <div class="collapse navbar-collapse navbar-ex1-collapse">
+                            <ul class="nav navbar-nav pull-right">
+                                {% if app.user is not empty and is_granted('ROLE_USER ')%}
+                                <li><a href="{{ path('CoreUserBundle_logout') }}"><i class="icon-off"></i> {% trans %}Logout{% endtrans %}</a></li>
+                                {% endif %}
+                            </ul>
                         </div>
                     </div>
                 </nav>
@@ -103,7 +99,7 @@
         </section>
         {% javascripts
            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
-           '@MopaBootstrapBundle/Resources/bootstrap/js/dropdown.js'
+           '@MopaBootstrapBundle/Resources/public/bootstrap/js/dropdown.js'
            output="js/bootstrap.js"
         %}
         <script src="{{ asset_url }}" type="text/javascript" ></script>
