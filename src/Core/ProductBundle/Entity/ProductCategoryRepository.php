@@ -38,4 +38,21 @@ class ProductCategoryRepository extends EntityRepository
         $numUpdated = $q->execute(); 
         return $numUpdated;
     }
+    
+    public function updatePosition($productId, $categoryId, $position, $move)
+    {
+        $q = $this->getEntityManager()->createQueryBuilder();
+        $q->update("CoreProductBundle:ProductCategory", "pc")
+                ->set("pc.position", $q->expr()->sum("pc.position", ":move"))
+                ->where("pc.category = :cid")
+                ->andWhere("pc.position = :position")
+                ->andWhere("pc.product <> :pid")
+                ->setParameter('move', $move)
+                ->setParameter('cid', $categoryId)
+                ->setParameter('position', $position)
+                ->setParameter('pid', $productId)
+                ;
+        $numUpdated = $q->getQuery()->execute(); 
+        return $numUpdated;
+    }
 }

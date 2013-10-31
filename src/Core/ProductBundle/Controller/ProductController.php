@@ -418,7 +418,7 @@ class ProductController extends Controller
     public function removeAction($id, $category)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('NwsProductBundle:ProductCategory')->removeProductCategory($category, $id);
+        $em->getRepository('CoreProductBundle:ProductCategory')->removeProductCategory($category, $id);
         return $this->redirect($this->generateUrl('product', array('category' => $category)));
     }
     
@@ -432,9 +432,7 @@ class ProductController extends Controller
         $productCategory = $entity->getProductCategory($category);
         if($productCategory)
         {
-            $productCategory->setPosition($productCategory->getPosition() - $position);
-            $em->persist($productCategory);
-            $em->flush();
+            $em->getRepository('CoreProductBundle:ProductCategory')->updatePosition($entity->getId(), $category, $productCategory->getPosition(), $position);
         }
         return $this->redirect($this->generateUrl('product', array('category' => $category)));
     }
@@ -449,9 +447,7 @@ class ProductController extends Controller
         $productCategory = $entity->getProductCategory($category);
         if($productCategory)
         {
-            $productCategory->setPosition($productCategory->getPosition() + $position);
-            $em->persist($productCategory);
-            $em->flush();
+            $em->getRepository('CoreProductBundle:ProductCategory')->updatePosition($entity->getId(), $category, $productCategory->getPosition(), (-1) * $position);
         }
         return $this->redirect($this->generateUrl('product', array('category' => $category)));
     }
