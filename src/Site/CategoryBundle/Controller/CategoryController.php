@@ -31,7 +31,7 @@ class CategoryController extends Controller
         }
         if($category->isHome())
         {
-            return $this->redirect('category_homepage');
+            return $this->redirect($this->generateUrl('category_homepage'));
         }
         $page = $this->getRequest()->get("page", 1);
         $cpage = $this->getRequest()->get("cpage", 1);
