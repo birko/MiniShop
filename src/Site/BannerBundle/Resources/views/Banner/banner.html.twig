@@ -1,5 +1,5 @@
 {% if entities is not empty %}
-<div id="banner-{{entities.0.id}}" class="banner carousel slide">
+<div id="banner-{{entities.0.id}}" class="banner {% if entities| length > 1 %}carousel slide{% endif %}">
     <div class="carousel-inner">
         {% for entity in entities %}
         <div class="item {% if loop.index0 == 0 %}active{% endif %}">
@@ -20,12 +20,14 @@
         </div>
         {% endfor %}
     </div>
+    {% if entities| length > 1 %}
     <!-- Controls -->
     <a class="left carousel-control" href="#banner-{{entities.0.id}}" data-slide="prev">
         <span class="icon-prev"></span>
     </a>
     <a class="right carousel-control" href="#banner-{{entities.0.id}}" data-slide="next">
         <span class="icon-next"></span>
-    </a>   
+    </a>
+    {% endif %}
 </div>
 {% endif %}
