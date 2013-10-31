@@ -29,10 +29,15 @@ class MediaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('CoreProductBundle:Product')->findMediaByProduct($product);
 
+        $entity = $em->getRepository('CoreProductBundle:Product')->find($product);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.');
+        }
+        
         return $this->render('CoreProductBundle:Media:index.html.twig', array(
             'entities' => $entities,
             'category' => $category,
-            'product' => $product,
+            'product' => $entity,
         ));
     }
 
@@ -277,7 +282,9 @@ class MediaController extends Controller
         $productMedia = $entity->getProductMedia($id);
         if($productMedia)
         {
-            $em->getRepository('CoreProductBundle:ProductMedia')->updatePosition($entity->getId(), $id, $productMedia->getPosition(), $position);
+            $productMedia->setPosition($productMedia->getPosition() - $position);
+            $em->persist($productMedia);
+            $em->flush();
         }
         return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
     }
@@ -292,7 +299,9 @@ class MediaController extends Controller
         $productMedia = $entity->getProductMedia($id);
         if($productMedia)
         {
-            $em->getRepository('CoreProductBundle:ProductMedia')->updatePosition($entity->getId(), $id, $productMedia->getPosition(), (-1) * $position);
+            $productMedia->setPosition($productMedia->getPosition() + $position);
+            $em->persist($productMedia);
+            $em->flush();
         }
         return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
     }

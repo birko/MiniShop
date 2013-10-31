@@ -7,7 +7,7 @@
         {% if content is not empty %}
         <tr>
             <td colspan="3">
-                <a href="{{ path('content_media_new', {'category': category, 'content': content}) }}" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new image{% endtrans %}</a>
+                <a href="{{ path('content_media_new', {'category': category, 'content': content.id}) }}" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new image{% endtrans %}</a>
             </td>
         </tr>
         {% endif %}
@@ -27,11 +27,12 @@
             <td>{{ entity.title }}</td>
             <td>
                 <div class="btn-group">
-                    <a href="{{ path('content_media_edit', { 'id': entity.id , 'category': category, 'content': content}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
+                    <a href="{{ path('content_media_edit', { 'id': entity.id , 'category': category, 'content': content.id}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
+                    <span class="btn btn-default btn-xs">{{content.getContentMedia(entity.id).position}}</span>
                     <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="#">{% trans %}Move{% endtrans%} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('content_media_up', { 'id': entity.id, 'category': category, 'position': 1, 'content': content }) }}" class="move-up"><span class="glyphicon glyphicon-arrow-up"></span> {% trans %}Move up{% endtrans %}</a></li>
-                        <li><a href="{{ path('content_media_down', { 'id': entity.id, 'category': category, 'position': 1, 'content': content }) }}" class="move-down"><span class="glyphicon glyphicon-arrow-down"></span> {% trans %}Move down{% endtrans %}</a></li>
+                        <li><a href="{{ path('content_media_up', { 'id': entity.id, 'category': category, 'position': 1, 'content': content.id }) }}" class="move-up"><span class="glyphicon glyphicon-arrow-up"></span> {% trans %}Move up{% endtrans %}</a></li>
+                        <li><a href="{{ path('content_media_down', { 'id': entity.id, 'category': category, 'position': 1, 'content': content.id }) }}" class="move-down"><span class="glyphicon glyphicon-arrow-down"></span> {% trans %}Move down{% endtrans %}</a></li>
                     </ul>
                 </div>
             </td>

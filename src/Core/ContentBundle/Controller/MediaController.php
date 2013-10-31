@@ -36,11 +36,15 @@ class MediaController extends Controller
        //     100/*limit per page*/,
        //     array('distinct' => false)
         //);
-
+        $entity = $em->getRepository('CoreContentBundle:Content')->find($content);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Content entity.');
+        }
+        
         return $this->render('CoreContentBundle:Media:index.html.twig', array(
             'entities' => $entities,
             'category' => $category,
-            'content' => $content,
+            'content' => $entity,
         ));
     }
 
@@ -210,7 +214,9 @@ class MediaController extends Controller
         $contentMedia = $entity->getContentMedia($id);
         if($contentMedia)
         {
-            $em->getRepository('CoreContentBundle:ContentMedia')->updatePosition($entity->getId(), $id, $contentMedia->getPosition(), $position);
+            $contentMedia->setPosition($contentMedia->getPosition() - $position);
+            $em->persist($contentMedia);
+            $em->flush();
         }
         return $this->redirect($this->generateUrl('content_media', array('category' => $category, 'content' => $content,)));
     }
@@ -225,7 +231,9 @@ class MediaController extends Controller
         $contentMedia = $entity->getContentMedia($id);
         if($contentMedia)
         {
-            $em->getRepository('CoreContentBundle:ContentMedia')->updatePosition($entity->getId(), $id, $contentMedia->getPosition(), (-1) * $position);
+            $contentMedia->setPosition($contentMedia->getPosition() + $position);
+            $em->persist($contentMedia);
+            $em->flush();
         }
         return $this->redirect($this->generateUrl('content_media', array('category' => $category, 'content' => $content,)));
     }

@@ -225,7 +225,9 @@ class BannerController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Banner entity.');
         }
-        $em->getRepository('CoreBannerBundle:Banner')->updatePosition($entity->getId(), $category, $entity->getPosition(), $position);
+        $entity->setPosition($entity->getPosition() - $position);
+        $em->persist($entity);
+        $em->flush();
         return $this->redirect($this->generateUrl('banner', array('category' => $category)));
     }
     
@@ -236,7 +238,9 @@ class BannerController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Banner entity.');
         }
-        $em->getRepository('CoreBannerBundle:Banner')->updatePosition($entity->getId(), $category, $entity->getPosition(), (-1) * $position);
+        $entity->setPosition($entity->getPosition() + $position);
+        $em->persist($entity);
+        $em->flush();
         return $this->redirect($this->generateUrl('banner', array('category' => $category)));
     }
 }

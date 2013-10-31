@@ -432,7 +432,9 @@ class ProductController extends Controller
         $productCategory = $entity->getProductCategory($category);
         if($productCategory)
         {
-            $em->getRepository('CoreProductBundle:ProductCategory')->updatePosition($entity->getId(), $category, $productCategory->getPosition(), $position);
+            $productCategory->setPosition($productCategory->getPosition() - $position);
+            $em->persist($productCategory);
+            $em->flush();
         }
         return $this->redirect($this->generateUrl('product', array('category' => $category)));
     }
@@ -447,7 +449,9 @@ class ProductController extends Controller
         $productCategory = $entity->getProductCategory($category);
         if($productCategory)
         {
-            $em->getRepository('CoreProductBundle:ProductCategory')->updatePosition($entity->getId(), $category, $productCategory->getPosition(), (-1) * $position);
+            $productCategory->setPosition($productCategory->getPosition() + $position);
+            $em->persist($productCategory);
+            $em->flush();
         }
         return $this->redirect($this->generateUrl('product', array('category' => $category)));
     }
