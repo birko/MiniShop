@@ -17,4 +17,6 @@
         {{ knp_pagination_render(entities)}}
     </div>
 </div>
+{% elseif not recursive %}
+{% render controller("SiteCategoryBundle:Category:list", {'parent': category, 'children': ''}) %}
 {% endif %}

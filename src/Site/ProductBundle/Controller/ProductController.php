@@ -40,7 +40,12 @@ class ProductController extends ShopController
             $page /*page number*/,
             $this->container->getParameter("site.product.perpage") /*limit per page*/
         );
-        return $this->render('SiteProductBundle:Product:list.html.twig', array('entities' => $pagination, 'pricegroup' => $priceGroup));
+        return $this->render('SiteProductBundle:Product:list.html.twig', array(
+            'entities' => $pagination, 
+            'pricegroup' => $priceGroup,
+            'category' =>$category,
+            'recursive' => $this->container->getParameter("site.product.recursive"),
+        ));
     }
     
     public function vendorAction($vendor, $page = 1)

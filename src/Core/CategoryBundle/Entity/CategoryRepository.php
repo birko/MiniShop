@@ -13,14 +13,18 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
  */
 class CategoryRepository extends NestedTreeRepository
 {
-    public function getCategoriesByMenu($menu, $parent = null, $onlyenabled = false)
+    public function getCategoriesByMenu($menu = null, $parent = null, $onlyenabled = false)
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
                ->select("c")
                ->from("CoreCategoryBundle:Category", "c")
                ->set("c.home", ":home")
-               ->andWhere("c.menu = :menu")
-               ->setParameter('menu', $menu);
+               ;
+        if($menu !== null)
+        {
+            $qb ->andWhere("c.menu = :menu")
+                ->setParameter('menu', $menu);
+        }
         if($parent !== null)
         {
            $qb ->andWhere("c.parent = :parent")

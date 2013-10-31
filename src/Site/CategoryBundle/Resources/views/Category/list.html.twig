@@ -1,11 +1,11 @@
 {% if categories is not empty %}
-<ul class="tree nav" {% if id is not empty %}id="{{id}}"{% endif %}>
+<ul class="list nav">
     {%for category in categories %}
-        <li class="leaf child-{{loop.index}} {%if loop.index == 1 %}first{% endif %} {%if loop.index == categories|length %}last{% endif %}">
-            <a href="{{path('category_site', {'slug': category.slug})}}#main">
-                <span>{{category.title}}</span>
-            </a>
-            {% include "SiteCategoryBundle:Category:list.html.twig" with {'categories': category.children, 'id': ''} %}
+        <li class="list-item-{{loop.index}}">
+            {% include "SiteCategoryBundle:Category:Tree/NodeDecoration.html.twig" with {'node': category} %}
+            {% if children %}
+            {% include "SiteCategoryBundle:Category:list.html.twig" with {'categories': category.children, 'children': children} %}
+            {% endif %}
         </li>
     {% endfor %}
 </ul>

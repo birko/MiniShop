@@ -34,24 +34,27 @@ class CategoryController extends Controller
         return $this->render('SiteCategoryBundle:Category:index.html.twig', array('category' => $category, 'page' => $page, 'cpage' => $cpage));
     }
     
-    public function listAction($menu, $parent = null)
+    public function listAction($menu = null, $parent = null, $children = true)
     {
         $em = $this->getDoctrine()->getManager();
-        $menu_index = $menu;
-        if(!is_integer($menu_index))
+        $menu_index = null;
+        if($menu !== null)
         {
-            $menus = $this->container->getParameter('menu');
-            $menu_index = array_search($menu, $menus);
-        }
-        if($menu_index === false)
-        {
-            throw $this->createNotFoundException("Menu not found: ". $menu);
+            if(!is_integer($menu_index))
+            {
+                $menus = $this->container->getParameter('menu');
+                $menu_index = array_search($menu, $menus);
+            }
+            if($menu_index === false)
+            {
+                throw $this->createNotFoundException("Menu not found: ". $menu);
+            }
         }
         $categories = $em->getRepository('CoreCategoryBundle:Category')->getCategoriesByMenu($menu_index, $parent, true);
         return $this->render('SiteCategoryBundle:Category:list.html.twig', array(
             'categories' => $categories, 
-            'id' => 'jcarousel'
-            ));
+            'children' => $children,
+        ));
     }
     
     public function treeAction($menu  = 0, $category = null)
