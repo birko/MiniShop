@@ -217,4 +217,26 @@ class BannerController extends Controller
             ->getForm()
         ;
     }
+    
+    public function moveUpAction($id, $position, $category = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreBannerBundle:Banner')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Banner entity.');
+        }
+        $em->getRepository('CoreBannerBundle:Banner')->updatePosition($entity->getId(), $category, $entity->getPosition(), $position);
+        return $this->redirect($this->generateUrl('banner', array('category' => $category)));
+    }
+    
+    public function moveDownAction($id, $position, $category = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreBannerBundle:Banner')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Banner entity.');
+        }
+        $em->getRepository('CoreBannerBundle:Banner')->updatePosition($entity->getId(), $category, $entity->getPosition(), (-1) * $position);
+        return $this->redirect($this->generateUrl('banner', array('category' => $category)));
+    }
 }

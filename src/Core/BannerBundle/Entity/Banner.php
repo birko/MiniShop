@@ -58,6 +58,17 @@ class Banner
      protected $category;
      
      /**
+      * @ORM\Column(name="position", type="integer", nullable = true)
+      */
+     private $position;
+     
+     public function __construct()
+     {
+         $this->setPosition(0);
+     }
+     
+     
+     /**
       * Get id
       *
       * @return integer 
@@ -65,6 +76,16 @@ class Banner
      public function getId()
      {
          return $this->id;
+     }
+     
+     public function setPosition($position = null)
+     {
+         $this->position = (!empty($position) && $position > 0) ? $position : 0;
+     }
+
+     public function getPosition()
+     {
+         return $this->position;
      }
 
      /**

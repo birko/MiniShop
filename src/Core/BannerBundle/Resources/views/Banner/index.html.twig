@@ -35,7 +35,14 @@
             <td>{{ entity.title }}</td>
             <td>{{ entity.link }}</td>
             <td>
-                <a href="{{ path('banner_edit', { 'id': entity.id }) }}" class="btn btn-warning btn-xs"><span class="glyphicon glyhicon-edit"></span> {%trans%}Edit{%endtrans%}</a>
+                <div class="btn-group">
+                    <a href="{{ path('banner_edit', { 'id': entity.id }) }}" class="btn btn-warning btn-xs"><span class="glyphicon glyhicon-edit"></span> {%trans%}Edit{%endtrans%}</a>
+                    <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="#">{% trans %}Move{% endtrans%} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('banner_up', { 'id': entity.id, 'category': category, 'position': 1 }) }}" class="move-up"><span class="glyphicon glyphicon-arrow-up"></span> {% trans %}Move up{% endtrans %}</a></li>
+                        <li><a href="{{ path('banner_down', { 'id': entity.id, 'category': category, 'position': 1 }) }}" class="move-down"><span class="glyphicon glyphicon-arrow-down"></span> {% trans %}Move down{% endtrans %}</a></li>
+                    </ul>
+                </div>
             </td>
         </tr>
     {% endfor %}

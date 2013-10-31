@@ -18,6 +18,7 @@ class BannerRepository extends EntityRepository
                 ->select("b, m")
                 ->from("CoreBannerBundle:Banner", "b")
                 ->leftJoin("b.media", "m")
+                ->addOrderBy("b.position")
                 ->addOrderBy("b.id");
         if($categoryId !== null)
         {
@@ -35,5 +36,22 @@ class BannerRepository extends EntityRepository
     public function getBanners($categoryId = null)
     {
         return $this->getBannersQuery($categoryId)->getResult();
+    }
+    
+    public function updatePosition($bannerId, $categoryId, $position, $move)
+    {
+        $q = $this->getEntityManager()->createQueryBuilder();
+        $q->update("CoreBannerBundle:Banner", "b")
+                ->set("b.position", $q->expr()->sum("b.position", ":move"))
+                ->where("b <> :id")
+                ->andWhere("b.position = :position")
+                ->andWhere("b.category = :cid")
+                ->setParameter('move', $move)
+                ->setParameter('id', $bannerId)
+                ->setParameter('position', $position)
+                ->setParameter('cid', $categoryId)
+                ;
+        $numUpdated = $q->getQuery()->execute(); 
+        return $numUpdated;
     }
 }
