@@ -27,7 +27,11 @@ class CategoryController extends Controller
         $category = $em->getRepository('CoreCategoryBundle:Category')->findOneBySlug($slug);
         if(empty($category))
         {
-             return $this->createNotFoundException(); 
+            throw $this->createNotFoundException(); 
+        }
+        if($category->isHome())
+        {
+            return $this->redirect('category_homepage');
         }
         $page = $this->getRequest()->get("page", 1);
         $cpage = $this->getRequest()->get("cpage", 1);
