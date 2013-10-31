@@ -82,9 +82,8 @@ class Product
     private $options; 
     
     /**
-     * @ORM\ManyToMany(targetEntity="Core\MediaBundle\Entity\Media")
-     * @ORM\JoinTable(name="products_medias")
-     * @ORM\OrderBy({"id" = "ASC"})
+     * @ORM\OneToMany(targetEntity="ProductMedia", mappedBy="product")
+     * @ORM\OrderBy({"position" = "ASC"})
      */
     private $media;
     
@@ -315,15 +314,57 @@ class Product
         return $this->vendor;
     }
     
-     /**
-     * Get media
+    /**
+     * Add media
      *
-     * @return media
+     * @param Core\MediaBundle\Media
+     */
+    public function addMedia($media)
+    {
+        $productMedia = $this->getProductMedia($media->getId());
+        if(empty($productMedia))
+        {
+            $productMedia = new ProductMedia();
+            $productMedia->setProduct($this);
+            $productMedia->setMedia($media);
+            $this->getMedia()->add($productMedia);
+        }
+        return $productMedia;
+    }
+    
+    /**
+     * Remove media
+     *
+     * @param Core\MediaBundle\Media
+     */
+    public function removeMedia($media)
+    {  
+        $productMedia = $this->getProductMedia($media->getId());
+        if($productMedia !== null)
+        {
+            $this->getMedia()->removeElement($productMedia);
+        }
+        return $productMedia;
+    }
+    
+    /**
+     * Get ProductMedia
+     *
+     * @return ArrayCollection
      */
     public function getMedia()
     {
         return $this->media;
     }
+    
+    public function getProductMedia($mediaID)
+    {
+        return $this->getMedia()->filter(function($entry) use ($mediaID)
+        {
+            return ($entry->getMedia()->getId() == $mediaID);
+        })->first();
+    }
+    
     
     /**
      * Set createdAt

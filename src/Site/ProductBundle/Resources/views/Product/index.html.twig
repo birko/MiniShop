@@ -1,14 +1,14 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-{% if  product.categories | length > 0 %}
-{% render  controller("SiteCategoryBundle:Category:breadcrumb" , {'id': product.categories.0.id, 'end': product.title}) %}
+{% if  product.productCategories | length > 0 %}
+{% render  controller("SiteCategoryBundle:Category:breadcrumb" , {'id': product.productCategories.0.category.id, 'end': product.title}) %}
 {% endif %}
 <div id="product">
     <div class="row">
         <div class="image col-sm-4 col-md-4 col-lg-4">
         {% if product.media is not empty %}
             <div class="full-image">
-             {% include "CoreMediaBundle:Media:display.html.twig" with {'entity': product.media.0, 'dir': 'small', 'link_path':'large'} %}
+             {% include "CoreMediaBundle:Media:display.html.twig" with {'entity': product.media.0.media, 'dir': 'small', 'link_path':'large'} %}
             </div>
         {% endif %}
         </div>
@@ -50,7 +50,7 @@
                 {% for media in product.media %}
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <div class="image">
-                        {% include "CoreMediaBundle:Media:display.html.twig" with {'entity': media, 'dir': 'thumb', 'link_path':'large'} %}
+                        {% include "CoreMediaBundle:Media:display.html.twig" with {'entity': media.media, 'dir': 'thumb', 'link_path':'large'} %}
                     </div>
                 </div>
                 {% endfor %}

@@ -3,7 +3,7 @@
         <div class="row text-center">
             <a href="{{path('product_site', {'slug': entity.slug})}}" class="image">
               {% if entity.media is not empty%}
-              {% render controller("CoreMediaBundle:Image:display", {'id': entity.media.0.id, 'dir': 'thumb'}) %}
+              {% render controller("CoreMediaBundle:Image:display", {'id': entity.media.0.media.id, 'dir': 'thumb'}) %}
               {% endif %}
             </a>
         </div>

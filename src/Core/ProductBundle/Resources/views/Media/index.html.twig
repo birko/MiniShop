@@ -30,7 +30,14 @@
             </td>
             <td>{{ entity.title }}</td>
             <td class="col-sm-2 col-md-2 col-lg-2">
+                <div class="btn-group">
                 <a href="{{ path('product_media_edit', { 'id': entity.id , 'category': category, 'product': product, 'type': entity.type}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
+                <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="#">{% trans %}Move{% endtrans%} <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('product_media_up', { 'id': entity.id, 'category': category, 'position': 1, 'product': product }) }}" class="move-up"><span class="glyphicon glyphicon-arrow-up"></span> {% trans %}Move up{% endtrans %}</a></li>
+                    <li><a href="{{ path('product_media_down', { 'id': entity.id, 'category': category, 'position': 1, 'product': product }) }}" class="move-down"><span class="glyphicon glyphicon-arrow-down"></span> {% trans %}Move down{% endtrans %}</a></li>
+                </ul>
+                </div>
             </td>
         </tr>
     {% endfor %}

@@ -33,8 +33,10 @@ class ContentRepository extends EntityRepository
                ->from("CoreMediaBundle:Media", "m")
                ->leftJoin("c.media", "cm")
                ->where("c.id = :content")
-               ->andWhere("cm = m")
-               ->setParameter('content', $content);
+               ->andWhere("cm.media = m")
+               ->setParameter('content', $content)
+               ->addOrderBy("cm.position", "asc")
+               ->addOrderBy("m.id", "asc");
         return $queryBuilder;
     }
    

@@ -57,8 +57,8 @@ class Content
     private $category;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Core\MediaBundle\Entity\Media")
-     * @ORM\JoinTable(name="contents_medias")
+     * @ORM\OneToMany(targetEntity="ContentMedia", mappedBy="content")
+     * @ORM\OrderBy({"position" = "ASC"})
      */
     private $media;
 
@@ -178,12 +178,53 @@ class Content
     }
     
     /**
-     * Get media
+     * Add media
      *
-     * @return media
+     * @param Core\MediaBundle\Media
+     */
+    public function addMedia($media)
+    {
+        $contentMedia = $this->getContentMedia($media->getId());
+        if(empty($contentMedia))
+        {
+            $contentMedia = new ContentMedia();
+            $contentMedia->setContent($this);
+            $contentMedia->setMedia($media);
+            $this->getMedia()->add($contentMedia);
+        }
+        return $contentMedia;
+    }
+    
+    /**
+     * Remove media
+     *
+     * @param Core\MediaBundle\Media
+     */
+    public function removeMedia($media)
+    {  
+        $contentMedia = $this->getProductMedia($media->getId());
+        if($contentMedia !== null)
+        {
+            $this->getMedia()->removeElement($contentMedia);
+        }
+        return $contentMedia;
+    }
+    
+    /**
+     * Get ContentMedia
+     *
+     * @return ArrayCollection
      */
     public function getMedia()
     {
         return $this->media;
+    }
+    
+    public function getContentMedia($mediaID)
+    {
+        return $this->getMedia()->filter(function($entry) use ($mediaID)
+        {
+            return ($entry->getMedia()->getId() == $mediaID);
+        })->first();
     }
 }

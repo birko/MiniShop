@@ -23,11 +23,12 @@ class ProductRepository extends EntityRepository
         if($join)
         {
             $queryBuilder
-                ->select("p, ps, pp, pa, po, pm, v, pc, c")
+                ->select("p, ps, pp, pa, po, pm, m, v, pc, c")
                 ->leftJoin("p.prices", "pp")
                 ->leftJoin("p.attributes", "pa")
                 ->leftJoin("p.options", "po")
                 ->leftJoin("p.media", "pm")
+                ->leftJoin("pm.media", "m")
                 ->leftJoin("p.vendor", "v");
         }
         if($category !== null)
@@ -103,8 +104,10 @@ class ProductRepository extends EntityRepository
                ->from("CoreMediaBundle:Media", "m")
                ->leftJoin("p.media", "pm")
                ->where("p.id = :product")
-               ->andWhere("pm = m")
-               ->setParameter('product', $product);
+               ->andWhere("pm.media = m")
+               ->setParameter('product', $product)
+               ->addOrderBy("pm.position", "asc")
+               ->addOrderBy("m.id", "asc");
        return $queryBuilder;
    }
    

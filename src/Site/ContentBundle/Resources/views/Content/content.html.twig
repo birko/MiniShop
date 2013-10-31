@@ -12,7 +12,7 @@
       <div class="row">
           {% for media in content.media %}
           <div class="col-sm-4 col-md-4 col-lg-4">
-          {% render controller("CoreMediaBundle:Image:display", {'id': media.id, 'dir': 'thumb', 'link_path':'large'}) %}
+          {% render controller("CoreMediaBundle:Image:display", {'id': media.media.id, 'dir': 'thumb', 'link_path':'large'}) %}
           </div>
           {% endfor %}
       </div>

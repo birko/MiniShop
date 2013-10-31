@@ -87,8 +87,8 @@ class MediaController extends Controller
             $contetEntity = $em->getRepository('CoreContentBundle:Content')->find($content);
             if($contetEntity != null)
             {
-                $contetEntity->getMedia()->add($entity);
-                $em->persist($contetEntity);
+                $contentMedia = $contetEntity->addMedia($entity);
+                $em->persist($contentMedia);
                 $em->flush();
             }
             return $this->redirect($this->generateUrl('content_media', array('category' => $category, 'content' => $content,)));
@@ -198,5 +198,35 @@ class MediaController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    public function moveUpAction($id, $content, $position, $category = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreContentBundle:Content')->find($content);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Content entity.');
+        }
+        $contentMedia = $entity->getContentMedia($id);
+        if($contentMedia)
+        {
+            $em->getRepository('CoreContentBundle:ContentMedia')->updatePosition($entity->getId(), $id, $contentMedia->getPosition(), $position);
+        }
+        return $this->redirect($this->generateUrl('content_media', array('category' => $category, 'content' => $content,)));
+    }
+    
+    public function moveDownAction($id, $content, $position, $category = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreContentBundle:Content')->find($content);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Content entity.');
+        }
+        $contentMedia = $entity->getContentMedia($id);
+        if($contentMedia)
+        {
+            $em->getRepository('CoreContentBundle:ContentMedia')->updatePosition($entity->getId(), $id, $contentMedia->getPosition(), (-1) * $position);
+        }
+        return $this->redirect($this->generateUrl('content_media', array('category' => $category, 'content' => $content,)));
     }
 }

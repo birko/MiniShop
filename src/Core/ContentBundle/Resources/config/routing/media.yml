@@ -26,3 +26,11 @@ content_media_delete:
     pattern:  /{id}/delete/{category}
     defaults: { _controller: "CoreContentBundle:Media:delete", category: ~ }
     requirements: { _method: post }
+
+content_media_up:
+    pattern:  /{id}/moveup/{position}/{category}
+    defaults: { _controller: "CoreContentBundle:Media:moveUp", category: ~  }
+
+content_media_down:
+    pattern:  /{id}/movedown/{position}/{category}
+    defaults: { _controller: "CoreContentBundle:Media:moveDown", category: ~  }

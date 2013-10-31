@@ -102,8 +102,8 @@ class MediaController extends Controller
             $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
             if($productEntity != null)
             {
-                $productEntity->getMedia()->add($entity);
-                $em->persist($productEntity);
+                $productMedia = $productEntity->addMedia($entity);
+                $em->persist($productMedia);
                 $em->flush();
             }
             return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
@@ -265,5 +265,35 @@ class MediaController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    public function moveUpAction($id, $product, $position, $category = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreProductBundle:Product')->find($product);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.');
+        }
+        $productMedia = $entity->getProductMedia($id);
+        if($productMedia)
+        {
+            $em->getRepository('CoreProductBundle:ProductMedia')->updatePosition($entity->getId(), $id, $productMedia->getPosition(), $position);
+        }
+        return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
+    }
+    
+    public function moveDownAction($id, $product, $position, $category = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreProductBundle:Product')->find($product);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.');
+        }
+        $productMedia = $entity->getProductMedia($id);
+        if($productMedia)
+        {
+            $em->getRepository('CoreProductBundle:ProductMedia')->updatePosition($entity->getId(), $id, $productMedia->getPosition(), (-1) * $position);
+        }
+        return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
     }
 }

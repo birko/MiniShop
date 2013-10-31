@@ -26,3 +26,11 @@ product_media_delete:
     pattern:  /{id}/delete/{type}/{category}
     defaults: { _controller: "CoreProductBundle:Media:delete", category: ~ }
     requirements: { _method: post }
+
+product_media_up:
+    pattern:  /{id}/moveup/{position}/{category}
+    defaults: { _controller: "CoreProductBundle:Media:moveUp", category: ~  }
+
+product_media_down:
+    pattern:  /{id}/movedown/{position}/{category}
+    defaults: { _controller: "CoreProductBundle:Media:moveDown", category: ~  }
