@@ -1,5 +1,5 @@
 {% if entities is not empty %}
-<div id="banner-{{entities.0.id}}" class="carousel slide">
+<div id="banner-{{entities.0.id}}" class="banner carousel slide">
     <div class="carousel-inner">
         {% for entity in entities %}
         <div class="item {% if loop.index0 == 0 %}active{% endif %}">
