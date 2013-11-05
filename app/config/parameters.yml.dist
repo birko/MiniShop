@@ -22,4 +22,6 @@ parameters:
     #knp_paginator.template.pagination: MopaBootstrapBundle:Pagination:sliding.html.twig
     knp_paginator.template.pagination: CoreCommonBundle:Pagination:sliding.html.twig
     #knp_menu.renderer.twig.template: MopaBootstrapBundle:Menu:menu.html.twig
+    node_path: "/usr/bin/node"
+    node_paths: ["/usr/lib/node_modules"] 
 

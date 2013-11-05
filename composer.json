@@ -20,7 +20,6 @@
         "jms/security-extra-bundle": "dev-master",
         "jms/di-extra-bundle": "dev-master",
         "gedmo/doctrine-extensions": "dev-master",
-        "leafo/lessphp": "dev-master",
         "mopa/bootstrap-bundle": "dev-master",
         "mopa/composer-bridge": "dev-master",
         "twbs/bootstrap": "dev-master",
