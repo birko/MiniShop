@@ -11,6 +11,7 @@ use Core\ProductBundle\Entity\Attribute;
 use Core\ProductBundle\Entity\Filter;
 use Core\ProductBundle\Form\ProductType;
 use Core\ProductBundle\Form\FilterType;
+use Core\ProductBundle\Form\ProductCategoryType;
 
 /**
  * Product controller.
@@ -454,5 +455,51 @@ class ProductController extends Controller
             $em->flush();
         }
         return $this->redirect($this->generateUrl('product', array('category' => $category)));
+    }
+    
+    public function positionAction($id, $category)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreProductBundle:Product')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.');
+        }
+        $productCategory = $entity->getProductCategory($category);
+        if (!$productCategory) {
+            throw $this->createNotFoundException('Unable to find Product Category entity.');
+        }
+        $form = $this->createForm(new ProductCategoryType(), $productCategory);
+        return $this->render('CoreProductBundle:Product:position.html.twig', array(
+            'entity' => $entity, 
+            'category' => $category,
+            'form' => $form->createView()
+        ));
+    }
+    
+    public function positionUpdateAction($id, $category)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreProductBundle:Product')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.');
+        }
+        $productCategory = $entity->getProductCategory($category);
+        if (!$productCategory) {
+            throw $this->createNotFoundException('Unable to find Product Category entity.');
+        }
+        $form = $this->createForm(new ProductCategoryType(), $productCategory);
+        $request = $this->getRequest();
+        $form->bind($request);
+        if($form->isValid())
+        {
+            $em->persist($productCategory);
+            $em->flush();
+            return $this->redirect($this->generateUrl('product', array('category' => $category)));
+        }
+        return $this->render('CoreProductBundle:Product:position.html.twig', array(
+            'entity' => $entity, 
+            'category' => $category,
+            'form' => $form->createView()
+        ));
     }
 }

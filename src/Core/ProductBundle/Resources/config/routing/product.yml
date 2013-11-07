@@ -62,3 +62,12 @@ product_up:
 product_down:
     pattern:  /{id}/movedown/{position}/{category}
     defaults: { _controller: "CoreProductBundle:Product:moveDown", category: ~  }
+
+product_position:
+    pattern:  /{id}/position/{category}
+    defaults: { _controller: "CoreProductBundle:Product:position", category: ~  }
+
+product_position_update:
+    pattern:  /{id}/positionupdate/{category}
+    defaults: { _controller: "CoreProductBundle:Product:positionUpdate", category: ~  }
+    requirements: { _method: post }

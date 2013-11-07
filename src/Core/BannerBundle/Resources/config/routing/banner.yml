@@ -36,3 +36,12 @@ banner_up:
 banner_down:
     pattern:  /{id}/movedown/{position}/{category}
     defaults: { _controller: "CoreBannerBundle:Banner:moveDown", category: ~  }
+
+banner_position:
+    pattern:  /{id}/position/{category}
+    defaults: { _controller: "CoreBannerBundle:Banner:position", category: ~  }
+
+banner_position_update:
+    pattern:  /{id}/positionupdate/{category}
+    defaults: { _controller: "CoreBannerBundle:Banner:positionUpdate", category: ~  }
+    requirements: { _method: post }

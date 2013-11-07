@@ -5,6 +5,7 @@ namespace Core\ContentBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\ContentBundle\Entity\Content;
+use Core\ContentBundle\Form\ContentMediaType;
 use Core\MediaBundle\Entity\Media;
 use Core\MediaBundle\Entity\Image;
 use Core\MediaBundle\Form\MediaType;
@@ -236,5 +237,55 @@ class MediaController extends Controller
             $em->flush();
         }
         return $this->redirect($this->generateUrl('content_media', array('category' => $category, 'content' => $content,)));
+    }
+    
+    public function positionAction($id, $content, $category = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreContentBundle:Content')->find($content);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Content entity.');
+        }
+        $contentMedia = $entity->getContentMedia($id);
+        if(!$contentMedia)
+        {
+            throw $this->createNotFoundException('Unable to find Content Media entity.');
+        }
+        $form = $this->createForm(new ContentMediaType(), $contentMedia);
+        return $this->render('CoreContentBundle:Media:position.html.twig', array(
+            'content' => $content, 
+            'category' => $category,
+            'id' => $id,
+            'form' => $form->createView()
+        ));
+    }
+    
+    public function positionUpdateAction($id, $content, $category = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreContentBundle:Content')->find($content);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Content entity.');
+        }
+        $contentMedia = $entity->getContentMedia($id);
+        if(!$contentMedia)
+        {
+            throw $this->createNotFoundException('Unable to find Content Media entity.');
+        }
+        $form = $this->createForm(new ContentMediaType(), $contentMedia);
+        $request = $this->getRequest();
+        $form->bind($request);
+        if($form->isValid())
+        {
+            $em->persist($contentMedia);
+            $em->flush();
+            return $this->redirect($this->generateUrl('content_media', array('category' => $category, 'content' => $content)));
+        }
+        return $this->render('CoreContentBundle:Media:position.html.twig', array(
+            'content' => $content, 
+            'category' => $category,
+            'id' => $id,
+            'form' => $form->createView()
+        ));
     }
 }

@@ -13,6 +13,7 @@ use Core\MediaBundle\Form\ImageType;
 use Core\MediaBundle\Form\VideoType;
 use Core\MediaBundle\Form\EditImageType;
 use Core\MediaBundle\Form\EditVideoType;
+use Core\ProductBundle\Form\ProductMediaType;
 
 /**
  * Content controller.
@@ -304,5 +305,53 @@ class MediaController extends Controller
             $em->flush();
         }
         return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
+    }
+    
+    public function positionAction($id, $product, $category = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreProductBundle:Product')->find($product);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.');
+        }
+        $productMedia = $entity->getProductMedia($id);
+        if (!$productMedia) {
+            throw $this->createNotFoundException('Unable to find Product Media entity.');
+        }
+        $form = $this->createForm(new ProductMediaType(), $productMedia);
+        return $this->render('CoreProductBundle:Media:position.html.twig', array(
+            'product' => $product, 
+            'category' => $category,
+            'id' => $id,
+            'form' => $form->createView()
+        ));
+    }
+    
+    public function positionUpdateAction($id, $product, $category = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreProductBundle:Product')->find($product);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.');
+        }
+        $productMedia = $entity->getProductMedia($id);
+        if (!$productMedia) {
+            throw $this->createNotFoundException('Unable to find Product Media entity.');
+        }
+        $form = $this->createForm(new ProductMediaType(), $productMedia);
+        $request = $this->getRequest();
+        $form->bind($request);
+        if($form->isValid())
+        {
+            $em->persist($productMedia);
+            $em->flush();
+            return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
+        }
+        return $this->render('CoreProductBundle:Media:position.html.twig', array(
+            'product' => $product, 
+            'category' => $category,
+            'id' => $id,
+            'form' => $form->createView()
+        ));
     }
 }

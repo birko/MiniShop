@@ -34,3 +34,12 @@ content_media_up:
 content_media_down:
     pattern:  /{id}/movedown/{position}/{category}
     defaults: { _controller: "CoreContentBundle:Media:moveDown", category: ~  }
+
+content_media_position:
+    pattern:  /{id}/position/{category}
+    defaults: { _controller: "CoreContentBundle:Media:position", category: ~  }
+
+content_media_position_update:
+    pattern:  /{id}/positionupdate/{category}
+    defaults: { _controller: "CoreContentBundle:Media:positionUpdate", category: ~  }
+    requirements: { _method: post }

@@ -54,6 +54,10 @@
                 <source>Create a new content</source>
                 <target>Vytvoriť nový obsah</target>
             </trans-unit>
+            <trans-unit id="14">
+                <source>Content media position edit</source>
+                <target>Úprava pozície média</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

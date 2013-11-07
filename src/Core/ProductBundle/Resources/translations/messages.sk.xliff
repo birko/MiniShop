@@ -138,6 +138,14 @@
                 <source>Price list</source>
                 <target>Zoznam cien</target>
             </trans-unit>
+            <trans-unit id="35">
+                <source>Product media position edit</source>
+                <target>Úprava pozície média</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Product position edit</source>
+                <target>Úprava pozície produktu</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Core\BannerBundle\Entity\Banner;
 use Core\BannerBundle\Form\BannerType;
 use Core\BannerBundle\Form\EditBannerType;
+use Core\BannerBundle\Form\BannerPositionType;
 
 /**
  * Banner controller.
@@ -242,5 +243,43 @@ class BannerController extends Controller
         $em->persist($entity);
         $em->flush();
         return $this->redirect($this->generateUrl('banner', array('category' => $category)));
+    }
+    
+    public function positionAction($id, $category = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreBannerBundle:Banner')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Banner entity.');
+        }
+        $form = $this->createForm(new BannerPositionType(), $entity);
+        return $this->render('CoreBannerBundle:Banner:position.html.twig', array(
+            'category' => $category,
+            'id' => $id,
+            'form' => $form->createView()
+        ));
+    }
+    
+    public function positionUpdateAction($id, $category = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoreBannerBundle:Banner')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Banner entity.');
+        }
+        $form = $this->createForm(new BannerPositionType(), $entity);
+        $request = $this->getRequest();
+        $form->bind($request);
+        if($form->isValid())
+        {
+            $em->persist($entity);
+            $em->flush();
+            return $this->redirect($this->generateUrl('banner', array('category' => $category)));
+        }
+        return $this->render('CoreBannerBundle:Banner:position.html.twig', array(
+             'category' => $category,
+             'id' => $id,
+             'form' => $form->createView()
+         ));
     }
 }

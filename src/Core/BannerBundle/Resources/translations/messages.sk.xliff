@@ -30,6 +30,10 @@
                 <source>Banner edit</source>
                 <target>Úprava banneru</target>
             </trans-unit>
+            <trans-unit id="8">
+                <source>Banner position edit</source>
+                <target>Úprava pozície banneru</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

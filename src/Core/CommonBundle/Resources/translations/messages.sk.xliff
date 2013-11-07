@@ -190,6 +190,10 @@
                 <source>Search</source>
                 <target>Vyhľadávať</target>
             </trans-unit> 
+            <trans-unit id="48">
+                <source>Position</source>
+                <target>Pozícia</target>
+            </trans-unit> 
         </body>
     </file>
 </xliff>

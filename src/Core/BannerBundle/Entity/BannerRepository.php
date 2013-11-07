@@ -1,6 +1,6 @@
 <?php
 
-namespace core\BannerBundle\Entity;
+namespace Core\BannerBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
