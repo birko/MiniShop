@@ -27,9 +27,9 @@ class ImageManipulation
     {
         if($imageResource)
         {
+            $imageResource = self::unsharpMaskResource($imageResource, 1, 0, 0.05);
             if (extension_loaded('imagick'))
             {
-                $imageResource->unsharpMaskImage(2, 1.414, 0.5, 0.05/*, \Imagick::CHANNEL_ALL */);
                 $imageResource->setImageCompressionQuality($quality);
                 $imageResource->setImageFormat($format);
                 if($path)
