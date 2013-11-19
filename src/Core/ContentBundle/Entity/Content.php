@@ -202,7 +202,7 @@ class Content
      */
     public function removeMedia($media)
     {  
-        $contentMedia = $this->getProductMedia($media->getId());
+        $contentMedia = $this->getContentMedia($media->getId());
         if($contentMedia !== null)
         {
             $this->getMedia()->removeElement($contentMedia);
