@@ -348,10 +348,10 @@ class ImageManipulation
                 
                 $radius = abs(round($radius));     // Only integers make sense.  
                 if ($radius == 0) {  
-                    return $img; imagedestroy($img); break;
+                    return $imageResource; imagedestroy($imageResource); break;
                 }  
-                $w = imagesx($img); 
-                $h = imagesy($img);  
+                $w = imagesx($imageResource); 
+                $h = imagesy($imageResource);  
                 $imgCanvas = imagecreatetruecolor($w, $h);  
                 $imgBlur = imagecreatetruecolor($w, $h);  
                 //gausian blur
