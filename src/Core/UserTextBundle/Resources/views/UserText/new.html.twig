@@ -16,8 +16,8 @@
 {% endblock body %}
 {% block javascripts %}
 {{ parent() }}
-<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+<script type="text/javascript" src="http://tinymce.cachefly.net/4.0/tinymce.min.js"></script>
 <script type="text/javascript">
-bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+tinymce.init({selector:'textarea'});
 </script>
 {% endblock %}

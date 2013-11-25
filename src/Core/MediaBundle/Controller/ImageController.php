@@ -18,6 +18,11 @@ class ImageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+        return $this->displayEntityAction($entity, $dir, $link_path);
+    }
+    
+    public function displayEntityAction(Image $entity, $dir, $link_path = null)
+    {
         $webpath = null;
         if($entity !== null)
         {

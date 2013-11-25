@@ -8,9 +8,12 @@ use Core\ContentBundle\Entity\Content;
 use Core\ContentBundle\Form\ContentMediaType;
 use Core\MediaBundle\Entity\Media;
 use Core\MediaBundle\Entity\Image;
+use Core\MediaBundle\Entity\Video;
 use Core\MediaBundle\Form\MediaType;
 use Core\MediaBundle\Form\ImageType;
+use Core\MediaBundle\Form\VideoType;
 use Core\MediaBundle\Form\EditImageType;
+use Core\MediaBundle\Form\EditVideoType;
 use Core\CommonBundle\Controller\TranslateController;
 
 /**
@@ -22,6 +25,7 @@ class MediaController extends TranslateController
     protected function saveTranslation($entity, $culture, $translation) 
     {
         $em = $this->getDoctrine()->getManager();
+        $entity->setFile(null);
         $entity->setTitle($translation->getTitle());
         $entity->setDescription($translation->getDescription());    
         $entity->setTranslatableLocale($culture);
@@ -40,14 +44,7 @@ class MediaController extends TranslateController
                 ->findMediaByContentQueryBuilder($content)
                 ->getQuery()
                 ->getResult();
-        //$paginator = $this->get('knp_paginator');
-        //$page = $this->getRequest()->get('page', 1);
-       // $pagination = $paginator->paginate(
-        //    $query,
-       //     $page/*page number*/,
-       //     100/*limit per page*/,
-       //     array('distinct' => false)
-        //);
+        
         $entity = $em->getRepository('CoreContentBundle:Content')->find($content);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Content entity.');
@@ -64,18 +61,30 @@ class MediaController extends TranslateController
      * Displays a form to create a new Content entity.
      *
      */
-    public function newAction($content, $category = null)
+    public function newAction($content, $type, $category = null)
     {
-        $entity = new Image();
         $cultures = $this->container->getParameter('core.cultures');
-        $this->loadTranslations($entity, $cultures, new Image());
-        $form   = $this->createForm(new ImageType(), $entity, array('cultures' => $cultures));
+        switch($type)
+        {
+            case "video":
+                $entity = new Video();
+                $this->loadTranslations($entity, $cultures, new Video());
+                $form   = $this->createForm(new VideoType(), $entity, array('cultures' => $cultures));
+                break;
+            case "image":
+            default:
+                $entity = new Image();
+                $this->loadTranslations($entity, $cultures, new Image());
+                $form   = $this->createForm(new ImageType(), $entity, array('cultures' => $cultures));
+                break;
+        }
 
         return $this->render('CoreContentBundle:Media:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'category' => $category,
             'content' => $content,
+            'type' => $type,
             'cultures' => $cultures,
         ));
     }
@@ -84,25 +93,38 @@ class MediaController extends TranslateController
      * Creates a new Content entity.
      *
      */
-    public function createAction($content, $category = null)
+    public function createAction($content, $type, $category = null)
     {
-        $entity = new Image();
         $cultures = $this->container->getParameter('core.cultures');
-        $this->loadTranslations($entity, $cultures, new Image());
-        $form   = $this->createForm(new ImageType(), $entity, array('cultures' => $cultures));
+        switch($type)
+        {
+            case "video":
+                $entity = new Video();
+                $this->loadTranslations($entity, $cultures, new Video());
+                $form   = $this->createForm(new VideoType(), $entity, array('cultures' => $cultures));
+                break;
+            case "image":
+            default:
+                $entity = new Image();
+                $this->loadTranslations($entity, $cultures, new Image());
+                $form   = $this->createForm(new ImageType(), $entity, array('cultures' => $cultures));
+                break;
+        }
         $request = $this->getRequest();
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $imageOptions = $this->container->getParameter('images');
- 
-            $opts = array();
-            foreach($this->container->getParameter('content.images') as $val)
+            if($type == 'image')
             {
-                $opts[$val] = $imageOptions[$val];
+                $imageOptions = $this->container->getParameter('images');
+                $opts = array();
+                foreach($this->container->getParameter('content.images') as $val)
+                {
+                    $opts[$val] = $imageOptions[$val];
+                }
+                $entity->setOptions($opts);
             }
-            $entity->setOptions($opts);
             $em->persist($entity);
             $em->flush();
             $contetEntity = $em->getRepository('CoreContentBundle:Content')->find($content);
@@ -122,6 +144,7 @@ class MediaController extends TranslateController
             'form'   => $form->createView(),
             'category' => $category,
             'content' => $content,
+            'type'    => $type,
             'cultures' => $cultures,
         ));
     }
@@ -130,19 +153,38 @@ class MediaController extends TranslateController
      * Displays a form to edit an existing Content entity.
      *
      */
-    public function editAction($id, $content, $category = null)
+    public function editAction($id, $content, $type, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+        switch($type)
+        {
+            case "video":
+                $entity = $em->getRepository('CoreMediaBundle:Video')->find($id);
+                break;
+            case "image":
+            default:
+                $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+                break;
+        }
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Media entity.');
         }
 
         $cultures = $this->container->getParameter('core.cultures');
-        $this->loadTranslations($entity, $cultures);
-        $editForm = $this->createForm(new EditImageType(), $entity, array('cultures' => $cultures));
+        switch($type)
+        {
+            case "video":
+                $this->loadTranslations($entity, $cultures);
+                $editForm   = $this->createForm(new EditVideoType(), $entity, array('cultures' => $cultures));
+                break;
+            case "image":
+            default:
+                $this->loadTranslations($entity, $cultures);
+                $editForm   = $this->createForm(new EditImageType(), $entity, array('cultures' => $cultures));
+                break;
+        }
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreContentBundle:Media:edit.html.twig', array(
@@ -151,6 +193,7 @@ class MediaController extends TranslateController
             'delete_form' => $deleteForm->createView(),
             'category' => $category,
             'content' => $content,
+            'type' => $type,
             'cultures' => $cultures,
         ));
     }
@@ -159,19 +202,38 @@ class MediaController extends TranslateController
      * Edits an existing Content entity.
      *
      */
-    public function updateAction($id, $content, $category = null)
+    public function updateAction($id, $content, $type, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+        switch($type)
+        {
+            case "video":
+                $entity = $em->getRepository('CoreMediaBundle:Video')->find($id);
+                break;
+            case "image":
+            default:
+                $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+                break;
+        }
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Media entity.');
         }
 
         $cultures = $this->container->getParameter('core.cultures');
-        $this->loadTranslations($entity, $cultures);
-        $editForm = $this->createForm(new EditImageType(), $entity, array('cultures' => $cultures));
+        switch($type)
+        {
+            case "video":
+                $this->loadTranslations($entity, $cultures);
+                $editForm   = $this->createForm(new EditVideoType(), $entity, array('cultures' => $cultures));
+                break;
+            case "image":
+            default:
+                $this->loadTranslations($entity, $cultures);
+                $editForm  = $this->createForm(new EditImageType(), $entity, array('cultures' => $cultures));
+                break;
+        }
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -182,7 +244,7 @@ class MediaController extends TranslateController
             $em->persist($entity);
             $em->flush();
             $this->saveTranslations($entity, $cultures);
-            return $this->redirect($this->generateUrl('content_media_edit', array('id' => $id, 'category' => $category, 'content' => $content,)));
+            return $this->redirect($this->generateUrl('content_media_edit', array('id' => $id, 'category' => $category, 'content' => $content, 'type' => $entity->getType())));
         }
 
         return $this->render('CoreContentBundle:Media:edit.html.twig', array(
@@ -191,6 +253,7 @@ class MediaController extends TranslateController
             'delete_form' => $deleteForm->createView(),
             'category' => $category,
             'content' => $content,
+            'type' => $type,
             'cultures' => $cultures,
         ));
     }
@@ -199,7 +262,7 @@ class MediaController extends TranslateController
      * Deletes a Content entity.
      *
      */
-    public function deleteAction($id, $content, $category = null)
+    public function deleteAction($id, $content, $type, $category = null)
     {
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -207,18 +270,31 @@ class MediaController extends TranslateController
         $form->bind($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+            $entity = null;
+            switch($type)
+            {
+                case "video":
+                    $entity = $em->getRepository('CoreMediaBundle:Video')->find($id);
+                    break;
+                case "image":
+                default:
+                    $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
+                    break;
+            }
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Content entity.');
             }
-            $imageOptions = $this->container->getParameter('images');
-            $entity->setOptions($imageOptions);
+            if($type == 'image')
+            {
+                $imageOptions = $this->container->getParameter('images');
+                $entity->setOptions($imageOptions);
+            }
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('content_media', array('category' => $category, 'content' => $content,)));
+        return $this->redirect($this->generateUrl('content_media', array('category' => $category, 'content' => $content)));
     }
 
     private function createDeleteForm($id)

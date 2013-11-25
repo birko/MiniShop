@@ -5,25 +5,25 @@ content_media:
         category: \d+
         
 content_media_new:
-    pattern:  /new/{category}
+    pattern:  /new/{type}/{category}
     defaults: { _controller: "CoreContentBundle:Media:new", category: ~ }
 
 content_media_create:
-    pattern:  /create/{category}
+    pattern:  /create/{type}/{category}
     defaults: { _controller: "CoreContentBundle:Media:create", category: ~ }
     requirements: { _method: post }
 
 content_media_edit:
-    pattern:  /{id}/edit/{category}
+    pattern:  /{id}/edit/{type}/{category}
     defaults: { _controller: "CoreContentBundle:Media:edit", category: ~ }
 
 content_media_update:
-    pattern:  /{id}/update/{category}
+    pattern:  /{id}/update/{type}/{category}
     defaults: { _controller: "CoreContentBundle:Media:update", category: ~ }
     requirements: { _method: post }
 
 content_media_delete:
-    pattern:  /{id}/delete/{category}
+    pattern:  /{id}/delete/{type}/{category}
     defaults: { _controller: "CoreContentBundle:Media:delete", category: ~ }
     requirements: { _method: post }
 

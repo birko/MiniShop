@@ -2,7 +2,7 @@
 {% block body %}
 <h1>{% trans %}Product Media creation{% endtrans %}</h1>
 
-<form action="{{ path('product_media_create', {'category': category, 'product': product, type: type}) }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('product_media_create', {'category': category, 'product': product, 'type': type}) }}" method="post" {{ form_enctype(form) }}>
     <div class="row">
         <div class="col-sm-10 col-md-10 col-lg-10">
 			{{ form_errors(form) }}
@@ -21,8 +21,8 @@
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
-<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+<script type="text/javascript" src="http://tinymce.cachefly.net/4.0/tinymce.min.js"></script>
 <script type="text/javascript">
-bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+tinymce.init({selector:'textarea'});
 </script>
 {% endblock %}

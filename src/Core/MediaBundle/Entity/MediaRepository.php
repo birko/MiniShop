@@ -11,7 +11,11 @@ use Doctrine\ORM\Query\Expr;
 
 class MediaRepository extends EntityRepository
 {
-    //put your code here
+    public function getMediaQueryBuilder()
+    {
+        return $this->createQueryBuilder("m")
+            ->addOrderBy("m.id", "asc");
+    }
 }
 
 ?>

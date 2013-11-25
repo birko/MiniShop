@@ -5,6 +5,7 @@ namespace Core\ProductBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\ProductBundle\Entity\Product;
+use Core\ProductBundle\Form\ProductMediaType;
 use Core\MediaBundle\Entity\Media;
 use Core\MediaBundle\Entity\Image;
 use Core\MediaBundle\Entity\Video;
@@ -13,7 +14,6 @@ use Core\MediaBundle\Form\ImageType;
 use Core\MediaBundle\Form\VideoType;
 use Core\MediaBundle\Form\EditImageType;
 use Core\MediaBundle\Form\EditVideoType;
-use Core\ProductBundle\Form\ProductMediaType;
 use Core\CommonBundle\Controller\TranslateController;
 
 /**
@@ -25,6 +25,7 @@ class MediaController extends TranslateController
     protected function saveTranslation($entity, $culture, $translation) 
     {
         $em = $this->getDoctrine()->getManager();
+        $entity->setFile(null);
         $entity->setTitle($translation->getTitle());
         $entity->setDescription($translation->getDescription());    
         $entity->setTranslatableLocale($culture);
@@ -190,6 +191,7 @@ class MediaController extends TranslateController
             'delete_form' => $deleteForm->createView(),
             'category' => $category,
             'product' => $product,
+            'type' => $type,
             'cultures' => $cultures,
         ));
     }
@@ -249,6 +251,7 @@ class MediaController extends TranslateController
             'delete_form' => $deleteForm->createView(),
             'category' => $category,
             'product' => $product,
+            'type' => $type,
             'cultures' => $cultures,
         ));
     }
@@ -276,7 +279,6 @@ class MediaController extends TranslateController
                     $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
                     break;
             }
-           
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find ' . $type . ' entity.');

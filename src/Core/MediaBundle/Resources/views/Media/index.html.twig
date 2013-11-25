@@ -1,0 +1,32 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+<h1>{% trans %}Media list{% endtrans %}</h1>
+{{ knp_pagination_render(entities) }}
+<table class="records_list table table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>{% trans %}Media{% endtrans %}</th>
+            <th>{% trans %}Title{% endtrans %}</th>
+            <th class="col-sm-2 col-md-2 col-lg-2">{% trans %}Actions{% endtrans %}</th>
+        </tr>
+    </thead>
+    
+    <tfoot>
+    </tfoot>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+			<td>
+				<div class="col-sm-3 col-md-3 col-lg-3">
+					{% include "CoreMediaBundle:Media:display.html.twig" with {'entity': entity, 'dir': 'thumb', 'link_path': ''} %}
+				</div>
+			</td>
+            <td>{{ entity.title }}</td>
+            <td class="col-sm-2 col-md-2 col-lg-2">
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{{ knp_pagination_render(entities) }}
+{% endblock %}
