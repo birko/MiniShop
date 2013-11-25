@@ -3,6 +3,9 @@
 namespace Core\BannerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+use Core\CommonBundle\Entity\TranslateEntity;
 
 /**
  * Core\BannerBundle\Entity\Banner
@@ -10,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\BannerBundle\Entity\BannerRepository")
  */
-class Banner
+class Banner extends TranslateEntity
 {
 
     /**
@@ -24,7 +27,7 @@ class Banner
 
     /**
      * @var string $title
-     * 
+     * @Gedmo\Translatable
      * @ORM\Column(name="title", type="string", length=255, nullable = true)
      */
     private $title;
@@ -32,14 +35,14 @@ class Banner
 
     /**
      * @var string $description
-     * 
+     * @Gedmo\Translatable 
      * @ORM\Column(name="description", type="text", nullable = true)
      */
     private $description;
     
     /**
      * @var string $link
-     *
+     * @Gedmo\Translatable
      * @ORM\Column(name="link", type="string", length=1024, nullable = true)
      */
     private $link;

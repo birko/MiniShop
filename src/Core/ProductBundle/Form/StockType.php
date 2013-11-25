@@ -6,20 +6,36 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class StockType extends AbstractType
+class StockType extends StockTranslationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('amount', 'number', array('required' => true))
-            ->add('availability', 'text', array('required' => false))
         ;
+        if(!empty($options['cultures']))
+        {
+            $builder->add('translations', 'collection', array(
+                'type' => new StockTranslationType(),
+                'allow_add' => false,
+                'allow_delete' => false,
+                'prototype' => false, 
+                'by_reference' => false,
+                'options' => array(
+                    'required' => false,
+            )));
+        }
+        else
+        {
+            parent::buildForm($builder, $options);
+        }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'Core\ProductBundle\Entity\Stock'
+            'cultures' => array(),
         ));
     }
 

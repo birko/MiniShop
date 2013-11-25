@@ -9,18 +9,27 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
-class ProductType extends AbstractType
+class ProductType extends ProductTranslationType
 {
-    protected $tags = array();
-    
-    public function __construct($tags = array())
-    {
-        $this->tags  = $tags;
-    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if(!empty($options['cultures']))
+        {
+            $builder->add('translations', 'collection', array(
+                'type' => new ProductTranslationType(),
+                'allow_add' => false,
+                'allow_delete' => false,
+                'prototype' => false, 
+                'by_reference' => false,
+                'options' => array(
+                    'required' => false,
+            )));
+        }
+        else
+        {
+            parent::buildForm($builder, $options);
+        }
         $builder
-            ->add('title', 'text', array('required' => true))
             ->add('vendor', 'entity',  array(
                 'class' => 'CoreVendorBundle:Vendor',
                 'property' => 'title' ,
@@ -30,21 +39,12 @@ class ProductType extends AbstractType
                 'required'    => false,
                 'empty_value' => 'Choose Vendor',
                 'empty_data'  => null))
-            ->add('shortDescription', 'textarea', 
-                array(
-                    'required' => false,
-                    'label' => 'Short description',
-            ))
-            ->add('longDescription', 'textarea', array(
-                'required' => false,
-                'label' => 'Long description',
-            ))
-           ->add('enabled', 'checkbox', array('required' => false))
+            ->add('enabled', 'checkbox', array('required' => false))
         ;
-        if(!empty($this->tags))
+        if(!empty($options['tags']))
         {
             $tags = array();
-            foreach($this->tags as $tag)
+            foreach($options['tags'] as $tag)
             {
                 $tags[$tag] = $tag;
             }
@@ -65,8 +65,10 @@ class ProductType extends AbstractType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'Core\ProductBundle\Entity\Product',
+            'cultures' => array(),
+            'tags' => array(),
         ));
     }
 }

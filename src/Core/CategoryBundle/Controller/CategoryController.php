@@ -6,13 +6,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\CategoryBundle\Entity\Category;
 use Core\CategoryBundle\Form\CategoryType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * Category controller.
  *
  */
-class CategoryController extends Controller
+class CategoryController extends TranslateController
 {
+    
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setTitle($translation->getTitle());
+        $entity->setTranslatableLocale($culture); 
+        $em->persist($entity); 
+        $em->flush();
+    }
     /**
      * Lists all Category entities.
      *
@@ -97,13 +107,16 @@ class CategoryController extends Controller
     public function newAction($menu, $parent = null)
     {
         $entity = new Category();
-        $form   = $this->createForm(new CategoryType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Category());
+        $form   = $this->createForm(new CategoryType(), $entity, array('cultures' => $cultures));
 
         return $this->render('CoreCategoryBundle:Category:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'menu' => $menu,
-            'parent' => $parent
+            'parent' => $parent,
+            'cultures' => $cultures
         ));
     }
 
@@ -115,7 +128,9 @@ class CategoryController extends Controller
     {
         $entity  = new Category();
         $request = $this->getRequest();
-        $form    = $this->createForm(new CategoryType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Category());
+        $form   = $this->createForm(new CategoryType(), $entity, array('cultures' => $cultures));
         $form->bind($request);
         
         if ($form->isValid()) {
@@ -139,7 +154,7 @@ class CategoryController extends Controller
             {
                 $em->getRepository('CoreCategoryBundle:Category')->updateHomeCategory($entity->getId());
             }
-
+            $this->saveTranslations($entity, $cultures);            
             return $this->redirect($this->generateUrl('category'));
             
         }
@@ -148,7 +163,8 @@ class CategoryController extends Controller
             'entity' => $entity,
             'form'   => $form->createView(),
             'menu' => $menu,
-            'parent' => $parent
+            'parent' => $parent,
+            'cultures' => $cultures,
         ));
     }
 
@@ -166,13 +182,16 @@ class CategoryController extends Controller
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
-        $editForm = $this->createForm(new CategoryType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm = $this->createForm(new CategoryType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreCategoryBundle:Category:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 
@@ -190,7 +209,9 @@ class CategoryController extends Controller
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
-        $editForm   = $this->createForm(new CategoryType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm = $this->createForm(new CategoryType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -211,6 +232,7 @@ class CategoryController extends Controller
             {
                 $em->getRepository('CoreCategoryBundle:Category')->updateHomeCategory($entity->getId());
             }
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('category_edit', array('id' => $id)));
         }
@@ -219,6 +241,7 @@ class CategoryController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 

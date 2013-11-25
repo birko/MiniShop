@@ -3,6 +3,9 @@
 namespace Core\ShopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 use Core\PriceBundle\Entity\AbstractPrice;
 /**
  * Core\ShopBundle\Entity\Shipping
@@ -10,19 +13,19 @@ use Core\PriceBundle\Entity\AbstractPrice;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ShopBundle\Entity\ShippingRepository")
  */
-class Shipping  extends AbstractPrice implements \Serializable
+class Shipping  extends AbstractPrice implements \Serializable, Translatable
 {
     
     /**
      * @var string $name
-     *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @Gedmo\Translatable
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
      * @var text $description
-     *
+     * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text", nullable = true)
      */
     private $description;
@@ -32,6 +35,15 @@ class Shipping  extends AbstractPrice implements \Serializable
      * @ORM\JoinColumn(name="state_id", referencedColumnName="id")
      */
     private $state;
+    
+    /**
+     * @Gedmo\Locale
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
+    protected $locale;
+    
+    protected $translations; 
 
 
     public function __construct()
@@ -98,6 +110,53 @@ class Shipping  extends AbstractPrice implements \Serializable
     {
         return $this->state;
     }
+    
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+    }
+
+    public function getTranslatableLocale()
+    {
+        return $this->locale;
+    }
+    
+    /**
+     * Get translations
+     *
+     * @return ArrayCollection
+     */
+    public function getTranslations()
+    {
+        if($this->translations  === null)
+        {
+            $this->translations = new ArrayCollection();
+        }
+        return $this->translations;   
+    }
+    
+    public function setTranslations($translations)
+    {
+        $this->translations = $translations;   
+    }
+    
+    public function addTranslation($translation)
+    {
+        $this->getTranslations()->add($translation);
+    }
+    
+    public function removeTranslation($translation)
+    {
+        $this->getTranslations()->removeElement($translation);
+    }
+    
+    public function getTranslation($locale)
+    {
+        return $this->getTranslations()->filter(function($entry) use ($locale)
+         {
+             return ($entry->getTranslatableLocale() == $locale);
+         })->current();
+    }
 
     public function serialize() {
         return serialize(array(
@@ -107,7 +166,8 @@ class Shipping  extends AbstractPrice implements \Serializable
             $this->price,
             $this->priceVAT,
             $this->state,
-            $this->vat
+            $this->vat,
+            $this->locale
         ));
         
     }
@@ -119,7 +179,8 @@ class Shipping  extends AbstractPrice implements \Serializable
             $this->price,
             $this->priceVAT,
             $this->state,
-            $this->vat
+            $this->vat,
+            $this->locale
         ) = unserialize($serialized);
     }
     

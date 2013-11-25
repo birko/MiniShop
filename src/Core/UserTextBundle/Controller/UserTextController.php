@@ -8,13 +8,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Core\UserTextBundle\Entity\UserText;
 use Core\UserTextBundle\Form\UserTextType;
 use Core\UserTextBundle\Form\EditUserTextType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * UserText controller.
  *
  */
-class UserTextController extends Controller
+class UserTextController extends TranslateController
 {
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setText($translation->getText());
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity); 
+        $em->flush();
+    }
+    
     /**
      * Lists all UserText entities.
      *
@@ -62,11 +72,14 @@ class UserTextController extends Controller
     public function newAction()
     {
         $entity = new UserText();
-        $form   = $this->createForm(new UserTextType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new UserText());
+        $form   = $this->createForm(new UserTextType(), $entity, array('cultures' => $cultures));
 
         return $this->render('CoreUserTextBundle:UserText:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'cultures' => $cultures,
         ));
     }
 
@@ -77,20 +90,24 @@ class UserTextController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new UserText();
-        $form = $this->createForm(new UserTextType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new UserText());
+        $form   = $this->createForm(new UserTextType(), $entity, array('cultures' => $cultures));
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
+            $this->saveTranslations($entity, $cultures);
+            
             return $this->redirect($this->generateUrl('usertext'));
         }
 
         return $this->render('CoreUserTextBundle:UserText:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'cultures' => $cultures,
         ));
     }
 
@@ -108,13 +125,16 @@ class UserTextController extends Controller
             throw $this->createNotFoundException('Unable to find UserText entity.');
         }
 
-        $editForm = $this->createForm(new EditUserTextType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm = $this->createForm(new EditUserTextType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreUserTextBundle:UserText:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 
@@ -133,12 +153,15 @@ class UserTextController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new EditUserTextType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm = $this->createForm(new EditUserTextType(), $entity, array('cultures' => $cultures));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('usertext_edit', array('id' => $id)));
         }
@@ -147,6 +170,7 @@ class UserTextController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 

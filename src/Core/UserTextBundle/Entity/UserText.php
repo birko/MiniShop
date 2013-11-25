@@ -3,7 +3,9 @@
 namespace Core\UserTextBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Core\CommonBundle\Entity\TranslateEntity;
 /**
  * UserText
  *
@@ -11,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("name")
  * @ORM\Entity(repositoryClass="Core\UserTextBundle\Entity\UserTextRepository")
  */
-class UserText
+class UserText extends TranslateEntity
 {
     /**
      * @var integer
@@ -31,7 +33,7 @@ class UserText
 
     /**
      * @var string
-     *
+     * @Gedmo\Translatable
      * @ORM\Column(name="text", type="text", nullable=true)
      */
     private $text;

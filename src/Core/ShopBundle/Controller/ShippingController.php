@@ -6,13 +6,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\ShopBundle\Entity\Shipping;
 use Core\ShopBundle\Form\ShippingType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * Shipping controller.
  *
  */
-class ShippingController extends Controller
+class ShippingController extends TranslateController
 {
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setName($translation->getName());
+        $entity->setDescription($translation->getDescription());    
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity); 
+        $em->flush();
+    }
+    
     /**
      * Lists all Shipping entities.
      *
@@ -58,11 +69,14 @@ class ShippingController extends Controller
     public function newAction()
     {
         $entity = new Shipping();
-        $form   = $this->createForm(new ShippingType(true), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Shipping());
+        $form   = $this->createForm(new ShippingType(), $entity, array('cultures' => $cultures));
 
         return $this->render('CoreShopBundle:Shipping:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'cultures' => $cultures,
         ));
     }
 
@@ -74,7 +88,9 @@ class ShippingController extends Controller
     {
         $entity  = new Shipping();
         $request = $this->getRequest();
-        $form    = $this->createForm(new ShippingType(true), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Shipping());
+        $form  = $this->createForm(new ShippingType(), $entity, array('cultures' => $cultures));
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -82,6 +98,7 @@ class ShippingController extends Controller
             $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('shipping'));
             
@@ -89,7 +106,8 @@ class ShippingController extends Controller
 
         return $this->render('CoreShopBundle:Shipping:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'cultures' => $cultures,
         ));
     }
 
@@ -107,13 +125,16 @@ class ShippingController extends Controller
             throw $this->createNotFoundException('Unable to find Shipping entity.');
         }
 
-        $editForm = $this->createForm(new ShippingType(true), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new ShippingType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreShopBundle:Shipping:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 
@@ -131,7 +152,9 @@ class ShippingController extends Controller
             throw $this->createNotFoundException('Unable to find Shipping entity.');
         }
 
-        $editForm   = $this->createForm(new ShippingType(true), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new ShippingType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -142,6 +165,7 @@ class ShippingController extends Controller
             $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('shipping_edit', array('id' => $id)));
         }
@@ -150,6 +174,7 @@ class ShippingController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 

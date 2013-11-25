@@ -3,8 +3,10 @@
 namespace Core\CategoryBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+use Core\CommonBundle\Entity\TranslateEntity;
 
 /**
  * Core\CategoryBundle\Entity\Category
@@ -12,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\CategoryBundle\Entity\CategoryRepository")
  */
-class Category
+class Category extends TranslateEntity
 {
     /**
      * @var integer $id
@@ -25,14 +27,15 @@ class Category
 
     /**
      * @var string $title
-     * 
-     * @ORM\Column(name="title", type="string", length=255)
+     * @Gedmo\Translatable
+     * @ORM\Column(name="title", type="string", length=255, nullable = true)
      */
     private $title;
 
     /**
      * @var string $slug
      * @Gedmo\Slug(fields={"title"})
+     * @Gedmo\Translatable
      * @ORM\Column(name="slug", type="string", length=255, nullable = true)
      */
     private $slug;
@@ -86,13 +89,6 @@ class Category
      * @ORM\OneToMany(targetEntity="Core\ProductBundle\Entity\ProductCategory", mappedBy="category")
      */
     private $productCategories;
-    
-    /**
-     * @Gedmo\Locale
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
-     */
-    protected $locale;
     
      /**
      * @Gedmo\TreeLeft

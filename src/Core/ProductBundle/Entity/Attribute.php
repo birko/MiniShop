@@ -4,6 +4,9 @@ namespace Core\ProductBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Translatable\Translatable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Core\CommonBundle\Entity\TranslateEntity;
 
 /**
  * Core\ProductBundle\Entity\Attribute
@@ -11,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="product_attribute")
  * @ORM\Entity(repositoryClass="Core\ProductBundle\Entity\AttributeRepository")
  */
-class Attribute
+class Attribute extends TranslateEntity
 {    
     /**
      * @var integer $id
@@ -23,12 +26,14 @@ class Attribute
     protected $id;
     /** 
      * @var string name
-     * @ORM\Column(type="string") 
+     * @Gedmo\Translatable
+     * @ORM\Column(type="string", nullable=true) 
      */
     protected $name;
     /** 
      * @var string value
-     * @ORM\Column(type="string") 
+     * @Gedmo\Translatable
+     * @ORM\Column(type="string", nullable=true) 
      */
     protected $value;
     /** 

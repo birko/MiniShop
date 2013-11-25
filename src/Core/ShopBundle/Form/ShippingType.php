@@ -13,11 +13,24 @@ class ShippingType extends AbstractPriceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name', 'text', array('required' => true));
-        parent::buildForm($builder, $options);
-        $builder->add('description', 'textarea', array('required' => false))
-            ->add('state','entity',  array(
+        if(!empty($options['cultures']))
+        {
+            $builder->add('translations', 'collection', array(
+                'type' => new ShippingTranslationType(),
+                'allow_add' => false,
+                'allow_delete' => false,
+                'prototype' => false, 
+                'by_reference' => false,
+                'options' => array(
+                    'required' => false,
+            )));
+        }
+        else
+        {
+            parent::buildForm($builder, $options);
+        }
+        parent::parentBuildForm($builder, $options);
+        $builder->add('state','entity',  array(
                 'class' => 'CoreShopBundle:State',
                 'label' => 'State',
                 'property' => 'name' ,
@@ -37,8 +50,9 @@ class ShippingType extends AbstractPriceType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'Core\ShopBundle\Entity\Shipping',
+            'cultures' => array(),
         ));
     }
 }

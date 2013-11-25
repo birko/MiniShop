@@ -6,13 +6,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\ContentBundle\Entity\Content;
 use Core\ContentBundle\Form\ContentType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * Content controller.
  *
  */
-class ContentController extends Controller
+class ContentController extends TranslateController
 {
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setTitle($translation->getTitle());
+        $entity->setShortDescription($translation->getShortDescription());    
+        $entity->setLongDescription($translation->getLongDescription());  
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity); 
+        $em->flush();
+    }
+    
     /**
      * Lists all Content entities.
      *
@@ -68,12 +80,15 @@ class ContentController extends Controller
     public function newAction($category = null)
     {
         $entity = new Content();
-        $form   = $this->createForm(new ContentType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Content());
+        $form   = $this->createForm(new ContentType(), $entity, array('cultures' => $cultures));
 
         return $this->render('CoreContentBundle:Content:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'category' => $category,
+            'cultures' => $cultures
         ));
     }
 
@@ -85,7 +100,9 @@ class ContentController extends Controller
     {
         $entity  = new Content();
         $request = $this->getRequest();
-        $form    = $this->createForm(new ContentType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Content());
+        $form   = $this->createForm(new ContentType(), $entity, array('cultures' => $cultures));
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -100,7 +117,7 @@ class ContentController extends Controller
             }
             $em->persist($entity);
             $em->flush();
-
+            $this->saveTranslations($entity, $cultures);
             return $this->redirect($this->generateUrl('content', array('category'=> $category)));
             
         }
@@ -109,6 +126,7 @@ class ContentController extends Controller
             'entity' => $entity,
             'form'   => $form->createView(),
             'category' => $category,
+            'cultures' => $cultures,
         ));
     }
 
@@ -126,13 +144,16 @@ class ContentController extends Controller
             throw $this->createNotFoundException('Unable to find Content entity.');
         }
 
-        $editForm = $this->createForm(new ContentType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm = $this->createForm(new ContentType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreContentBundle:Content:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 
@@ -150,7 +171,9 @@ class ContentController extends Controller
             throw $this->createNotFoundException('Unable to find Content entity.');
         }
 
-        $editForm   = $this->createForm(new ContentType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm = $this->createForm(new ContentType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -160,7 +183,8 @@ class ContentController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-
+            $this->saveTranslations($entity, $cultures);
+            
             return $this->redirect($this->generateUrl('content_edit', array('id' => $id)));
         }
 

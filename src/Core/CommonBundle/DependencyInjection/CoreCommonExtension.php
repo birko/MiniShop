@@ -25,6 +25,11 @@ class CoreCommonExtension extends Extension
         {
             $container->setParameter('default.emails', $config['emails']);
         }
+        
+        if(isset($config['cultures']))
+        {
+            $container->setParameter('core.cultures', $config['cultures']);
+        }
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

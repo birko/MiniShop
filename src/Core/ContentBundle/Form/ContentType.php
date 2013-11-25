@@ -8,21 +8,26 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
-class ContentType extends AbstractType
+class ContentType extends ContentTranslationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('title', 'text', array('required' => true))
-            ->add('shortDescription', 'textarea', array(
-                'required' => false,
-                'label' => 'Short description',
-            ))
-            ->add('longDescription', 'textarea', array(
-                'required' => false,
-                'label' => 'Long description',
-            ))
-        ;
+        if(!empty($options['cultures']))
+        {
+            $builder->add('translations', 'collection', array(
+                'type' => new ContentTranslationType(),
+                'allow_add' => false,
+                'allow_delete' => false,
+                'prototype' => false, 
+                'by_reference' => false,
+                'options' => array(
+                    'required' => false,
+            )));
+        }
+        else
+        {
+            parent::buildForm($builder, $options);
+        }
     }
 
     public function getName()
@@ -33,8 +38,9 @@ class ContentType extends AbstractType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'Core\ContentBundle\Entity\Content',
+            'cultures' => array(),
         ));
     }
 }

@@ -22,6 +22,7 @@ class EditVideoType extends MediaType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'Core\MediaBundle\Entity\Video',
         ));

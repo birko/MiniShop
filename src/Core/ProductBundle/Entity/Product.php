@@ -3,8 +3,10 @@
 namespace Core\ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+use Core\CommonBundle\Entity\TranslateEntity;
 
 /**
  * Core\ProductBundle\Entity\Product
@@ -12,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ProductBundle\Entity\ProductRepository")
  */
-class Product
+class Product extends TranslateEntity
 {
     /**
      * @var integer $id
@@ -25,28 +27,29 @@ class Product
 
     /**
      * @var string $title
-     *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @Gedmo\Translatable
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
      * @var string $slug
      * @Gedmo\Slug(fields={"title"})
-     * @ORM\Column(name="slug", type="string", length=255)
+     * @Gedmo\Translatable
+     * @ORM\Column(name="slug", type="string", length=255, nullable=true)
      */
     private $slug;
 
     /**
      * @var text $shortDescription
-     *
+     * @Gedmo\Translatable
      * @ORM\Column(name="shortDescription", type="text", nullable=true)
      */
     private $shortDescription;
 
     /**
      * @var text $longDescription
-     *
+     * @Gedmo\Translatable
      * @ORM\Column(name="longDescription", type="text", nullable=true)
      */
     private $longDescription;

@@ -13,11 +13,23 @@ class PaymentType extends AbstractPriceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name', 'text', array('required' => true));
-        parent::buildForm($builder, $options);
-        $builder->add('description', 'textarea', array('required' => false))
-        ;
+        if(!empty($options['cultures']))
+        {
+            $builder->add('translations', 'collection', array(
+                'type' => new PaymentTranslationType(),
+                'allow_add' => false,
+                'allow_delete' => false,
+                'prototype' => false, 
+                'by_reference' => false,
+                'options' => array(
+                    'required' => false,
+            )));
+        }
+        else
+        {
+            parent::buildForm($builder, $options);
+        }
+        parent::parentBuildForm($builder, $options);
     }
 
     public function getName()
@@ -27,8 +39,9 @@ class PaymentType extends AbstractPriceType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'Core\ShopBundle\Entity\Payment',
+            'cultures' => array(),
         ));
     }
 }

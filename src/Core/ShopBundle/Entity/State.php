@@ -3,6 +3,9 @@
 namespace Core\ShopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+use Core\CommonBundle\Entity\TranslateEntity;
 
 /**
  * Core\ShopBundle\Entity\State
@@ -10,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ShopBundle\Entity\StateRepository")
  */
-class State implements \Serializable
+class State extends TranslateEntity implements \Serializable
 {
     /**
      * @var integer $id
@@ -23,8 +26,8 @@ class State implements \Serializable
 
     /**
      * @var string $name
-     *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @Gedmo\Translatable
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 
@@ -61,15 +64,17 @@ class State implements \Serializable
 
     public function serialize() {
         return serialize(array(
-          $this->id,
-          $this->name
+            $this->id,
+            $this->name,
+            $this->locale 
         ));
     }
 
     public function unserialize($serialized) {
         list(
             $this->id,
-            $this->name
+            $this->name,
+            $this->locale 
         )=unserialize($serialized);
     }
     

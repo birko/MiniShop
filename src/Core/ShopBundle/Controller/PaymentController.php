@@ -6,13 +6,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\ShopBundle\Entity\Payment;
 use Core\ShopBundle\Form\PaymentType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * Payment controller.
  *
  */
-class PaymentController extends Controller
+class PaymentController extends TranslateController
 {
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setName($translation->getName());
+        $entity->setDescription($translation->getDescription());    
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity); 
+        $em->flush();
+    }
+    
     /**
      * Lists all Payment entities.
      *
@@ -58,11 +69,14 @@ class PaymentController extends Controller
     public function newAction()
     {
         $entity = new Payment();
-        $form   = $this->createForm(new PaymentType(true), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Payment());
+        $form = $this->createForm(new PaymentType(), $entity, array('cultures' => $cultures));
 
         return $this->render('CoreShopBundle:Payment:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'cultures' => $cultures,
         ));
     }
 
@@ -74,7 +88,9 @@ class PaymentController extends Controller
     {
         $entity  = new Payment();
         $request = $this->getRequest();
-        $form    = $this->createForm(new PaymentType(true), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Payment());
+        $form = $this->createForm(new PaymentType(), $entity, array('cultures' => $cultures));
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -82,6 +98,7 @@ class PaymentController extends Controller
             $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('payment'));
             
@@ -89,7 +106,8 @@ class PaymentController extends Controller
 
         return $this->render('CoreShopBundle:Payment:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'cultures' => $cultures,
         ));
     }
 
@@ -107,13 +125,16 @@ class PaymentController extends Controller
             throw $this->createNotFoundException('Unable to find Payment entity.');
         }
 
-        $editForm = $this->createForm(new PaymentType(true), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new PaymentType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreShopBundle:Payment:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 
@@ -131,7 +152,9 @@ class PaymentController extends Controller
             throw $this->createNotFoundException('Unable to find Payment entity.');
         }
 
-        $editForm   = $this->createForm(new PaymentType(true), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new PaymentType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -142,6 +165,7 @@ class PaymentController extends Controller
             $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('payment_edit', array('id' => $id)));
         }
@@ -150,6 +174,7 @@ class PaymentController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 

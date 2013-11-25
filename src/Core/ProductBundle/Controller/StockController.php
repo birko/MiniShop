@@ -7,13 +7,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\ProductBundle\Entity\Stock;
 use Core\ProductBundle\Form\StockType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * Stock controller.
  *
  */
-class StockController extends Controller
+class StockController extends TranslateController
 {
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setAvailability($translation->getAvailability());
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity); 
+        $em->flush();
+    }
+    
     /**
      * Lists all Stock entities.
      *
@@ -59,13 +69,16 @@ class StockController extends Controller
     public function newAction($product, $category = null)
     {
         $entity = new Stock();
-        $form   = $this->createForm(new StockType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Stock());
+        $form   = $this->createForm(new StockType(), $entity, array('cultures' => $cultures));
 
         return $this->render('CoreProductBundle:Stock:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'product'=> $product, 
             'category' => $category,
+            'cultures' => $cultures,
         ));
     }
 
@@ -76,7 +89,9 @@ class StockController extends Controller
     public function createAction(Request $request, $product, $category = null)
     {
         $entity  = new Stock();
-        $form = $this->createForm(new StockType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Stock());
+        $form   = $this->createForm(new StockType(), $entity, array('cultures' => $cultures));
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -88,7 +103,7 @@ class StockController extends Controller
             }
             $em->persist($entity);
             $em->flush();
-
+            $this->saveTranslations($entity, $cultures);
             return $this->redirect($this->generateUrl('stock_edit', array('id' => $entity->getId(), 'product'=> $product, 'category' => $category)));
         }
 
@@ -97,6 +112,7 @@ class StockController extends Controller
             'form'   => $form->createView(),
             'product'=> $product, 
             'category' => $category,
+            'cultures' => $cultures,
         ));
     }
 
@@ -114,7 +130,9 @@ class StockController extends Controller
             throw $this->createNotFoundException('Unable to find Stock entity.');
         }
 
-        $editForm = $this->createForm(new StockType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new StockType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreProductBundle:Stock:edit.html.twig', array(
@@ -123,6 +141,7 @@ class StockController extends Controller
             'delete_form' => $deleteForm->createView(),
             'product'=> $product, 
             'category' => $category,
+            'cultures' => $cultures,
         ));
     }
 
@@ -141,12 +160,15 @@ class StockController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new StockType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new StockType(), $entity, array('cultures' => $cultures));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('stock_edit', array('id' => $id, 'product'=> $product, 'category' => $category)));
         }
@@ -157,6 +179,7 @@ class StockController extends Controller
             'delete_form' => $deleteForm->createView(),
             'product'=> $product, 
             'category' => $category,
+            'cultures' => $cultures
         ));
     }
 

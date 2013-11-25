@@ -4,6 +4,8 @@ namespace Core\ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+use Core\CommonBundle\Entity\TranslateEntity;
 
 /**
  * Core\ProductBundle\Entity\ProductAmount
@@ -11,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ProductBundle\Entity\StockRepository")
  */
-class Stock
+class Stock extends TranslateEntity
 {
     /**
      * @var integer $id
@@ -31,6 +33,7 @@ class Stock
 
     /**
      * @var string $availability
+     * @Gedmo\Translatable
      * @ORM\Column(name="availability", type="string", length=255, nullable = true )
      */
     private $availability;

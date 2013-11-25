@@ -7,13 +7,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\ProductBundle\Entity\Attribute;
 use Core\ProductBundle\Form\AttributeType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * Attribute controller.
  *
  */
-class AttributeController extends Controller
+class AttributeController extends TranslateController
 {
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setName($translation->getName());
+        $entity->setValue($translation->getValue());    
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity); 
+        $em->flush();
+    }
+    
     /**
      * Lists all Attribute entities.
      *
@@ -59,13 +70,17 @@ class AttributeController extends Controller
     public function newAction($product, $category = null)
     {
         $entity = new Attribute();
-        $form   = $this->createForm(new AttributeType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Attribute());
+        $form   = $this->createForm(new AttributeType(), $entity, array('cultures' => $cultures));
+
 
         return $this->render('CoreProductBundle:Attribute:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'product'=> $product, 
             'category' => $category,
+            'cultures' => $cultures,
         ));
     }
 
@@ -76,7 +91,9 @@ class AttributeController extends Controller
     public function createAction(Request $request, $product, $category = null)
     {
         $entity  = new Attribute();
-        $form = $this->createForm(new AttributeType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Attribute());
+        $form   = $this->createForm(new AttributeType(), $entity, array('cultures' => $cultures));
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -88,6 +105,7 @@ class AttributeController extends Controller
             }
             $em->persist($entity);
             $em->flush();
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('attribute', array('product'=> $product, 'category' => $category)));
         }
@@ -95,6 +113,9 @@ class AttributeController extends Controller
         return $this->render('CoreProductBundle:Attribute:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'category' => $category,
+            'product' => $product,
+            'cultures' => $cultures,
         ));
     }
 
@@ -112,7 +133,9 @@ class AttributeController extends Controller
             throw $this->createNotFoundException('Unable to find Attribute entity.');
         }
 
-        $editForm = $this->createForm(new AttributeType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new AttributeType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreProductBundle:Attribute:edit.html.twig', array(
@@ -121,6 +144,7 @@ class AttributeController extends Controller
             'delete_form' => $deleteForm->createView(),
             'product'=> $product, 
             'category' => $category,
+            'cultures' => $cultures,
         ));
     }
 
@@ -139,12 +163,15 @@ class AttributeController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new AttributeType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new AttributeType(), $entity, array('cultures' => $cultures));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('attribute_edit', array('id' => $id, 'product'=> $product, 'category' => $category,)));
         }
@@ -155,6 +182,7 @@ class AttributeController extends Controller
             'delete_form' => $deleteForm->createView(),
             'product'=> $product, 
             'category' => $category,
+            'cultures' => $cultures,
         ));
     }
 

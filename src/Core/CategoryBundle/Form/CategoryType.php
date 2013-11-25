@@ -8,16 +8,30 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
-class CategoryType extends AbstractType
+class CategoryType extends CategoryTranslationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if(!empty($options['cultures']))
+        {
+            $builder->add('translations', 'collection', array(
+                'type' => new CategoryTranslationType(),
+                'allow_add' => false,
+                'allow_delete' => false,
+                'prototype' => false, 
+                'by_reference' => false,
+                'options' => array(
+                    'required' => false,
+            )));
+        }
+        else
+        {
+            parent::buildForm($builder, $options);
+        }
         $builder
-            ->add('title', 'text', array('required' => true))
             ->add('enabled', 'checkbox', array('required' => false))
             ->add('home', 'checkbox', array('required' => false))
             ->add('external', 'checkbox', array('required' => false))
-            ->add('slug', 'text', array('required' => false))
         ;
     }
 
@@ -29,8 +43,9 @@ class CategoryType extends AbstractType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'Core\CategoryBundle\Entity\Category',
+            'cultures' => array(),
         ));
     }
 }

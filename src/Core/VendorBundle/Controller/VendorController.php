@@ -6,13 +6,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\VendorBundle\Entity\Vendor;
 use Core\VendorBundle\Form\VendorType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * Vendor controller.
  *
  */
-class VendorController extends Controller
+class VendorController extends TranslateController
 {
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setDescription($translation->getDescription());
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity); 
+        $em->flush();
+    }
+    
     /**
      * Lists all Vendor entities.
      *
@@ -66,11 +76,14 @@ class VendorController extends Controller
     public function newAction()
     {
         $entity = new Vendor();
-        $form   = $this->createForm(new VendorType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Vendor());
+        $form   = $this->createForm(new VendorType(), $entity, array('cultures' => $cultures));
 
         return $this->render('CoreVendorBundle:Vendor:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'cultures' => $cultures,
         ));
     }
 
@@ -82,21 +95,25 @@ class VendorController extends Controller
     {
         $entity  = new Vendor();
         $request = $this->getRequest();
-        $form    = $this->createForm(new VendorType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Vendor());
+        $form   = $this->createForm(new VendorType(), $entity, array('cultures' => $cultures));
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
+            $this->saveTranslations($entity, $cultures);
+            
             return $this->redirect($this->generateUrl('vendor'));
             
         }
 
         return $this->render('CoreVendorBundle:Vendor:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'cultures' => $cultures,
         ));
     }
 
@@ -114,13 +131,16 @@ class VendorController extends Controller
             throw $this->createNotFoundException('Unable to find Vendor entity.');
         }
 
-        $editForm = $this->createForm(new VendorType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm = $this->createForm(new VendorType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreVendorBundle:Vendor:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 
@@ -138,7 +158,9 @@ class VendorController extends Controller
             throw $this->createNotFoundException('Unable to find Vendor entity.');
         }
 
-        $editForm   = $this->createForm(new VendorType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm = $this->createForm(new VendorType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -156,6 +178,7 @@ class VendorController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures
         ));
     }
 

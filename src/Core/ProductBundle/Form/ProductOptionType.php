@@ -8,13 +8,27 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
-class ProductOptionType extends AbstractType
+class ProductOptionType extends ProductOptionTranslationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if(!empty($options['cultures']))
+        {
+            $builder->add('translations', 'collection', array(
+                'type' => new ProductOptionTranslationType(),
+                'allow_add' => false,
+                'allow_delete' => false,
+                'prototype' => false, 
+                'by_reference' => false,
+                'options' => array(
+                    'required' => false,
+            )));
+        }
+        else
+        {
+            parent::buildForm($builder, $options);
+        }
         $builder
-            ->add('name', 'text', array('required' => true))
-            ->add('value', 'text', array('required' => true))
             ->add('amount', 'number', array('required' => false))
         ;
     }
@@ -26,8 +40,9 @@ class ProductOptionType extends AbstractType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'Core\ProductBundle\Entity\ProductOption',
+            'cultures' => array(),
         ));
     }
 }

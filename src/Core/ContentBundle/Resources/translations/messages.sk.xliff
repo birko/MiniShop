@@ -58,6 +58,10 @@
                 <source>Content media position edit</source>
                 <target>Úprava pozície média</target>
             </trans-unit>
+            <trans-unit id="15">
+                <source>Contents</source>
+                <target>Obsahy</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

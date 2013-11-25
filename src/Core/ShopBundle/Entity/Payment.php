@@ -3,6 +3,9 @@
 namespace Core\ShopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 use Core\PriceBundle\Entity\AbstractPrice;
 
 /**
@@ -11,47 +14,35 @@ use Core\PriceBundle\Entity\AbstractPrice;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ShopBundle\Entity\PaymentRepository")
  */
-class Payment  extends AbstractPrice implements \Serializable
+class Payment  extends AbstractPrice implements \Serializable, Translatable
 {
-
-    /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    protected $id;
     /**
      * @var string $name
-     *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @Gedmo\Translatable
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
      * @var text $description
-     *
+     * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
     
-
+    /**
+     * @Gedmo\Locale
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
+    protected $locale;
+    
+    protected $translations; 
 
     public function __construct()
     {
     }
-    
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-    
+
     /**
      * Set name
      *
@@ -91,6 +82,53 @@ class Payment  extends AbstractPrice implements \Serializable
     {
         return $this->description;
     }
+    
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+    }
+
+    public function getTranslatableLocale()
+    {
+        return $this->locale;
+    }
+    
+    /**
+     * Get translations
+     *
+     * @return ArrayCollection
+     */
+    public function getTranslations()
+    {
+        if($this->translations  === null)
+        {
+            $this->translations = new ArrayCollection();
+        }
+        return $this->translations;   
+    }
+    
+    public function setTranslations($translations)
+    {
+        $this->translations = $translations;   
+    }
+    
+    public function addTranslation($translation)
+    {
+        $this->getTranslations()->add($translation);
+    }
+    
+    public function removeTranslation($translation)
+    {
+        $this->getTranslations()->removeElement($translation);
+    }
+    
+    public function getTranslation($locale)
+    {
+        return $this->getTranslations()->filter(function($entry) use ($locale)
+         {
+             return ($entry->getTranslatableLocale() == $locale);
+         })->current();
+    }
 
     public function serialize() {
         return serialize(array(
@@ -99,8 +137,8 @@ class Payment  extends AbstractPrice implements \Serializable
             $this->priceVAT,
             $this->name,
             $this->description,
-            $this->vat
-            
+            $this->vat,
+            $this->locale 
         ));
     }
 
@@ -111,7 +149,8 @@ class Payment  extends AbstractPrice implements \Serializable
             $this->priceVAT,    
             $this->name,
             $this->description,
-            $this->vat
+            $this->vat,
+            $this->locale
         ) = unserialize($serialized);
         
     }

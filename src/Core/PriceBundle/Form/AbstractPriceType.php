@@ -10,17 +10,10 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 class AbstractPriceType extends AbstractType
-{
-    private $vat = true;
-    
-    public function __construct($vat = true)
-    {
-        $this->vat = $vat;
-    }
-    
+{    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if(!$this->vat)
+        if(!$options['vat'])
         {
             $builder->add('price', 'money', array('required' => true));
         }
@@ -54,6 +47,7 @@ class AbstractPriceType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Core\PriceBundle\Entity\AbstractPrice',
+            'vat' => true
         ));
     }
 }

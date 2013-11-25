@@ -6,13 +6,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\ShopBundle\Entity\State;
 use Core\ShopBundle\Form\StateType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * State controller.
  *
  */
-class StateController extends Controller
+class StateController extends TranslateController
 {
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setName($translation->getName());
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity); 
+        $em->flush();
+    }
+    
     /**
      * Lists all State entities.
      *
@@ -58,11 +68,14 @@ class StateController extends Controller
     public function newAction()
     {
         $entity = new State();
-        $form   = $this->createForm(new StateType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new State());
+        $form   = $this->createForm(new StateType(), $entity, array('cultures' => $cultures));
 
         return $this->render('CoreShopBundle:State:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'cultures' => $cultures,
         ));
     }
 
@@ -74,21 +87,25 @@ class StateController extends Controller
     {
         $entity  = new State();
         $request = $this->getRequest();
-        $form    = $this->createForm(new StateType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new State());
+        $form   = $this->createForm(new StateType(), $entity, array('cultures' => $cultures));
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
+            $this->saveTranslations($entity, $cultures);
+            
             return $this->redirect($this->generateUrl('state'));
             
         }
 
         return $this->render('CoreShopBundle:State:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'cultures' => $cultures,
         ));
     }
 
@@ -106,13 +123,16 @@ class StateController extends Controller
             throw $this->createNotFoundException('Unable to find State entity.');
         }
 
-        $editForm = $this->createForm(new StateType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new StateType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreShopBundle:State:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 
@@ -130,7 +150,9 @@ class StateController extends Controller
             throw $this->createNotFoundException('Unable to find State entity.');
         }
 
-        $editForm   = $this->createForm(new StateType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new StateType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -140,6 +162,7 @@ class StateController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('state_edit', array('id' => $id)));
         }
@@ -148,6 +171,7 @@ class StateController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 

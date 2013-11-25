@@ -8,13 +8,25 @@ use Core\BannerBundle\Entity\Banner;
 use Core\BannerBundle\Form\BannerType;
 use Core\BannerBundle\Form\EditBannerType;
 use Core\BannerBundle\Form\BannerPositionType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * Banner controller.
  *
  */
-class BannerController extends Controller
+class BannerController extends TranslateController
 {
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setTitle($translation->getTitle());
+        $entity->setDescription($translation->getDescription());    
+        $entity->setLink($translation->getLink());    
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity); 
+        $em->flush();
+    }
+    
     /**
      * Lists all Banner entities.
      *
@@ -61,12 +73,15 @@ class BannerController extends Controller
     public function newAction($category)
     {
         $entity = new Banner();
-        $form   = $this->createForm(new BannerType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Banner());
+        $form   = $this->createForm(new BannerType(), $entity, array('cultures' => $cultures));
 
         return $this->render('CoreBannerBundle:Banner:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-            'category' => $category
+            'category' => $category,
+            'cultures' => $cultures
         ));
     }
 
@@ -78,7 +93,9 @@ class BannerController extends Controller
     {
         $entity  = new Banner();
         $request = $this->getRequest();
-        $form    = $this->createForm(new BannerType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Banner());
+        $form   = $this->createForm(new BannerType(), $entity, array('cultures' => $cultures));
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -105,6 +122,7 @@ class BannerController extends Controller
             $em->flush();
             $em->persist($entity);
             $em->flush();
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('banner', array('category' => $category)));
             
@@ -113,7 +131,8 @@ class BannerController extends Controller
         return $this->render('CoreBannerBundle:Banner:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(), 
-            'category' => $category
+            'category' => $category,
+            'cultures' => $cultures
         ));
     }
 
@@ -131,13 +150,16 @@ class BannerController extends Controller
             throw $this->createNotFoundException('Unable to find Banner entity.');
         }
 
-        $editForm = $this->createForm(new EditBannerType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new EditBannerType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreBannerBundle:Banner:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures'    => $cultures,
         ));
     }
 
@@ -155,7 +177,9 @@ class BannerController extends Controller
             throw $this->createNotFoundException('Unable to find Banner entity.');
         }
 
-        $editForm   = $this->createForm(new EditBannerType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new EditBannerType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -165,7 +189,8 @@ class BannerController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-
+            $this->saveTranslations($entity, $cultures);
+            
             return $this->redirect($this->generateUrl('banner_edit', array('id' => $id)));
         }
 
@@ -173,6 +198,7 @@ class BannerController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'cultures' => $cultures,
         ));
     }
 

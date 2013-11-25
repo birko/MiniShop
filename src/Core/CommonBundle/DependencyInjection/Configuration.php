@@ -20,6 +20,9 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('core_common')
                     ->children()
+                        ->variableNode('cultures')
+                            ->defaultValue(array('%locale%'))
+                        ->end()
                         ->arrayNode('emails')
                             ->children()
                                 ->scalarNode('default')->end()

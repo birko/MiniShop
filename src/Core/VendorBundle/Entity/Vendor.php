@@ -3,8 +3,10 @@
 namespace Core\VendorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+use Core\CommonBundle\Entity\TranslateEntity;
 
 /**
  * Core\VendorBundle\Entity\Vendor
@@ -12,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\VendorBundle\Entity\VendorRepository")
  */
-class Vendor
+class Vendor extends TranslateEntity
 {
     /**
      * @var integer $id
@@ -39,7 +41,7 @@ class Vendor
 
     /**
      * @var text $description
-     *
+     * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;

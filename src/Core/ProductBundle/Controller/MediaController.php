@@ -14,13 +14,23 @@ use Core\MediaBundle\Form\VideoType;
 use Core\MediaBundle\Form\EditImageType;
 use Core\MediaBundle\Form\EditVideoType;
 use Core\ProductBundle\Form\ProductMediaType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * Content controller.
  *
  */
-class MediaController extends Controller
+class MediaController extends TranslateController
 {
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setTitle($translation->getTitle());
+        $entity->setDescription($translation->getDescription());    
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity); 
+        $em->flush();
+    }
     /**
      * Lists all Content Media entities.
      *
@@ -48,16 +58,19 @@ class MediaController extends Controller
      */
     public function newAction($product, $type, $category = null)
     {
+        $cultures = $this->container->getParameter('core.cultures');
         switch($type)
         {
             case "video":
                 $entity = new Video();
-                $form   = $this->createForm(new VideoType(), $entity);
+                $this->loadTranslations($entity, $cultures, new Video());
+                $form   = $this->createForm(new VideoType(), $entity, array('cultures' => $cultures));
                 break;
             case "image":
             default:
                 $entity = new Image();
-                $form   = $this->createForm(new ImageType(), $entity);
+                $this->loadTranslations($entity, $cultures, new Image());
+                $form   = $this->createForm(new ImageType(), $entity, array('cultures' => $cultures));
                 break;
         }
 
@@ -66,7 +79,8 @@ class MediaController extends Controller
             'form'   => $form->createView(),
             'category' => $category,
             'product' => $product,
-            'type' => $type
+            'type' => $type,
+            'cultures' => $cultures,
         ));
     }
 
@@ -76,16 +90,19 @@ class MediaController extends Controller
      */
     public function createAction($product, $type, $category = null)
     {
+        $cultures = $this->container->getParameter('core.cultures');
         switch($type)
         {
             case "video":
                 $entity = new Video();
-                $form   = $this->createForm(new VideoType(), $entity);
+                $this->loadTranslations($entity, $cultures, new Video());
+                $form   = $this->createForm(new VideoType(), $entity, array('cultures' => $cultures));
                 break;
             case "image":
             default:
                 $entity = new Image();
-                $form   = $this->createForm(new ImageType(), $entity);
+                $this->loadTranslations($entity, $cultures, new Image());
+                $form   = $this->createForm(new ImageType(), $entity, array('cultures' => $cultures));
                 break;
         }
         $request = $this->getRequest();
@@ -112,6 +129,7 @@ class MediaController extends Controller
                 $em->persist($productMedia);
                 $em->flush();
             }
+            $this->saveTranslations($entity, $cultures);
             return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
             
         }
@@ -121,7 +139,8 @@ class MediaController extends Controller
             'form'   => $form->createView(),
             'category' => $category,
             'product' => $product,
-            'type' => $type
+            'type' => $type,
+            'cultures' => $cultures 
         ));
     }
 
@@ -149,14 +168,17 @@ class MediaController extends Controller
             throw $this->createNotFoundException('Unable to find Media entity.');
         }
         
+        $cultures = $this->container->getParameter('core.cultures');
         switch($type)
         {
             case "video":
-                $editForm = $this->createForm(new EditVideoType(), $entity);
+                $this->loadTranslations($entity, $cultures);
+                $editForm   = $this->createForm(new EditVideoType(), $entity, array('cultures' => $cultures));
                 break;
             case "image":
             default:
-                $editForm = $this->createForm(new EditImageType(), $entity);
+                $this->loadTranslations($entity, $cultures);
+                $editForm   = $this->createForm(new EditImageType(), $entity, array('cultures' => $cultures));
                 break;
         }
 
@@ -168,6 +190,7 @@ class MediaController extends Controller
             'delete_form' => $deleteForm->createView(),
             'category' => $category,
             'product' => $product,
+            'cultures' => $cultures,
         ));
     }
 
@@ -193,14 +216,17 @@ class MediaController extends Controller
             throw $this->createNotFoundException('Unable to find Media entity.');
         }
 
+        $cultures = $this->container->getParameter('core.cultures');
         switch($type)
         {
             case "video":
-                $editForm = $this->createForm(new EditVideoType(), $entity);
+                $this->loadTranslations($entity, $cultures);
+                $editForm   = $this->createForm(new EditVideoType(), $entity, array('cultures' => $cultures));
                 break;
             case "image":
             default:
-                $editForm = $this->createForm(new EditImageType(), $entity);
+                $this->loadTranslations($entity, $cultures);
+                $editForm   = $this->createForm(new EditImageType(), $entity, array('cultures' => $cultures));
                 break;
         }
         $deleteForm = $this->createDeleteForm($id);
@@ -212,6 +238,7 @@ class MediaController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('product_media_edit', array('id' => $id, 'category' => $category, 'product' => $product)));
         }
@@ -222,6 +249,7 @@ class MediaController extends Controller
             'delete_form' => $deleteForm->createView(),
             'category' => $category,
             'product' => $product,
+            'cultures' => $cultures,
         ));
     }
 

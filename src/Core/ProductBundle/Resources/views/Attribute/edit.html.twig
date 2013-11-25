@@ -3,7 +3,11 @@
 <h1>{% trans %}Attribute edit{% endtrans %}</h1>
 
 <form action="{{ path('attribute_update', { 'id': entity.id, 'category': category, 'product': product }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
+    {{ form_errors(edit_form) }}
+	{% if cultures | length > 0 %}
+	{% include 'CoreCommonBundle:Form:translations.html.twig' with {'form': edit_form.translations, 'cultures': cultures } %}
+	{% endif %}
+	{{ form_widget(edit_form) }}
     <p>
         <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> {% trans %}Edit{% endtrans %}</button>
         <a href="{{ path('attribute', {'category': category, 'product': product }) }}"> {% trans %}Back to the list{% endtrans %}</a>

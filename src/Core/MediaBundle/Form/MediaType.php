@@ -8,17 +8,26 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
-class MediaType extends AbstractType
+class MediaType extends MediaTranslationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('title', 'text',array(
-                'required'    => false
-            ))
-            ->add('description', 'textarea',array(
-                'required'    => false
-            ));
+        if(!empty($options['cultures']))
+        {
+            $builder->add('translations', 'collection', array(
+                'type' => new MediaTranslationType(),
+                'allow_add' => false,
+                'allow_delete' => false,
+                'prototype' => false, 
+                'by_reference' => false,
+                'options' => array(
+                    'required' => false,
+            )));
+        }
+        else
+        {
+            parent::buildForm($builder, $options);
+        }
     }
 
     public function getName()
@@ -28,8 +37,9 @@ class MediaType extends AbstractType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'Core\MediaBundle\Entity\Media',
+            'cultures' => array(),
         ));
     }
 }

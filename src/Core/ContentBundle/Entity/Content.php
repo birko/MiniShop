@@ -3,15 +3,17 @@
 namespace Core\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+use Core\CommonBundle\Entity\TranslateEntity;
 
 /**
  * Core\ContentBundle\Entity\Content
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ContentBundle\Entity\ContentRepository")
  */
-class Content
+class Content extends TranslateEntity
 {
     /**
      * @var integer $id
@@ -24,7 +26,7 @@ class Content
 
     /**
      * @var string $title
-     * 
+     * @Gedmo\Translatable
      * @ORM\Column(name="title", type="string", length=255, nullable = true)
      */
     private $title;
@@ -32,20 +34,21 @@ class Content
     /**
      * @var string $slug
      * @Gedmo\Slug(fields={"title"})
+     * @Gedmo\Translatable
      * @ORM\Column(name="slug", type="string", length=255, nullable = true)
      */
     private $slug;
 
     /**
      * @var string $shortDescription
-     * 
+     * @Gedmo\Translatable
      * @ORM\Column(name="shortDescription", type="text", nullable = true)
      */
     private $shortDescription;
 
     /**
      * @var string $longDescription
-     * 
+     * @Gedmo\Translatable
      * @ORM\Column(name="longDescription", type="text", nullable = true)
      */
     private $longDescription;

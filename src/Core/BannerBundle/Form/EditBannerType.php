@@ -10,15 +10,26 @@ use Core\MediaBundle\Form\MediaType;
 use Core\MediaBundle\Form\ImageType;
 
 
-class EditBannerType extends AbstractType
+class EditBannerType extends BannerTranslationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     { 
-        $builder
-            ->add('title', 'text', array('required' => false))
-            ->add('link', 'text', array('required' => false))
-            ->add('description', 'textarea', array('required' => false))
-        ;
+        if(!empty($options['cultures']))
+        {
+                $builder->add('translations', 'collection', array(
+                    'type' => new BannerTranslationType(),
+                    'allow_add' => false,
+                    'allow_delete' => false,
+                    'prototype' => false, 
+                    'by_reference' => false,
+                    'options' => array(
+                        'required' => false,
+                )));
+        }
+        else
+        {
+            parent::buildForm($builder, $options);
+        }
     }
 
     public function getName()
@@ -28,8 +39,9 @@ class EditBannerType extends AbstractType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'Core\BannerBundle\Entity\Banner',
+            'cultures' => array(),
         ));
     }
 

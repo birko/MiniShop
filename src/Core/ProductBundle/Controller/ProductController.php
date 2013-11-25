@@ -12,13 +12,24 @@ use Core\ProductBundle\Entity\Filter;
 use Core\ProductBundle\Form\ProductType;
 use Core\ProductBundle\Form\FilterType;
 use Core\ProductBundle\Form\ProductCategoryType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * Product controller.
  *
  */
-class ProductController extends Controller
+class ProductController extends TranslateController
 {
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setTitle($translation->getTitle());
+        $entity->setShortDescription($translation->getShortDescription());    
+        $entity->setLongDescription($translation->getLongDescription());  
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity); 
+        $em->flush();
+    }
     /**
      * Lists all Product entities.
      *
@@ -110,12 +121,15 @@ class ProductController extends Controller
     {
         $entity = new Product();
         $tags = $this->container->getParameter('product.tags');
-        $form   = $this->createForm(new ProductType($tags), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Product());
+        $form   = $this->createForm(new ProductType(), $entity, array('cultures' => $cultures, 'tags' => $tags));
 
         return $this->render('CoreProductBundle:Product:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'category' => $category,
+            'cultures' => $cultures,
         ));
     }
 
@@ -128,7 +142,9 @@ class ProductController extends Controller
         $entity  = new Product();
         $request = $this->getRequest();
         $tags = $this->container->getParameter('product.tags');
-        $form    = $this->createForm(new ProductType($tags), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Product());
+        $form   = $this->createForm(new ProductType(), $entity, array('cultures' => $cultures, 'tags' => $tags));
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -145,6 +161,7 @@ class ProductController extends Controller
                     $em->flush();
                 }
             }
+            $this->saveTranslations($entity, $cultures);
             return $this->redirect($this->generateUrl('product', array('category' => $category)));
             
         }
@@ -152,7 +169,8 @@ class ProductController extends Controller
         return $this->render('CoreProductBundle:Product:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-            'category' => $category
+            'category' => $category,
+            'cultures' => $cultures,
         ));
     }
 
@@ -171,7 +189,9 @@ class ProductController extends Controller
         }
 
         $tags = $this->container->getParameter('product.tags');
-        $editForm = $this->createForm(new ProductType($tags), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new ProductType(), $entity, array('cultures' => $cultures, 'tags' => $tags));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreProductBundle:Product:edit.html.twig', array(
@@ -179,6 +199,7 @@ class ProductController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'category' => $category,
+            'cultures' => $cultures,
         ));
     }
 
@@ -197,7 +218,9 @@ class ProductController extends Controller
         }
 
         $tags = $this->container->getParameter('product.tags');
-        $editForm   = $this->createForm(new ProductType($tags), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm   = $this->createForm(new ProductType(), $entity, array('cultures' => $cultures, 'tags' => $tags));
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -207,6 +230,7 @@ class ProductController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
+            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('product_edit', array('id' => $id)));
         }
@@ -216,6 +240,7 @@ class ProductController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'category' => $category,
+            'cultures' => $cultures,
         ));
     }
 

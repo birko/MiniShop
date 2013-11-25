@@ -8,7 +8,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 use Gedmo\Sluggable\Util\Urlizer as GedmoUrlizer;
+use Core\CommonBundle\Entity\TranslateEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Core\MediaBundle\Entity\MediaRepository")
@@ -19,9 +21,8 @@ use Gedmo\Sluggable\Util\Urlizer as GedmoUrlizer;
  * @UniqueEntity("source")
  * @ORM\HasLifecycleCallbacks
  */
-abstract class Media
+abstract class Media extends TranslateEntity
 {
-    
     /**
      * @var integer $id
      *
@@ -33,7 +34,7 @@ abstract class Media
 
     /**
      * @var string $title
-     *
+     * @Gedmo\Translatable
      * @ORM\Column(name="title", type="string", length=255, nullable = true)
      */
     protected $title;
@@ -41,16 +42,10 @@ abstract class Media
     /**
      * @var string $slug
      * @Gedmo\Slug(fields={"title"})
+     * @Gedmo\Translatable
      * @ORM\Column(name="slug", type="string", length=255, nullable = true)
      */
     protected $slug;
-    
-    /**
-     * @Gedmo\Locale
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
-     */
-    protected $locale;
     
     /**
      * @var string $source
@@ -94,6 +89,7 @@ abstract class Media
     
     /**
      * @var text $description
+     * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text",  nullable = true)
      */
     private $description;
@@ -421,17 +417,6 @@ abstract class Media
     public function getSlug()
     {
         return $this->slug;
-    }
-    
-    /**
-     * Set translatable locale for Gedmo trasnlations
-     *
-     * @param string $locale
-     */
-    
-    public function setTranslatableLocale($locale)
-    {
-        $this->locale = $locale;
     }
     
     public abstract function getType();

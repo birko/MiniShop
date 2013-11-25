@@ -11,13 +11,24 @@ use Core\MediaBundle\Entity\Image;
 use Core\MediaBundle\Form\MediaType;
 use Core\MediaBundle\Form\ImageType;
 use Core\MediaBundle\Form\EditImageType;
+use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * Content controller.
  *
  */
-class MediaController extends Controller
+class MediaController extends TranslateController
 {
+    protected function saveTranslation($entity, $culture, $translation) 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity->setTitle($translation->getTitle());
+        $entity->setDescription($translation->getDescription());    
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity); 
+        $em->flush();
+    }
+    
     /**
      * Lists all Content Media entities.
      *
@@ -56,13 +67,16 @@ class MediaController extends Controller
     public function newAction($content, $category = null)
     {
         $entity = new Image();
-        $form   = $this->createForm(new ImageType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Image());
+        $form   = $this->createForm(new ImageType(), $entity, array('cultures' => $cultures));
 
         return $this->render('CoreContentBundle:Media:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'category' => $category,
             'content' => $content,
+            'cultures' => $cultures,
         ));
     }
 
@@ -73,7 +87,9 @@ class MediaController extends Controller
     public function createAction($content, $category = null)
     {
         $entity = new Image();
-        $form   = $this->createForm(new ImageType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures, new Image());
+        $form   = $this->createForm(new ImageType(), $entity, array('cultures' => $cultures));
         $request = $this->getRequest();
         $form->bind($request);
 
@@ -96,6 +112,7 @@ class MediaController extends Controller
                 $em->persist($contentMedia);
                 $em->flush();
             }
+            $this->saveTranslations($entity, $cultures);
             return $this->redirect($this->generateUrl('content_media', array('category' => $category, 'content' => $content,)));
             
         }
@@ -105,6 +122,7 @@ class MediaController extends Controller
             'form'   => $form->createView(),
             'category' => $category,
             'content' => $content,
+            'cultures' => $cultures,
         ));
     }
 
@@ -122,7 +140,9 @@ class MediaController extends Controller
             throw $this->createNotFoundException('Unable to find Media entity.');
         }
 
-        $editForm = $this->createForm(new EditImageType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm = $this->createForm(new EditImageType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreContentBundle:Media:edit.html.twig', array(
@@ -131,6 +151,7 @@ class MediaController extends Controller
             'delete_form' => $deleteForm->createView(),
             'category' => $category,
             'content' => $content,
+            'cultures' => $cultures,
         ));
     }
 
@@ -148,7 +169,9 @@ class MediaController extends Controller
             throw $this->createNotFoundException('Unable to find Media entity.');
         }
 
-        $editForm   = $this->createForm(new EditImageType(), $entity);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($entity, $cultures);
+        $editForm = $this->createForm(new EditImageType(), $entity, array('cultures' => $cultures));
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -158,7 +181,7 @@ class MediaController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-
+            $this->saveTranslations($entity, $cultures);
             return $this->redirect($this->generateUrl('content_media_edit', array('id' => $id, 'category' => $category, 'content' => $content,)));
         }
 
@@ -168,6 +191,7 @@ class MediaController extends Controller
             'delete_form' => $deleteForm->createView(),
             'category' => $category,
             'content' => $content,
+            'cultures' => $cultures,
         ));
     }
 

@@ -4,6 +4,9 @@ namespace Core\ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Core\CommonBundle\Entity\TranslateEntity;
 
 
 /**
@@ -12,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ProductBundle\Entity\ProductOptionRepository")
  */
-class ProductOption implements \Serializable
+class ProductOption extends TranslateEntity implements \Serializable
 {
     /**
      * @var integer $id
@@ -25,15 +28,16 @@ class ProductOption implements \Serializable
 
     /**
      * @var string $name
+     * @Gedmo\Translatable
      * @Gedmo\SortableGroup
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
      * @var string $value
-     *
-     * @ORM\Column(name="value", type="string", length=255)
+     * @Gedmo\Translatable
+     * @ORM\Column(name="value", type="string", length=255, nullable=true)
      */
     private $value;
     
@@ -163,22 +167,24 @@ class ProductOption implements \Serializable
 
     public function serialize() {
         return serialize(array(
-           $this->id,
-           $this->name,
-           $this->value,
-           $this->position,
-           $this->amount,
+            $this->id,
+            $this->name,
+            $this->value,
+            $this->position,
+            $this->amount,
+            $this->locale 
         ));
         
     }
 
     public function unserialize($serialized) {
         list(
-           $this->id,
-           $this->name,
-           $this->value,
-           $this->position,
-           $this->amount
+            $this->id,
+            $this->name,
+            $this->value,
+            $this->position,
+            $this->amount,
+            $this->locale 
         ) = unserialize($serialized);
     }
 }
