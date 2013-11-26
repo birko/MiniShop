@@ -12,6 +12,7 @@ use Core\CommonBundle\Entity\TranslateEntity;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ShopBundle\Entity\StateRepository")
+ * @Gedmo\TranslationEntity(class="Core\CommonBundle\Entity\Translation")
  */
 class State extends TranslateEntity implements \Serializable
 {

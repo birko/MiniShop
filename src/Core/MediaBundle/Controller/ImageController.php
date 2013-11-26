@@ -21,7 +21,7 @@ class ImageController extends Controller
         return $this->displayEntityAction($entity, $dir, $link_path);
     }
     
-    public function displayEntityAction(Image $entity, $dir, $link_path = null)
+    public function displayEntityAction(Image $entity = null, $dir, $link_path = null)
     {
         $webpath = null;
         if($entity !== null)

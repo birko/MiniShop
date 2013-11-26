@@ -12,6 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class BannerRepository extends EntityRepository
 {
+    public function setHint(\Doctrine\ORM\Query $query)
+    {
+        return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+    }
+    
     public function getBannersQueryBuilder($categoryId = null)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()
@@ -30,7 +35,7 @@ class BannerRepository extends EntityRepository
     
     public function getBannersQuery($categoryId = null)
     {
-        return $this->getBannersQueryBuilder($categoryId)->getQuery();
+        return $this->setHint($this->getBannersQueryBuilder($categoryId)->getQuery());
     }
     
     public function getBanners($categoryId = null)

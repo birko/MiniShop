@@ -14,6 +14,7 @@ use Core\CommonBundle\Entity\TranslateEntity;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ProductBundle\Entity\ProductOptionRepository")
+ * @Gedmo\TranslationEntity(class="Core\CommonBundle\Entity\Translation")
  */
 class ProductOption extends TranslateEntity implements \Serializable
 {

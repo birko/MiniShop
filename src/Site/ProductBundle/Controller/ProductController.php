@@ -15,7 +15,7 @@ class ProductController extends ShopController
     {     
         $priceGroup = $this->getPriceGroup();
         $em = $this->getDoctrine()->getManager();
-        $product  = $em->getRepository("CoreProductBundle:Product")->findOneBySlug($slug);
+        $product  = $em->getRepository("CoreProductBundle:Product")->getBySlug($slug);
         if(!$product)
         {
             throw $this->createNotFoundException('Unable to find Product entity.');
@@ -56,6 +56,7 @@ class ProductController extends ShopController
         $filter->setVendor($vendor);
         $querybuilder  = $em->getRepository("CoreProductBundle:Product")->findByCategoryQueryBuilder(null, $this->container->getParameter("site.product.recursive"), true);
         $query  = $em->getRepository("CoreProductBundle:Product")->filterQueryBuilder($querybuilder, $filter)->getQuery();
+        $query =  $em->getRepository("CoreProductBundle:Product")->setHint($query);
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $query,
@@ -80,6 +81,7 @@ class ProductController extends ShopController
         $filter = $request->getSession()->get('product-search' , new Filter());   
         $querybuilder =  $em->getRepository("CoreProductBundle:Product")->findByCategoryQueryBuilder(null, false, true);
         $query  = $em->getRepository("CoreProductBundle:Product")->filterQueryBuilder($querybuilder, $filter)->getQuery();
+        $query =  $em->getRepository("CoreProductBundle:Product")->setHint($query);
         $page = $request->get('page', 1);
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -95,10 +97,11 @@ class ProductController extends ShopController
     {
         $priceGroup = $this->getPriceGroup();
         $em = $this->getDoctrine()->getManager();
-        $entities  = $em->getRepository("CoreProductBundle:Product")->createQueryBuilder("p")
+        $query  = $em->getRepository("CoreProductBundle:Product")->createQueryBuilder("p")
                 ->orderBy("p.createdAt", "desc")
                 ->distinct()
-                ->getQuery()
+                ->getQuery();
+        $entities = $em->getRepository("CoreProductBundle:Product")->setHint($query)
                 ->setMaxResults(6)
                 ->getResult();
         return $this->render('SiteProductBundle:Product:top.html.twig', array('entities' => $entities, 'pricegroup' => $priceGroup));
@@ -112,6 +115,7 @@ class ProductController extends ShopController
         $qb->andWhere($qb->expr()->like('p.tags', ":tag"))
            ->setParameter('tag', '%'.$tag.', %');
         $query = $qb->distinct()->getQuery();
+        $query = $em->getRepository("CoreProductBundle:Product")->setHint($query);
         if($limit)
         {
                 $query->setMaxResults($limit);
@@ -123,9 +127,9 @@ class ProductController extends ShopController
     public function productMainMediaAction($product, $type = 'thumb', $link_path=null)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('CoreProductBundle:Product')->findMediaByProductQueryBuilder($product)
-        ->getQuery()
-        ->setMaxResults(1)
+        $query = $em->getRepository('CoreProductBundle:Product')->findMediaByProductQueryBuilder($product)->getQuery();
+        $query = $em->getRepository("CoreProductBundle:Product")->setHint($query);
+        $entity = $query->setMaxResults(1)
         ->getOneOrNullResult();
         if($entity !== null && !file_exists($entity->getAbsolutePath($type)))
         {

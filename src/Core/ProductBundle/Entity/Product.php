@@ -13,6 +13,7 @@ use Core\CommonBundle\Entity\TranslateEntity;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ProductBundle\Entity\ProductRepository")
+ * @Gedmo\TranslationEntity(class="Core\CommonBundle\Entity\Translation")
  */
 class Product extends TranslateEntity
 {

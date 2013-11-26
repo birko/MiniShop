@@ -12,6 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProductRepository extends EntityRepository
 {
+    public function setHint(\Doctrine\ORM\Query $query)
+    {
+        return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+    }
+    
+    public function getBySlug($slug)
+    {
+        $query = $this->findByCategoryQueryBuilder()
+            ->andWhere("p.slug = :slug")
+            ->setParameter("slug", $slug)
+            ->getQuery();
+        return $this->setHint($query)->getOneOrNullResult();
+    }
+    
     public function  findByCategoryQueryBuilder($category = null, $recursive = false, $onlyenabled = false, $join = true)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()

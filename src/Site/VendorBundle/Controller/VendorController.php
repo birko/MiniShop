@@ -9,7 +9,7 @@ class VendorController extends Controller
     public function indexAction($slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $content  = $em->getRepository("CoreVendorBundle:Vendor")->findOneBySlug($slug);
+        $content  = $em->getRepository("CoreVendorBundle:Vendor")->getBySlug($slug);
         $page = $this->getRequest()->get("page", 1);
         return $this->render('SiteVendorBundle:Vendor:index.html.twig', array('entity' => $content, 'page' => $page));
     }
@@ -17,7 +17,7 @@ class VendorController extends Controller
     public function listAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $entities  = $em->getRepository("CoreVendorBundle:Vendor")->findAll();
+        $entities  = $em->getRepository("CoreVendorBundle:Vendor")->getVendorsQuery()->getResult();;
         return $this->render('SiteVendorBundle:Vendor:list.html.twig', array('entities' => $entities));
     }
 }

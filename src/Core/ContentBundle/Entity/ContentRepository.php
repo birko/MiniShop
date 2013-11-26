@@ -12,6 +12,20 @@ use Doctrine\ORM\Query\Expr;
  */
 class ContentRepository extends EntityRepository
 {
+    public function setHint(\Doctrine\ORM\Query $query)
+    {
+        return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+    }
+    
+    public function getBySlug($slug)
+    {
+        $query = $this->findContentByCategoryQueryBuilder()
+            ->andWhere("c.slug = :slug")
+            ->setParameter("slug", $slug)
+            ->getQuery();
+        return $this->setHint($query)->getOneOrNullResult();
+    }
+    
     public function findContentByCategoryQueryBuilder($categoryID = null)
     {
         $querybuilder = $this->getEntityManager()->createQueryBuilder()
@@ -42,6 +56,6 @@ class ContentRepository extends EntityRepository
    
     public function  findMediaByContent($content)
     {
-        return $this->findMediaByContentQueryBuilder($content)->getQuery()->getResult();
+        return $this->setHint($this->findMediaByContentQueryBuilder($content)->getQuery())->getResult();
     }
 }

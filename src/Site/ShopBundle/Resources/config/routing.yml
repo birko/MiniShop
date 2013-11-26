@@ -1,19 +1,19 @@
 SiteShopBundle_cart:
     resource: "@SiteShopBundle/Resources/config/routing/cart.yml"
-    prefix:   /cart
+    prefix:   /{_locale}/cart
     
 SiteShopBundle_coupon:
     resource: "@SiteShopBundle/Resources/config/routing/coupon.yml"
-    prefix:   /coupon
+    prefix:   /{_locale}/coupon
     
 SiteShopBundle_checkout:
     resource: "@SiteShopBundle/Resources/config/routing/checkout.yml"
-    prefix:   /checkout
+    prefix:   /{_locale}/checkout
 
 SiteShopBundle_address:
     resource: "@SiteShopBundle/Resources/config/routing/address.yml"
-    prefix:   /address
+    prefix:   /{_locale}/address
     
 SiteShopBundle_order:
     resource: "@SiteShopBundle/Resources/config/routing/order.yml"
-    prefix:   /order
+    prefix:   /{_locale}/order

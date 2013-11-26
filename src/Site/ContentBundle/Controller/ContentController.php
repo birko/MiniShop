@@ -11,15 +11,15 @@ class ContentController extends Controller
     public function indexAction($slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $content  = $em->getRepository("CoreContentBundle:Content")->findOneBySlug($slug);
+        $content  = $em->getRepository("CoreContentBundle:Content")->getBySlug($slug);
         return $this->render('SiteContentBundle:Content:index.html.twig', array('content' => $content));
     }
     
     public function listAction($category = null)
     {
         $em = $this->getDoctrine()->getManager();
-        $querybuilder = $em->getRepository('CoreContentBundle:Content')->findContentByCategoryQueryBuilder($category);
-        $query = $querybuilder->orderBy('c.id', 'desc')->getQuery();
+        $querybuilder = $em->getRepository('CoreContentBundle:Content')->findContentByCategoryQueryBuilder($category)->orderBy('c.id', 'desc');
+        $query = $em->getRepository('CoreContentBundle:Content')->setHint($querybuilder->getQuery());
         $paginator = $this->get('knp_paginator');
         $page = $this->getRequest()->get('cpage', 1);
         $pagination = $paginator->paginate(
@@ -45,9 +45,11 @@ class ContentController extends Controller
         }
         else
         {
-            $content= $em->getRepository('CoreContentBundle:Content')->findContentByCategoryQueryBuilder($category)
-            ->getQuery()->getOneOrNullResult();
-            return $this->render('SiteContentBundle:Content:content.html.twig', array('content' => $content));
+            $query = $em->getRepository('CoreContentBundle:Content')->findContentByCategoryQueryBuilder($category)->getQuery();
+            $content = $em->getRepository('CoreContentBundle:Content')->setHint($query)->getOneOrNullResult();
+            return $this->render('SiteContentBundle:Content:content.html.twig', array(
+                'content' => $content
+            ));
         }
     }
 }

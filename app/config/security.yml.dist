@@ -67,6 +67,7 @@ security:
         - { path: ^/user/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user/new, roles: IS_AUTHENTICATED_ANONYMOUSLY } 
         - { path: ^/user/create, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/locale, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user/password_recovery, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user, roles: ROLE_USER }
         - { path: ^/order, roles: ROLE_USER }

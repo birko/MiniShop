@@ -19,7 +19,7 @@ class VideoController extends Controller
         return $this->displayEntityAction($entity);
     }
     
-    public function displayEntityAction(Video $entity)
+    public function displayEntityAction(Video $entity = null)
     {
         $webpath = null;
         if($entity !== null)

@@ -1,26 +1,26 @@
 cart:
     pattern:  /
-    defaults: { _controller: "SiteShopBundle:Cart:index" }
+    defaults: { _controller: "SiteShopBundle:Cart:index", _locale: %locale% }
     
 cart_check:
     pattern:  /check
-    defaults: { _controller: "SiteShopBundle:Cart:check" }
+    defaults: { _controller: "SiteShopBundle:Cart:check", _locale: %locale% }
     requirements: { _method: post }
     
 cart_add:
     pattern:  /addItem
-    defaults: { _controller: "SiteShopBundle:Cart:addItem" }
+    defaults: { _controller: "SiteShopBundle:Cart:addItem", _locale: %locale% }
     requirements: { _method: post }
     
 cart_info:
     pattern:  /info
-    defaults: { _controller: "SiteShopBundle:Cart:info" }
+    defaults: { _controller: "SiteShopBundle:Cart:info", _locale: %locale% }
     
 cart_remove:
     pattern:  /removeItem/{index}
-    defaults: { _controller: "SiteShopBundle:Cart:removeItem" }
+    defaults: { _controller: "SiteShopBundle:Cart:removeItem", _locale: %locale% }
 
 cart_update:
     pattern:  /updateItem
-    defaults: { _controller: "SiteShopBundle:Cart:updateItem" }
+    defaults: { _controller: "SiteShopBundle:Cart:updateItem", _locale: %locale% }
     requirements: { _method: post }

@@ -1,7 +1,7 @@
 category_homepage:
-    pattern:  /
-    defaults: { _controller: SiteCategoryBundle:Category:home }
+    pattern:  /{_locale}
+    defaults: { _controller: SiteCategoryBundle:Category:home, _locale: %locale% }
     
 category_site:
-    pattern:  /{slug}
-    defaults: { _controller: SiteCategoryBundle:Category:index }
+    pattern:  /{_locale}/{slug}
+    defaults: { _controller: SiteCategoryBundle:Category:index, _locale: %locale% }

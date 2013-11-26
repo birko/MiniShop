@@ -290,4 +290,10 @@ class UserController extends Controller
             'entity' => $entity
         ));
     }
+    
+    public function setLocaleAction()
+    {
+        $request = $this->getRequest();
+        return $this->redirect($this->generateUrl('category_homepage'));
+    }
 }

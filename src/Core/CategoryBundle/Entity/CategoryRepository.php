@@ -13,12 +13,40 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
  */
 class CategoryRepository extends NestedTreeRepository
 {
-    public function getCategoriesByMenu($menu = null, $parent = null, $onlyenabled = false)
+    public function setHint(\Doctrine\ORM\Query $query)
+    {
+        return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+    }
+    
+    public function getHome()
+    {
+        $query = $this->getCategoriesByMenuQueryBuilder()
+            ->andWhere("c.home = :home")
+            ->setParameter("home", true)
+            ->getQuery();
+        return $this->setHint($query)->getOneOrNullResult();
+    }
+    
+    public function getFirst()
+    {
+        $query = $this->getCategoriesByMenuQueryBuilder()->getQuery();
+        return $this->setHint($query)->getFirstResult();
+    }
+    
+    public function getBySlug($slug)
+    {
+        $query = $this->getCategoriesByMenuQueryBuilder()
+            ->andWhere("c.slug = :slug")
+            ->setParameter("slug", $slug)
+            ->getQuery();
+        return $this->setHint($query)->getOneOrNullResult();
+    }
+    
+    public function getCategoriesByMenuQueryBuilder($menu = null, $parent = null, $onlyenabled = false)
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
                ->select("c")
                ->from("CoreCategoryBundle:Category", "c")
-               ->set("c.home", ":home")
                ;
         if($menu !== null)
         {
@@ -27,8 +55,8 @@ class CategoryRepository extends NestedTreeRepository
         }
         if($parent !== null)
         {
-           $qb ->andWhere("c.parent = :parent")
-               ->setParameter('parent', $parent);
+            $qb ->andWhere("c.parent = :parent")
+                ->setParameter('parent', $parent);
         }
         else
         {
@@ -40,7 +68,13 @@ class CategoryRepository extends NestedTreeRepository
                 ->setParameter("enabled", $onlyenabled);
         }
         $qb->addOrderBy("c.lft");
-        return $qb->getQuery()->getResult();
+        return $qb;
+    }
+    
+    public function getCategoriesByMenu($menu = null, $parent = null, $onlyenabled = false)
+    {
+        $qb = $this->getCategoriesByMenuQueryBuilder($menu, $parent, $onlyenabled);
+        return $this->setHint($qb->getQuery())->getResult();
     }
     
     public function updateHomeCategory($exlude)
@@ -76,7 +110,6 @@ class CategoryRepository extends NestedTreeRepository
     public function getTreeQuery($menu = null, $onlyenabled = false, $direct = false, $sortByField = null, $direction = 'ASC')
     {
         $query = $this->getTreeQueryBuilder($menu, $onlyenabled, $direct, $sortByField, $direction)->getQuery();
-        //$query = $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
-        return $query;
+        return $this->setHint($query);
     }
 }

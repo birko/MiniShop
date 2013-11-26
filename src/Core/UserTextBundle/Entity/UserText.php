@@ -12,6 +12,7 @@ use Core\CommonBundle\Entity\TranslateEntity;
  * @ORM\Table()
  * @UniqueEntity("name")
  * @ORM\Entity(repositoryClass="Core\UserTextBundle\Entity\UserTextRepository")
+ * @Gedmo\TranslationEntity(class="Core\CommonBundle\Entity\Translation")
  */
 class UserText extends TranslateEntity
 {

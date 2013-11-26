@@ -12,6 +12,7 @@ use Core\PriceBundle\Entity\AbstractPrice;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ShopBundle\Entity\ShippingRepository")
+ * @Gedmo\TranslationEntity(class="Core\CommonBundle\Entity\Translation")
  */
 class Shipping  extends AbstractPrice implements \Serializable, Translatable
 {

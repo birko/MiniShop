@@ -22,8 +22,8 @@ class BannerController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoreBannerBundle:Banner')->getBanners($category);
-
+        $query = $em->getRepository('CoreBannerBundle:Banner')->getBannersQuery($category);
+        $entities = $query->getResult();
         return $this->render('SiteBannerBundle:Banner:banner.html.twig', array(
             'entities' => $entities,
             'type' => $type

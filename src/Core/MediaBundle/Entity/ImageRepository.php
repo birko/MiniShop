@@ -12,6 +12,10 @@ use Doctrine\ORM\Query\Expr;
 
 class ImageRepository extends EntityRepository
 {
+    public function setHint(\Doctrine\ORM\Query $query)
+    {
+        return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+    }
     //put your code here
 }
 

@@ -12,9 +12,27 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserTextRepository extends EntityRepository
 {
+    public function setHint(\Doctrine\ORM\Query $query)
+    {
+        return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+    }
+    
+    public function getByName($name)
+    {
+        $query = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select("ut")
+            ->from("CoreUserTextBundle:UserText", "ut")
+            ->andWhere("ut.name = :name")
+            ->setParameter('name', $name)
+            ->getQuery();
+        return $this->setHint($query)->getOneOrNullResult();
+    }
+    
     public function getUserText($name, $create = false)
     {
-        $entity = $this->findOneByName($name);
+        
+        $entity = $this->getByName($name);
         if($entity === null && $create)
         {
              $entity  = new UserText();

@@ -70,7 +70,7 @@ doctrine:
                 alias: Gedmo
                 prefix: Gedmo\Translatable\Entity
                 # make sure vendor library location is correct
-                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity/MappedSuperclass"
             #loggable:
             #    type: annotation
             #    alias: Gedmo

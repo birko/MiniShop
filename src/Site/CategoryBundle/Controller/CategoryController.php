@@ -11,10 +11,10 @@ class CategoryController extends Controller
     public function homeAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $category = $em->getRepository('CoreCategoryBundle:Category')->findOneByHome(true);
+        $category = $em->getRepository('CoreCategoryBundle:Category')->getHome();
         if(empty($category))
         {
-             $category = $em->getRepository('CoreCategoryBundle:Category')->createQueryBuilder('c')->getQuery()->getFirstResult();
+            $category = $em->getRepository('CoreCategoryBundle:Category')->getFirst();
         }
         $page = $this->getRequest()->get("page", 1);
         $cpage = $this->getRequest()->get("cpage", 1);
@@ -24,7 +24,7 @@ class CategoryController extends Controller
     public function indexAction($slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $category = $em->getRepository('CoreCategoryBundle:Category')->findOneBySlug($slug);
+        $category = $em->getRepository('CoreCategoryBundle:Category')->getBySlug($slug);
         if(empty($category))
         {
             throw $this->createNotFoundException(); 
@@ -106,7 +106,7 @@ class CategoryController extends Controller
                                     },
             );
             $parentsQueryBuilder = $em->getRepository('CoreCategoryBundle:Category')->getTreeQueryBuilder($menu_index, true);
-            $query = $parentsQueryBuilder->getQuery();
+            $query = $em->getRepository('CoreCategoryBundle:Category')->setHint($parentsQueryBuilder->getQuery());
             $parents = $query->getArrayResult();  
             $tree = (count($parents)> 0) ? $em->getRepository('CoreCategoryBundle:Category')->buildTree($parents, $options): "";
             return $this->render("SiteCategoryBundle:Category:Tree/tree.html.twig", array(

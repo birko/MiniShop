@@ -12,6 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class PaymentRepository extends EntityRepository
 {
+    public function setHint(\Doctrine\ORM\Query $query)
+    {
+        return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+    }
+    
     public function getPaymentQueryBuilder()
     {
         return $queryBuilder = $this->getEntityManager()->createQueryBuilder()

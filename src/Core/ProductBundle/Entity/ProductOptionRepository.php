@@ -13,6 +13,11 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
  */
 class ProductOptionRepository extends SortableRepository
 {
+    public function setHint(\Doctrine\ORM\Query $query)
+    {
+        return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+    }
+    
     public function getOptionsByProductQueryBuilder($productId)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()
@@ -28,6 +33,6 @@ class ProductOptionRepository extends SortableRepository
     
     public function getOptionsByProductQuery($productId)
     {
-         return $this->getOptionsByProductQueryBuilder($productId)->getQuery();
+         return $this->setHint($this->getOptionsByProductQueryBuilder($productId)->getQuery());
     }
 }

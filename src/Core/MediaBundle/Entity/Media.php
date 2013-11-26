@@ -20,6 +20,7 @@ use Core\CommonBundle\Entity\TranslateEntity;
  * @UniqueEntity("hash")
  * @UniqueEntity("source")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\TranslationEntity(class="Core\CommonBundle\Entity\Translation")
  */
 abstract class Media extends TranslateEntity
 {

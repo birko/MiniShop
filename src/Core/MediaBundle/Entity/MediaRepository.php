@@ -11,6 +11,11 @@ use Doctrine\ORM\Query\Expr;
 
 class MediaRepository extends EntityRepository
 {
+    public function setHint(\Doctrine\ORM\Query $query)
+    {
+        return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+    }
+    
     public function getMediaQueryBuilder()
     {
         return $this->createQueryBuilder("m")

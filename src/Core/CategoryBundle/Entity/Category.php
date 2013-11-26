@@ -13,6 +13,7 @@ use Core\CommonBundle\Entity\TranslateEntity;
  * @Gedmo\Tree()
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\CategoryBundle\Entity\CategoryRepository")
+ * @Gedmo\TranslationEntity(class="Core\CommonBundle\Entity\Translation")
  */
 class Category extends TranslateEntity
 {

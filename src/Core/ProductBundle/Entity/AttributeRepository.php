@@ -8,7 +8,12 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
 
 class AttributeRepository extends SortableRepository
 {
-        public function getBySortableGroupsQueryBuilder(array $groupValues=array())
+    public function setHint(\Doctrine\ORM\Query $query)
+    {
+        return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+    }
+    
+    public function getBySortableGroupsQueryBuilder(array $groupValues=array())
     {
         $groups = array_combine(array_values($this->config['groups']), array_keys($this->config['groups']));
         foreach ($groupValues as $name => $value) {
@@ -39,7 +44,7 @@ class AttributeRepository extends SortableRepository
     
      public function getBySortableGroupsQuery(array $groupValues=array())
      {
-         return $this->getBySortableGroupsQueryBuilder($groupValues)->getQuery();
+         return $this->setHint($this->getBySortableGroupsQueryBuilder($groupValues))->getQuery();
      }
      
     public function getAllAttributesByProductQueryBuilder($productId, array $groupValues=array())
@@ -52,8 +57,7 @@ class AttributeRepository extends SortableRepository
     public function  getAllAttributesByProductQuery($productId, array $groupValues=array())
     {
         $query = $this->getAllAttributesByProductQueryBuilder($productId, $groupValues)->getQuery();
-        //$query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
-        return $query;
+        return $this->setHint($query);
     }
     
     public function  getAllAttributesByProduct($productId)
@@ -69,8 +73,7 @@ class AttributeRepository extends SortableRepository
                 ->andWhere('n.system = :asystem')
                 ->setParameter('avisible', 1)
                 ->setParameter('asystem', 0);
-        $query = $querybuilder->getQuery();
-        //$query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $query = $this->setHint($querybuilder->getQuery());
         return $query;
     }
     
@@ -86,8 +89,7 @@ class AttributeRepository extends SortableRepository
                 ->andWhere('n.system = :asystem')
                 ->setParameter('asystem', 0);
         $query = $querybuilder->getQuery();
-        //$query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
-        return $query;
+        return $this->setHint($query);
     }
     
     public function  getAttributesByProduct($productId)
@@ -100,7 +102,7 @@ class AttributeRepository extends SortableRepository
        $querybuilder = $this->getAllAttributesByProductQueryBuilder($productId)
                ->andWhere('n.name = :name')
                ->setParameter('name', $name);
-       return $querybuilder->getQuery()->getOneOrNullResult();
+       return $this->setHint($querybuilder->getQuery())->getOneOrNullResult();
     }
     
     public function getAttributesByProductsQueryBuilder($productIds = array(), $groupValues = array())
@@ -113,7 +115,7 @@ class AttributeRepository extends SortableRepository
     
     public function getAttributesByProductsQuery($productIds = array(), $groupValues = array())
     {
-        return $this->getAttributesByProductsQueryBuilder($productIds, $groupValues)->getQuery();
+        return $this->setHint($this->getAttributesByProductsQueryBuilder($productIds, $groupValues)->getQuery());
     }
     
     public function getAttributesByProducts($productIds = array(), $groupValues = array())
@@ -128,6 +130,7 @@ class AttributeRepository extends SortableRepository
             ->leftJoin("n.product", 'p')
             ->getQuery();
         $result = array();
+        $query = $this->setHint($query);
         $iterator = $query->iterate(array(), \Doctrine\ORM\AbstractQuery::HYDRATE_ARRAY);
         foreach ($iterator as $key => $row)
         {

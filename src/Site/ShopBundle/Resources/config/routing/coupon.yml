@@ -1,4 +1,4 @@
 coupon_add:
     pattern:  /
-    defaults: { _controller: "SiteShopBundle:Coupon:add" }
+    defaults: { _controller: "SiteShopBundle:Coupon:add", _locale: %locale% }
     requirements: { _method: post }

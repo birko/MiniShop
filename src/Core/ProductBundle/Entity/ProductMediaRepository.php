@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class ProductMediaRepository extends EntityRepository
 {
-    public function removeProductCategory($mediaId = null, $productId = null)
+    public function removeProductMedia($mediaId = null, $productId = null)
     {
         $querybuilder = $this->getEntityManager()->createQueryBuilder()
                ->delete("CoreProductBundle:ProductMedia", "pm");
