@@ -63,8 +63,31 @@ class Video extends Media
         $file = $this->getFile();
         if($type == VideoType::YOUTUBE)
         {
-            $this->setFileName($this->getSource());
-            $this->setHash($this->getSource());
+            $source = $this->getSource();
+            // found at http://stackoverflow.com/questions/6556559/youtube-api-extract-video-id
+            $pattern = 
+                '%^# Match any youtube URL
+                (?:https?://)?  # Optional scheme. Either http or https
+                (?:www\.)?      # Optional www subdomain
+                (?:             # Group host alternatives
+                  youtu\.be/    # Either youtu.be,
+                | youtube\.com  # or youtube.com
+                  (?:           # Group path alternatives
+                    /embed/     # Either /embed/
+                  | /v/         # or /v/
+                  | /watch\?v=  # or /watch\?v=
+                  )             # End path alternatives.
+                )               # End host alternatives.
+                ([\w-]{10,12})  # Allow 10-12 for 11 char youtube id.
+                $%x';
+            $result = preg_match($pattern, $source, $matches);
+            if (false !== $result && count($matches) > 0) 
+            {
+                $source =  $matches[1];
+            }
+            $this->setSource($source);
+            $this->setFileName($source);
+            $this->setHash($source);
             return true;
         }
         elseif(isset($file))
