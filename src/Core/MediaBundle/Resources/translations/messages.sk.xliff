@@ -122,6 +122,10 @@
                 <source>Video type</source>
                 <target>Typ videa</target>
             </trans-unit>
+            <trans-unit id="31">
+                <source>Media edit</source>
+                <target>Úprava média</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

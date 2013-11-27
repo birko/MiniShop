@@ -111,39 +111,42 @@ class MediaController extends TranslateController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $testEntity = $em->getRepository('CoreMediaBundle:Media')->findOneByHash($entity->getHash());
-            if($testEntity !== null)
+            $hash = trim($entity->getHash());
+            if(!empty($hash))
             {
-                $testEntity->setUsedCount($testEntity->getUsedCount() + 1);
-                $em->persist($testEntity);
-                $em->flush();
-                $entity = $testEntity;
-            }
-            else   
-            {
-                if($type == 'image')
+                $testEntity = $em->getRepository('CoreMediaBundle:Media')->findOneByHash($entity->getHash());
+                if($testEntity !== null)
                 {
-                    $imageOptions = $this->container->getParameter('images');
-                    $opts = array();
-                    foreach($this->container->getParameter('product.images') as $val)
-                    {
-                        $opts[$val] = $imageOptions[$val];
-                    }
-                    $entity->setOptions($opts);
+                    $testEntity->setUsedCount($testEntity->getUsedCount() + 1);
+                    $em->persist($testEntity);
+                    $em->flush();
+                    $entity = $testEntity;
                 }
-                $em->persist($entity);
-                $em->flush();
-                $this->saveTranslations($entity, $cultures);
+                else   
+                {
+                    if($type == 'image')
+                    {
+                        $imageOptions = $this->container->getParameter('images');
+                        $opts = array();
+                        foreach($this->container->getParameter('product.images') as $val)
+                        {
+                            $opts[$val] = $imageOptions[$val];
+                        }
+                        $entity->setOptions($opts);
+                    }
+                    $em->persist($entity);
+                    $em->flush();
+                    $this->saveTranslations($entity, $cultures);
+                }
+                $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
+                if($productEntity != null)
+                {
+                    $productMedia = $productEntity->addMedia($entity);
+                    $em->persist($productMedia);
+                    $em->flush();
+                }
+                return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
             }
-            $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
-            if($productEntity != null)
-            {
-                $productMedia = $productEntity->addMedia($entity);
-                $em->persist($productMedia);
-                $em->flush();
-            }
-            return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
-            
         }
 
         return $this->render('CoreProductBundle:Media:new.html.twig', array(
@@ -164,32 +167,21 @@ class MediaController extends TranslateController
     {
         $em = $this->getDoctrine()->getManager();
 
-        switch($type)
-        {
-            case "video":
-                $entity = $em->getRepository('CoreMediaBundle:Video')->find($id);
-                break;
-            case "image":
-            default:
-                $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
-                break;
-        }
-       
+        $entity = $em->getRepository('CoreMediaBundle:Media')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Media entity.');
         }
-        
+
         $cultures = $this->container->getParameter('core.cultures');
-        switch($type)
+        $this->loadTranslations($entity, $cultures);
+        switch($entity->getType())
         {
             case "video":
-                $this->loadTranslations($entity, $cultures);
                 $editForm   = $this->createForm(new EditVideoType(), $entity, array('cultures' => $cultures));
                 break;
             case "image":
             default:
-                $this->loadTranslations($entity, $cultures);
                 $editForm   = $this->createForm(new EditImageType(), $entity, array('cultures' => $cultures));
                 break;
         }
@@ -214,31 +206,21 @@ class MediaController extends TranslateController
     public function updateAction($id, $product, $type, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
-        switch($type)
-        {
-            case "video":
-                $entity = $em->getRepository('CoreMediaBundle:Video')->find($id);
-                break;
-            case "image":
-            default:
-                $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
-                break;
-        }
-        
+        $entity = $em->getRepository('CoreMediaBundle:Media')->find($id);
+
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Media entity.');
         }
 
         $cultures = $this->container->getParameter('core.cultures');
-        switch($type)
+        $this->loadTranslations($entity, $cultures);
+        switch($entity->getType())
         {
             case "video":
-                $this->loadTranslations($entity, $cultures);
                 $editForm   = $this->createForm(new EditVideoType(), $entity, array('cultures' => $cultures));
                 break;
             case "image":
             default:
-                $this->loadTranslations($entity, $cultures);
                 $editForm   = $this->createForm(new EditImageType(), $entity, array('cultures' => $cultures));
                 break;
         }
@@ -279,17 +261,7 @@ class MediaController extends TranslateController
         $form->bind($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = null;
-            switch($type)
-            {
-                case "video":
-                     $entity = $em->getRepository('CoreMediaBundle:Video')->find($id);
-                    break;
-                case "image":
-                default:
-                    $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
-                    break;
-            }
+            $entity = $em->getRepository('CoreMediaBundle:Media')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find ' . $type . ' entity.');

@@ -14,7 +14,7 @@
         </tr>
         {% endif %}
         <tr>
-            <th>{%trans%}Media{% endtrans %}</th>
+            <th class="col-sm-2 col-md-2 col-lg-2">{%trans%}Media{% endtrans %}</th>
             <th>{%trans%}Title{% endtrans %}</th>
             <th>{%trans%}Link{% endtrans %}</th>
             <th>{%trans%}Actions{% endtrans %}</th>
@@ -27,7 +27,7 @@
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td>
+            <td class="col-sm-2 col-md-2 col-lg-2">
                 {% if entity.media %}
                 {% include "CoreMediaBundle:Media:display.html.twig" with {'entity' : entity.media, 'dir': 'thumb', 'link_path': '' }%}
                 {% endif %}

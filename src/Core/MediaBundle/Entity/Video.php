@@ -87,12 +87,11 @@ class Video extends Media
             }
             $this->setSource($source);
             $this->setFileName($source);
-            $this->setHash($source);
+            $this->setHash(trim($source));
             return true;
         }
         elseif(isset($file))
         {
-            
             $status  = parent::preUpload();
             if ($status) //if is new video
             {

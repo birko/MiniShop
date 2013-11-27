@@ -101,21 +101,27 @@ class BannerController extends TranslateController
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $media = $entity->getMedia();
-            $file = $media->getFile();
-            $testEntity = $em->getRepository('CoreMediaBundle:Media')->findOneByHash($media->getHash());
-            if($testEntity !== null)
+            if($media)
             {
-                $testEntity->setUsedCount($testEntity->getUsedCount() + 1);
-                $em->persist($testEntity);
-                $em->flush();
-                $media = $testEntity;
+                $hash = trim($media->getHash());
+                if(!empty($hash))
+                {
+                    $testEntity = $em->getRepository('CoreMediaBundle:Media')->findOneByHash($media->getHash());
+                    if($testEntity !== null)
+                    {
+                        $testEntity->setUsedCount($testEntity->getUsedCount() + 1);
+                        $em->persist($testEntity);
+                        $em->flush();
+                        $media = $testEntity;
+                    }
+                    else
+                    {
+                        $em->persist($media);
+                        $em->flush();
+                    }
+                    $entity->setMedia($media);
+                }
             }
-            else
-            {
-                $em->persist($media);
-                $em->flush();
-            }
-            $entity->setMedia($media);
             if($category !== null)
             {
                 $categoryentity = $em->getRepository('CoreCategoryBundle:Category')->find($category);

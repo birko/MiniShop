@@ -5,7 +5,7 @@
 <table class="records_list table table-striped table-condensed">
     <thead>
         <tr>
-            <th>{% trans %}Media{% endtrans %}</th>
+            <th class="col-sm-2 col-md-2 col-lg-2">{% trans %}Media{% endtrans %}</th>
             <th>{% trans %}Title{% endtrans %}</th>
 			<th>{% trans %}Used count{% endtrans %}</th>
             <th class="col-sm-2 col-md-2 col-lg-2">{% trans %}Actions{% endtrans %}</th>
@@ -17,14 +17,15 @@
     <tbody>
     {% for entity in entities %}
         <tr>
-			<td>
-				<div class="col-sm-3 col-md-3 col-lg-3" title="{{entity.id}}">
+			<td class="col-sm-2 col-md-2 col-lg-2">
+				<div title="{{entity.id}}">
 					{% include "CoreMediaBundle:Media:display.html.twig" with {'entity': entity, 'dir': 'thumb', 'link_path': ''} %}
 				</div>
 			</td>
             <td>{{ entity.title }}</td>
 			<td>{{ entity.usedCount }}</td>
             <td class="col-sm-2 col-md-2 col-lg-2">
+				<a href="{{ path('media_edit', { 'id': entity.id}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
             </td>
         </tr>
     {% endfor %}

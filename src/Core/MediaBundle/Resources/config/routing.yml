@@ -1,3 +1,17 @@
-CoreMediaBundle_media:
+media:
     pattern:  /media
-    defaults: { _controller: CoreMediaBundle:Media:index }
+    defaults: { _controller: "CoreMediaBundle:Media:index"}
+
+media_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "CoreMediaBundle:Media:edit"}
+
+media_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "CoreMediaBundle:Media:update"}
+    requirements: { _method: post }
+
+media_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "CoreMediaBundle:Media:delete"}
+    requirements: { _method: post }

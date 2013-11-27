@@ -299,7 +299,7 @@ abstract class Media extends TranslateEntity
         if (empty($av)&& isset($file) && null !== $file) //if is new file
         {
             // do whatever you want to generate a unique name
-            $this->setHash(sha1_file($file->getRealPath()));
+            $this->setHash(trim(sha1_file($file->getRealPath())));
             $name = explode(".", $file->getClientOriginalName());
             $ext = array_pop($name);
             $filename = GedmoUrlizer::urlize(implode(".", $name));

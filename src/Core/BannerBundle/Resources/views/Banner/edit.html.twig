@@ -12,7 +12,9 @@
 			{{ form_widget(edit_form) }}
 		</div>
 		<div class="col-sm-2 col-md-2 col-lg-2">
+			{% if entity.media %}
 			{% include "CoreMediaBundle:Media:display.html.twig" with {'entity': entity.media, 'dir': 'thumb', 'link_path': ''} %}
+			{% endif %}
 		</div>
     </div>
 	<p>
