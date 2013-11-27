@@ -116,7 +116,8 @@ class MediaController extends TranslateController
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $hash = trim($entity->getHash());
-            if(!empty($hash))
+            $source = trim($entity->getsource());
+            if(!empty($hash) || !empty($source))
             {
                 $testEntity = $em->getRepository('CoreMediaBundle:Media')->findOneByHash($entity->getHash());
                 if($testEntity !== null)
