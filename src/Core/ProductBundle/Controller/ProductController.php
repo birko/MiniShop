@@ -313,6 +313,8 @@ class ProductController extends TranslateController
     {
         $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository('CoreProductBundle:Product')->find($id);
+        $cultures = $this->container->getParameter('core.cultures');
+        $this->loadTranslations($product, $cultures);
         $entity  = new Product();
         $entity->setTitle($product->getTitle());
         $entity->setEnabled($product->isEnabled());
@@ -322,6 +324,8 @@ class ProductController extends TranslateController
         $entity->setVendor($product->getVendor());
         $em->persist($entity);
         $em->flush();
+        $entity->setTranslations($product->getTranslations());
+        $this->saveTranslations($entity, $cultures);
         foreach($product->getPrices() as $productprice)
         {
             $price = new Price();
