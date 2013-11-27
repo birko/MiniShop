@@ -115,18 +115,30 @@ class MediaController extends TranslateController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if($type == 'image')
+            $testEntity = $em->getRepository('CoreMediaBundle:Media')->findOneByHash($entity->getHash());
+            if($testEntity !== null)
             {
-                $imageOptions = $this->container->getParameter('images');
-                $opts = array();
-                foreach($this->container->getParameter('content.images') as $val)
-                {
-                    $opts[$val] = $imageOptions[$val];
-                }
-                $entity->setOptions($opts);
+                $testEntity->setUsedCount($testEntity->getUsedCount() + 1);
+                $em->persist($testEntity);
+                $em->flush();
+                $entity = $testEntity;
             }
-            $em->persist($entity);
-            $em->flush();
+            else   
+            {
+                if($type == 'image')
+                {
+                    $imageOptions = $this->container->getParameter('images');
+                    $opts = array();
+                    foreach($this->container->getParameter('content.images') as $val)
+                    {
+                        $opts[$val] = $imageOptions[$val];
+                    }
+                    $entity->setOptions($opts);
+                }
+                $em->persist($entity);
+                $em->flush();
+                $this->saveTranslations($entity, $cultures);
+            }
             $contetEntity = $em->getRepository('CoreContentBundle:Content')->find($content);
             if($contetEntity != null)
             {
@@ -134,9 +146,7 @@ class MediaController extends TranslateController
                 $em->persist($contentMedia);
                 $em->flush();
             }
-            $this->saveTranslations($entity, $cultures);
-            return $this->redirect($this->generateUrl('content_media', array('category' => $category, 'content' => $content,)));
-            
+            return $this->redirect($this->generateUrl('content_media', array('category' => $category, 'content' => $content,)));    
         }
 
         return $this->render('CoreContentBundle:Media:new.html.twig', array(
@@ -285,12 +295,30 @@ class MediaController extends TranslateController
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Content entity.');
             }
-            if($type == 'image')
+            
+            $contetEntity = $em->getRepository('CoreContentBundle:Content')->find($content);
+            if($contetEntity != null)
             {
-                $imageOptions = $this->container->getParameter('images');
-                $entity->setOptions($imageOptions);
+                $contentMedia = $contetEntity->getContentMedia($entity->getId());
+                if($contentMedia)
+                {
+                    $em->remove($contentMedia);
+                }
             }
-            $em->remove($entity);
+            $entity->setUsedCount($entity->getUsedCount() - 1);
+            if($entity->getUsedCount() == 0)
+            {
+                if($entity->getType() == 'image')
+                {
+                    $imageOptions = $this->container->getParameter('images');
+                    $entity->setOptions($imageOptions);
+                }
+                $em->remove($entity);
+            }
+            else
+            {
+                $em->persist($entity);
+            }
             $em->flush();
         }
 

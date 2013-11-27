@@ -18,10 +18,17 @@ class CategoryController extends TranslateController
     protected function saveTranslation($entity, $culture, $translation) 
     {
         $em = $this->getDoctrine()->getManager();
+        $slug = $translation->getSlug();
         $entity->setTitle($translation->getTitle());
         $entity->setTranslatableLocale($culture); 
         $em->persist($entity); 
         $em->flush();
+        if($entity->isExternal())
+        {
+            $entity->setSlug($slug);
+            $em->persist($entity); 
+            $em->flush();
+        }
     }
     /**
      * Lists all Category entities.

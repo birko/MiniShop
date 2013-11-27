@@ -11,9 +11,13 @@
   <div class="content-gallery gallery">
       <div class="row">
           {% for media in content.media %}
+		  {% if media.media %}
           <div class="col-sm-4 col-md-4 col-lg-4">
-          {% render controller("CoreMediaBundle:Image:display", {'id': media.media.id, 'dir': 'thumb', 'link_path':'large'}) %}
+			    <div class="image">
+					{% include "CoreMediaBundle:Media:display.html.twig" with {'entity': media.media, 'dir': 'thumb', 'link_path':'large'} %}
+			    </div>
           </div>
+		  {% endif %}
           {% endfor %}
       </div>
   </div>   
