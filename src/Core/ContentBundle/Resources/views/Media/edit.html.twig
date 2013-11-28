@@ -6,9 +6,7 @@
      <div class="row">
         <div class="col-sm-10 col-md-10 col-lg-10">
             {{ form_errors(edit_form) }}
-			{% if cultures | length > 0 %}
-			{% include 'CoreCommonBundle:Form:translations.html.twig' with {'form': edit_form.translations, 'cultures': cultures } %}
-			{% endif %}
+			{% include 'CoreMediaBundle:Media:form.html.twig' with {'form': edit_form, 'cultures': cultures } %}
 			{{ form_widget(edit_form) }}
         </div>
         <div class="col-sm-2 col-md-2 col-lg-2">
