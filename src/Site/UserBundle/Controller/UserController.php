@@ -296,4 +296,12 @@ class UserController extends Controller
         $request = $this->getRequest();
         return $this->redirect($this->generateUrl('category_homepage'));
     }
+    
+    public function culturesAction()
+    {
+        $cultures = $this->container->getParameter('core.cultures');
+        return $this->render('SiteUserBundle:User:cultures.html.twig', array(
+            'cultures' => $cultures
+        ));
+    }
 }
