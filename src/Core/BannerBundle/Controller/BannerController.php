@@ -104,7 +104,7 @@ class BannerController extends TranslateController
             if($media)
             {
                 $hash = trim($media->getHash());
-                $source = trim($media->getsource());
+                $source = trim($media->getSource());
                 if(!empty($hash) || !empty($source))
                 {
                     $testEntity = $em->getRepository('CoreMediaBundle:Media')->findOneByHash($media->getHash());
