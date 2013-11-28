@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use Core\CommonBundle\Entity\TranslateEntity;
+use Core\CategoryBundle\Entity\Category;
+use Core\MediaBundle\Entity\Media;
 
 /**
  * Core\ProductBundle\Entity\Product
@@ -221,7 +223,7 @@ class Product extends TranslateEntity
      *
      * @param Core\CategoryBundle\Category
      */
-    public function addCategory($category)
+    public function addCategory(Category $category)
     {
         $productCategory = $this->getProductCategory($category->getId());
         if(empty($productCategory))
@@ -239,7 +241,7 @@ class Product extends TranslateEntity
      *
      * @param Core\CategoryBundle\Category
      */
-    public function removeCategory($category)
+    public function removeCategory(Category $category)
     {  
         $productCategory = $this->getProductCategory($category->getId());
         if($productCategory !== null)
@@ -323,11 +325,12 @@ class Product extends TranslateEntity
      *
      * @param Core\MediaBundle\Media
      */
-    public function addMedia($media)
+    public function addMedia(Media $media)
     {
         $productMedia = $this->getProductMedia($media->getId());
         if(empty($productMedia))
         {
+            $media->setUsedCount($media->getUsedCount() + 1);
             $productMedia = new ProductMedia();
             $productMedia->setProduct($this);
             $productMedia->setMedia($media);
@@ -341,11 +344,12 @@ class Product extends TranslateEntity
      *
      * @param Core\MediaBundle\Media
      */
-    public function removeMedia($media)
+    public function removeMedia(Media $media)
     {  
         $productMedia = $this->getProductMedia($media->getId());
         if($productMedia !== null)
         {
+            $media->setUsedCount($media->getUsedCount() - 1);
             $this->getMedia()->removeElement($productMedia);
         }
         return $productMedia;

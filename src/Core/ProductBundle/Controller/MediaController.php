@@ -118,9 +118,6 @@ class MediaController extends TranslateController
                 $testEntity = $em->getRepository('CoreMediaBundle:Media')->findOneByHash($entity->getHash());
                 if($testEntity !== null)
                 {
-                    $testEntity->setUsedCount($testEntity->getUsedCount() + 1);
-                    $em->persist($testEntity);
-                    $em->flush();
                     $entity = $testEntity;
                 }
                 else   
@@ -143,6 +140,7 @@ class MediaController extends TranslateController
                 if($productEntity != null)
                 {
                     $productMedia = $productEntity->addMedia($entity);
+                    $em->persist($entity);
                     $em->persist($productMedia);
                     $em->flush();
                 }
@@ -270,13 +268,12 @@ class MediaController extends TranslateController
             $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
             if($productEntity != null)
             {
-                $productMedia = $productEntity->getProductMedia($entity->getId());
+                $productMedia = $productEntity->removeMedia($entity);
                 if($productMedia)
                 {
                     $em->remove($productMedia);
                 }
             }
-            $entity->setUsedCount($entity->getUsedCount() - 1);
             if($entity->getUsedCount() == 0)
             {
                 if($entity->getType() == 'image')

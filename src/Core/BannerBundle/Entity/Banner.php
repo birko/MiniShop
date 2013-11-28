@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use Core\CommonBundle\Entity\TranslateEntity;
+use Core\MediaBundle\Entity\Media;
 
 /**
  * Core\BannerBundle\Entity\Banner
@@ -157,8 +158,12 @@ class Banner extends TranslateEntity
      *
      * @param Media $media
      */
-    public function setMedia($media)
+    public function setMedia(Media $media)
     {
+        if($media != null)
+        {
+            $media->setUsedCount($media->getUsedCount() + 1);
+        }
         $this->media = $media;
     }
 

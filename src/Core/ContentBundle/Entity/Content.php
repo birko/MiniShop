@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use Core\CommonBundle\Entity\TranslateEntity;
+use Core\CategoryBundle\Entity\Category;
+use Core\MediaBundle\Entity\Media;
 
 /**
  * Core\ContentBundle\Entity\Content
@@ -166,7 +168,7 @@ class Content extends TranslateEntity
      *
      * @param Category  $category
      */
-    public function setCategory($category)
+    public function setCategory(Category $category)
     {
         $this->category = $category;
     }
@@ -186,11 +188,12 @@ class Content extends TranslateEntity
      *
      * @param Core\MediaBundle\Media
      */
-    public function addMedia($media)
+    public function addMedia(Media $media)
     {
         $contentMedia = $this->getContentMedia($media->getId());
         if(empty($contentMedia))
         {
+            $media->setUsedCount($media->getUsedCount() + 1);            
             $contentMedia = new ContentMedia();
             $contentMedia->setContent($this);
             $contentMedia->setMedia($media);
@@ -204,11 +207,12 @@ class Content extends TranslateEntity
      *
      * @param Core\MediaBundle\Media
      */
-    public function removeMedia($media)
+    public function removeMedia(Media $media)
     {  
         $contentMedia = $this->getContentMedia($media->getId());
         if($contentMedia !== null)
         {
+            $media->setUsedCount($media->getUsedCount() - 1);
             $this->getMedia()->removeElement($contentMedia);
         }
         return $contentMedia;

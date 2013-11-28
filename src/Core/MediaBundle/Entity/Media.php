@@ -97,7 +97,7 @@ abstract class Media extends TranslateEntity
     
     public function __construct()
     {
-        $this->setUsedCount(1);
+        $this->setUsedCount(0);
         $this->setCreatedAt(new \DateTime());
         $this->galleries = new ArrayCollection();
     }
