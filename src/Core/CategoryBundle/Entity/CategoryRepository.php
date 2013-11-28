@@ -18,9 +18,23 @@ class CategoryRepository extends NestedTreeRepository
         return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
     }
     
+    public function getCategoriesQueryBuilder($onlyenabled = false)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder()
+               ->select("c")
+               ->from("CoreCategoryBundle:Category", "c");
+        if($onlyenabled)
+        {
+            $qb->andWhere("c.enabled=:enabled")
+                ->setParameter("enabled", $onlyenabled);
+        }
+        $qb->addOrderBy("c.lft");
+        return $qb;
+    }
+    
     public function getHome()
     {
-        $query = $this->getCategoriesByMenuQueryBuilder()
+        $query = $this->getCategoriesQueryBuilder()
             ->andWhere("c.home = :home")
             ->setParameter("home", true)
             ->getQuery();
@@ -29,13 +43,13 @@ class CategoryRepository extends NestedTreeRepository
     
     public function getFirst()
     {
-        $query = $this->getCategoriesByMenuQueryBuilder()->getQuery();
+        $query = $this->getCategoriesQueryBuilder()->getQuery();
         return $this->setHint($query)->getFirstResult();
     }
     
     public function getBySlug($slug)
     {
-        $query = $this->getCategoriesByMenuQueryBuilder()
+        $query = $this->getCategoriesQueryBuilder()
             ->andWhere("c.slug = :slug")
             ->setParameter("slug", $slug)
             ->getQuery();
@@ -44,10 +58,7 @@ class CategoryRepository extends NestedTreeRepository
     
     public function getCategoriesByMenuQueryBuilder($menu = null, $parent = null, $onlyenabled = false)
     {
-        $qb = $this->getEntityManager()->createQueryBuilder()
-               ->select("c")
-               ->from("CoreCategoryBundle:Category", "c")
-               ;
+        $qb = $this->getCategoriesQueryBuilder($onlyenabled);
         if($menu !== null)
         {
             $qb ->andWhere("c.menu = :menu")
@@ -62,12 +73,7 @@ class CategoryRepository extends NestedTreeRepository
         {
             $qb ->andWhere("c.parent is NULL");
         }
-        if($onlyenabled)
-        {
-            $qb->andWhere("c.enabled=:enabled")
-                ->setParameter("enabled", $onlyenabled);
-        }
-        $qb->addOrderBy("c.lft");
+        
         return $qb;
     }
     
