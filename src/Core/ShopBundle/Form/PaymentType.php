@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Core\PriceBundle\Form\AbstractPriceType;
 
 
-class PaymentType extends AbstractPriceType
+class PaymentType extends PaymentTranslationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -29,7 +29,7 @@ class PaymentType extends AbstractPriceType
         {
             parent::buildForm($builder, $options);
         }
-        parent::parentBuildForm($builder, $options);
+        $this->parentBuildForm($builder, $options);
     }
 
     public function getName()

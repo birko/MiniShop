@@ -50,6 +50,7 @@ class PriceType extends AbstractPriceType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'Core\ProductBundle\Entity\Price',
         ));

@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 use Core\PriceBundle\Form\AbstractPriceType;
 
-class ShippingType extends AbstractPriceType
+class ShippingType extends ShippingTranslationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -29,7 +29,7 @@ class ShippingType extends AbstractPriceType
         {
             parent::buildForm($builder, $options);
         }
-        parent::parentBuildForm($builder, $options);
+        $this->parentBuildForm($builder, $options);
         $builder->add('state','entity',  array(
                 'class' => 'CoreShopBundle:State',
                 'label' => 'State',

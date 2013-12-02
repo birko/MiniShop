@@ -18,7 +18,7 @@ class PaymentTranslationType extends AbstractPriceType
         ;
     }
     
-    protected function parentBuildFrom(FormBuilderInterface $builder, array $options)
+    protected function parentBuildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
     }
