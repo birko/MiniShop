@@ -2,6 +2,7 @@
 
 namespace Core\MediaBundle\Entity;
 
+use Symfony\Component\Validator\Constraints\Image;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Sluggable\Util\Urlizer as GedmoUrlizer;
@@ -13,6 +14,11 @@ use Gedmo\Sluggable\Util\Urlizer as GedmoUrlizer;
  */
 class Image extends Media
 {
+    
+    /**
+     * @Image(maxSize="6000000")
+     */
+    protected $file;
     
     private $options = array();
     
