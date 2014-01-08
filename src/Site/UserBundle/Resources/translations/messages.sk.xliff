@@ -4,11 +4,11 @@
         <body>
             <trans-unit id="1">
                 <source>general.logout</source>
-                <target>odhlásiť</target>
+                <target>Odhlásiť</target>
             </trans-unit>
             <trans-unit id="2">
                 <source>general.login</source>
-                <target>prihlásiť</target>
+                <target>Prihlásiť</target>
             </trans-unit>
             <trans-unit id="3">
                 <source>general.not.logged.in</source>
