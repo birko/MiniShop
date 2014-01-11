@@ -28,7 +28,7 @@ class CartPaymentShippingType extends AbstractType
                 'expanded' => true,
                 'multiple' => false,
                 'query_builder' => function(EntityRepository $er) use($state) {
-                    $qb = $er->getPaymentQueryBuilder();
+                    $qb = $er->getPaymentQueryBuilder(true);
                     return $qb;
                 },
             ))
@@ -37,7 +37,7 @@ class CartPaymentShippingType extends AbstractType
             'expanded' => true,
             'multiple' => false,
             'query_builder' => function(EntityRepository $er) use($state) {
-                $qb =  $er->getShippingQueryBuilder($state);
+                $qb =  $er->getShippingQueryBuilder($state, true);
                 return $qb;
             },
         ));

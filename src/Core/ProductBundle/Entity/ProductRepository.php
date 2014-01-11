@@ -26,6 +26,15 @@ class ProductRepository extends EntityRepository
         return $this->setHint($query)->getOneOrNullResult();
     }
     
+    public function getProduct($id)
+    {
+        $query = $this->findByCategoryQueryBuilder()
+            ->andWhere("p.id = :id")
+            ->setParameter("id", $id)
+            ->getQuery();
+        return $this->setHint($query)->getOneOrNullResult();
+    }
+    
     public function  findByCategoryQueryBuilder($category = null, $recursive = false, $onlyenabled = false, $join = true)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()
@@ -109,7 +118,7 @@ class ProductRepository extends EntityRepository
     {
         return $this->findNotInCategoryQuery($categoryId , $recursive, $onlyenabled)->getResult();
     }
-    
+    // obsolete
    public function  findMediaByProductQueryBuilder($product)
    {
        $queryBuilder = $this->getEntityManager()->createQueryBuilder()

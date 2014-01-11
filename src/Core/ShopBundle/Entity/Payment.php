@@ -32,6 +32,11 @@ class Payment  extends AbstractPrice implements \Serializable, Translatable
     private $description;
     
     /**
+     * @ORM\Column(type="boolean", nullable = true)
+     */
+    protected $enabled = false;
+    
+    /**
      * @Gedmo\Locale
      * Used locale to override Translation listener`s locale
      * this is not a mapped field of entity metadata, just a simple property
@@ -42,6 +47,7 @@ class Payment  extends AbstractPrice implements \Serializable, Translatable
 
     public function __construct()
     {
+        $this->setEnabled(true);
     }
 
     /**
@@ -82,6 +88,21 @@ class Payment  extends AbstractPrice implements \Serializable, Translatable
     public function getDescription()
     {
         return $this->description;
+    }
+    
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    }
+    
+    public function isEnabled()
+    {
+        return $this->enabled;
     }
     
     public function setTranslatableLocale($locale)

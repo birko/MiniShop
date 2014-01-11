@@ -127,21 +127,25 @@ class ProductController extends ShopController
     public function productMainMediaAction($product, $type = 'thumb', $link_path=null)
     {
         $em = $this->getDoctrine()->getManager();
-        $query = $em->getRepository('CoreProductBundle:Product')->findMediaByProductQueryBuilder($product)->getQuery();
-        $query = $em->getRepository("CoreProductBundle:Product")->setHint($query);
-        $entity = $query->setMaxResults(1)
-        ->getOneOrNullResult();
-        if($entity !== null && !file_exists($entity->getAbsolutePath($type)))
+        $productEntity = $em->getRepository('CoreProductBundle:Product')->getProduct($product);
+        $entity = ($productEntity) ? $productEntity->getMedia()->first() : null;
+        if($entity !== null)
         {
-            $imageOptions = $this->container->getParameter('images');
-            $entity->update($type, $imageOptions[$type]);
+            $entity = $entity->getMedia();
+            if(!file_exists($entity->getAbsolutePath($type)))
+            {
+                $imageOptions = $this->container->getParameter('images');
+                $entity->update($type, $imageOptions[$type]);
+            }
         }
+
         $source = null;
         if($entity !== null)
         {
+        
             $source = $entity->getWebPath($type);
         }
-        
+
         return $this->render('CoreMediaBundle:Image:display.html.twig', array(
             'image'      => $entity,
             'source'    => $source,

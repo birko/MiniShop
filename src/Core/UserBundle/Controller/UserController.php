@@ -60,10 +60,20 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoreUserBundle:User')->findAll();
-
+        $query = $em->getRepository('CoreUserBundle:User')->createQueryBuilder('u')
+        ->addOrderBy("u.id")
+        ->getQuery();
+        
+        $page = $this->getRequest()->get("page", 1);
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query,
+            $page /*page number*/,
+            100 /*limit per page*/
+        );
+        
         return $this->render('CoreUserBundle:User:index.html.twig', array(
-            'entities' => $entities,
+            'entities' => $pagination,
         ));
     }
     

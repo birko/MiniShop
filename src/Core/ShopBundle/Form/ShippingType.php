@@ -40,6 +40,7 @@ class ShippingType extends ShippingTranslationType
                 'required'    => true,
                 'empty_value' => 'Choose state',
                 'empty_data'  => null))
+            ->add('enabled', 'checkbox', array('required' => false))
         ;
     }
 

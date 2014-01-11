@@ -95,8 +95,8 @@
                 <target>Thank you for your order</target>
             </trans-unit>
             <trans-unit id="82">
-                <source>%date% - New order No.: %title%  - %subject%</source>
-                <target>%date% - New order No.: %title% %subject%</target>
+                <source>%date% - New order No.: %title%</source>
+                <target>%date% - New order No.: %title%</target>
             </trans-unit>
             <trans-unit id="83">
                 <source>Coupon code</source>

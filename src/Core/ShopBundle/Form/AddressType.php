@@ -22,15 +22,15 @@ class AddressType extends DeliveryAddressType
                 )
             ))
             ->add('OIN', 'text', array(
-                'required' => false,
-                'label' => isset($options['requiredFields']['OIN']) ? $options['requiredFields']['OIN'] : 'OIN',
+                'required' => isset($options['requiredFields']['OIN']) ? $options['requiredFields']['OIN'] : false,
+                'label' =>  'OIN',
                 'attr' => array(
                     'placeholder' => 'OIN',
                 )
             ))
             ->add('VATIN', 'text', array(
-                'required' => false,
-                'label' => isset($options['requiredFields']['VATIN']) ? $options['requiredFields']['VATIN'] : 'VATIN',
+                'required' => isset($options['requiredFields']['VATIN']) ? $options['requiredFields']['VATIN'] : false,
+                'label' =>  'VATIN',
                 'attr' => array(
                     'placeholder' => 'VATIN',
                 )

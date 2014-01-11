@@ -156,13 +156,13 @@ class CheckoutController extends ShopController
         $cart = $this->getCart(); 
         $state = $cart->getShippingAddress()->getState();
         $em = $this->getDoctrine()->getManager();
-        $payments =  $em->getRepository('CoreShopBundle:Payment')->getPaymentQueryBuilder()
+        $payments =  $em->getRepository('CoreShopBundle:Payment')->getPaymentQueryBuilder(true)
             ->getQuery()->getResult();
         if(!empty($payments))
         {
             $cart->setPayment($payments[0]);
         }
-        $shippings =  $em->getRepository('CoreShopBundle:Shipping')->getShippingQueryBuilder($state->getId())
+        $shippings =  $em->getRepository('CoreShopBundle:Shipping')->getShippingQueryBuilder($state->getId(), true)
             ->getQuery()->getResult();
         if(!empty($shippings))
         {
@@ -214,6 +214,9 @@ class CheckoutController extends ShopController
     {
         $this->testCart();
         $cart = $this->getCart(); 
+        $form = $this->createForm(new CartOrderType(), $cart);
+        $form->bind($request);
+        $form->isValid();
         if($cart->isSameAddress())
         {
             $cart->setPaymentAddress($cart->getShippingAddress());
@@ -380,8 +383,7 @@ class CheckoutController extends ShopController
         $emails = $this->container->getParameter('default.emails');
         $ordernumber = $order->getOrderNumber();
         $title = (!empty($ordernumber)) ? $ordernumber : $order->getId();
-        $t = $this->get('translator')->trans('%date% - New order No.: %title%  - %subject%', array(
-            '%subject%' => $this->container->getParameter('site_title'),
+        $t = $this->get('translator')->trans('%date% - New order No.: %title%', array(
             '%date%' => $order->getCreatedAt()->format('Y.m.d'),
             '%title%' => $title,
         ));
@@ -396,7 +398,7 @@ class CheckoutController extends ShopController
         $this->get('mailer')->send($message);
         $cart->clearItems();
         $this->setCart($cart);
-        // TODO: redirect na platobnu branu ak je nejaka
+        // TODO: payment methods
         
         return $this->render('SiteShopBundle:Checkout:order.html.twig');
     }

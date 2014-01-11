@@ -30,6 +30,7 @@ class PaymentType extends PaymentTranslationType
             parent::buildForm($builder, $options);
         }
         $this->parentBuildForm($builder, $options);
+        $builder->add('enabled', 'checkbox', array('required' => false));
     }
 
     public function getName()

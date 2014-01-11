@@ -26,7 +26,7 @@
     </div>
   </fieldset>  
 </form>
-<form action="{{ path('address_delete', { 'id': entity.id }) }}" method="post" class="form-actions row">
+<form action="{{ path('address_delete', { 'id': entity.id }) }}" method="post" class="form-actions">
     {{ form_widget(delete_form) }}
     <button type="submit" class="btn btn-default">{% trans %}Delete{% endtrans %}</button>
 </form>

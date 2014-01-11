@@ -426,6 +426,10 @@
                 <source>Back to the coupon products list</source>
                 <target>Back to the coupon products list</target>
             </trans-unit>
+            <trans-unit id="108">
+                <source>Phone contact is used exclusively to contact the customer about the status of his order.</source>
+                <target>Phone contact is used exclusively to contact the customer about the status of his order.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

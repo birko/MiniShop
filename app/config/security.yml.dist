@@ -54,11 +54,11 @@ security:
                 check_path: SiteUserBundle_logincheck
                 login_path: SiteUserBundle_login
                 always_use_default_target_path: false
-                default_target_path: /
+                default_target_path: category_homepage
                 use_referer:  true
             logout:
                 path: SiteUserBundle_logout
-                target: /
+                target: category_homepage
 
     access_control:
         - { path: ^/admin/user/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
