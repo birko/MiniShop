@@ -26,6 +26,14 @@
                 <source>Contact</source>
                 <target>Contact</target>
             </trans-unit>
+            <trans-unit id="7">
+                <source>Discount</source>
+                <target>Discount</target>
+            </trans-unit>
+             <trans-unit id="8">
+                <source>Discount percentage</source>
+                <target>Discount percentage</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

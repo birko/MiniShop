@@ -1,35 +1,33 @@
 <?php
 
-namespace Core\ShopBundle\Form;
+namespace Core\MarketingBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Core\PriceBundle\Form\AbstractPriceType;
-use Core\MarketingBundle\Form\DiscountType;
 
-
-class CouponType extends DiscountType
+class DiscountType extends BaseDiscountType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('code', 'text', array('required' => true));
         parent::buildForm($builder, $options);
+        $builder
+            ->add('active', 'checkbox', array('required' => false))
+        ;
     }
 
     public function getName()
     {
-        return 'core_shopbundle_coupontype';
+        return 'core_marketingbundle_discounttype';
     }
-    
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'Core\ShopBundle\Entity\Coupon',
+            'data_class' => 'Core\MarketingBundle\Entity\Discount',
         ));
     }
 }

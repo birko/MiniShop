@@ -5,24 +5,16 @@ namespace Core\ShopBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Core\PriceBundle\Entity\AbstractPrice;
-
+use Core\MarketingBundle\Entity\BaseDiscount;
+use Core\MarketingBundle\Entity\Discount;
 /**
  * Core\ShopBundle\Entity\Coupon
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ShopBundle\Entity\CouponRepository")
  */
-class Coupon extends AbstractPrice
+class Coupon extends Discount
 {
-    /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
     /**
      * @var string $code
      *
@@ -30,33 +22,6 @@ class Coupon extends AbstractPrice
      */
     private $code;
 
-    /**
-     * @var decimal $discount
-     *
-     * @ORM\Column(name="discount", type="decimal", precision=10, scale=6, nullable=true)
-     */
-    private $discount;
-
-    /**
-     * @var decimal $price
-     *
-     * @ORM\Column(name="price", type="decimal", precision=10, scale=6, nullable=true)
-     */
-    protected $price;
-
-    /**
-     * @var decimal $priceVAT
-     *
-     * @ORM\Column(name="priceVAT", type="decimal", precision=10, scale=6, nullable=true)
-     */
-    protected $priceVAT;
-
-    /**
-     * @var boolean $active
-     *
-     * @ORM\Column(name="active", type="boolean", nullable = true)
-     */
-    private $active;
     
     /**
      * @var boolean $used
@@ -72,9 +37,9 @@ class Coupon extends AbstractPrice
     private $products;
 
     public function __construct() {
+        parent::__construct();
         $this->products = new ArrayCollection();
         $this->setUsed(false);
-        $this->setActive(true);
     }
 
     /**
@@ -95,67 +60,6 @@ class Coupon extends AbstractPrice
     public function getCode()
     {
         return $this->code;
-    }
-
-    /**
-     * Set discount
-     *
-     * @param decimal $discount
-     */
-    public function setDiscount($discount)
-    {
-        $this->discount = $discount;
-    }
-
-    /**
-     * Get discount
-     *
-     * @return decimal 
-     */
-    public function getDiscount()
-    {
-        return $this->discount;
-    }
-    
-    /**
-     * Set discount
-     *
-     * @param decimal $discount
-     */
-    public function setDiscountPerc($discount)
-    {
-        $this->setDiscount($discount / 100);
-    }
-
-    /**
-     * Get discount
-     *
-     * @return decimal 
-     */
-    public function getDiscountPerc()
-    {
-        return $this->getDiscount() * 100;
-    }
-
-
-    /**
-     * Set active
-     *
-     * @param boolean $active
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-    }
-
-    /**
-     * Get active
-     *
-     * @return boolean 
-     */
-    public function isActive()
-    {
-        return $this->active;
     }
     
     /**

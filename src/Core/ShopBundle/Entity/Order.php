@@ -301,11 +301,19 @@ class Order
      */
     private $tracking_id;
     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="options", type="text", nullable=true)
+     */
+    private $options;
+    
     
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
         $this->items = new ArrayCollection();
+        $this->setOptions(array());
     }
     
     /**
@@ -1234,5 +1242,28 @@ class Order
         $address->setTIN($this->getInvoiceTIN());
         $address->setVATIN($this->getInvoiceVATIN());
         return $address;
+    }
+    
+    /**
+     * Set options
+     *
+     * @param mixed $options
+     * @return Order
+     */
+    public function setOptions($options)
+    {
+        $this->options = serialize($options);
+        
+        return $this;
+    }
+
+    /**
+     * Get options
+     *
+     * @return mixed 
+     */
+    public function getOptions()
+    {
+        return unserialize($this->options);
     }
 }

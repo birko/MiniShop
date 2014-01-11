@@ -154,26 +154,38 @@ class CheckoutController extends ShopController
     {
         $this->testCart();
         $cart = $this->getCart(); 
-        $state = $cart->getShippingAddress()->getState();
-        $em = $this->getDoctrine()->getManager();
-        $payments =  $em->getRepository('CoreShopBundle:Payment')->getPaymentQueryBuilder(true)
-            ->getQuery()->getResult();
-        if(!empty($payments))
+        if($cart->isSkipPayment() && $cart->isSkipShipping())
         {
-            $cart->setPayment($payments[0]);
+            return $this->redirect($this->generateUrl('checkout_confirm'));
         }
-        $shippings =  $em->getRepository('CoreShopBundle:Shipping')->getShippingQueryBuilder($state->getId(), true)
-            ->getQuery()->getResult();
-        if(!empty($shippings))
+        else
         {
-            $cart->setShipping($shippings[0]);
+            $state = $cart->getShippingAddress()->getState();
+            $em = $this->getDoctrine()->getManager();
+            $payments =  $em->getRepository('CoreShopBundle:Payment')->getPaymentQueryBuilder(true)
+                ->getQuery()->getResult();
+            if(!empty($payments) && !$cart->isSkipPayment())
+            {
+                $cart->setPayment($payments[0]);
+            }
+            $shippings =  $em->getRepository('CoreShopBundle:Shipping')->getShippingQueryBuilder($state->getId(), true)
+                ->getQuery()->getResult();
+            if(!empty($shippings) && !$cart->isSkipShipping())
+            {
+                $cart->setShipping($shippings[0]);
+            }
+            $form = $this->createForm(new CartPaymentShippingType(), $cart, array(
+                'state' => $state->getId(),
+                'payment' => !$cart->isSkipPayment(),
+                'shipping' => !$cart->isSkipShipping(),
+            ));
+            return $this->render('SiteShopBundle:Checkout:paymentshipping.html.twig', array(
+                'form'   => $form->createView(),
+                'payment' => $payments,
+                'shipping' => $shippings,
+                'cart' => $cart
+            ));
         }
-        $form = $this->createForm(new CartPaymentShippingType($state->getId()), $cart);
-        return $this->render('SiteShopBundle:Checkout:paymentshipping.html.twig', array(
-            'form'   => $form->createView(),
-            'payment' => $payments,
-            'shipping' => $shippings,
-        ));
     }
     
     public function savePaymentShippingAction()
@@ -181,7 +193,11 @@ class CheckoutController extends ShopController
         $this->testCart();
         $cart = $this->getCart(); 
         $state = $cart->getShippingAddress()->getState();
-        $form = $this->createForm(new CartPaymentShippingType(), $cart);
+        $form = $this->createForm(new CartPaymentShippingType(), $cart, array(
+            'state' => $state->getId(),
+            'payment' => !$cart->isSkipPayment(),
+            'shipping' => !$cart->isSkipShipping(),
+        ));
         $request = $this->getRequest();
         $form->bind($request);
         if ($form->isValid()) 
@@ -189,8 +205,16 @@ class CheckoutController extends ShopController
             $this->setCart($cart);
             return $this->redirect($this->generateUrl('checkout_confirm'));
         }
+        $em = $this->getDoctrine()->getManager();
+        $payments =  $em->getRepository('CoreShopBundle:Payment')->getPaymentQueryBuilder(true)
+            ->getQuery()->getResult();
+        $shippings =  $em->getRepository('CoreShopBundle:Shipping')->getShippingQueryBuilder($state->getId(), true)
+            ->getQuery()->getResult();
         return $this->render('SiteShopBundle:Checkout:paymentshipping.html.twig', array(
             'form'   => $form->createView(),
+            'cart' => $cart,
+            'payment' => $payments,
+            'shipping' => $shippings,
         ));
         
     }
@@ -215,7 +239,7 @@ class CheckoutController extends ShopController
         $this->testCart();
         $cart = $this->getCart(); 
         $form = $this->createForm(new CartOrderType(), $cart);
-        $form->bind($request);
+        $form->bind($this->getRequest());
         $form->isValid();
         if($cart->isSameAddress())
         {
@@ -371,6 +395,9 @@ class CheckoutController extends ShopController
             $orderItem->setOrder($order);
             $order->addItem($orderItem);
         }
+        $order->setOptions(array(
+            '_locale' => $this->getRequest()->get("_locale"),
+        ));
         $em->persist($order);
         $em->flush();
         // Ordder has  "HasLifecycleCallbacks" to create order_number after insert

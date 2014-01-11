@@ -26,6 +26,14 @@
                 <source>Contact</source>
                 <target>Kontakt</target>
             </trans-unit>
+            <trans-unit id="7">
+                <source>Discount</source>
+                <target>Zľava</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Discount percentage</source>
+                <target>Percentuálna zľava</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -67,6 +67,7 @@
                     <a href="{{ path('product_media', { 'product': entity.id, 'category': category }) }}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-list"></span> {% trans %}Media{% endtrans %}</a>
                     <a href="{{ path('attribute', { 'product': entity.id, 'category': category }) }}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-list"></span> {% trans %}Attributes{% endtrans %}</a>
                     <a href="{{ path('price', { 'product': entity.id, 'category': category }) }}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-list"></span> {% trans %}Prices{% endtrans %}</a>
+					<a href="{{ path('groupon', { 'product': entity.id, 'category': category }) }}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-list"></span> {% trans %}Groupons{% endtrans %}</a>
                 </div>
                 <div class="btn-group">    
                     <a class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" href="#">{% trans %}Stock{% endtrans %} <span class="caret"></span></a>

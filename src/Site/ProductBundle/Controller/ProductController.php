@@ -129,7 +129,7 @@ class ProductController extends ShopController
         $em = $this->getDoctrine()->getManager();
         $productEntity = $em->getRepository('CoreProductBundle:Product')->getProduct($product);
         $entity = ($productEntity) ? $productEntity->getMedia()->first() : null;
-        if($entity !== null)
+        if($entity)
         {
             $entity = $entity->getMedia();
             if(!file_exists($entity->getAbsolutePath($type)))
@@ -140,7 +140,7 @@ class ProductController extends ShopController
         }
 
         $source = null;
-        if($entity !== null)
+        if($entity)
         {
         
             $source = $entity->getWebPath($type);

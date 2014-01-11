@@ -286,10 +286,6 @@
                 <source>Coupon edit</source>
                 <target>Úprava kupónu</target>
             </trans-unit>
-            <trans-unit id="72">
-                <source>Discount percentage</source>
-                <target>Percentuálna zľava</target>
-            </trans-unit>
             <trans-unit id="73">
                 <source>Used</source>
                 <target>Použitý</target>
@@ -429,6 +425,26 @@
             <trans-unit id="108">
                 <source>Phone contact is used exclusively to contact the customer about the status of his order.</source>
                 <target>Telefónny kontakt slúži výlučne na kontaktovanie zákazníka ohľadom stavu jeho objednávky.</target>
+            </trans-unit>
+            <trans-unit id="109">
+                <source>Groupon</source>
+                <target>Zľavomat</target>
+            </trans-unit>
+            <trans-unit id="110">
+                <source>Groupon list</source>
+                <target>Zoznam zľavomatov</target>
+            </trans-unit>
+            <trans-unit id="111">
+                <source>Groupon creation</source>
+                <target>Tvorba zľavomatu</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>Groupon edit</source>
+                <target>Úprava Zľavomatu</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>Groupons</source>
+                <target>Zľavomaty</target>
             </trans-unit>
         </body>
     </file>

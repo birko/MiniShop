@@ -14,6 +14,8 @@ class Cart implements \Serializable
     protected $payment = null;
     protected $shipping = null;
     protected $comment = null;
+    protected $skipPayment = false;
+    protected $skipShipping = false;
     
     public function __construct()
     {
@@ -52,6 +54,26 @@ class Cart implements \Serializable
     public function setSameAddress($sameAddress)
     {
         $this->sameAddress = $sameAddress;
+    }
+    
+    public function isSkipPayment()
+    {
+        return $this->skipPayment;
+    }
+    
+    public function setSkipPayment($skipPayment)
+    {
+        $this->skipPayment = $skipPayment;
+    }
+    
+    public function isSkipShipping()
+    {
+        return $this->skipShipping;
+    }
+    
+    public function setSkipShipping($skipShipping)
+    {
+        $this->skipShipping = $skipShipping;
     }
     
     public function getItems()
@@ -231,6 +253,8 @@ class Cart implements \Serializable
         $this->setShipping();
         $this->setComment();
         $this->setSameAddress(true);
+        $this->setSkipPayment(false);
+        $this->setSkipShipping(false);
         $this->setItems();
     }
             
@@ -240,6 +264,8 @@ class Cart implements \Serializable
             $this->shippingAddress,
             $this->paymentAddress,
             $this->sameAddress,
+            $this->skipPayment,
+            $this->skipShipping,
             $this->items,
             $this->payment,
             $this->shipping,
@@ -252,6 +278,8 @@ class Cart implements \Serializable
             $this->shippingAddress,
             $this->paymentAddress,
             $this->sameAddress,
+            $this->skipPayment,
+            $this->skipShipping,
             $this->items,
             $this->payment,
             $this->shipping,

@@ -22,14 +22,14 @@ class AbstractPrice
     /**
      * @var decimal $price
      *
-     * @ORM\Column(name="price", type="decimal", precision=10, scale=6)
+     * @ORM\Column(name="price", type="decimal", precision=12, scale=6)
      */
     protected $price;
 
     /**
      * @var decimal $priceVAT
      *
-     * @ORM\Column(name="priceVAT", type="decimal", precision=10, scale=6)
+     * @ORM\Column(name="priceVAT", type="decimal", precision=12, scale=6)
      */
     protected $priceVAT;
     

@@ -6,6 +6,7 @@
     <form action="{{ path('checkout_savepaymentshipping')}}" method="post">
         <div class="row">
             {{ form_errors(form) }}
+			{% if not cart.skipPayment %}
             <div class="payment col-sm-5 col-md-5 col-lg-5">
                 <table class="table">
                     <caption>{{ form_label(form.payment) }}</caption>
@@ -20,7 +21,9 @@
                     </tbody>
                 </table>
             </div>
-            <div class="shipping col-sm-5 col-md-5 col-lg-5 pull-right">
+			{% endif %}
+			{% if not cart.skipShipping %}
+            <div class="shipping col-sm-5 col-md-5 col-lg-5 {% if not cart.skipPayment %}pull-right{% endif %}">
                 <table class="table">
                     <caption>{{ form_label(form.shipping) }}</caption>
                     <tbody>
@@ -34,6 +37,7 @@
                     </tbody>
                 </table>
             </div>
+			{% endif %}
             <div class="cleaner"></div>
             {{ form_rest(form) }}
         </div>

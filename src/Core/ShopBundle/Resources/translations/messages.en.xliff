@@ -430,6 +430,26 @@
                 <source>Phone contact is used exclusively to contact the customer about the status of his order.</source>
                 <target>Phone contact is used exclusively to contact the customer about the status of his order.</target>
             </trans-unit>
+            <trans-unit id="109">
+                <source>Groupon</source>
+                <target>Groupon</target>
+            </trans-unit>
+            <trans-unit id="110">
+                <source>Groupon list</source>
+                <target>Groupon list</target>
+            </trans-unit>
+            <trans-unit id="111">
+                <source>Groupon creation</source>
+                <target>Groupon creation</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>Groupon edit</source>
+                <target>Groupon edit</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>Groupons</source>
+                <target>Groupons</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
