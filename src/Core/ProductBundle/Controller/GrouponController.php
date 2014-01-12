@@ -50,6 +50,7 @@ class GrouponController extends Controller
             $em = $this->getDoctrine()->getManager();
             $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
             $entity->setProduct($productEntity);
+            $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
             
@@ -191,6 +192,7 @@ class GrouponController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $entity->recalculate(false);
             $em->flush();
 
             return $this->redirect($this->generateUrl('groupon_edit', array('id' => $id, 'category' => $category, 'product' => $product)));
