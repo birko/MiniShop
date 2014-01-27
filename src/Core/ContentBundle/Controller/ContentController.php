@@ -217,7 +217,7 @@ class ContentController extends TranslateController
             $imageOptions = $this->container->getParameter('images');
             foreach($entity->getMedia() as $media)
             {
-                $media->setOptions($imageOptions);
+                $media->getMedia()->setOptions($imageOptions);
                 $entity->getMedia()->removeElement($media);
                 $em->remove($media);
             }
