@@ -23,7 +23,7 @@ class VendorRepository extends EntityRepository
             ->createQueryBuilder()
             ->select("v")
             ->from("CoreVendorBundle:Vendor", "v")
-            ->addOrderBy("v.name")
+            ->addOrderBy("v.title")
             ->addOrderBy("v.id");
     }
     

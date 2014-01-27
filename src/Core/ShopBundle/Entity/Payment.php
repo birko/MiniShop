@@ -160,6 +160,7 @@ class Payment  extends AbstractPrice implements \Serializable, Translatable
             $this->name,
             $this->description,
             $this->vat,
+            $this->enabled,
             $this->locale 
         ));
     }
@@ -172,6 +173,7 @@ class Payment  extends AbstractPrice implements \Serializable, Translatable
             $this->name,
             $this->description,
             $this->vat,
+            $this->enabled,
             $this->locale
         ) = unserialize($serialized);
         

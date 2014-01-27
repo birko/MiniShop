@@ -189,6 +189,7 @@ class Shipping  extends AbstractPrice implements \Serializable, Translatable
             $this->priceVAT,
             $this->state,
             $this->vat,
+            $this->enabled,
             $this->locale
         ));
         
@@ -202,6 +203,7 @@ class Shipping  extends AbstractPrice implements \Serializable, Translatable
             $this->priceVAT,
             $this->state,
             $this->vat,
+            $this->enabled,
             $this->locale
         ) = unserialize($serialized);
     }
