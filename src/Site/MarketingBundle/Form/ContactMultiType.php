@@ -26,7 +26,7 @@ class ContactMultiType extends ContactType
                         new Constraints\NotBlank(),
                     ),
                     'attr' => array(
-                        'placeholder' => 'Číslo objednávky*',
+                        'placeholder' => 'Order number*',
                     ),
                 ))
                 ->add('type', 'choice', array(
@@ -35,10 +35,10 @@ class ContactMultiType extends ContactType
                         new Constraints\NotBlank(),
                     ),
                     'choices'=> array(
-                        "Produkt" => 'Produkt',
-                        "Objednávka" => 'Objednávka',
-                        "Faktúra" => 'Faktúra',
-                        "Iné" => 'Iné',
+                        "Produkt" => 'Product',
+                        "Objednávka" => 'Order',
+                        "Faktúra" => 'Invoice',
+                        "Iné" => 'Other',
                     ),
                 ))
         ;
