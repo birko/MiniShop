@@ -8,7 +8,9 @@ class ImageManipulation
     {
         if (extension_loaded('imagick'))
         {
-            return new \Imagick($file);
+            $im = new \Imagick($file);
+            $im->setImageColorspace(\Imagick::COLORSPACE_RGB);
+            return $im;
         }
         else if(function_exists('imagecreate'))
         {
@@ -460,7 +462,7 @@ class ImageManipulation
         {
             if (extension_loaded('imagick'))
             {
-                $imageResource->setImageColorspace(2);
+                $imageResource->setImageColorspace(\Imagick::COLORSPACE_GRAY);
             }
             else if(function_exists('imagecreate'))
             {
