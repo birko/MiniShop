@@ -83,7 +83,11 @@
 </div>
 {% if entity.comment %}
 <hr />
-{{ entity.comment | raw }}
+<div class="row">
+	<div class="col-sm-12 col-md-12 col-lg-12">
+		{{ entity.comment | raw }}
+	</div>
+</div>
 {% endif %}
 
 {% if entity.orderStatus is not empty or  entity.shippingStatus is not empty or  entity.trackingId is not empty%}
