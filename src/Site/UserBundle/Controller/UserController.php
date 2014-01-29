@@ -192,7 +192,7 @@ class UserController extends Controller
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST')
         {
-            $form->bindRequest($request);
+            $form->bind($request);
             if ($form->isValid())
             {
                 // check if user with email exists
@@ -258,7 +258,7 @@ class UserController extends Controller
         
         if ($request->getMethod() == 'POST')
         {
-            $form->bindRequest($request);
+            $form->bind($request);
             $data = $form->getData();
             
             if ($form->isValid())
