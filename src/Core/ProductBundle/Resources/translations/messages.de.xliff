@@ -56,15 +56,15 @@
             </trans-unit>
             <trans-unit id="14">
                 <source>Price</source>
-                <target>Price without VAT</target>
+                <target>Preis without VAT</target>
             </trans-unit>
             <trans-unit id="15">
                 <source>Price VAT</source>
-                <target>Price with DPH</target>
+                <target>Preis with DPH</target>
             </trans-unit>
             <trans-unit id="16">
                 <source>Prices</source>
-                <target>Prices</target>
+                <target>Preisen</target>
             </trans-unit>
             <trans-unit id="17">
                 <source>Options</source>
@@ -96,19 +96,19 @@
             </trans-unit>
             <trans-unit id="24">
                 <source>Price amount</source>
-                <target>Price amount</target>
+                <target>Preis Menge</target>
             </trans-unit>
             <trans-unit id="25">
                 <source>Price creation</source>
-                <target>Price creation</target>
+                <target>Preis creation</target>
             </trans-unit>
             <trans-unit id="26">
                 <source>Price edit</source>
-                <target>Price edit</target>
+                <target>Preis edit</target>
             </trans-unit>
             <trans-unit id="27">
                 <source>Amount</source>
-                <target>Amount</target>
+                <target>Menge</target>
             </trans-unit>
             <trans-unit id="28">
                 <source>Availability</source>
@@ -136,7 +136,7 @@
             </trans-unit>
             <trans-unit id="34">
                 <source>Price list</source>
-                <target>Price list</target>
+                <target>Preis list</target>
             </trans-unit>
             <trans-unit id="35">
                 <source>Product media position edit</source>
