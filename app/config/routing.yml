@@ -1,3 +1,7 @@
+core_attribute:
+    resource: "@CoreAttributeBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
 core_banner:
     resource: "@CoreBannerBundle/Resources/config/routing.yml"
     prefix:   /admin

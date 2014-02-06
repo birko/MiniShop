@@ -2,48 +2,50 @@
 
 namespace Core\ProductBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class AttributeType extends AttributeTranslationType
+class AttributeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if(!empty($options['cultures']))
-        {
-            $builder->add('translations', 'collection', array(
-                'type' => new AttributeTranslationType(),
-                'allow_add' => false,
-                'allow_delete' => false,
-                'prototype' => false, 
-                'by_reference' => false,
-                'options' => array(
-                    'required' => false,
-            )));
-        }
-        else
-        {
-            parent::buildForm($builder, $options);
-        }
-        $builder
-            ->add('group', 'text',  array(
-                'required' => false
-            ))
-        ;
+        $attributeName = $options['attributeName'];
+        $builder->add('name', 'entity', array(
+            'class' => 'CoreAttributeBundle:AttributeName',
+            'expanded' => false,
+            'required' => true,
+            'multiple' => false,
+            'query_builder' => function(EntityRepository $er) {
+                $qb = $er->getNamesQueryBuilder();
+                return $qb;
+            },
+        ));
+        $builder->add('value', 'entity', array(
+            'class' => 'CoreAttributeBundle:AttributeValue',
+            'expanded' => false,
+            'required' => true,
+            'multiple' => false,
+            'group_by' => 'attributeName',
+            'query_builder' => function(EntityRepository $er) use ($attributeName) {
+                $qb = $er->getValuesByNameQueryBuilder($attributeName);
+                return $qb;
+            },
+        ));
     }
     
     public function getName()
     {
-        return 'nws_productbundle_attributetype';
+        return 'core_productbundle_attributetype';
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'cultures' => array(),
+            'data_class' => 'Core\ProductBundle\Entity\Attribute',
+            'attributeName'=> null,
         ));
     }
 }

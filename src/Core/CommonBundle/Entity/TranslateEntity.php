@@ -68,7 +68,6 @@ class TranslateEntity implements Translatable
              return ($entry->getTranslatableLocale() == $locale);
          })->current();
     }
-
 }
 
 ?>

@@ -23,7 +23,10 @@ class AttributeRepository extends SortableRepository
             unset($groups[$name]);
         }
         
-        $qb = $this->createQueryBuilder('n');
+        $qb = $this->createQueryBuilder('n')
+            ->select("n, an, av");
+        $qb->leftJoin("n.name", "an");
+        $qb->leftJoin("n.value", "av");
         $qb->addOrderBy("n.group");
         $qb->addOrderBy('n.'.$this->config['position']);
         $i = 1;
@@ -126,7 +129,7 @@ class AttributeRepository extends SortableRepository
     public function getGroupedAttributesByProducts($productIds = array(), $groupValues = array())
     {
         $query = $this->getAttributesByProductsQueryBuilder($productIds, $groupValues)
-            ->select("n.name, n.value, n.visible, n.system, n.group, n.position, p.id as product")
+            ->select("an.name, av.value, n.visible, n.system, n.group, n.position, p.id as product")
             ->leftJoin("n.product", 'p')
             ->getQuery();
         $result = array();

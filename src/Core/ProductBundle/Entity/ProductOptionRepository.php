@@ -21,8 +21,10 @@ class ProductOptionRepository extends SortableRepository
     public function getOptionsByProductQueryBuilder($productId)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()
-                ->select("po")
+                ->select("po, an, av")
                 ->from("CoreProductBundle:ProductOption", "po") 
+                ->leftJoin("po.name", "an")
+                ->leftJoin("po.value", "av")
                 ->andWhere("po.product = :pid")                
                 ->setParameter('pid', $productId)
                 ->addOrderBy('po.name')

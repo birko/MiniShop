@@ -7,9 +7,9 @@
                  <tr class="option">
                     <td class="control-group">
                         <select name="items[{{product}}][option][]" required="required" class="form-control">
-                            <option value="">{{ option.0.name }}</option>                         
+                            <option value="">{{ option.0.name.name }}</option>                         
                             {% for value in option %}
-                            <option value="{{value.id}}">{{ value.value }}</option>
+                            <option value="{{value.id}}">{{ value.value.value }}</option>
                             {% endfor %}
                         </select>
                     </td>

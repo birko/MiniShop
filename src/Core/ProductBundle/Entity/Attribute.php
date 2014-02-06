@@ -6,16 +6,16 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
-use Core\CommonBundle\Entity\TranslateEntity;
+use Core\AttributeBundle\Entity\AttributeName;
+use Core\AttributeBundle\Entity\AttributeValue;
 
 /**
  * Core\ProductBundle\Entity\Attribute
  *
  * @ORM\Table(name="product_attribute")
  * @ORM\Entity(repositoryClass="Core\ProductBundle\Entity\AttributeRepository")
- * @Gedmo\TranslationEntity(class="Core\CommonBundle\Entity\Translation")
  */
-class Attribute extends TranslateEntity
+class Attribute
 {    
     /**
      * @var integer $id
@@ -25,16 +25,15 @@ class Attribute extends TranslateEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
+    
     /** 
-     * @var string name
-     * @Gedmo\Translatable
-     * @ORM\Column(type="string", nullable=true) 
+     * @ORM\ManyToOne(targetEntity="Core\AttributeBundle\Entity\AttributeName", cascade={"persist"})
+     * @ORM\JoinColumn(name="attributename_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $name;
     /** 
-     * @var string value
-     * @Gedmo\Translatable
-     * @ORM\Column(type="string", nullable=true) 
+     * @ORM\ManyToOne(targetEntity="Core\AttributeBundle\Entity\AttributeValue", cascade={"persist"})
+     * @ORM\JoinColumn(name="attributevalue_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $value;
     /** 
@@ -74,9 +73,9 @@ class Attribute extends TranslateEntity
     /**
      * Set name
      *
-     * @param string $name
+     * @param AttributeName $name
      */
-    public function setName($name)
+    public function setName(AttributeName $name)
     {
         $this->name = $name;
     }
@@ -84,7 +83,7 @@ class Attribute extends TranslateEntity
     /**
      * Get name
      *
-     * @return string 
+     * @return AttributeName
      */
     public function getName()
     {
@@ -94,9 +93,9 @@ class Attribute extends TranslateEntity
     /**
      * Set value
      *
-     * @param string $value
+     * @param AttributeValue $value
      */
-    public function setValue($value)
+    public function setValue(AttributeValue $value)
     {
         $this->value = $value;
     }
@@ -104,7 +103,7 @@ class Attribute extends TranslateEntity
     /**
      * Get value
      *
-     * @return string 
+     * @return AttributeValue
      */
     public function getValue()
     {

@@ -26,7 +26,7 @@
                     <br />
                     {% if item.options is not empty %}
                     {% for option in item.options %}
-                      <strong>{{option.name}}: </strong>{{option.value}}, 
+                      <strong>{{option.name.name}}: </strong>{{option.value.value}}, 
                     {% endfor %}
                     {% endif %}
                     <br />

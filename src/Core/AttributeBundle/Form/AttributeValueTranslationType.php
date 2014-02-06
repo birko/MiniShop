@@ -1,32 +1,30 @@
 <?php
 
-namespace Core\ProductBundle\Form;
+namespace Core\AttributeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-
-class ProductOptionTranslationType extends AbstractType
+class AttributeValueTranslationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array('required' => true))
-            ->add('value', 'text', array('required' => true))
+            ->add('value', 'text')
         ;
     }
-
+    
     public function getName()
     {
-        return 'core_productbundle_productoptiontranslationtype';
+        return 'core_attributebundle_attributevaluetranslationtype';
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Core\ProductBundle\Entity\ProductOption',
+            'data_class' => 'Core\AttributeBundle\Entity\AttributeValue',
         ));
     }
 }

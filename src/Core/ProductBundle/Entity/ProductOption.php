@@ -6,7 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
-use Core\CommonBundle\Entity\TranslateEntity;
+use Core\AttributeBundle\Entity\AttributeName;
+use Core\AttributeBundle\Entity\AttributeValue;
 
 
 /**
@@ -14,9 +15,8 @@ use Core\CommonBundle\Entity\TranslateEntity;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Core\ProductBundle\Entity\ProductOptionRepository")
- * @Gedmo\TranslationEntity(class="Core\CommonBundle\Entity\Translation")
  */
-class ProductOption extends TranslateEntity implements \Serializable
+class ProductOption implements \Serializable
 {
     /**
      * @var integer $id
@@ -27,20 +27,17 @@ class ProductOption extends TranslateEntity implements \Serializable
      */
     private $id;
 
-    /**
-     * @var string $name
-     * @Gedmo\Translatable
+     /** 
+     * @ORM\ManyToOne(targetEntity="Core\AttributeBundle\Entity\AttributeName", cascade={"persist"})
      * @Gedmo\SortableGroup
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @ORM\JoinColumn(name="attributename_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $name;
-
-    /**
-     * @var string $value
-     * @Gedmo\Translatable
-     * @ORM\Column(name="value", type="string", length=255, nullable=true)
+    protected $name;
+    /** 
+     * @ORM\ManyToOne(targetEntity="Core\AttributeBundle\Entity\AttributeValue", cascade={"persist"})
+     * @ORM\JoinColumn(name="attributevalue_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $value;
+    protected $value;
     
      /**
      * @Gedmo\SortableGroup
@@ -77,9 +74,9 @@ class ProductOption extends TranslateEntity implements \Serializable
     /**
      * Set name
      *
-     * @param string $name
+     * @param AttributeName $name
      */
-    public function setName($name)
+    public function setName(AttributeName $name)
     {
         $this->name = $name;
     }
@@ -87,7 +84,7 @@ class ProductOption extends TranslateEntity implements \Serializable
     /**
      * Get name
      *
-     * @return string 
+     * @return AttributeName
      */
     public function getName()
     {
@@ -97,9 +94,9 @@ class ProductOption extends TranslateEntity implements \Serializable
     /**
      * Set value
      *
-     * @param string $value
+     * @param AttributeValue $value
      */
-    public function setValue($value)
+    public function setValue(AttributeValue $value)
     {
         $this->value = $value;
     }
@@ -107,7 +104,7 @@ class ProductOption extends TranslateEntity implements \Serializable
     /**
      * Get value
      *
-     * @return string 
+     * @return AttributeValue
      */
     public function getValue()
     {

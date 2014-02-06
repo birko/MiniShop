@@ -27,7 +27,7 @@ class ImageController extends Controller
         if($entity !== null)
         {
             $imageOptions = $this->container->getParameter('images');
-            if(!file_exists($entity->getAbsolutePath($dir)))
+            if(!file_exists($entity->getAbsolutePath($dir)) && $dir != "original")
             {
                 $entity->update($dir, $imageOptions[$dir]);
             }

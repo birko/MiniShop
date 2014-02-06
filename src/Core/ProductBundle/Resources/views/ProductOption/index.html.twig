@@ -26,8 +26,8 @@
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td>{{ entity.name }}</td>
-            <td>{{ entity.value }}</td>
+            <td>{{ entity.name.name }}</td>
+            <td>{{ entity.value.value }}</td>
             <td>{% if entity.amount %}{{ entity.amount | number_format }}{% endif %}</td>
             <td>
                 <div class="btn-group">
