@@ -27,14 +27,30 @@ class ProductOptionRepository extends SortableRepository
                 ->leftJoin("po.value", "av")
                 ->andWhere("po.product = :pid")                
                 ->setParameter('pid', $productId)
-                ->addOrderBy('po.name')
-                ->addOrderBy('po.position');
+                ->addOrderBy('an.name')
+                ->addOrderBy('po.position')
+                ->addOrderBy('av.value');
         return $queryBuilder;
     }
     
     
     public function getOptionsByProductQuery($productId)
     {
-         return $this->setHint($this->getOptionsByProductQueryBuilder($productId)->getQuery());
+        return $this->setHint($this->getOptionsByProductQueryBuilder($productId)->getQuery());
+    }
+    
+    public function getOptionsNamesByProduct($prouctId)
+    {
+        $querybuilder = $this->getOptionsByProductQueryBuilder($prouctId)
+            ->select("an.name")
+            ->distinct()
+            ->resetDQLPart("orderBy");
+        $arr = $this->setHint($querybuilder->getQuery())->getResult();
+        $result = array();
+        foreach($arr as $value)
+        {
+            $result[] = $value['name'];
+        }
+        return $result;
     }
 }

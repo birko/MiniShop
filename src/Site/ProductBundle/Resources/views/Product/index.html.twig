@@ -35,7 +35,7 @@
                 </span>
             </div>
             <div class="cart pull-right col-sm-7 col-md-7 col-lg-7">
-                {% include "SiteShopBundle:Cart:add.html.twig" with {'product': product.id, 'title': product.title, 'price':  price.price, 'priceVAT': price.priceVAT, 'amount': 1, 'productId':product.id , 'options': options}%}
+                {% render controller("SiteShopBundle:Cart:add", {'product': product, 'price':  price }) %}
 				{% render controller ("SiteShopBundle:Groupon:form", {'product': product.id}) %}
             </div>
             {%endif %}

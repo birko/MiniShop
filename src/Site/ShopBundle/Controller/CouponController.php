@@ -36,61 +36,68 @@ class CouponController extends ShopController
                     {
                         foreach($coupon->getProducts() as $product)
                         {
-                            $data= array('code' => $coupon->getCode());
-                            $data['name'] = $product->getTitle(). "({$coupon->getCode()})";
-                            $data['productId'] = $product->getId();
-                            $data['amount'] = 1;
+                            $item = new CouponItem();
+                            $item->setCode($coupon->getCode());
+                            $item->setName($product->getTitle(). "({$coupon->getCode()})");
+                            $item->getProductId($product->getId());
+                            $item->setChangeAmount(true);
+                            $item->setAmount(1);
+                            $item->setChangeAmount(false);
                             if($coupon->getPrice()) // price coupon
                             {
-                                 $data['price'] = $coupon->getPrice() / $count;
-                                 $data['priceVAT'] = $coupon->getPriceVAT() / $count;
+                                $item->setPrice($coupon->getPrice() / $count);
+                                $item->setPriceVAT($coupon->getPriceVAT() / $count);
                             }
                             else  //percentage coupon
                             {
                                 $price = $product->getPrices()->first();
                                 if($price)
                                 {
-                                    $data['price'] = $price->getPrice() *  (1 - $coupon->getDiscount());
-                                    $data['priceVAT'] = $price->getPriceVAT() * (1 - $coupon->getDiscount());
+                                    $item->setPrice($price->getPrice() *  (1 - $coupon->getDiscount()));
+                                    $item->setPriceVAT($price->getPriceVAT() * (1 - $coupon->getDiscount()));
                                 }
                                 else
                                 {
-                                    $data['price'] = 0;
-                                    $data['priceVAT'] = 0;
+                                    $item->setPrice(0);
+                                    $item->setPriceVAT(0);
                                 }
                             }
-                            $this->addData($cart, $data);
+                            $cart->addItem($item);
                         }
                     }
                     else //discount coupon
                     {
-                        $data= array('code' => $coupon->getCode());
-                        $data['name'] = 'Coupon: '. "({$coupon->getCode()})";
-                        $data['amount'] = 1;
-                        $data['productId'] = null;
+                        $item = new CouponItem();
+                        $item->setCode($coupon->getCode());
+                        $item->setName('Coupon: ' . "({$coupon->getCode()})");
+                        $item->setChangeAmount(true);
+                        $item->setAmount(1);
+                        $item->setChangeAmount(false);
                         if($coupon->getPrice()) // price coupon
                         {
-                            $data['price'] = $coupon->getPrice() * (-1);
-                            $data['priceVAT'] = $coupon->getPriceVAT() * (-1);
+                            $item->setPrice($coupon->getPrice() * (-1));
+                            $item->setPriceVAT($coupon->getPriceVAT() * (-1));
                         }
                         else  //percentage coupon
                         {
-                            $data['price'] = $coupon->getDiscount() * $cart->getPrice() * (-1);
-                            $data['priceVAT'] = $coupon->getDiscount() * $cart->getPriceVAT() * (-1);
+                            $item->setPrice($coupon->getDiscount() * $cart->getPrice() * (-1));
+                            $item->setPriceVAT($coupon->getDiscount() * $cart->getPriceVAT() * (-1));
                         }
-                        $this->addData($cart, $data);
+                        $cart->addItem($item);
                     }
                 }
             }
             else 
             {
-                $data= array('code' => $entity->code);
-                $data['name'] = 'Coupon'. "({$entity->code})";
-                $data['amount'] = 1;
-                $data['price'] = 0;
-                $data['priceVAT'] = 0; 
-                $data['productId'] = null;
-                $this->addData($cart, $data);
+                $item = new CouponItem();
+                $item->setCode($entity->code);
+                $item->setName('Coupon: ' . "({$entity->code})");
+                $item->setChangeAmount(true);
+                $item->setAmount(1);
+                $item->setChangeAmount(false);
+                $item->setPrice(0);
+                $item->setPriceVAT(0);
+                $cart->addItem($item);
             }
             $this->setCart($cart);
         }
@@ -103,44 +110,5 @@ class CouponController extends ShopController
         return $this->render('SiteShopBundle:Coupon:form.html.twig', array(
             'form'   => $form->createView(),
         ));
-    }
-    
-    protected function addData(Cart $cart, $data = array())
-    {
-        if(!empty($data))
-        {
-            $index = $cart->findItem($data);
-            $new = false;
-            if($index === false)
-            {
-                $item = new CouponItem();
-                $index = $cart->getItemsCount();
-                $new = true;
-            }
-            else
-            {
-                $item = $cart->getItem($index);
-                if($item instanceof CouponItem)
-                {
-                    $new = false;
-                }
-                else
-                {
-                    $item = new CouponItem();
-                    $index = $cart->getItemsCount();
-                    $new = true;
-                }
-            }
-            if($item != null && $new)
-            {
-                $item->addAmount($data['amount']);
-                $item->setProductId($data['productId']);
-                $item->setName($data['name']);
-                $item->setPrice($data['price']);
-                $item->setPriceVAT($data['priceVAT']);
-                $item->setCode($data['code']);
-                $cart->addItem($item, $index);
-            }
-        }
     }
 }

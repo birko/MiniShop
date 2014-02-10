@@ -83,7 +83,7 @@ class Product extends TranslateEntity
     
      /**
      * @ORM\OneToMany(targetEntity="Core\ProductBundle\Entity\ProductOption", mappedBy="product")
-     * @ORM\OrderBy({"name" = "ASC", "position" = "ASC", "value" = "ASC"})
+     * @ORM\OrderBy({ "position" = "ASC"})
      */
     private $options; 
     
@@ -454,7 +454,7 @@ class Product extends TranslateEntity
         {
             foreach($this->getAttributes() as $attribute)
             {
-                $result[$attribute->getName()][] = $attribute; 
+                $result[$attribute->getName()->getId()][] = $attribute; 
             }
         }
         return $result;

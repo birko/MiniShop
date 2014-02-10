@@ -7,26 +7,27 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Description of CartPaymentShippingType
+ * Description of CartItemType
  *
  * @author Birko
  */
-class CartOrderType extends AbstractType
+class CartItemType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add("comment", 'textarea', array('required' => false,));
+        $subscriber = new CartItemTypeFieldSubscriber();
+        $builder->addEventSubscriber($subscriber);
     }
     
     public function getName() 
     {
-        return "nws_shop_order";
+        return "site_shop_cartitemtype";
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Site\ShopBundle\Entity\Cart',
+            'data_class' => 'Site\ShopBundle\Entity\CartItem'
         ));
     }
 }

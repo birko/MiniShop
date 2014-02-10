@@ -3,53 +3,27 @@
 <div id="cart">
     <h1>{% trans %}Cart{% endtrans %}</h1>
     {% if cart is not empty and cart.items is not empty %}
-    <table class="cart table table-striped table-hover table-condensed">
-        <thead>
-            <tr>
-                <th class="image"></th>
-                <th>{% trans %}Title{% endtrans %}</th>
-                <th>{% trans %}Amount{% endtrans %}</th>
-                <th>{% trans %}Price VAT{% endtrans %}</th>
-                <th>{% trans %}Total price{% endtrans %}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in cart.items %}
-            <tr>
-                <td class="image">
-                    {% if item.productId is not empty %}
-                    {% render controller("SiteProductBundle:Product:productMainMedia", {'product': item.productId, 'dir': 'product-small'}) %}
-                    {% endif %}
-                </td>
-                <td class="name">
-                    <span class="item-name">{{ item.name }}</span>
-                    <br />
-                    {% if item.options is not empty %}
-                    {% for option in item.options %}
-                      <strong>{{option.name.name}}: </strong>{{option.value.value}}, 
-                    {% endfor %}
-                    {% endif %}
-                    <br />
-                </td>
-                <td class="form col-sm-2 col-md-2 col-lg-2">
-                    <form action="{{ path('cart_update') }}" method="post">
-                        <div class="input-group">
-                            {% if item.changeAmount %}<button type="submit" class="btn  btn-sm input-group-addon"><span class="glyphicon glyphicon-refresh"></span></button>{% else %}<a class="btn btn-sm input-group-addon disabled"><span class="glyphicon"></span></a>{% endif %}
-                            <input type="text" class="form-control input-sm" name="items[{{loop.index0}}][amount]" value="{{ item.amount }}" size="3" {% if not item.changeAmount %}readonly="readonly" disabled="disables"{% endif %}/>
-                            <a href="{{ path('cart_remove', {'index': loop.index0})}}" class="btn btn-sm input-group-addon"><span class="glyphicon glyphicon-remove"></span></a>
-                        </div>
-                    </form>
-                </td>
-                <td class="price">
-                    {{ item.priceVAT|number_format(2) }} €
-                </td>
-                <td class="total">
-                    {{ item.priceVatTotal|number_format(2) }} € &nbsp; 
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+	<form action="{{ path('cart_update') }}" method="post">
+		<table class="cart table table-striped table-hover table-condensed">
+			<thead>
+				<tr>
+					<th class="image"></th>
+					<th>{% trans %}Title{% endtrans %}</th>
+					<th>{% trans %}Amount{% endtrans %}</th>
+					<th>{% trans %}Price VAT{% endtrans %}</th>
+					<th>{% trans %}Total price{% endtrans %}</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for widget in form.items %}
+				{% set index = cart.items|keys[loop.index0] %}
+				{% set item = cart.items[index] %}
+				{% include "SiteShopBundle:Cart:item.html.twig" with {'item': item, 'form': widget, 'index': index }%}
+				{% endfor %}
+			</tbody>
+		</table>
+	</form>
     {% else %}
     <div class="info">
         {% trans %}Your cart is empty.{% endtrans %}

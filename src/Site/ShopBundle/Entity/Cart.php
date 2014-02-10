@@ -1,5 +1,7 @@
 <?php
 namespace Site\ShopBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Description of Cart
  *
@@ -10,7 +12,7 @@ class Cart implements \Serializable
     protected $shippingAddress = null;
     protected $paymentAddress = null;
     protected $sameAddress = true;
-    protected $items = array();
+    protected $items =  null;
     protected $payment = null;
     protected $shipping = null;
     protected $comment = null;
@@ -22,7 +24,7 @@ class Cart implements \Serializable
         $this->shippingAddress = null;
         $this->paymentAddress = null;
         $this->sameAddress = true;
-        $this->items = array();
+        $this->items = new ArrayCollection();
     }
     
     public function getShippingAddress()
@@ -76,34 +78,49 @@ class Cart implements \Serializable
         $this->skipShipping = $skipShipping;
     }
     
-    public function getItems()
+    public function getItems($type = null)
     {
-        return $this->items;
+        if($type !== null)
+        {
+            return $this->getItems()->filter(function($entry) use($type){
+                return $entry->getType() == $type;
+            });
+        }
+        else
+        {
+            return $this->items;
+        }
     }
     
     public function setItems($items = array())
     {
-        $this->items = $items;
+        $this->items = ($items instanceof ArrayCollection)? $items : new ArrayCollection($items);
     }
     
     public function addItem(CartItem $item, $index = null)
     {
-        if($index !== null && $index !== false)
+        if($item->getAmount() > 0)
         {
-            $this->items[$index]= $item;
-        }
-        else
-        {
-            $this->items[]= $item;
+            $cartItem = $this->findItem($item);
+            if($cartItem)
+            {
+                $cartItem->addAmount($item->getAmount());
+                $cartItem->setPrice($item->getPrice());
+                $cartItem->setPriceVAT($item->getPriceVAT());
+            }
+            else
+            {
+                $this->getItems()->add($item);
+            }
         }
     }
     
     public function getItem($index)
     {
-        $items = $this->getItems();
-        if(!$this->isEmpty() && count($items) > $index)
+        $count = $this->getItems()->count();
+        if(!$this->isEmpty() && $this->getItems()->containsKey($index))
         {     
-            return $items[$index];
+            return  $this->getItems()->get($index);
         }
         return null;
     }
@@ -129,16 +146,12 @@ class Cart implements \Serializable
         {
             foreach($items as $item)
             {
-                $this->addItem($item, $index);
-                if($index !== null && $index !== false)
-                {
-                    $index++;
-                }
+                $this->addItem($item);
             }
         }
     }
     
-    public function findItem($itemData)
+    public function findItem(CartItem $itemData)
     {
         if(!$this->isEmpty())
         {
@@ -147,7 +160,7 @@ class Cart implements \Serializable
             {
                 if($item->compareData($itemData))
                 {
-                    return $key;
+                    return $item;
                 }
             }
         }
@@ -156,19 +169,16 @@ class Cart implements \Serializable
     
     public function isEmpty()
     {
-        return empty($this->items);
+        return $this->getItems()->isEmpty();
     }
     
     public function removeItem($index)
     {
         if(!$this->isEmpty())
         {
-            $items = $this->getItems();
-            if ($index >= 0 && $index <= count($items))
+            if ($this->getItems()->containsKey($index))
             {
-                unset($items[$index]);
-                $items = array_values($items);
-                $this->setItems($items);
+                $this->getItems()->remove($index);
             }
         }
     }
@@ -266,7 +276,7 @@ class Cart implements \Serializable
             $this->sameAddress,
             $this->skipPayment,
             $this->skipShipping,
-            $this->items,
+            $this->getItems()->toArray(),
             $this->payment,
             $this->shipping,
             $this->comment,
@@ -274,17 +284,19 @@ class Cart implements \Serializable
     }
     public function unserialize($serialized) 
     {
+        $items = array();
         list(
             $this->shippingAddress,
             $this->paymentAddress,
             $this->sameAddress,
             $this->skipPayment,
             $this->skipShipping,
-            $this->items,
+            $items,
             $this->payment,
             $this->shipping,
             $this->comment,
-          ) = unserialize($serialized);
+        ) = unserialize($serialized);
+        $this->setItems($items);
     }
 }
 

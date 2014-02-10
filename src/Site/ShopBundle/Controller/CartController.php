@@ -3,12 +3,16 @@
 namespace Site\ShopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Core\ProductBundle\Entity\Product;
 use Site\ShopBundle\Entity\CartItem;
 use Site\ShopBundle\Entity\Cart;
+use Site\ShopBundle\Form\CartType;
+use Site\ShopBundle\Form\CartItemAddType;
 use Site\ShopBundle\Form\CartBaseType;
 use Site\ShopBundle\Form\CartUserType;
+
 /**
- * Address controller.
+ * Cart controller.
  *
  */
 class CartController extends ShopController
@@ -18,27 +22,10 @@ class CartController extends ShopController
         $cart = $this->getCart();
         $this->testCart();
         $user = $this->getShopUser();
-        //TODO: Prerobit na volanie komponentov
-        if(!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
-        {
-            $form = $this->createForm(new CartBaseType(true));
-        }
-        else
-        {
-            if($user === null)
-            {
-                throw $this->createNotFoundException('Unable to find User entity.');
-            }
-            if($user->getAddresses()->count() > 0)
-            {
-                $cart->setPaymentAddress($user->getAddresses()->first());
-                $cart->setShippingAddress($user->getAddresses()->first());
-            }
-            $form = $this->createForm(new CartUserType($user->getId(), true), $cart);
-        }
+        $form = $this->createForm(new CartType(), $cart);
         return $this->render('SiteShopBundle:Cart:index.html.twig', array(
-            'form'   => $form->createView(),
             'cart' => $cart,
+            'form' => (!$cart->isEmpty()) ? $form->createView() : null,
             'user' => $user,
         ));
     }
@@ -104,115 +91,58 @@ class CartController extends ShopController
     
     public function addAction($product, $price, $amount = 1)
     {
+        $em = $this->getDoctrine()->getManager();
+        $pricegroup = $this->getPriceGroup();
+        if(!($product instanceof Product))
+        {
+            $product = $em->getRepository('CoreProductBundle:Product')->find($product);
+        }
+        if(!$price)
+        {
+            //$types = $this->container->getParameter('core.product.price.types');
+            $price = $product->getMinimalPrice($pricegroup->getId());
+        }
+        
+        $entity = new CartItem();
+        $entity->setAmount($amount);
+        $entity->setName($product->getTitle());
+        $entity->setProductId($product->getId());
+        $entity->setPrice($price->getPrice());
+        $entity->setPriceVAT($price->getPriceVAT());
+        $options = $em->getRepository('CoreProductBundle:ProductOption')->getOptionsNamesByProduct($product->getId());
+        $form = $this->createForm(new CartItemAddType(), $entity, array('product'=>$product->getId(), 'options' => $options));
+        
         return $this->render('SiteShopBundle:Cart:add.html.twig', array(
-            'product' => $product,
-            'price' => $price,
-            'amount' => $amount
+            'entity' => $entity,
+            'form' => $form->createView(),
+            'options' => $options,
         ));
     }
     
-    public function addItemAction()
+    public function addItemAction($product)
     {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
+        $pricegroup = $this->getPriceGroup();
+        if(!($product instanceof Product))
+        {
+            $product = $em->getRepository('CoreProductBundle:Product')->find($product);
+        }
+        
+        $entity = new CartItem();
+        $options = $em->getRepository('CoreProductBundle:ProductOption')->getOptionsNamesByProduct($product->getId());
+        $form = $this->createForm(new CartItemAddType(), $entity, array('product'=>$product->getId(), 'options' => $options));
+        
+        $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST') 
         {
-            $cart = $this->getCart();
-            $items = $request->get('items', array());
-            if(!empty($items))
+            $form->bind($request);
+            if($form->isValid())
             {
-                foreach($items as $data)//for all posted items for cart
-                {
-                    if(!empty($data['option']))
-                    {
-                        foreach($data['option'] as $key => $val)
-                        {
-                            if(empty($val))
-                            {
-                                unset($data['option'][$key]); //clear posted empty option values
-                            }
-                        }
-                    }
-                    
-                    if(!empty($data['variation']))
-                    {
-                        foreach($data['variation'] as $key => $val)
-                        {
-                            if(empty($val))
-                            {
-                                unset($data['variation'][$key]); //clear posted emtpy variation values
-                            }
-                        }
-                    }
-                    
-                    $index = $cart->findItem($data);
-                    $new = false;
-                    if($index === false)
-                    {
-                        $item = new CartItem();
-                        $index = $cart->getItemsCount();
-                        $new = true;
-                    }
-                    else
-                    {
-                        $item = $cart->getItem($index);
-                        $new = false;
-                    }
-                    if($item != null)
-                    {
-                        $item->addAmount($data['amount']);
-                        if($new)
-                        {
-                            $item->setProductId($data['productId']);
-                            if(!empty($data['option']))
-                            {
-                                foreach($data['option'] as $oid)
-                                {
-                                    if(!empty($oid))
-                                    {
-                                        $option = $em->getRepository('CoreProductBundle:ProductOption')->find($oid);
-                                        if(!empty($option))
-                                        {
-                                            $item->addOption($option);
-                                        }
-                                    }
-                                }
-                            }
-                            if(!empty($data['variation']))
-                            {
-                                foreach($data['variation'] as $vid)
-                                {
-                                    /*if(!empty($vid))
-                                    {
-                                        $variation = $em->getRepository('NwsProductStockBundle:StockVariation')->find($vid);
-                                        if(!empty($variation))
-                                        {
-                                            $item->addVariation($variation);
-                                            //curency a VAT recalculate
-                                            $data['price']= Operator::calculate($data['price'], $variation->getPrice(), $variation->getOperator());
-                                            $data['priceVAT']= Operator::calculate($data['priceVAT'], $variation->getPrice(), $variation->getOperator());
-                                        }
-                                    }*/
-                                }
-                            }
-                            $item->setName($data['name']);
-                            $item->setPrice($data['price']);
-                            $item->setPriceVAT($data['priceVAT']);
-                            if(!empty($data['options']))
-                            {
-                                $item->setOptions($data['options']);
-                            }
-                            if(!empty($data['variations']))
-                            {
-                                $item->setVariations($data['variations']);
-                            }
-                        }
-                        $cart->addItem($item, $index);
-                    }
-                }
+                $cart = $this->getCart();
+                $entity->setOptions($entity->getOptions()->toArray());
+                $cart->addItem($entity);
                 $this->setCart($cart);
-                $target = $request->get('target', $this->generateUrl('cart'));
-                return $this->redirect($target);
             }
         }
         return $this->redirect($this->generateUrl('cart'));
@@ -229,24 +159,19 @@ class CartController extends ShopController
     public function updateItemAction()
     {
         $request = $this->getRequest();
+        $cart = $this->getCart();
+        $form = $this->createForm(new CartType(), $cart);
+        $em = $this->getDoctrine()->getManager();
+        $pricegroup = $this->getPriceGroup();
         if ($request->getMethod() == 'POST') 
         {
-            $items = $request->get('items', array());
-            if(!empty($items))
-            { 
-                $cart = $this->getCart();
-                foreach($items as $key => $value)
+            $form->bind($request);
+            if($form->isValid())
+            {
+                foreach($cart->getItems() as $entity)
                 {
-                    $cartitem = $cart->getItem($key);
-                    if(!empty($cartitem))
+                    if($entity->getProductId() && $entity->isChangeAmount())
                     {
-                        if(!empty($value['amount']))
-                        {
-                            if($value['amount'] !== 0)
-                            {
-                                $cartitem->setAmount($value['amount']);
-                            }
-                        }
                     }
                 }
                 $this->setCart($cart);

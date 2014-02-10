@@ -185,4 +185,14 @@ class ProductOption implements \Serializable
             $this->locale 
         ) = unserialize($serialized);
     }
+    
+    public function __toString()
+    {
+        return $this->getName()->getName() . ": " . $this->getValue()->getValue(); 
+    }
+    
+    public function equals($entity)
+    {
+        return $this->getId() == $entity->getId() && $this->getAmount() == $entity->getAmount();
+    }
 }

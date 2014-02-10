@@ -24,7 +24,7 @@ class ProductController extends ShopController
         $productOptions = $product->getOptions();
         foreach($productOptions as $option)
         {
-            $options[$option->getName()][] = $option;
+            $options[$option->getName()->getId()][] = $option;
         }
         return $this->render('SiteProductBundle:Product:index.html.twig', array('product' => $product, 'options' => $options, 'pricegroup' => $priceGroup));
     }

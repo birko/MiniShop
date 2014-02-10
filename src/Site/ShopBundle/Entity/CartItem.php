@@ -2,6 +2,8 @@
 
 namespace Site\ShopBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Description of CartItem
  *
@@ -12,8 +14,8 @@ class CartItem implements \Serializable
     
     protected $amount = 0;
     protected $productID = null;
-    protected $options = array();
-    protected $variations = array();
+    protected $options = null;
+    protected $variations = null;
     protected $price = 0;
     protected $priceVAT = 0;
     protected $name;
@@ -22,34 +24,44 @@ class CartItem implements \Serializable
     
     public function __construct() 
     {
+        $this->options = new ArrayCollection();
     }
 
-    public function serialize() {
-        return serialize(array(
+    public function toArray()
+    {
+        return array(
             $this->amount,
             $this->productID,
             $this->price,
             $this->priceVAT,
             $this->name,
             $this->description,
-            $this->options,
+            $this->getOptions()->toArray(),
             $this->variations,
             $this->changeAmount,
-        ));
+        );
+    }
+    
+    public function fromArray($array)
+    {
+        $this->amount = $array[0];
+        $this->productID = $array[1];
+        $this->price = $array[2];
+        $this->priceVAT = $array[3];   
+        $this->name = $array[4];
+        $this->description = $array[5];
+        $this->setOptions($array[6]);
+        $this->variations = $array[7];
+        $this->changeAmount = $array[8];
+    }
+    
+    public function serialize() {
+        return serialize($this->toArray());
     }
 
     public function unserialize($serialized) {
-        list(
-            $this->amount,
-            $this->productID,
-            $this->price, 
-            $this->priceVAT,     
-            $this->name,
-            $this->description,
-            $this->options,
-            $this->variations,
-            $this->changeAmount
-        ) = unserialize($serialized);
+        $array = unserialize($serialized);
+        $this->fromArray($array);
     }
     
     public function isChangeAmount()
@@ -57,7 +69,7 @@ class CartItem implements \Serializable
         return $this->changeAmount;
     }
     
-    protected function setChangeAmount($changeAmount)
+    public function setChangeAmount($changeAmount)
     {
         $this->changeAmount = $changeAmount;
     }
@@ -133,12 +145,20 @@ class CartItem implements \Serializable
     
     public function setOptions($options = array())
     {
-        $this->options = $options;
+        if(!$this->options)
+        {
+            $this->options = new ArrayCollection();
+        }
+        if(!empty($options))
+        {
+            $this->getOptions()->clear();
+            $this->addOptions($options);
+        }
     }
     
     public function addOption($option)
     {
-        $this->options[$option->getId()] = $option;
+        $this->getOptions()->add($option);
     }
     
     public function addOptions($options = array())
@@ -152,7 +172,7 @@ class CartItem implements \Serializable
         }
     }
     
-    public function getVariatoins()
+    public function getVariations()
     {
         return $this->variations;
     }
@@ -178,66 +198,36 @@ class CartItem implements \Serializable
         }
     }
     
-    public function compareData($data = array())
+    public function compareData($entity)
     {
-        if(!$this->isChangeAmount())
-        {
-            return false;
-        }
-        if($data['productId'] !== $this->getProductId())
+        if($entity->getProductId() !== $this->getProductId())
         {
             return false;
         }
         
-        if($data['price'] != $this->getPrice())
+        if($this->getOptions()->count() == $entity->getOptions()->count())
+        {
+            if($this->getOptions()->count() > 0)
+            {
+                foreach($entity->getOptions() as $key => $option)
+                {
+                    $opts = $this->getOptions();
+                    if( ($opts[$key] && $option && !$opts[$key]->equals($option)) || ($opts[$key] xor $option))
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        else
         {
             return false;
         }
-       
-        if(!empty($data['option']))
+        if(($this->getVariations() && $entity->getVariations() && !$this->getVariations()->equals($entity->getVariations())) || ($entity->getVariations() xor $this->getVariations()))
         {
-            $opts = $this->getOptions();
-            if(!empty($opts ))
-            {
-                foreach($data['option'] as $option)
-                {
-                    if(!in_array($option, array_keys($opts)))
-                    {
-                        $opts = null;
-                        return false;
-                    }
-                }
-            }
-            else
-            {
-                $opts = null;
-                return false;
-            }
-            $opts = null;
+            return false;
         }
-        
-        if(!empty($data['variation']))
-        {
-            $vars = $this->getVariatoins();
-            if(!empty($vars))
-            {
-                foreach($data['variation'] as $variation)
-                {
-                    if(!in_array($variation, array_keys($vars)))
-                    {
-                        $vars = null;
-                        return false;
-                    }
-                }
-            }
-            else
-            {
-                $vars = null;
-                return false;
-            }
-            $vars = null;
-        }
-        return true;       
+        return true;
     }
     
     public function getPriceTotal()

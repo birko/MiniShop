@@ -3,7 +3,7 @@
 namespace Site\ShopBundle\Entity;
 
 /**
- * Description of CartItem
+ * Description of CouponItem
  *
  * @author Birko
  */
@@ -17,36 +17,6 @@ class CouponItem extends CartItem implements \Serializable
         $this->setChangeAmount(false);
     }
     
-    public function serialize() {
-        return serialize(array(
-            $this->amount,
-            $this->productID,
-            $this->price,
-            $this->priceVAT,
-            $this->name,
-            $this->description,
-            $this->options,
-            $this->variations,
-            $this->changeAmount,
-            $this->code,
-        ));
-    }
-
-    public function unserialize($serialized) {
-        list(
-            $this->amount,
-            $this->productID,
-            $this->price, 
-            $this->priceVAT,     
-            $this->name,
-            $this->description,
-            $this->options,
-            $this->variations,
-            $this->changeAmount,
-            $this->code,
-        ) = unserialize($serialized);
-    }
-    
     public function setCode($code)
     {
         $this->code = $code;
@@ -57,11 +27,28 @@ class CouponItem extends CartItem implements \Serializable
         return $this->code;
     }
     
-    public function compareData($data = array())
+    public function toArray()
     {
-        if($data['code'] == $this->getCode())
+        $array = parent::toArray();
+        $array[] = $this->code;
+        return $array;
+    }
+    
+    public function fromArray($array)
+    {
+        parent::fromArray($array);
+        $this->code = $array[9];
+    }
+    
+    public function compareData($data)
+    {
+        if(!($data instanceof CouponItem))
         {
-            return true;
+            return false;
+        }
+        if($data->getCode() != $this->getCode())
+        {
+            return false;
         }
         return parent::compareData($data);     
     }

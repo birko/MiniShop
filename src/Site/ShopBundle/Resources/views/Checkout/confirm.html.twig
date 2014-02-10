@@ -29,6 +29,7 @@
     <table class="table">
         <thead>
             <tr>
+				<th class="image"></th>
                 <th>{% trans %}Title{% endtrans %}</th>
                 <th>{% trans %}Amount{% endtrans %}</th>
                 <th>{% trans %}Price VAT{% endtrans %}</th>
@@ -40,6 +41,8 @@
                 <td>
                     {% trans %}Total Price{% endtrans %}
                 </td>
+				<td>
+				</td>
                 <td>
                 </td>
                 <td>
@@ -51,29 +54,13 @@
         </tfoot>
         <tbody>
             {% for item in cart.items %}
-            <tr>
-                <td>
-                    {{ item.name }}
-                    {% if item.options is not empty %}
-                    <hr />
-                    {% for option in item.options %}
-                      <strong>{{option.name}}: </strong>{{option.value}}, 
-                    {% endfor %}
-                    {% endif %}
-                </td>
-                <td>
-                    {{ item.amount }}
-                </td>
-                <td>
-                    {{ item.priceVAT|number_format(2, ',') }}  € 
-                </td>
-                <td>
-                    {{ item.priceVATTotal|number_format(2, ',') }}  € 
-                </td>
-            </tr>
-            {% endfor %}
+			{% set index = cart.items|keys[loop.index0] %}
+			{% include "SiteShopBundle:Cart:item.html.twig" with {'item': item, 'form': '', 'index': index }%}
+			{% endfor %}
             {% if cart.shipping is not empty %}
             <tr>
+				<td>     
+                </td>
                 <td>
                     {{ cart.shipping.name }}
                 </td>
@@ -89,6 +76,8 @@
             {% endif %}
             {% if cart.payment is not empty %}
             <tr>
+				<td>     
+                </td>
                 <td>
                     {{ cart.payment.name }}
                 </td>

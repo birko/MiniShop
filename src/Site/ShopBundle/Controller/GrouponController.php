@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Site\ShopBundle\Entity\CartItem;
 use Site\ShopBundle\Entity\Cart;
 use Site\ShopBundle\Form\CouponType;
-use Site\ShopBundle\Entity\CouponItem;
+use Site\ShopBundle\Entity\GrouponItem;
 
 class GrouponController extends ShopController
 {  
@@ -27,30 +27,33 @@ class GrouponController extends ShopController
             {
                 $coupon = current($entities);
                 $product = $coupon->getProduct();
-                $data= array('code' => $entity->code);
-                $data['name'] = $product->getTitle(). "({$entity->code})";
-                $data['productId'] = $product->getId();
-                $data['amount'] = $coupon->getAmount();
+                $item = new GrouponItem();
+                $item->setCode($coupon->getCode());
+                $item->setName($product->getTitle() . "({$coupon->getCode()})");
+                $item->getProductId($product->getId());
+                $item->setChangeAmount(true);
+                $item->setAmount($coupon->getAmount());
+                $item->setChangeAmount(false);
                 if($coupon->getPrice()) // price coupon
                 {
-                    $data['price'] = $coupon->getPrice() / $count;
-                    $data['priceVAT'] = $coupon->getPriceVAT() / $count;
+                    $item->setPrice($coupon->getPrice() / $count);
+                    $item->setPriceVAT($coupon->getPriceVAT() / $count);
                 }
                 else  //percentage coupon
                 {
                     $price = $product->getPrices()->first();
                     if($price)
                     {
-                        $data['price'] = $price->getPrice() *  (1 - $coupon->getDiscount());
-                        $data['priceVAT'] = $price->getPriceVAT() * (1 - $coupon->getDiscount());
+                        $item->setPrice($price->getPrice() *  (1 - $coupon->getDiscount()));
+                        $item->setPriceVAT($price->getPriceVAT() * (1 - $coupon->getDiscount()));
                     }
                     else
                     {
-                        $data['price'] = 0;
-                        $data['priceVAT'] = 0;
+                        $item->setPrice(0);
+                        $item->setPriceVAT(0);
                     }
                 }
-                $this->addData($cart, $data);
+                $cart->addItem($item);
                 if($coupon->getPayment())
                 {
                     $cart->setPayment($coupon->getPayment());
@@ -77,44 +80,5 @@ class GrouponController extends ShopController
             'entities' => $entities,
             'product' => $product,
         ));
-    }
-    
-    protected function addData(Cart $cart, $data = array())
-    {
-        if(!empty($data))
-        {
-            $index = $cart->findItem($data);
-            $new = false;
-            if($index === false)
-            {
-                $item = new CouponItem();
-                $index = $cart->getItemsCount();
-                $new = true;
-            }
-            else
-            {
-                $item = $cart->getItem($index);
-                if($item instanceof CouponItem)
-                {
-                    $new = false;
-                }
-                else
-                {
-                    $item = new CouponItem();
-                    $index = $cart->getItemsCount();
-                    $new = true;
-                }
-            }
-            if($item != null && $new)
-            {
-                $item->addAmount($data['amount']);
-                $item->setProductId($data['productId']);
-                $item->setName($data['name']);
-                $item->setPrice($data['price']);
-                $item->setPriceVAT($data['priceVAT']);
-                $item->setCode($data['code']);
-                $cart->addItem($item, $index);
-            }
-        }
     }
 }
