@@ -349,7 +349,10 @@ class CheckoutController extends ShopController
                     $options = array();
                     foreach($item->getOptions() as $option)
                     {
-                        $options[] = "{$option->getName()}: {$option->getValue()}";
+                        if($option)
+                        {
+                            $options[] = "{$option->getName()->getName()}: {$option->getValue()->getValue()}";
+                        }
                     }
                     $orderItem->setOptions(implode(', ', $options));
                 }
