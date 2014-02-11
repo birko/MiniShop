@@ -138,11 +138,14 @@ class CartController extends ShopController
         $form = $this->createForm(new CartItemAddType(), $entity, array('product'=>$product->getId(), 'options' => $options));
         if ($request->getMethod() == 'POST') 
         {
-            $form->bind($request);
             $cart = $this->getCart();
-            if($form->isValid())
+            if(!$request->get('cart-add-small'))
             {
-                $entity->setOptions($entity->getOptions()->toArray());
+                $form->bind($request);
+                if($form->isValid())
+                {
+                    $entity->setOptions($entity->getOptions()->toArray());
+                }
             }
             $cart->addItem($entity);
             $this->setCart($cart);
