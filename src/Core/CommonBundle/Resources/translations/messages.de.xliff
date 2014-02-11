@@ -38,10 +38,6 @@
                 <source>Slug</source>
                 <target>Url</target>
             </trans-unit>
-            <trans-unit id="10">
-                <source>Attributes</source>
-                <target>Attributes</target>
-            </trans-unit>
             <trans-unit id="11">
                 <source>Name</source>
                 <target>Name</target>
@@ -61,22 +57,6 @@
             <trans-unit id="15">
                 <source>Actions</source>
                 <target>Actions</target>
-            </trans-unit>
-            <trans-unit id="16">
-                <source>Create a new attribute</source>
-                <target>Create a new attribute</target>
-            </trans-unit>
-            <trans-unit id="17">
-                <source>Attribute list</source>
-                <target>Attribute list</target>
-            </trans-unit>
-            <trans-unit id="18">
-                <source>Attribute creation</source>
-                <target>Attribute creation</target>
-            </trans-unit>
-            <trans-unit id="19">
-                <source>Attribute edit</source>
-                <target>Attribute edit</target>
             </trans-unit>
             <trans-unit id="20">
                 <source>Back to the list</source>

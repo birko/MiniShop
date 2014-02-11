@@ -9,7 +9,19 @@ class ImageManipulation
         if (extension_loaded('imagick'))
         {
             $im = new \Imagick($file);
-            $im->setImageColorspace(\Imagick::COLORSPACE_RGB);
+            if($file)
+            {
+                if($im->getImageColorspace() == \Imagick::COLORSPACE_CMYK)
+                {
+                    /*$img->setImageColorspace(12);
+                    $icc_rgb = file_get_contents(__dir__ . '/../Resources/' . 'sRGB_v4_ICC_preference.icc');
+                    $im->profileImage('icc', $icc_rgb);
+                    unset($icc_rgb);
+                    $im->setImageColorspace(13);
+                    $im->negateImage(false, \Imagick::CHANNEL_ALL);*/
+                }
+
+            }
             return $im;
         }
         else if(function_exists('imagecreate'))

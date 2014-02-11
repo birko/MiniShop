@@ -99,8 +99,7 @@ class CartController extends ShopController
         }
         if(!$price)
         {
-            //$types = $this->container->getParameter('core.product.price.types');
-            $price = $product->getMinimalPrice($pricegroup->getId());
+            $price = $product->getMinimalPrice($pricegroup);
         }
         
         $entity = new CartItem();
@@ -128,22 +127,25 @@ class CartController extends ShopController
         {
             $product = $em->getRepository('CoreProductBundle:Product')->find($product);
         }
-        
+        $price = $product->getMinimalPrice($pricegroup);
         $entity = new CartItem();
+        $entity->setAmount(1);
+        $entity->setName($product->getTitle());
+        $entity->setProductId($product->getId());
+        $entity->setPrice($price->getPrice());
+        $entity->setPriceVAT($price->getPriceVAT());
         $options = $em->getRepository('CoreProductBundle:ProductOption')->getOptionsNamesByProduct($product->getId());
         $form = $this->createForm(new CartItemAddType(), $entity, array('product'=>$product->getId(), 'options' => $options));
-        
-        $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST') 
         {
             $form->bind($request);
+            $cart = $this->getCart();
             if($form->isValid())
             {
-                $cart = $this->getCart();
                 $entity->setOptions($entity->getOptions()->toArray());
-                $cart->addItem($entity);
-                $this->setCart($cart);
             }
+            $cart->addItem($entity);
+            $this->setCart($cart);
         }
         return $this->redirect($this->generateUrl('cart'));
     }

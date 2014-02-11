@@ -38,10 +38,7 @@
                 <source>Slug</source>
                 <target>Url</target>
             </trans-unit>
-            <trans-unit id="10">
-                <source>Attributes</source>
-                <target>Atribúty</target>
-            </trans-unit>
+
             <trans-unit id="11">
                 <source>Name</source>
                 <target>Meno</target>
@@ -61,22 +58,6 @@
             <trans-unit id="15">
                 <source>Actions</source>
                 <target>Akcie</target>
-            </trans-unit>
-            <trans-unit id="16">
-                <source>Create a new attribute</source>
-                <target>Pridať nový atribút</target>
-            </trans-unit>
-            <trans-unit id="17">
-                <source>Attribute list</source>
-                <target>Zoznam atribútov</target>
-            </trans-unit>
-            <trans-unit id="18">
-                <source>Attribute creation</source>
-                <target>Tvorba atribútu</target>
-            </trans-unit>
-            <trans-unit id="19">
-                <source>Attribute edit</source>
-                <target>Úprava atribútu</target>
             </trans-unit>
             <trans-unit id="20">
                 <source>Back to the list</source>
