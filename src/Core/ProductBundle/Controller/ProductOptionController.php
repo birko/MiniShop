@@ -6,23 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\ProductBundle\Entity\ProductOption;
 use Core\ProductBundle\Form\ProductOptionType;
-use Core\CommonBundle\Controller\TranslateController;
 
 /**
  * ProductOption controller.
  *
  */
-class ProductOptionController extends TranslateController
+class ProductOptionController extends Controller
 {
-    protected function saveTranslation($entity, $culture, $translation) 
-    {
-        $em = $this->getDoctrine()->getManager();
-        $entity->setName($translation->getName());
-        $entity->setValue($translation->getValue());    
-        $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
-        $em->flush();
-    }
     /**
      * Lists all ProductOption entities.
      *
@@ -70,16 +60,13 @@ class ProductOptionController extends TranslateController
     public function newAction($product, $category = null)
     {
         $entity = new ProductOption();
-        $cultures = $this->container->getParameter('core.cultures');
-        $this->loadTranslations($entity, $cultures, new ProductOption());
-        $form   = $this->createForm(new ProductOptionType(), $entity, array('cultures' => $cultures));
+        $form   = $this->createForm(new ProductOptionType(), $entity, array());
 
         return $this->render('CoreProductBundle:ProductOption:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'product'=> $product, 
             'category' => $category,
-            'cultures' => $cultures,
         ));
     }
 
@@ -91,9 +78,7 @@ class ProductOptionController extends TranslateController
     {
         $entity  = new ProductOption();
         $request = $this->getRequest();
-        $cultures = $this->container->getParameter('core.cultures');
-        $this->loadTranslations($entity, $cultures, new ProductOption());
-        $form   = $this->createForm(new ProductOptionType(), $entity, array('cultures' => $cultures));
+        $form   = $this->createForm(new ProductOptionType(), $entity, array());
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -105,7 +90,6 @@ class ProductOptionController extends TranslateController
             }
             $em->persist($entity);
             $em->flush();
-            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('option', array('product'=> $product, 'category' => $category)));
             
@@ -116,7 +100,6 @@ class ProductOptionController extends TranslateController
             'form'   => $form->createView(),
             'product'=> $product, 
             'category' => $category,
-            'cultures' => $cultures,
         ));
     }
 
@@ -133,10 +116,8 @@ class ProductOptionController extends TranslateController
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find ProductOption entity.');
         }
-
-        $cultures = $this->container->getParameter('core.cultures');
-        $this->loadTranslations($entity, $cultures);
-        $editForm   = $this->createForm(new ProductOptionType(), $entity, array('cultures' => $cultures));
+        
+        $editForm   = $this->createForm(new ProductOptionType(), $entity, array());
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreProductBundle:ProductOption:edit.html.twig', array(
@@ -145,7 +126,6 @@ class ProductOptionController extends TranslateController
             'delete_form' => $deleteForm->createView(),
             'product'=> $product, 
             'category' => $category,
-            'cultures' => $cultures,
         ));
     }
 
@@ -163,9 +143,7 @@ class ProductOptionController extends TranslateController
             throw $this->createNotFoundException('Unable to find ProductOption entity.');
         }
 
-        $cultures = $this->container->getParameter('core.cultures');
-        $this->loadTranslations($entity, $cultures);
-        $editForm   = $this->createForm(new ProductOptionType(), $entity, array('cultures' => $cultures));
+        $editForm   = $this->createForm(new ProductOptionType(), $entity, array());
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -175,7 +153,6 @@ class ProductOptionController extends TranslateController
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('option_edit', array('id' => $id, 'product'=> $product, 'category' => $category,)));
         }
@@ -186,7 +163,6 @@ class ProductOptionController extends TranslateController
             'delete_form' => $deleteForm->createView(),
             'product'=> $product, 
             'category' => $category,
-            'cultures' => $cultures,
         ));
     }
 

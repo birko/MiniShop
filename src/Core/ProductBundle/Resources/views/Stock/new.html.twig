@@ -4,7 +4,7 @@
 
 <form action="{{ path('stock_create', {'product': product, 'category': category}) }}" method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
-	{{ form_widget(form.amount) }}
+	{{ form_row(form.amount) }}
     {% if cultures | length > 0 %}
 	{% include 'CoreCommonBundle:Form:translations.html.twig' with {'form': form.translations, 'cultures': cultures } %}
 	{% endif %}
