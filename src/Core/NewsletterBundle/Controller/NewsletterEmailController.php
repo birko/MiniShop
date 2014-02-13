@@ -248,26 +248,31 @@ class NewsletterEmailController extends Controller
             $em = $this->getDoctrine()->getManager();
             $emails = $entity->getEmail();
             $emails = explode(",", $emails);
+            $imported = array();
             if(!empty($emails))
             {
                 foreach($emails as $value)
                 {
                     $email = trim($value);
-                    if(!empty($value))
+                    if(!in_array($email, $imported))
                     {
-                        $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($email);
-                        if(!$entity2)
+                        if(!empty($value))
                         {
-                            $entity2 = new NewsletterEmail();
-                            $entity2->setEmail($email);
-                            
+                            $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($email);
+                            if(!$entity2)
+                            {
+                                $entity2 = new NewsletterEmail();
+                                $entity2->setEmail($email);
+                                
+                            }
+                            $entity2->setEnabled($entity->isEnabled());
+                            foreach($entity->getGroups() as $g)
+                            {
+                                $entity2->addGroup($g);
+                            }
+                            $imported[] = $email;
+                            $em->persist($entity2);
                         }
-                        $entity2->setEnabled($entity->isEnabled());
-                        foreach($entity->getGroups() as $g)
-                        {
-                            $entity2->addGroup($g);
-                        }
-                        $em->persist($entity2);
                     }
                 }
                 $em->flush();
