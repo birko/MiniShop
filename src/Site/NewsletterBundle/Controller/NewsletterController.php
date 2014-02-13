@@ -31,13 +31,20 @@ class NewsletterController extends Controller
             if($form->isValid())
             {
                 $em = $this->getDoctrine()->getManager();
-                if(!$em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($entity->getEmail()))
+                $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($entity->getEmail());
+                if(!$entity2)
                 {
                     $entity->setEnabled(true);
                     $em->persist($entity);
-                    $em->flush();
                     $result = true;
                 }
+                else
+                {
+                    $entity2->setEnabled(true);
+                    $em->persist($entity2);
+                    $result = true;
+                }
+                $em->flush();
             }
         }
         $target= $request->get('_target', null);
@@ -51,5 +58,34 @@ class NewsletterController extends Controller
                 'result' => $result,
             ));
         }
+    }
+    
+    public function unsubscribeAction()
+    {
+        $entity = new NewsletterEmail();
+        $form   = $this->createForm(new BaseNewsletterEmailType(), $entity);    
+        $request = $this->getRequest();
+        $result = false;
+        if($request->getMethod() == "POST")
+        {
+            $form->bind($request);
+            if($form->isValid())
+            {
+                $em = $this->getDoctrine()->getManager();
+                $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($entity->getEmail());
+                if($entity2)
+                {
+                    $entity2->setEnabled(false);
+                    $em->persist($entity2);
+                    $em->flush();
+                    $result = true;
+                }
+            }
+        }
+
+        return $this->render('SiteNewsletterBundle:Newsletter:unsubscribe.html.twig', array(
+            'result' => $result,
+            'form'  => $form->createView()
+        ));
     }
 }
