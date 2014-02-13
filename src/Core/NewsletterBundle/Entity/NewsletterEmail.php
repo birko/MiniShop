@@ -102,7 +102,10 @@ class NewsletterEmail
      */
     public function addGroup($group)
     {
-        $this->getGroups()->add($group);
+        if(!$this->getGroups()->containsKey($group->getId()))
+        {
+            $this->getGroups()->add($group);
+        }
     }
     
     /**

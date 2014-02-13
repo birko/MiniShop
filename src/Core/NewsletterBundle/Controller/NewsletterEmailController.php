@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\NewsletterBundle\Entity\NewsletterEmail;
 use Core\NewsletterBundle\Form\NewsletterEmailType;
+use Core\NewsletterBundle\Form\BatchNewsletterEmailType;
 use Core\NewsletterBundle\Form\SendGroupNewsletterType;
 use Core\CommonBundle\Entity\Filter;
 use Core\CommonBundle\Form\SearchType;
@@ -222,5 +223,60 @@ class NewsletterEmailController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    public function batchAction()
+    {
+        $entity = new NewsletterEmail();
+        $entity->setEnabled(true);
+        $form   = $this->createForm(new BatchNewsletterEmailType(), $entity);
+
+        return $this->render('CoreNewsletterBundle:NewsletterEmail:batch.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        ));
+    }
+    
+    public function batchCreateAction()
+    {
+        $entity = new NewsletterEmail();
+        $entity->setEnabled(true);
+        $form   = $this->createForm(new BatchNewsletterEmailType(), $entity);
+        $form->bind($this->getRequest());
+        if($form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $emails = $entity->getEmail();
+            $emails = explode(",", $emails);
+            if(!empty($emails))
+            {
+                foreach($emails as $value)
+                {
+                    $email = trim($value);
+                    if(!empty($value))
+                    {
+                        $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($email);
+                        if(!$entity2)
+                        {
+                            $entity2 = new NewsletterEmail();
+                            $entity2->setEmail($email);
+                            
+                        }
+                        $entity2->setEnabled($entity->isEnabled());
+                        foreach($entity->getGroups() as $g)
+                        {
+                            $entity2->addGroup($g);
+                        }
+                        $em->persist($entity2);
+                    }
+                }
+                $em->flush();
+            }
+            return $this->redirect($this->generateUrl('newsletter_email'));
+        }
+        return $this->render('CoreNewsletterBundle:NewsletterEmail:batch.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        ));
     }
 }

@@ -366,22 +366,33 @@ class NewsletterController extends Controller
         $count = 0;
         foreach($emails as $row)
         {
+            $send = true;
             $email = ($isQuery) ? $row[0]: $row;
             if(is_object($email))
             {
-                $email = $email->getEmail();
+                if($email->isEnabled())
+                {
+                    $email = $email->getEmail();
+                }
+                else
+                {
+                    $send = false;
+                }
             }
-            $emails = $this->container->getParameter('default.emails');
-            $message = \Swift_Message::newInstance()
-                ->setSubject($newsletter->getTitle())   
-                ->setFrom($emails['default'], $this->container->getParameter('site_title'))   //settings
-                ->setTo(array($email)) //settings admin
-                ->setBody($this->renderView('CoreNewsletterBundle:Email:newsletter.html.twig', array(  
-                        'entity' => $newsletter,
-                    )), 'text/html')
-                ->setContentType("text/html");
-            $this->get('mailer')->send($message);
-            $count++;
+            if($send)
+            {
+                $demails = $this->container->getParameter('default.emails');
+                $message = \Swift_Message::newInstance()
+                    ->setSubject($newsletter->getTitle())   
+                    ->setFrom($demails['default'], $this->container->getParameter('site_title'))   //settings
+                    ->setTo(array($email)) //settings admin
+                    ->setBody($this->renderView('CoreNewsletterBundle:Email:newsletter.html.twig', array(  
+                            'entity' => $newsletter,
+                        )), 'text/html')
+                    ->setContentType("text/html");
+                $this->get('mailer')->send($message);
+                $count++;
+            }
         }
         return $this->render('CoreNewsletterBundle:Newsletter:sendsuccess.html.twig', array(
            'count' => $count,

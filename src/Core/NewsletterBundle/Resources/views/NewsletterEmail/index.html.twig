@@ -21,9 +21,14 @@
     <thead>
         <tr>
             <td colspan="3">
-                <a href="{{ path('newsletter_email_new') }}" class="btn btn-xs btn-primary pull-right">
+				<div class="btn-group pull-right">
+                <a href="{{ path('newsletter_email_new') }}" class="btn btn-xs btn-primary">
                     <span class="glyphicon glyphicon-plus"></span> {%trans%}Create a new email{%endtrans%}
                 </a>
+				<a href="{{ path('newsletter_email_batch') }}" class="btn btn-xs btn-info">
+                    <span class="glyphicon glyphicon-plus"></span> {%trans%}Create batch emails{%endtrans%}
+                </a>
+				</div>
            </td>
         </tr>
         <tr>

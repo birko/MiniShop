@@ -28,3 +28,12 @@ newsletter_email_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "CoreNewsletterBundle:NewsletterEmail:delete" }
     requirements: { _method: post }
+
+newsletter_email_batch:
+    pattern:  /batch
+    defaults: { _controller: "CoreNewsletterBundle:NewsletterEmail:batch" }
+
+newsletter_email_batch_create:
+    pattern:  /batchcreate
+    defaults: { _controller: "CoreNewsletterBundle:NewsletterEmail:batchCreate" }
+    requirements: { _method: post }

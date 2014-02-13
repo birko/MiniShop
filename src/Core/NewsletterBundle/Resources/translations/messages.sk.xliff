@@ -86,6 +86,10 @@
                 <source>Newsletter Email edit</source>
                 <target>Úprava emailu newslettra</target>
             </trans-unit>
+            <trans-unit id="22">
+                <source>Create batch emails</source>
+                <target>Vytvoriť emaily hromadne</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
