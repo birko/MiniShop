@@ -124,6 +124,8 @@ class NewsletterEmailRepository extends EntityRepository
         $qb = $this->getEmailsQueryBuilder()
             ->select("ne, ng")
             ->leftJoin("ne.groups", "ng");
+        $qb->andWhere($qb->expr()->like("lower(ne.email)", ':email'))
+            ->setParameter('email', strtolower($email));
         return $qb->getQuery()->getOneOrNullResult();
     }
 }
