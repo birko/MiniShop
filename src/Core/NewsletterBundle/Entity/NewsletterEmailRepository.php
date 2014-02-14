@@ -108,7 +108,7 @@ class NewsletterEmailRepository extends EntityRepository
                 foreach($words as $word)
                 {
                     $where = $queryBuilder->expr()->orX(
-                        $queryBuilder->expr()->like("ne.email", ':word1'.$i)
+                        $queryBuilder->expr()->like("lower(ne.email)", ':word1'.$i)
                     );
                     $queryBuilder->andWhere($where);
                     $queryBuilder->setParameter('word1'.$i, '%' . strtolower($word) . '%');
