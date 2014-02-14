@@ -124,6 +124,6 @@ class NewsletterEmailRepository extends EntityRepository
         $qb = $this->getEmailsQueryBuilder()
             ->select("ne, ng")
             ->leftJoin("ne.groups", "ng");
-        return $qb->getQuery()->getSingleResult();
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

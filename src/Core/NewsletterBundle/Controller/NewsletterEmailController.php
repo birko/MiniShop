@@ -256,7 +256,7 @@ class NewsletterEmailController extends Controller
                     $email = trim($value);
                     if(!in_array($email, $imported))
                     {
-                        if(!empty($value))
+                        if(!empty($email))
                         {
                             $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->getEmail($email);
                             if(!$entity2)
