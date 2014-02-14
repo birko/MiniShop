@@ -12,7 +12,7 @@ use Core\CommonBundle\Entity\Filter;
  * repository methods below.
  */
 class NewsletterEmailRepository extends EntityRepository
-{
+{    
     public function getEmailsQueryBuilder()
     {
         $querybuilder = $this->getEntityManager()->createQueryBuilder()
@@ -117,5 +117,13 @@ class NewsletterEmailRepository extends EntityRepository
             }
         }
         return $queryBuilder;
+    }
+    
+    public function getEmail($email)
+    {
+        $qb = $this->getEmailsQueryBuilder()
+            ->select("ne, ng")
+            ->leftJoin("ne.groups", "ng");
+        return $qb->getQuery()->getSingleResult();
     }
 }
