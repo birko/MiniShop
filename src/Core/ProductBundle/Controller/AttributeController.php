@@ -59,11 +59,18 @@ class AttributeController extends Controller
     public function newAction($product, $category = null)
     {
         $entity = new Attribute();
-        $form   = $this->createForm(new AttributeType(), $entity);
+        $flow = $this->get('core_product.form.flow.attributeFlow'); // must match the flow's service id
+        $flow->reset(); 
+        $flow->bind($entity);
+
+        // form of the current step
+        $form = $flow->createForm(array());
+        //$form   = $this->createForm(new AttributeType(), $entity);
 
         return $this->render('CoreProductBundle:Attribute:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'flow' => $flow,
             'product'=> $product, 
             'category' => $category,
         ));
@@ -76,25 +83,40 @@ class AttributeController extends Controller
     public function createAction(Request $request, $product, $category = null)
     {
         $entity  = new Attribute();
-        $form   = $this->createForm(new AttributeType(), $entity);
-        $form->bind($request);
+        $flow = $this->get('core_product.form.flow.attributeFlow'); // must match the flow's service id
+        $flow->bind($entity);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
-            if($productEntity != null)
+        // form of the current step
+        $form = $flow->createForm(array());
+        //$form   = $this->createForm(new AttributeType(), $entity);
+        //$form->bind($request);
+
+        if ($flow->isValid($form)) 
+        {
+            $flow->saveCurrentStepData($form);
+            if ($flow->nextStep()) 
             {
-                $entity->setProduct($productEntity);
+                $form = $flow->createForm(array('attributeName' => $entity->getName()->getId()));
+            } 
+            else
+            {
+                $em = $this->getDoctrine()->getManager();
+                $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
+                if($productEntity != null)
+                {
+                    $entity->setProduct($productEntity);
+                }
+                $em->persist($entity);
+                $em->flush();
+                $flow->reset();
+                return $this->redirect($this->generateUrl('attribute', array('product'=> $product, 'category' => $category)));
             }
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('attribute', array('product'=> $product, 'category' => $category)));
         }
 
         return $this->render('CoreProductBundle:Attribute:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'flow'   => $flow,
             'category' => $category,
             'product' => $product,
         ));
@@ -114,12 +136,19 @@ class AttributeController extends Controller
             throw $this->createNotFoundException('Unable to find Attribute entity.');
         }
 
-        $editForm   = $this->createForm(new AttributeType(), $entity);
+        $flow = $this->get('core_product.form.flow.attributeFlow'); // must match the flow's service id
+        $flow->reset(); 
+        $flow->bind($entity);
+
+        // form of the current step
+        $editForm = $flow->createForm(array());
+        //$editForm   = $this->createForm(new AttributeType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreProductBundle:Attribute:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
+            'flow'        => $flow,  
             'delete_form' => $deleteForm->createView(),
             'product'=> $product, 
             'category' => $category,
@@ -141,19 +170,34 @@ class AttributeController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm   = $this->createForm(new AttributeType(), $entity);
-        $editForm->bind($request);
+        $flow = $this->get('core_product.form.flow.attributeFlow'); // must match the flow's service id
+        $flow->bind($entity);
 
-        if ($editForm->isValid()) {
-            $em->persist($entity);
-            $em->flush();
+        // form of the current step
+        $editForm = $flow->createForm(array());
+        //$editForm   = $this->createForm(new AttributeType(), $entity);
+        //$editForm->bind($request);
 
-            return $this->redirect($this->generateUrl('attribute_edit', array('id' => $id, 'product'=> $product, 'category' => $category,)));
+        if ($flow->isValid($editForm)) {
+            $flow->saveCurrentStepData($editForm);
+            if ($flow->nextStep()) 
+            {
+                // form for the next step
+                $editForm = $flow->createForm(array('attributeName' => $entity->getName()->getId()));
+            } 
+            else
+            {
+                $em->persist($entity);
+                $em->flush();
+                $flow->reset();
+                return $this->redirect($this->generateUrl('attribute_edit', array('id' => $id, 'product'=> $product, 'category' => $category,)));
+                
+            }
         }
-
         return $this->render('CoreProductBundle:Attribute:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
+            'flow'        => $flow,
             'delete_form' => $deleteForm->createView(),
             'product'=> $product, 
             'category' => $category,

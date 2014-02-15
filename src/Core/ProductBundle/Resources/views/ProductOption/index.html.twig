@@ -32,8 +32,8 @@
             <td>
                 <div class="btn-group">
                     <a href="{{ path('option_edit', { 'id': entity.id, 'category': category, 'product': product }) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
-                    <a href="{{ path('option_up', { 'id': entity.id, 'position': 1, 'product': product, 'category': category }) }}" class="move-up btn btn-xs"><span class="glyphicon glyphicon-arrow-up"></span> {% trans %}Move up{% endtrans %}</a>
-                    <a href="{{ path('option_down', { 'id': entity.id, 'position': 1, 'product': product, 'category': category }) }}" class="move-down btn btn-xs"><span class="glyphicon glyphicon-arrow-down"></span> {% trans %}Move down{% endtrans %}</a>
+                    <a href="{{ path('option_up', { 'id': entity.id, 'position': 1, 'product': product, 'category': category }) }}" class="move-up btn btn-default btn-xs"><span class="glyphicon glyphicon-arrow-up"></span> {% trans %}Move up{% endtrans %}</a>
+                    <a href="{{ path('option_down', { 'id': entity.id, 'position': 1, 'product': product, 'category': category }) }}" class="move-down btn btn-default btn-xs"><span class="glyphicon glyphicon-arrow-down"></span> {% trans %}Move down{% endtrans %}</a>
                 </div>
             </td>
         </tr>

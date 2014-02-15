@@ -13,27 +13,34 @@ class AttributeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $attributeName = $options['attributeName'];
-        $builder->add('name', 'entity', array(
-            'class' => 'CoreAttributeBundle:AttributeName',
-            'expanded' => false,
-            'required' => true,
-            'multiple' => false,
-            'query_builder' => function(EntityRepository $er) {
-                $qb = $er->getNamesQueryBuilder();
-                return $qb;
-            },
-        ));
-        $builder->add('value', 'entity', array(
-            'class' => 'CoreAttributeBundle:AttributeValue',
-            'expanded' => false,
-            'required' => true,
-            'multiple' => false,
-            'group_by' => 'attributeName',
-            'query_builder' => function(EntityRepository $er) use ($attributeName) {
-                $qb = $er->getValuesByNameQueryBuilder($attributeName);
-                return $qb;
-            },
-        ));
+        switch ($options['flow_step']) 
+        {
+            case 1:
+                $builder->add('name', 'entity', array(
+                    'class' => 'CoreAttributeBundle:AttributeName',
+                    'expanded' => false,
+                    'required' => true,
+                    'multiple' => false,
+                    'query_builder' => function(EntityRepository $er) {
+                        $qb = $er->getNamesQueryBuilder();
+                        return $qb;
+                    },
+                ));
+                break;
+            case 2:
+                $builder->add('value', 'entity', array(
+                    'class' => 'CoreAttributeBundle:AttributeValue',
+                    'expanded' => false,
+                    'required' => true,
+                    'multiple' => false,
+                    'group_by' => 'attributeName',
+                    'query_builder' => function(EntityRepository $er) use ($attributeName) {
+                        $qb = $er->getValuesByNameQueryBuilder($attributeName);
+                        return $qb;
+                    },
+                ));
+                break;
+        }
     }
     
     public function getName()
@@ -43,6 +50,7 @@ class AttributeType extends AbstractType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'Core\ProductBundle\Entity\Attribute',
             'attributeName'=> null,

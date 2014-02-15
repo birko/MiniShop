@@ -76,7 +76,7 @@ class ProductOption implements \Serializable
      *
      * @param AttributeName $name
      */
-    public function setName(AttributeName $name)
+    public function setName($name)
     {
         $this->name = $name;
     }
@@ -96,7 +96,7 @@ class ProductOption implements \Serializable
      *
      * @param AttributeValue $value
      */
-    public function setValue(AttributeValue $value)
+    public function setValue($value)
     {
         $this->value = $value;
     }

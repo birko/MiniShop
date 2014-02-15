@@ -4,7 +4,15 @@
 
 <form action="{{ path('option_create', {'product': product, 'category': category}) }}" method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
-	{{ form_widget(form) }}
+	{% include 'CraueFormFlowBundle:FormFlow:stepList.html.twig' %}
+	{% if flow.getCurrentStepNumber() == 1 %}
+	{{ form_row(form.name) }}
+	{% elseif flow.getCurrentStepNumber() == 2 %}
+	{{ form_row(form.value) }}
+	{% else %}
+	{{ form_row(form.amount) }}
+	{% endif %}
+	{{ form_rest(form) }}
     <p>
         <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>{% trans %}Create{% endtrans %}</button>
         <a href="{{ path('option',{'product': product, 'category': category}) }}"> {% trans %}Back to the list{% endtrans %}</a>

@@ -60,11 +60,18 @@ class ProductOptionController extends Controller
     public function newAction($product, $category = null)
     {
         $entity = new ProductOption();
-        $form   = $this->createForm(new ProductOptionType(), $entity, array());
+        $flow = $this->get('core_product.form.flow.productOptionFlow'); // must match the flow's service id
+        $flow->reset(); 
+        $flow->bind($entity);
+
+        // form of the current step
+        $form = $flow->createForm(array());
+        //$form   = $this->createForm(new ProductOptionType(), $entity, array());
 
         return $this->render('CoreProductBundle:ProductOption:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'flow'   => $flow,
             'product'=> $product, 
             'category' => $category,
         ));
@@ -77,27 +84,42 @@ class ProductOptionController extends Controller
     public function createAction($product, $category = null)
     {
         $entity  = new ProductOption();
+        $flow = $this->get('core_product.form.flow.productOptionFlow'); // must match the flow's service id
+        $flow->bind($entity);
+
+        // form of the current step
+        $form = $flow->createForm(array());
         $request = $this->getRequest();
-        $form   = $this->createForm(new ProductOptionType(), $entity, array());
-        $form->bind($request);
+        //$form   = $this->createForm(new ProductOptionType(), $entity, array());
+        //$form->bind($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
-            if($productEntity != null)
+        if ($flow->isValid($form)) 
+        {
+            $flow->saveCurrentStepData($form);
+            if ($flow->nextStep()) 
             {
-                $entity->setProduct($productEntity);
+                // form for the next step
+                $form = $flow->createForm(array('attributeName' => $entity->getName()->getId()));
+            } 
+            else
+            {
+                $em = $this->getDoctrine()->getManager();
+                $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
+                if($productEntity != null)
+                {
+                    $entity->setProduct($productEntity);
+                }
+                $em->persist($entity);
+                $em->flush();
+                $flow->reset();
+                return $this->redirect($this->generateUrl('option', array('product'=> $product, 'category' => $category)));
             }
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('option', array('product'=> $product, 'category' => $category)));
-            
         }
 
         return $this->render('CoreProductBundle:ProductOption:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'flow'   => $flow,
             'product'=> $product, 
             'category' => $category,
         ));
@@ -117,12 +139,19 @@ class ProductOptionController extends Controller
             throw $this->createNotFoundException('Unable to find ProductOption entity.');
         }
         
-        $editForm   = $this->createForm(new ProductOptionType(), $entity, array());
+        $flow = $this->get('core_product.form.flow.productOptionFlow'); // must match the flow's service id
+        $flow->reset(); 
+        $flow->bind($entity);
+
+        // form of the current step
+        $editForm = $flow->createForm(array());
+        //$editForm   = $this->createForm(new ProductOptionType(), $entity, array());
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('CoreProductBundle:ProductOption:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
+            'flow'        => $flow,
             'delete_form' => $deleteForm->createView(),
             'product'=> $product, 
             'category' => $category,
@@ -143,23 +172,38 @@ class ProductOptionController extends Controller
             throw $this->createNotFoundException('Unable to find ProductOption entity.');
         }
 
-        $editForm   = $this->createForm(new ProductOptionType(), $entity, array());
+        $flow = $this->get('core_product.form.flow.productOptionFlow'); // must match the flow's service id
+        $flow->bind($entity);
+
+        // form of the current step
+        $editForm = $flow->createForm(array());
+        //$editForm   = $this->createForm(new ProductOptionType(), $entity, array());
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
 
-        $editForm->bind($request);
+        //$editForm->bind($request);
 
-        if ($editForm->isValid()) {
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('option_edit', array('id' => $id, 'product'=> $product, 'category' => $category,)));
+        if ($flow->isValid($editForm)) {
+            $flow->saveCurrentStepData($editForm);
+            if ($flow->nextStep()) 
+            {
+                // form for the next step
+                $editForm = $flow->createForm(array('attributeName' => $entity->getName()->getId()));
+            } 
+            else
+            {
+                $em->persist($entity);
+                $em->flush();
+                $flow->reset();
+                return $this->redirect($this->generateUrl('option_edit', array('id' => $id, 'product'=> $product, 'category' => $category,)));
+                
+            }
         }
-
         return $this->render('CoreProductBundle:ProductOption:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
+            'flow'        => $flow, 
             'delete_form' => $deleteForm->createView(),
             'product'=> $product, 
             'category' => $category,

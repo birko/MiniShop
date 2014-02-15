@@ -4,7 +4,13 @@
 
 <form action="{{ path('attribute_update', { 'id': entity.id, 'category': category, 'product': product }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_errors(edit_form) }}
-	{{ form_widget(edit_form) }}
+	{% include 'CraueFormFlowBundle:FormFlow:stepList.html.twig' %}
+	{% if flow.getCurrentStepNumber() == 1 %}
+	{{ form_row(edit_form.name) }}
+	{% else %}
+	{{ form_row(edit_form.value) }}
+	{% endif %}
+	{{ form_rest(edit_form) }}
     <p>
         <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> {% trans %}Edit{% endtrans %}</button>
         <a href="{{ path('attribute', {'category': category, 'product': product }) }}"> {% trans %}Back to the list{% endtrans %}</a>
