@@ -19,14 +19,17 @@
     <tfoot>
     </tfoot>
     <tbody>
+	{% set minishopkeys = minishop|keys %}
     {% for entity in entities %}
         <tr>
             <td>{{ entity.title }}</td>
             <td>
                 <div class="btn-group">
                     <a href="{{ path('content_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
-                    <a href="{{ path('content_media', { 'content': entity.id, 'category': category }) }}" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-list"></span> {% trans %}Media{% endtrans %}</a>
-                </div>
+                    {% if 'media' in minishopkeys %}
+					<a href="{{ path('content_media', { 'content': entity.id, 'category': category }) }}" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-list"></span> {% trans %}Media{% endtrans %}</a>
+					{% endif %}
+				</div>
             </td>
         </tr>
     {% endfor %}

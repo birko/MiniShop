@@ -1,0 +1,100 @@
+#attribute: core_attribute:
+#attribute:     resource: "@CoreAttributeBundle/Resources/config/routing.yml"
+#attribute:     prefix:   /admin
+#attribute: 
+#banner: core_banner:
+#banner:     resource: "@CoreBannerBundle/Resources/config/routing.yml"
+#banner:     prefix:   /admin
+#banner: 
+#category: CoreCategoryBundle:
+#category:     resource: "@CoreCategoryBundle/Resources/config/routing.yml"
+#category:     prefix:   /admin
+#category: 
+#common: CoreCommonBundle:
+#common:     resource: "@CoreCommonBundle/Resources/config/routing.yml"
+#common:     prefix:   /admin
+#common: 
+#content: CoreContentBundle:
+#content:     resource: "@CoreContentBundle/Resources/config/routing.yml"
+#content:     prefix:   /admin
+#content: 
+#marketing: core_marketing:
+#marketing:     resource: "@CoreMarketingBundle/Resources/config/routing.yml"
+#marketing:     prefix:   /admin
+#marketing: 
+#media: CoreMediaBundle:
+#media:     resource: "@CoreMediaBundle/Resources/config/routing.yml"
+#media:     prefix:   /admin
+#media: 
+#newsletter: core_newsletter:
+#newsletter:     resource: "@CoreNewsletterBundle/Resources/config/routing.yml"
+#newsletter:     prefix:   /admin
+#newsletter: 
+#price: core_price:
+#price:     resource: "@CorePriceBundle/Resources/config/routing.yml"
+#price:     prefix:   /admin
+#price: 
+#product: CoreProductBundle:
+#product:     resource: "@CoreProductBundle/Resources/config/routing.yml"
+#product:     prefix:   /admin
+#product: 
+#shop: CoreShopBundle:
+#shop:     resource: "@CoreShopBundle/Resources/config/routing.yml"
+#shop:     prefix:   /admin
+#shop: 
+#user: CoreUserBundle:
+#user:     resource: "@CoreUserBundle/Resources/config/routing.yml"
+#user:     prefix:   /admin
+#user: 
+#usertext: core_user_text:
+#usertext:     resource: "@CoreUserTextBundle/Resources/config/routing.yml"
+#usertext:     prefix:   /admin
+#usertext:     
+#vendor: CoreVendorBundle:
+#vendor:     resource: "@CoreVendorBundle/Resources/config/routing.yml"
+#vendor:     prefix:   /admin
+#vendor: 
+#banner: site_banner:
+#banner:     resource: "@SiteBannerBundle/Resources/config/routing.yml"
+#banner:     prefix:   /
+#banner: 
+#content: SiteContentBundle:
+#content:     resource: "@SiteContentBundle/Resources/config/routing.yml"
+#content:     prefix:   /
+#content: 
+#newsletter: site_newsletter:
+#newsletter:     resource: "@SiteNewsletterBundle/Resources/config/routing.yml"
+#newsletter:     prefix:   /
+#newsletter: 
+#marketing: site_marketing:
+#marketing:     resource: "@SiteMarketingBundle/Resources/config/routing.yml"
+#marketing:     prefix:   /
+#marketing: 
+#product: SiteProductBundle:
+#product:     resource: "@SiteProductBundle/Resources/config/routing.yml"
+#product:     prefix:   /
+#product: 
+#shop: SiteShopBundle:
+#shop:     resource: "@SiteShopBundle/Resources/config/routing.yml"
+#shop:     prefix:   /
+#shop: 
+#user: SiteUserBundle:
+#user:     resource: "@SiteUserBundle/Resources/config/routing.yml"
+#user:     prefix:   /
+#user: 
+#vendor: site_vendor:
+#vendor:     resource: "@SiteVendorBundle/Resources/config/routing.yml"
+#vendor:     prefix:   /
+#vendor:     
+#common: site_default:
+#common:     resource: "@SiteDefaultBundle/Resources/config/routing.yml"
+#common:     prefix:   /
+#common: 
+#category: SiteCategoryBundle:
+#category:     resource: "@SiteCategoryBundle/Resources/config/routing.yml"
+#category:     prefix:   /
+#category: 
+# Internal routing configuration to handle ESI
+#_internal:
+#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#   prefix:   /_internal

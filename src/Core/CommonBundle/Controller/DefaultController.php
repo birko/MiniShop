@@ -12,4 +12,12 @@ class DefaultController extends Controller
     {
         return $this->render('CoreCommonBundle:Default:index.html.twig');
     }
+    
+    public function sidebarAction()
+    {
+        $minishop  = $this->container->getParameter('minishop');
+        return $this->render('CoreCommonBundle:Default:sidebar.html.twig', array(
+            'minishop' => $minishop,
+        ));
+    }
 }

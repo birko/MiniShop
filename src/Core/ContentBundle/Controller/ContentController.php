@@ -44,9 +44,11 @@ class ContentController extends TranslateController
             100/*limit per page*/
         );
 
+        $minishop  = $this->container->getParameter('minishop');
         return $this->render('CoreContentBundle:Content:index.html.twig', array(
             'entities' => $pagination,
             'category' => $category,
+            'minishop' => $minishop,
         ));
     }
 

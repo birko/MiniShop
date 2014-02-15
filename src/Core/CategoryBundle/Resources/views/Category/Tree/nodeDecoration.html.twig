@@ -1,3 +1,4 @@
+{% set minishopkeys = minishop|keys %}
 <div class="tree-node">
     <div class="node-text pull-left">
     {% if node.enabled %}
@@ -18,9 +19,15 @@
         <div class="btn-group">
           <a class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown" href="#">{% trans %}Content{% endtrans %} <span class="caret"></span></a>
             <ul class="dropdown-menu">
+                {% if 'content' in minishopkeys %}
                 <li><a href="{{ path('content', { 'category': node.id }) }}" class=""><span class="glyphicon glyphicon-list"></span> {% trans %}Texts{% endtrans %}</a></li>
+                {% endif %}
+                {% if 'product' in minishopkeys %}
                 <li><a href="{{ path('product', { 'category': node.id }) }}" class=""><span class="glyphicon glyphicon-list"></span> {% trans %}Products{% endtrans %}</a></li>
+                {% endif %}
+                {% if 'category' in minishopkeys %}
                 <li><a href="{{ path('banner', { 'category': node.id }) }}" class=""><span class="glyphicon glyphicon-list"></span> {% trans %}Banners{% endtrans %}</a></li>
+                {% endif %}
             </ul>
         </div>
         <div class="btn-group">

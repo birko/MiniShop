@@ -6,46 +6,6 @@ core_banner:
     resource: "@CoreBannerBundle/Resources/config/routing.yml"
     prefix:   /admin
 
-core_price:
-    resource: "@CorePriceBundle/Resources/config/routing.yml"
-    prefix:   /admin
-
-core_marketing:
-    resource: "@CoreMarketingBundle/Resources/config/routing.yml"
-    prefix:   /admin
-
-core_user_text:
-    resource: "@CoreUserTextBundle/Resources/config/routing.yml"
-    prefix:   /admin
-    
-core_newsletter:
-    resource: "@CoreNewsletterBundle/Resources/config/routing.yml"
-    prefix:   /admin
-
-CoreVendorBundle:
-    resource: "@CoreVendorBundle/Resources/config/routing.yml"
-    prefix:   /admin
-    
-CoreUserBundle:
-    resource: "@CoreUserBundle/Resources/config/routing.yml"
-    prefix:   /admin
-
-CoreMediaBundle:
-    resource: "@CoreMediaBundle/Resources/config/routing.yml"
-    prefix:   /admin
-
-CoreShopBundle:
-    resource: "@CoreShopBundle/Resources/config/routing.yml"
-    prefix:   /admin
-
-CoreProductBundle:
-    resource: "@CoreProductBundle/Resources/config/routing.yml"
-    prefix:   /admin
-
-CoreContentBundle:
-    resource: "@CoreContentBundle/Resources/config/routing.yml"
-    prefix:   /admin
-
 CoreCategoryBundle:
     resource: "@CoreCategoryBundle/Resources/config/routing.yml"
     prefix:   /admin
@@ -54,12 +14,72 @@ CoreCommonBundle:
     resource: "@CoreCommonBundle/Resources/config/routing.yml"
     prefix:   /admin
 
+CoreContentBundle:
+    resource: "@CoreContentBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+core_marketing:
+    resource: "@CoreMarketingBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+CoreMediaBundle:
+    resource: "@CoreMediaBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+core_newsletter:
+    resource: "@CoreNewsletterBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+core_price:
+    resource: "@CorePriceBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+CoreProductBundle:
+    resource: "@CoreProductBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+CoreShopBundle:
+    resource: "@CoreShopBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+CoreUserBundle:
+    resource: "@CoreUserBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+core_user_text:
+    resource: "@CoreUserTextBundle/Resources/config/routing.yml"
+    prefix:   /admin
+    
+CoreVendorBundle:
+    resource: "@CoreVendorBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
 site_banner:
     resource: "@SiteBannerBundle/Resources/config/routing.yml"
     prefix:   /
 
+SiteContentBundle:
+    resource: "@SiteContentBundle/Resources/config/routing.yml"
+    prefix:   /
+
+site_newsletter:
+    resource: "@SiteNewsletterBundle/Resources/config/routing.yml"
+    prefix:   /
+
 site_marketing:
     resource: "@SiteMarketingBundle/Resources/config/routing.yml"
+    prefix:   /
+
+SiteProductBundle:
+    resource: "@SiteProductBundle/Resources/config/routing.yml"
+    prefix:   /
+
+SiteShopBundle:
+    resource: "@SiteShopBundle/Resources/config/routing.yml"
+    prefix:   /
+
+SiteUserBundle:
+    resource: "@SiteUserBundle/Resources/config/routing.yml"
     prefix:   /
 
 site_vendor:
@@ -70,40 +90,11 @@ site_default:
     resource: "@SiteDefaultBundle/Resources/config/routing.yml"
     prefix:   /
 
-site_newsletter:
-    resource: "@SiteNewsletterBundle/Resources/config/routing.yml"
-    prefix:   /
-    
-SiteUserBundle:
-    resource: "@SiteUserBundle/Resources/config/routing.yml"
-    prefix:   /
-
-SiteProductBundle:
-    resource: "@SiteProductBundle/Resources/config/routing.yml"
-    prefix:   /
-
-SiteContentBundle:
-    resource: "@SiteContentBundle/Resources/config/routing.yml"
-    prefix:   /
-
 SiteCategoryBundle:
     resource: "@SiteCategoryBundle/Resources/config/routing.yml"
-    prefix:   /
-
-SiteShopBundle:
-    resource: "@SiteShopBundle/Resources/config/routing.yml"
     prefix:   /
 
 # Internal routing configuration to handle ESI
 #_internal:
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #   prefix:   /_internal
-
-# Internal routing configuration to handle ESI
-# ****** WARNING ******
-# This route should be enabled with caution as it can open a security vulnerability
-# see http://symfony.com/blog/security-release-symfony-2-0-20-and-2-1-5-released for more information
-# ****** WARNING ******
-#_internal:
-#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
-#    prefix:   /_internal

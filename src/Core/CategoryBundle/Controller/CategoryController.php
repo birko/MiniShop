@@ -59,6 +59,7 @@ class CategoryController extends TranslateController
             $session->set('last_category_menu', $menu);
             $em = $this->getDoctrine()->getManager();
             
+            $minishop  = $this->container->getParameter('minishop');
             $controller =$this;
             $options = array(
                 'decorate' => true,
@@ -68,8 +69,11 @@ class CategoryController extends TranslateController
                     return $controller->renderView("CoreCategoryBundle:Category:Tree/childOpen.html.twig", array('node'=> $node));
                 },
                 'childClose' => $this->renderView("CoreCategoryBundle:Category:Tree/childClose.html.twig"),
-                'nodeDecorator' => function($node) use ($controller) {
-                    return $controller->renderView("CoreCategoryBundle:Category:Tree/nodeDecoration.html.twig", array("node" => $node));
+                'nodeDecorator' => function($node) use ($controller, $minishop) {
+                    return $controller->renderView("CoreCategoryBundle:Category:Tree/nodeDecoration.html.twig", array(
+                        "node" => $node,
+                        "minishop" => $minishop,
+                    ));
                 },
             );
 

@@ -64,12 +64,12 @@ security:
         - { path: ^/admin/user/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/user/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/[a-z]+/user/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/[a-z]+/user/new, roles: IS_AUTHENTICATED_ANONYMOUSLY } 
-        - { path: ^/[a-z]+/user/create, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/[a-z]+/user/locale, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/[a-z]+/user/password_recovery, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/[a-z]+/user, roles: ROLE_USER }
-        - { path: ^/[a-z]+/order, roles: ROLE_USER }
-        - { path: ^/[a-z]+/address, roles: ROLE_USER }
+        #user: - { path: ^/[a-z]+/user/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #user: - { path: ^/[a-z]+/user/new, roles: IS_AUTHENTICATED_ANONYMOUSLY } 
+        #user: - { path: ^/[a-z]+/user/create, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #user: - { path: ^/[a-z]+/user/locale, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #user: - { path: ^/[a-z]+/user/password_recovery, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #user: - { path: ^/[a-z]+/user, roles: ROLE_USER }
+        #shop: - { path: ^/[a-z]+/order, roles: ROLE_USER }
+        #shop: - { path: ^/[a-z]+/address, roles: ROLE_USER }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -38,11 +38,11 @@ assetic:
     debug:          "%kernel.debug%"
     use_controller: false
     bundles:        
-        - SiteCategoryBundle
-        - SiteDefaultBundle
-        - SiteMarketingBundle
-        - SiteProductBundle
-        - SiteUserBundle
+        #category: - SiteCategoryBundle
+        #common: - SiteDefaultBundle
+        #marketing: - SiteMarketingBundle
+        #product: - SiteProductBundle
+        #user: - SiteUserBundle
     #java: /usr/bin/java
     filters:
         cssrewrite: ~

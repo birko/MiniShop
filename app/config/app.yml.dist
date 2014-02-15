@@ -1,42 +1,42 @@
-core_common:        
-    emails:
-        default: "%site_email%"
-        contact: "%site_email%"
-        claim:  "%site_email%"
-        order:  "%site_email%"
-        
-core_category:
-    menu: [Content]
-    
-core_media:
-    images:
-        thumb:
-          name: thumb
-          width: 160
-          height: 120
-          method: resize
-          fill: [255, 255, 255]
-        small:
-          name: small
-          width: 240
-          height: 180
-          method: resize
-          fill: [255, 255, 255]
-        large:
-          name: large
-          width: 800
-          height: 600
-          method: resize
-          fill: [255, 255, 255]
-
-core_product:
-    images:
-        - thumb
-        - small
-        - large
-        
-core_content:
-    images:
-        - thumb
-        - small
-        - large
+#category: core_category:
+#category:     menu: [Content]
+#category: 
+#common: core_common:        
+#common:     emails:
+#common:         default: "%site_email%"
+#common:         contact: "%site_email%"
+#common:         claim:  "%site_email%"
+#common:         order:  "%site_email%"
+#common: 
+#content: core_content:
+#content:     images:
+#content:         - thumb
+#content:         - small
+#content:         - large    
+#media: core_media:
+#media:     images:
+#media:         thumb:
+#media:           name: thumb
+#media:           width: 160
+#media:           height: 120
+#media:           method: resize
+#media:           fill: [255, 255, 255]
+#media:         small:
+#media:           name: small
+#media:           width: 240
+#media:           height: 180
+#media:           method: resize
+#media:           fill: [255, 255, 255]
+#media:         large:
+#media:           name: large
+#media:           width: 800
+#media:           height: 600
+#media:           method: resize
+#media:           fill: [255, 255, 255]
+#media: 
+#product: core_product:
+#product:     images:
+#product:         - thumb
+#product:         - small
+#product:         - large
+#product:         

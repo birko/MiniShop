@@ -83,10 +83,12 @@ class ProductController extends TranslateController
             100 /*limit per page*/
         );
 
+        $minishop  = $this->container->getParameter('minishop');
         return $this->render('CoreProductBundle:Product:index.html.twig', array(
             'entities' => $pagination,
             'category' => $category,
             'filter' => $form->createView(),
+            'minishop' => $minishop,
         ));
     }
 
