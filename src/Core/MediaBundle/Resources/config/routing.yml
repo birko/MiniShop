@@ -2,16 +2,25 @@ media:
     pattern:  /media
     defaults: { _controller: "CoreMediaBundle:Media:index"}
 
+media_new:
+    pattern:  /media/new/{type}
+    defaults: { _controller: "CoreMediaBundle:Media:new"}
+
+media_create:
+    pattern:  /media/create/{type}
+    defaults: { _controller: "CoreMediaBundle:Media:create"}
+    requirements: { _method: post }
+
 media_edit:
-    pattern:  /{id}/edit
+    pattern:  /media/{id}/edit
     defaults: { _controller: "CoreMediaBundle:Media:edit"}
 
 media_update:
-    pattern:  /{id}/update
+    pattern:  /media/{id}/update
     defaults: { _controller: "CoreMediaBundle:Media:update"}
     requirements: { _method: post }
 
 media_delete:
-    pattern:  /{id}/delete
+    pattern:  /media/{id}/delete
     defaults: { _controller: "CoreMediaBundle:Media:delete"}
     requirements: { _method: post }

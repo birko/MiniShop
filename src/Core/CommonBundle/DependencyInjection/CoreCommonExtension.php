@@ -21,6 +21,11 @@ class CoreCommonExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+        
+        $nws = ($container->hasParameter('minishop')) ? $container->getParameter('minishop') : array();
+        $nws['common'] = true;
+        $container->setParameter('minishop', $nws);
+        
         if(isset($config['emails']))
         {
             $container->setParameter('default.emails', $config['emails']);
@@ -30,6 +35,7 @@ class CoreCommonExtension extends Extension
         {
             $container->setParameter('core.cultures', $config['cultures']);
         }
+        
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

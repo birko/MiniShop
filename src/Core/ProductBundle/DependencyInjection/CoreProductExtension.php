@@ -21,6 +21,11 @@ class CoreProductExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+        
+        $nws = ($container->hasParameter('minishop')) ? $container->getParameter('minishop') : array();
+        $nws['product'] = true;
+        $container->setParameter('minishop', $nws);
+        
         if(isset($config['images']))
         {
             $container->setParameter('product.images', $config['images']);

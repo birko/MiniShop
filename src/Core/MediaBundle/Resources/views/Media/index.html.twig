@@ -4,11 +4,19 @@
 {{ knp_pagination_render(entities) }}
 <table class="records_list table table-striped table-condensed">
     <thead>
+		<tr>
+            <td colspan="4">
+				<div class="btn-group  pull-right">
+					<a href="{{ path('media_new', {'type': 'image'}) }}" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new image{% endtrans %}</a>
+					<a href="{{ path('media_new', {'type': 'video'}) }}" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new video{% endtrans %}</a>
+				</div>
+			</td>
+        </tr>
         <tr>
             <th class="col-sm-2 col-md-2 col-lg-2">{% trans %}Media{% endtrans %}</th>
-            <th>{% trans %}Title{% endtrans %}</th>
-			<th>{% trans %}Used count{% endtrans %}</th>
-            <th class="col-sm-2 col-md-2 col-lg-2">{% trans %}Actions{% endtrans %}</th>
+            <th class="col-sm-8 col-md-8 col-lg-8">{% trans %}Title{% endtrans %}</th>
+			<th class="col-sm-1 col-md-1 col-lg-1">{% trans %}Used count{% endtrans %}</th>
+            <th class="col-sm-1 col-md-1 col-lg-1">{% trans %}Actions{% endtrans %}</th>
         </tr>
     </thead>
     
@@ -22,9 +30,11 @@
 					{% include "CoreMediaBundle:Media:display.html.twig" with {'entity': entity, 'dir': 'thumb', 'link_path': ''} %}
 				</div>
 			</td>
-            <td>{{ entity.title }}</td>
-			<td>{{ entity.usedCount }}</td>
-            <td class="col-sm-2 col-md-2 col-lg-2">
+            <td class="col-sm-8 col-md-8 col-lg-8">
+				{{ entity.title }}<br />
+				<strong>{% trans %}Source{% endtrans %}:</strong> {% include "CoreMediaBundle:Media:path.html.twig" with {'entity': entity, 'dir': 'original'} %}</td>
+			<td class="col-sm-1 col-md-1 col-lg-1">{{ entity.usedCount }}</td>
+            <td class="col-sm-1 col-md-1 col-lg-1">
 				<a href="{{ path('media_edit', { 'id': entity.id}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
             </td>
         </tr>

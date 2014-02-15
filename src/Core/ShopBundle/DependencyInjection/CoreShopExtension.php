@@ -21,6 +21,11 @@ class CoreShopExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+        
+        $nws = ($container->hasParameter('minishop')) ? $container->getParameter('minishop') : array();
+        $nws['shop'] = true;
+        $container->setParameter('minishop', $nws);  
+        
         $container->setParameter('address.required', array());
         $container->setParameter('admin.order.export', array());
         $container->setParameter('admin.order.proccess', array());

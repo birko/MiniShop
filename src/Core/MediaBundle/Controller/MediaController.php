@@ -5,6 +5,10 @@ namespace Core\MediaBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\MediaBundle\Entity\Media;
+use Core\MediaBundle\Entity\Image;
+use Core\MediaBundle\Entity\Video;
+use Core\MediaBundle\Form\ImageType;
+use Core\MediaBundle\Form\VideoType;
 use Core\MediaBundle\Form\EditImageType;
 use Core\MediaBundle\Form\EditVideoType;
 use Core\CommonBundle\Controller\TranslateController;
@@ -42,6 +46,99 @@ class MediaController extends TranslateController
 
         return $this->render('CoreMediaBundle:Media:index.html.twig', array(
             'entities' => $pagination,
+        ));
+    }
+    
+    /**
+     * Displays a form to create a new Media entity.
+     *
+     */
+    public function newAction($type)
+    {
+        $cultures = $this->container->getParameter('core.cultures');
+        switch($type)
+        {
+            case "video":
+                $entity = new Video();
+                $this->loadTranslations($entity, $cultures, new Video());
+                $form   = $this->createForm(new VideoType(), $entity, array('cultures' => $cultures));
+                break;
+            case "image":
+            default:
+                $entity = new Image();
+                $this->loadTranslations($entity, $cultures, new Image());
+                $form   = $this->createForm(new ImageType(), $entity, array('cultures' => $cultures));
+                break;
+        }
+
+        return $this->render('CoreMediaBundle:Media:new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+            'type' => $type,
+            'cultures' => $cultures,
+        ));
+    }
+
+    /**
+     * Creates a new Media entity.
+     *
+     */
+    public function createAction($type)
+    {
+        $cultures = $this->container->getParameter('core.cultures');
+        switch($type)
+        {
+            case "video":
+                $entity = new Video();
+                $this->loadTranslations($entity, $cultures, new Video());
+                $form   = $this->createForm(new VideoType(), $entity, array('cultures' => $cultures));
+                break;
+            case "image":
+            default:
+                $entity = new Image();
+                $this->loadTranslations($entity, $cultures, new Image());
+                $form   = $this->createForm(new ImageType(), $entity, array('cultures' => $cultures));
+                break;
+        }
+        $request = $this->getRequest();
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $hash = trim($entity->getHash());
+            $source = trim($entity->getsource());
+            if(!empty($hash) || !empty($source))
+            {
+                $testEntity = $em->getRepository('CoreMediaBundle:Media')->findOneByHash($entity->getHash());
+                if($testEntity !== null)
+                {
+                    $entity = $testEntity;
+                }
+                else   
+                {
+                    if($type == 'image')
+                    {
+                        $imageOptions = $this->container->getParameter('images');
+                        $opts = array();
+                        foreach(array('thumb') as $val)
+                        {
+                            $opts[$val] = $imageOptions[$val];
+                        }
+                        $entity->setOptions($opts);
+                    }
+                    $em->persist($entity);
+                    $em->flush();
+                    $this->saveTranslations($entity, $cultures);
+                }
+                return $this->redirect($this->generateUrl('media'));
+            }
+        }
+
+        return $this->render('CoreMediaBundle:Media:new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+            'type'    => $type,
+            'cultures' => $cultures,
         ));
     }
     

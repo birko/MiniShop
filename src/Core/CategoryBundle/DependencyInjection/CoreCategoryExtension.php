@@ -25,7 +25,11 @@ class CoreCategoryExtension extends Extension
         {
             $container->setParameter('menu', $config['menu']);
         }
-
+        
+        $nws = ($container->hasParameter('minishop')) ? $container->getParameter('minishop') : array();
+        $nws['category'] = true;
+        $container->setParameter('minishop', $nws);
+        
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

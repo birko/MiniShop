@@ -126,6 +126,10 @@
                 <source>Media edit</source>
                 <target>Media edit</target>
             </trans-unit>
+            <trans-unit id="32">
+                <source>Media creation</source>
+                <target>Media creation</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
