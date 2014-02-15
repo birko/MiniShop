@@ -1,5 +1,6 @@
 {% extends '::base.html.twig' %}
 {% block body %}
+{% set minishopkeys = minishop|keys %}
 {% if  product.productCategories | length > 0 %}
 {% render  controller("SiteCategoryBundle:Category:breadcrumb" , {'id': product.productCategories.0.category.id, 'end': product.title}) %}
 {% endif %}
@@ -16,14 +17,17 @@
             <h1>
                 {{product.title}}
             </h1>
+			{% if 'vendor' in minishopkeys %}
             {% if product.vendor %}
             <h5>
                 {% trans %}Vendor{% endtrans %}: {% include "SiteVendorBundle:Vendor:info.html.twig" with {'entity': product.vendor} %}
             </h5>
+			{% endif %}
             {% endif %}
             <div id="shortdescription">
                 {{product.shortDescription|raw}}
             </div>
+			{% if 'price' in minishopkeys %}
             <div class="row">
             {% set price  = product.getMinimalPrice(pricegroup) %}
             {% if price is not empty %}
@@ -34,11 +38,16 @@
                 {% include "SiteProductBundle:Stock:info.html.twig" with {'entity': product.stock }%}
                 </span>
             </div>
+			{% if 'shop' in minishopkeys %}
             <div class="cart pull-right col-sm-7 col-md-7 col-lg-7">
                 {% render controller("SiteShopBundle:Cart:add", {'product': product, 'price':  price }) %}
+				{% if 'marketing' in minishopkeys %}
 				{% render controller ("SiteShopBundle:Groupon:form", {'product': product.id}) %}
+				{% endif %}
             </div>
-            {%endif %}
+            {% endif %}
+			{% endif %}
+			{% endif %}
             </div>
         </div>
     </div>

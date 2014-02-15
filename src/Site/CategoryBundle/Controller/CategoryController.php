@@ -18,7 +18,13 @@ class CategoryController extends Controller
         }
         $page = $this->getRequest()->get("page", 1);
         $cpage = $this->getRequest()->get("cpage", 1);
-        return $this->render('SiteCategoryBundle:Category:home.html.twig', array('category' => $category, 'page' => $page, 'cpage' => $cpage));
+        $minishop  = $this->container->getParameter('minishop');
+        return $this->render('SiteCategoryBundle:Category:home.html.twig', array(
+            'category' => $category, 
+            'minishop' => $minishop,
+            'page' => $page, 
+            'cpage' => $cpage
+        ));
     }
     
     public function indexAction($slug)
@@ -35,7 +41,13 @@ class CategoryController extends Controller
         }
         $page = $this->getRequest()->get("page", 1);
         $cpage = $this->getRequest()->get("cpage", 1);
-        return $this->render('SiteCategoryBundle:Category:index.html.twig', array('category' => $category, 'page' => $page, 'cpage' => $cpage));
+        $minishop  = $this->container->getParameter('minishop');
+        return $this->render('SiteCategoryBundle:Category:index.html.twig', array(
+            'category' => $category, 
+            'page' => $page, 
+            'cpage' => $cpage,
+            'minishop' => $minishop,
+        ));
     }
     
     public function listAction($menu = null, $parent = null, $children = true)

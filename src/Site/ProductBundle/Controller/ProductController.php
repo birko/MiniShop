@@ -26,7 +26,13 @@ class ProductController extends ShopController
         {
             $options[$option->getName()->getId()][] = $option;
         }
-        return $this->render('SiteProductBundle:Product:index.html.twig', array('product' => $product, 'options' => $options, 'pricegroup' => $priceGroup));
+        $minishop  = $this->container->getParameter('minishop');
+        return $this->render('SiteProductBundle:Product:index.html.twig', array(
+            'product' => $product, 
+            'options' => $options, 
+            'pricegroup' => $priceGroup,
+            'minishop'  => $minishop,
+        ));
     }
     
     public function listAction($category, $page = 1)
