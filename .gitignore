@@ -9,7 +9,10 @@
 /composer.phar
 /app/config/parameters.yml
 /app/config/app.yml
+/app/config/config.yml
 /app/config/security.yml
+/app/config/routing.yml
+/app/AppKernel.php
 composer.lock
 *.phpproj*
 *.sln
