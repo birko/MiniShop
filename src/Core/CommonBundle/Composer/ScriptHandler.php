@@ -14,7 +14,7 @@ class ScriptHandler
         $dependencies = array(
             'attribute'     => array('common'),
             'banner'        => array('common', 'media'),
-            'category'      => array('common', 'attribute'),
+            'category'      => array('common'),
             'common'        => array(),
             'content'       => array('common', 'category', 'media'),
             'marketing'     => array('common', 'price'),
