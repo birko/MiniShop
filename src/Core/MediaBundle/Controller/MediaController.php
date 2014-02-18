@@ -35,7 +35,9 @@ class MediaController extends TranslateController
         $em = $this->getDoctrine()->getManager();
         $query = $em->getRepository('CoreMediaBundle:Media')
                 ->getMediaQueryBuilder()
+                ->orderBy("m.createdAt", "desc")
                 ->getQuery();
+        $query = $em->getRepository('CoreMediaBundle:Media')->setHint($query);
         $paginator = $this->get('knp_paginator');
         $page = $this->getRequest()->get('page', 1);
         $pagination = $paginator->paginate(
