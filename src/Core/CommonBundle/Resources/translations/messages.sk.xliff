@@ -175,6 +175,14 @@
                 <source>Position</source>
                 <target>Pozícia</target>
             </trans-unit> 
+            <trans-unit id="49">
+                <source>Choose name</source>
+                <target>Vybrať názov</target>
+            </trans-unit> 
+            <trans-unit id="50">
+                <source>Choose value</source>
+                <target>Vybrať hodnotu</target>
+            </trans-unit> 
         </body>
     </file>
 </xliff>

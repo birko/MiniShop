@@ -22,6 +22,7 @@ class ProductOptionType extends AbstractType
                     'expanded' => false,
                     'required' => true,
                     'multiple' => false,
+                    'empty_value' => 'Choose name',
                     'query_builder' => function(EntityRepository $er) {
                         $qb = $er->getNamesQueryBuilder();
                         return $qb;
@@ -35,13 +36,12 @@ class ProductOptionType extends AbstractType
                     'required' => true,
                     'multiple' => false,
                     'group_by' => 'attributeName',
+                    'empty_value' => 'Choose value',
                     'query_builder' => function(EntityRepository $er) use ($attributeName) {
                         $qb = $er->getValuesByNameQueryBuilder($attributeName);
                         return $qb;
                     },
                 ));
-                break;
-            case 3:
                 $builder
                     ->add('amount', 'number', array('required' => false))
                 ;

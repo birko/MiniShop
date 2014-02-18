@@ -29,11 +29,7 @@ class ProductOptionFlow extends FormFlow
             array(
                 'label' => 'Value',
                 'type' => $this->formType,
-            ),
-            array(
-                'label' => 'Amount',
-                'type' => $this->formType,
-            ),
+            )
         );
     }
     

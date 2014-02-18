@@ -21,6 +21,7 @@ class AttributeType extends AbstractType
                     'expanded' => false,
                     'required' => true,
                     'multiple' => false,
+                    'empty_value' => 'Choose name',
                     'query_builder' => function(EntityRepository $er) {
                         $qb = $er->getNamesQueryBuilder();
                         return $qb;
@@ -34,6 +35,7 @@ class AttributeType extends AbstractType
                     'required' => true,
                     'multiple' => false,
                     'group_by' => 'attributeName',
+                    'empty_value' => 'Choose value',
                     'query_builder' => function(EntityRepository $er) use ($attributeName) {
                         $qb = $er->getValuesByNameQueryBuilder($attributeName);
                         return $qb;
