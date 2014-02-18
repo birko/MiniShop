@@ -19,7 +19,10 @@ class MediaTranslationType extends AbstractType
                     'required'    => false
                 ))
                 ->add('description', 'textarea',array(
-                    'required'    => false
+                    'required'    => false,
+                    'attr' => array(
+                        'class' => 'wysiwyg'
+                    )
                 ));
         }
     }

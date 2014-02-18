@@ -13,7 +13,12 @@ class NewsletterType extends AbstractType
     {
         $builder
             ->add('title', 'text', array('required' => true))
-            ->add('content', 'textarea', array('required' => false))
+            ->add('content', 'textarea', array(
+                'required' => false,
+                'attr' => array(
+                    'class' => 'wysiwyg'
+                )
+            ))
         ;
     }
 

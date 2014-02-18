@@ -11,7 +11,12 @@ class UserTextTranslationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('text', 'textarea', array('required' => false))
+            ->add('text', 'textarea', array(
+                'required' => false,
+                'attr' => array(
+                    'class' => 'wysiwyg'
+                )
+            ))
         ;
     }
 

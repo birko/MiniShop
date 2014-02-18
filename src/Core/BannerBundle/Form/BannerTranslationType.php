@@ -17,7 +17,12 @@ class BannerTranslationType extends AbstractType
         $builder
             ->add('title', 'text', array('required' => false))
             ->add('link', 'text', array('required' => false))
-            ->add('description', 'textarea', array('required' => false))
+            ->add('description', 'textarea', array(
+                'required' => false,
+                'attr' => array(
+                    'class' => 'wysiwyg'
+                )
+            ))
         ;
     }
 

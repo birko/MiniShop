@@ -17,10 +17,16 @@ class ContentTranslationType extends AbstractType
             ->add('shortDescription', 'textarea', array(
                 'required' => false,
                 'label' => 'Short description',
+                'attr' => array(
+                    'class' => 'wysiwyg'
+                )
             ))
             ->add('longDescription', 'textarea', array(
                 'required' => false,
                 'label' => 'Long description',
+                'attr' => array(
+                    'class' => 'wysiwyg'
+                )
             ))
         ;
     }

@@ -16,14 +16,19 @@ class ProductTranslationType extends AbstractType
         $builder
             ->add('title', 'text', array('required' => true))
            
-            ->add('shortDescription', 'textarea', 
-                array(
-                    'required' => false,
-                    'label' => 'Short description',
+            ->add('shortDescription', 'textarea', array(
+                'required' => false,
+                'label' => 'Short description',
+                'attr' => array(
+                    'class' => 'wysiwyg'
+                )
             ))
             ->add('longDescription', 'textarea', array(
                 'required' => false,
                 'label' => 'Long description',
+                'attr' => array(
+                    'class' => 'wysiwyg'
+                )
             ))
         ;
     }

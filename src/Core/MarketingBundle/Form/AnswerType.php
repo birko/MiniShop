@@ -28,7 +28,8 @@ class AnswerType extends AbstractType
                         new Constraints\NotBlank(),
                     ),
                     'attr' => array(
-                        'placeholder' => 'Text*'
+                        'placeholder' => 'Text*',
+                        'class' => 'wysiwyg',
                     )
                 ))
         ;

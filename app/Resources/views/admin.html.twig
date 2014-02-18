@@ -52,6 +52,7 @@
         </section>
         {% javascripts
            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
+		   'http://tinymce.cachefly.net/4.0/tinymce.min.js'
 		   '@MopaBootstrapBundle/Resources/public/bootstrap/js/tab.js'
            '@MopaBootstrapBundle/Resources/public/bootstrap/js/dropdown.js'
 		   '@CoreCommonBundle/Resources/public/js/common.js'
@@ -59,6 +60,16 @@
         %}
         <script src="{{ asset_url }}" type="text/javascript" ></script>
         {% endjavascripts %}
+		<script type="text/javascript">
+		tinymce.init({
+			selector:'textarea.wysiwyg',
+			plugins: [
+				 "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+				 "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+				 "save table contextmenu directionality emoticons template paste textcolor"
+		   ]
+		});
+		</script>
         {% block javascripts %}
         {% endblock %}
     </body>
