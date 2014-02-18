@@ -4,6 +4,7 @@
         var target = jQuery(selector).attr('data-target');
         if (target != undefined) {
             event.preventDefault();
+            jQuery(selector + ' > form').append('<div class="progress progress-striped active"><div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div></div>');
             jQuery.post(jQuery(this).attr('action'), jQuery(this).serializeArray(), function (data, textStatus, jqXHR) {
                 var selectordata = jQuery("<div>").append(jQuery.parseHTML(data)).find(selector);
                 var targetdata = jQuery("<div>").append(jQuery.parseHTML(data)).find(target);
@@ -20,6 +21,7 @@
                     }
                     loadStep(target);
                 }
+                jQuery(selector + ' > form .progress').remove();
             });
         }
     });
