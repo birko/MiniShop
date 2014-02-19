@@ -5,7 +5,7 @@
     {{entity.content | raw }}
 </div>
 <div>
-    <a href="{{ path('newsletter_email_unsubscribe') }}">{% trans %}Newsletter unsubscribe{% endtrans %}</a>
+    <a href="http://{{site_url}}{{ path('newsletter_email_unsubscribe') }}">{% trans %}Newsletter unsubscribe{% endtrans %}</a>
 </div>
 {% render controller('CoreUserTextBundle:UserText:display', {'name': 'email-footer', 'create': 1}) %}
 {% endblock %}

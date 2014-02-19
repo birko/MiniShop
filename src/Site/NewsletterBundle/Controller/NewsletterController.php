@@ -69,17 +69,15 @@ class NewsletterController extends Controller
         if($request->getMethod() == "POST")
         {
             $form->bind($request);
-            if($form->isValid())
+            $form->isValid();
+            $em = $this->getDoctrine()->getManager();
+            $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($entity->getEmail());
+            if($entity2)
             {
-                $em = $this->getDoctrine()->getManager();
-                $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($entity->getEmail());
-                if($entity2)
-                {
-                    $entity2->setEnabled(false);
-                    $em->persist($entity2);
-                    $em->flush();
-                    $result = true;
-                }
+                $entity2->setEnabled(false);
+                $em->persist($entity2);
+                $em->flush();
+                $result = true;
             }
         }
 
