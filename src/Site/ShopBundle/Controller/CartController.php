@@ -109,7 +109,11 @@ class CartController extends ShopController
         $entity->setPrice($price->getPrice());
         $entity->setPriceVAT($price->getPriceVAT());
         $options = $em->getRepository('CoreProductBundle:ProductOption')->getOptionsNamesByProduct($product->getId());
-        $form = $this->createForm(new CartItemAddType(), $entity, array('product'=>$product->getId(), 'options' => $options));
+        $form = $this->createForm(new CartItemAddType(), $entity, array(
+            'product'=>$product->getId(), 
+            'options' => $options,
+            'requireOptions' => $this->container->getParameter('site.shop.require_options'),
+        ));
         
         return $this->render('SiteShopBundle:Cart:add.html.twig', array(
             'entity' => $entity,
@@ -135,7 +139,11 @@ class CartController extends ShopController
         $entity->setPrice($price->getPrice());
         $entity->setPriceVAT($price->getPriceVAT());
         $options = $em->getRepository('CoreProductBundle:ProductOption')->getOptionsNamesByProduct($product->getId());
-        $form = $this->createForm(new CartItemAddType(), $entity, array('product'=>$product->getId(), 'options' => $options));
+        $form = $this->createForm(new CartItemAddType(), $entity, array(
+            'product'=>$product->getId(), 
+            'options' => $options,
+            'requireOptions' => $this->container->getParameter('site.shop.require_options'),
+        ));
         if ($request->getMethod() == 'POST') 
         {
             $cart = $this->getCart();

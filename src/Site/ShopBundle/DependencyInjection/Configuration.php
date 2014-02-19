@@ -19,8 +19,10 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('site_shop')
+            ->addDefaultsIfNotSet()
             ->children()
-                 ->booleanNode("register_guest")->defaultValue(false)->end()
+                ->booleanNode("register_guest")->defaultValue(false)->end()
+                ->booleanNode("require_options")->defaultValue(true)->end()
             ->end()
             ;
 

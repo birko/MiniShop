@@ -23,7 +23,7 @@ class CartItemAddType extends CartItemType
         $builder->add('priceVAT', 'hidden');
         $builder->add('productId', 'hidden');
         $builder->add('options', new OptionCartItemAddType(), array(
-                'required' => true,
+                'required' => $options['requireOptions'],
                 'options' => $options['options'],
                 'product' => $options['product'],
             ));
@@ -40,6 +40,7 @@ class CartItemAddType extends CartItemType
         $resolver->setDefaults(array(
             'options' => array(),
             'product' => null,
+            'requireOptions' => true,
         ));
     }
 }

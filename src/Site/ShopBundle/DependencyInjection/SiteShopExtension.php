@@ -25,6 +25,10 @@ class SiteShopExtension extends Extension
         {
             $container->setParameter('site.shop.register_guest', $config['register_guest']);
         }
+        if(isset($config['require_options']))
+        {
+            $container->setParameter('site.shop.require_options', $config['require_options']);
+        }
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
