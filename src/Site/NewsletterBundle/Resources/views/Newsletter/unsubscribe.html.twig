@@ -1,10 +1,13 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-<h1>{% trans %}Newsletter unsubscribe{% endtrans %}</h1>
 <div class="box">
+<h1>{% trans %}Newsletter unsubscribe{% endtrans %}</h1>
 {% if result %}
     <h3>{% trans %}You were successfully removed from newsletter{% endtrans %}</h3>
 {% endif %}
+<p>
+	{% trans %}Put your email to usubscribe from newsletter{% endtrans %}
+</p>
 <form action="{{ path('newsletter_email_unsubscribe') }}" method="post" {{ form_enctype(form) }}>
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">

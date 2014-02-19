@@ -22,6 +22,10 @@
                 <source>We were unable to add your email into our newsletter database</source>
                 <target>We were unable to add your email into our newsletter database</target>
             </trans-unit>
+            <trans-unit id="6">
+                <source>Put your email to usubscribe from newsletter</source>
+                <target>Put your email to usubscribe from newsletter</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
