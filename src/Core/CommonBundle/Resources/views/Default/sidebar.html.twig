@@ -65,6 +65,7 @@
 		{% endif %}
     </li>
 	{% endif %}
+	{% if 'shop' in minishopkeys %}
 	{% if 'user' in minishopkeys  or 'price' in minishopkeys%}
     <li class="list-group-item">
          <ul class="nav">
@@ -77,5 +78,6 @@
 			{% endif %}
         </ul>
     </li>
+	{% endif %}
 	{% endif %}
 </ul>
