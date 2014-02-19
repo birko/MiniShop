@@ -35,14 +35,10 @@
                 jQuery(jQuery(this).parents('form')[0]).trigger("submit");
             }
         });
-        var value = jQuery('select', jQuery(selector + ' > form').val());
-        for (var i = 0 ; i < value.length; i++)
+        var value = jQuery('select', jQuery(selector + ' > form')).val();
+        if (value != "")
         {
-            if (value[i].value != "")
-            {
-                jQuery(jQuery(selector + ' > form')[0]).trigger("submit");
-                break;
-            }
+            jQuery(jQuery(selector + ' > form')[0]).trigger("submit");
         }
     }
 }
