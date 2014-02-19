@@ -81,16 +81,6 @@ class Category extends TranslateEntity
      */
     private $children;
     
-    /**
-     * @ORM\OneToMany(targetEntity="Core\ContentBundle\Entity\Content", mappedBy="category")
-     */
-    private $contents;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="Core\ProductBundle\Entity\ProductCategory", mappedBy="category")
-     */
-    private $productCategories;
-    
      /**
      * @Gedmo\TreeLeft
      * @ORM\Column(name="lft", type="integer")
@@ -116,8 +106,6 @@ class Category extends TranslateEntity
         $this->setEnabled(true);
         $this->setMenu(0);
         $this->children = new ArrayCollection();
-        $this->contents = new ArrayCollection();
-        $this->productCategories = new ArrayCollection();
     }
     
     /**
@@ -278,21 +266,6 @@ class Category extends TranslateEntity
     public function getChildren()
     {
         return $this->children;   
-    }
-    
-    /**
-     * Get contents
-     *
-     * @return ArrayCollection
-     */    
-    public function getContents()
-    {
-        return $this->contents;   
-    }
-    
-    public function getProductCategories()
-    {
-        return $this->productCategories;   
     }
     
     public function __toString()

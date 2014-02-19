@@ -23,7 +23,7 @@ class ProductCategory
 
     /** 
      * @ORM\Id 
-     * @ORM\ManyToOne(targetEntity="Core\CategoryBundle\Entity\Category", inversedBy="productCategories")
+     * @ORM\ManyToOne(targetEntity="Core\CategoryBundle\Entity\Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $category;

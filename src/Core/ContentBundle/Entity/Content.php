@@ -57,7 +57,7 @@ class Content extends TranslateEntity
     private $longDescription;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Core\CategoryBundle\Entity\Category", inversedBy="contents")
+     * @ORM\ManyToOne(targetEntity="Core\CategoryBundle\Entity\Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $category;
