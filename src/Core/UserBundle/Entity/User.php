@@ -67,16 +67,6 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     private $roles = "";
     
     /**
-     * @ORM\OneToMany(targetEntity="Core\ShopBundle\Entity\Address", mappedBy="user")
-     */
-    private $addresses;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="Core\ShopBundle\Entity\Order", mappedBy="user")
-     */
-    private $orders;
-    
-    /**
      * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\PriceGroup", inversedBy="users")
      * @ORM\JoinColumn(name="pricegroup_id", referencedColumnName="id")
      */
@@ -88,8 +78,6 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
         $this->setSalt(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
         $this->setCreatedAt(new \DateTime());
         $this->setRoles(array("ROLE_USER"));
-        $this->addresses = new ArrayCollection();
-        $this->orders = new ArrayCollection();
     }
  
 
@@ -270,31 +258,6 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     public function __toString() 
     {
         return $this->getLogin();
-    }
-    
-    /**
-     * Get orders
-     *
-     * @return ArrayCollection
-     */    
-    public function getOrders()
-    {
-        return $this->orders;   
-    }
-    
-    /**
-     * Get addresses
-     *
-     * @return ArrayCollection
-     */    
-    public function getAddresses()
-    {
-        return $this->addresses;
-    }
-    
-    public function setAddresses(ArrayCollection $addresses)
-    {
-        $this->addresses = $addresses;
     }
     
     /**
