@@ -54,9 +54,14 @@ class MessageController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         $data = array();
         $ms = $entity->getMessage();
-        if($entity->getOrder())
+        $minishop  = $this->container->getParameter('minishop');
+        if((!empty($ms['orderId'])) && isset($minishop['shop']) && $minishop['shop'])
         {
-            $data['email'] = $entity->getOrder()->getInvoiceAddress()->getEmail();
+            $order = $em->getRepository('CoreShopBundle:Order')->find($ms['orderId']);
+            if($order)
+            {
+                $data['email'] = $order->getInvoiceAddress()->getEmail();
+            }
         }
         elseif(!empty($ms))
         {
