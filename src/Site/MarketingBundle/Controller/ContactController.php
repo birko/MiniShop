@@ -141,16 +141,17 @@ class ContactController extends Controller
                     unset($data['verification_code']);
                     unset($data['_token']);
                     unset($data['copy']);
-                    if(!empty($data['orderNumber']))
+                    $minishop  = $this->container->getParameter('minishop');
+                    if((!empty($data['orderNumber'])) && isset($minishop['shop']) && $minishop['shop'])
                     {
-                        $order = $em->getRepository('CoreShopBundle:Order')->findOneByOrderNumber($data['orderNumber']);
+                        $order = $em->getRepository('CoreShopBundle:Order')->findOneBy(array('order_number' => $data['orderNumber']));
                         if(!$order)
                         {
                             $order = $em->getRepository('CoreShopBundle:Order')->find($data['orderNumber']);
                         }
                         if($order)
                         {
-                            $msg->setOrder($order);
+                            $data['orderId'] = $order->getId();
                         }
                     }
                     $msg->setMessage($data);
@@ -221,16 +222,17 @@ class ContactController extends Controller
                     unset($data['verification_code']);
                     unset($data['_token']);
                     unset($data['copy']);
-                    if(!empty($data['orderNumber']))
+                    $minishop  = $this->container->getParameter('minishop');
+                    if((!empty($data['orderNumber'])) && isset($minishop['shop']) && $minishop['shop'])
                     {
-                        $order = $em->getRepository('CoreShopBundle:Order')->findOneByOrderNumber($data['orderNumber']);
+                        $order = $em->getRepository('CoreShopBundle:Order')->findOneBy(array('order_number' => $data['orderNumber']));
                         if(!$order)
                         {
                             $order = $em->getRepository('CoreShopBundle:Order')->find($data['orderNumber']);
                         }
                         if($order)
                         {
-                            $msg->setOrder($order);
+                            $data['orderId'] = $order->getId();
                         }
                     }
                     $msg->setMessage($data);

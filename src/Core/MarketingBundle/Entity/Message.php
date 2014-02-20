@@ -62,12 +62,7 @@ class Message
      * @ORM\Column(name="updatedAt", type="datetime", nullable=true)
      */
     private $updatedAt;
-    
-     /**
-     * @ORM\ManyToOne(targetEntity="Core\ShopBundle\Entity\Order", inversedBy="items")
-     * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
-     */
-    private $order; 
+
 
 
     public function __construct()
@@ -220,27 +215,5 @@ class Message
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-    
-    /**
-     * Set Order
-     *
-     * @param Order $order
-     */
-    public function setOrder($order)
-    {
-        $this->order = $order;
-        
-        return $this;
-    }
-
-    /**
-     * Get Order
-     *
-     * @return Order
-     */
-    public function getOrder()
-    {
-        return $this->order;
     }
 }

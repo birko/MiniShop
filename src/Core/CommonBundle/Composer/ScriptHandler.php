@@ -17,7 +17,7 @@ class ScriptHandler
             'category'      => array('common'),
             'common'        => array(),
             'content'       => array('common', 'category', 'media'),
-            'marketing'     => array('common', 'price', 'shop'),
+            'marketing'     => array('common'),
             'media'         => array('common'),
             'newsletter'    => array(),
             'price'         => array(),

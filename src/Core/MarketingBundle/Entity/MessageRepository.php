@@ -17,7 +17,6 @@ class MessageRepository extends EntityRepository
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()
                ->select("m")
                ->from("CoreMarketingBundle:Message", "m")
-               ->leftJoin("m.order", "o")
                ->orderBy("m.createdAt", 'desc');
         if($type !== null)
         {
