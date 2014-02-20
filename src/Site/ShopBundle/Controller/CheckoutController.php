@@ -51,10 +51,13 @@ class CheckoutController extends ShopController
         {
            throw $this->createNotFoundException('Unable to find User entity.');
         }
-        if($user->getAddresses()->count() > 0)
+        $addresses = $em->getRepository('CoreShopBundle:Address')->getUserAddressQueryBuilder($user->getId())
+            ->getQuery()
+            ->getResult();
+        if(!empty($addresses))
         {
-            $cart->setPaymentAddress($user->getAddresses()->first());
-            $cart->setShippingAddress($user->getAddresses()->first());
+            $cart->setPaymentAddress(current($addresses));
+            $cart->setShippingAddress(current($addresses));
         }
         else
         {
