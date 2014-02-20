@@ -5,10 +5,7 @@
   {% else %}
   <span class="name">
     <a href="{{path('SiteUserBundle_index')}}">
-      {% if entity.addresses | length > 0 %}
-      {{entity.addresses.0.name}}
-      {% else %}{{entity.login}}
-      {% endif %}
+      {{entity.login}}
     </a>
   </span>
   <a href="{{path('SiteUserBundle_logout')}}"><span class="glyphicon glyphicon-off"></span> {% trans %}general.logout{% endtrans %}</a>
