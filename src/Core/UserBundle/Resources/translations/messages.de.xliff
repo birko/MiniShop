@@ -126,6 +126,10 @@
                 <source>Repeat Password</source>
                 <target>Repeat Password</target>
             </trans-unit>
+            <trans-unit id="32">
+                <source>User</source>
+                <target>User</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

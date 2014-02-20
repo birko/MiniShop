@@ -126,6 +126,10 @@
                 <source>Repeat Password</source>
                 <target>Opakovať Heslo</target>
             </trans-unit>
+            <trans-unit id="32">
+                <source>User</source>
+                <target>Užívateľ</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

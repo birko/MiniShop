@@ -51,6 +51,7 @@ class CheckoutController extends ShopController
         {
            throw $this->createNotFoundException('Unable to find User entity.');
         }
+        $em = $this->getDoctrine()->getManager();
         $addresses = $em->getRepository('CoreShopBundle:Address')->getUserAddressQueryBuilder($user->getId())
             ->getQuery()
             ->getResult();
@@ -81,6 +82,7 @@ class CheckoutController extends ShopController
         {
            throw $this->createNotFoundException('Unable to find User entity.');
         }
+        $em = $this->getDoctrine()->getManager();
         $addresses = $em->getRepository('CoreShopBundle:Address')->getUserAddressQueryBuilder($user->getId())
             ->getQuery()
             ->getResult();
