@@ -236,4 +236,15 @@ class AddressController extends ShopController
             ->getForm()
         ;
     }
+    
+    public function infoAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('CoreShopBundle:Address')->getUserAddressQueryBuilder($id)
+            ->getQuery()->getResult();
+
+        return $this->render('SiteShopBundle:Address:info.html.twig', array(
+            'entities' => $entities
+        ));
+    }
 }

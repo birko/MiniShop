@@ -5,7 +5,11 @@
   {% else %}
   <span class="name">
     <a href="{{path('SiteUserBundle_index')}}">
+      {% if 'category' is not empty %}
+      {% render controller("SiteShopBundle:Address:info" ,{'id': entity.id}) %}
+      {% else %}
       {{entity.login}}
+      {% endif %}
     </a>
   </span>
   <a href="{{path('SiteUserBundle_logout')}}"><span class="glyphicon glyphicon-off"></span> {% trans %}general.logout{% endtrans %}</a>

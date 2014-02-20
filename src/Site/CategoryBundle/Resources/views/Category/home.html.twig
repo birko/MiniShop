@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block body %}
 {% set minishopkeys = minishop|keys %}
-{% if category is not empty %}
+{% if 'category' is not empty %}
 {% render controller("SiteCategoryBundle:Category:breadcrumb" ,{'id': category.id}) %}
 {% if 'banner' in minishopkeys %}
 {% render controller("SiteBannerBundle:Banner:banner", {'category': category.id, 'type': 'original' }) %}

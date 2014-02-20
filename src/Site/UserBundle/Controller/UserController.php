@@ -291,9 +291,10 @@ class UserController extends Controller
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository("CoreUserBundle:User")->find($auth->getId());
         }
-        
+        $minishop  = $this->container->getParameter('minishop');
         return $this->render('SiteUserBundle:User:info.html.twig', array(
-            'entity' => $entity
+            'entity' => $entity,
+            'minishop' => $minishop
         ));
     }
     
