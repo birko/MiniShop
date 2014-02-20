@@ -19,7 +19,7 @@
             <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>
                 {% if 'orderId' in entity.message|keys %}
-                 <a href="{{ path('order_show', { 'id': entity.message.orderId }) }}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-search"></span> {% trans %}Order detail{% endtrans %}</a>
+                <a href="{{ path('order_show', { 'id': entity.message.orderId }) }}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-search"></span> {% trans %}Order detail{% endtrans %}</a>
                 {% endif %}
             </td>
             <td>
