@@ -221,6 +221,7 @@ class NewsletterController extends Controller
     {
         $entity = new SendNewsletter();
         $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
         $newsletter = $em->getRepository('CoreNewsletterBundle:Newsletter')->find($id);
         if (!$newsletter) {
             throw $this->createNotFoundException('Unable to find Newsletter entity.');
@@ -230,9 +231,13 @@ class NewsletterController extends Controller
         $form->bind($request);
         if($form->isValid())
         {
-            $emails =  $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->getEnabledEmailsQuery();
+            $emails =  $em->getRepository('CoreNewsletterBundle:NewsletterEmail')
+                ->getEnabledEmailsQueryBuilder()
+                ->select("ne.email")
+                ->getQuery()
+                ->getScalarResult();
             $newsletter = $entity->getNewsletter();
-            return $this->sendNewsletter($newsletter, $emails->iterate(), true);
+            return $this->sendNewsletter($newsletter, $emails);
         }
         
         return $this->render('CoreNewsletterBundle:Newsletter:send.html.twig', array(
@@ -283,9 +288,13 @@ class NewsletterController extends Controller
                 }
                 if(!empty($groups))
                 {
-                    $emails =  $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->getEnabledEmailsInGroupsQuery($groups, $entity->isNot());
+                    $emails =  $em->getRepository('CoreNewsletterBundle:NewsletterEmail')
+                        ->getEmailsInGroupsQueryBuilder($groups, $entity->isNot())
+                        ->select("ne.email")
+                        ->getQuery()
+                        ->getScalarResult();
                     $newsletter = $entity->getNewsletter();
-                    return $this->sendNewsletter($newsletter, $emails->iterate(), true);
+                    return $this->sendNewsletter($newsletter, $emails);
                 }
             }
         }
@@ -361,9 +370,15 @@ class NewsletterController extends Controller
         ));
     }
     
-    protected function sendNewsletter($newsletter, $emails, $isQuery=false)
+    protected function sendNewsletter($newsletter, $emails, $isQuery = false)
     {
         $count = 0;
+        $demails = $this->container->getParameter('default.emails');
+        $body = $this->renderView('CoreNewsletterBundle:Email:newsletter.html.twig', array(  
+            'entity' => $newsletter,
+        ));
+        $title = $newsletter->getTitle();
+        $sitetitle = $this->container->getParameter('site_title');
         foreach($emails as $row)
         {
             $send = true;
@@ -379,19 +394,28 @@ class NewsletterController extends Controller
                     $send = false;
                 }
             }
+            else if (is_array($email))
+            {
+                $email = $email['email'];
+            }
+            
             if($send)
             {
-                $demails = $this->container->getParameter('default.emails');
-                $message = \Swift_Message::newInstance()
-                    ->setSubject($newsletter->getTitle())   
-                    ->setFrom($demails['default'], $this->container->getParameter('site_title'))   //settings
-                    ->setTo(array($email)) //settings admin
-                    ->setBody($this->renderView('CoreNewsletterBundle:Email:newsletter.html.twig', array(  
-                            'entity' => $newsletter,
-                        )), 'text/html')
-                    ->setContentType("text/html");
-                $this->get('mailer')->send($message);
-                $count++;
+                $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+                if($email !== false) {
+                    try {
+                        $message = \Swift_Message::newInstance()
+                            ->setSubject($title)   
+                            ->setFrom($demails['default'], $sitetitle)   //settings
+                            ->setTo(array($email)) //settings admin
+                            ->setBody($body, 'text/html')
+                            ->setContentType("text/html");
+                        $this->get('mailer')->send($message);
+                        $count++;
+                        $message = null;
+                    } catch(\Exception $ex) {
+                    }
+                }
             }
         }
         return $this->render('CoreNewsletterBundle:Newsletter:sendsuccess.html.twig', array(
