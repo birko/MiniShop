@@ -126,13 +126,13 @@ class UserController extends Controller
                 $cart = $session->get('cart');
                 $token = new UsernamePasswordToken($entity, $entity->getPassword(), 'secured_area', $entity->getRoles());
                 $this->get('security.context')->setToken($token);
-                if($cart && $cart->isEmpty())
+                if($minishop['shop'] && $cart && !$cart->isEmpty())
                 {   $session->set('cart', $cart);
-                    return $this->redirect($this->generateUrl('category_homepage'));
+                    return $this->redirect($this->generateUrl('cart'));
                 }
                 else
                 {
-                    return $this->redirect($this->generateUrl('cart'));
+                    return $this->redirect($this->generateUrl('category_homepage'));
                 }
             }
         }
