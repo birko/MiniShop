@@ -403,7 +403,7 @@ class NewsletterController extends Controller
             {
                 $email = filter_var($email, FILTER_VALIDATE_EMAIL);
                 if($email !== false) {
-                    try {
+                   try {
                         $message = \Swift_Message::newInstance()
                             ->setSubject($title)   
                             ->setFrom($demails['default'], $sitetitle)   //settings
