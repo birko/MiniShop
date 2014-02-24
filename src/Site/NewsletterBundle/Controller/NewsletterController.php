@@ -28,10 +28,11 @@ class NewsletterController extends Controller
         if($request->getMethod() == "POST")
         {
             $form->bind($request);
-            if($form->isValid())
-            {
+            $form->isValid();
+            $email = filter_var($entity->getEmail(), FILTER_VALIDATE_EMAIL);
+            if($email !== false) {
                 $em = $this->getDoctrine()->getManager();
-                $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($entity->getEmail());
+                $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($email);
                 if(!$entity2)
                 {
                     $entity->setEnabled(true);
@@ -71,13 +72,16 @@ class NewsletterController extends Controller
             $form->bind($request);
             $form->isValid();
             $em = $this->getDoctrine()->getManager();
-            $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($entity->getEmail());
-            if($entity2)
-            {
-                $entity2->setEnabled(false);
-                $em->persist($entity2);
-                $em->flush();
-                $result = true;
+            $email = filter_var($entity->getEmail(), FILTER_VALIDATE_EMAIL);
+            if($email !== false) {
+                $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($email);
+                if($entity2)
+                {
+                    $entity2->setEnabled(false);
+                    $em->persist($entity2);
+                    $em->flush();
+                    $result = true;
+                }
             }
         }
 
