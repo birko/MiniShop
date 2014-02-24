@@ -246,6 +246,7 @@ class OrderController extends BaseOrderController
     }
     protected function sendEmail(Order $entity)
     {
+        $em = $this->getDoctrine()->getManager();
         $sendEmail= $entity->getInvoiceEmail();
         $emails = $this->container->getParameter('default.emails');
         $name = ($entity->getOrderStatus()) ? $entity->getOrderStatus()->getName(): 'order-change';
