@@ -14,8 +14,10 @@ class NewUserType extends BaseUserType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
-        $builder
-        ->add('addresses', 'collection', array(
+        if(!empty($options['address']))
+        {
+            $builder->add('addresses', 'collection', array(
+                'mapped'   => false,
                 'type' => new AddressType(),
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -28,16 +30,16 @@ class NewUserType extends BaseUserType
                     'widget_remove_btn' => array('label' => 'Remove'),
                     'label_render' => false,
                     'requiredFields' => isset($options['address']['required']) ? $options['address']['required']: array(),
-                )))
-        ->remove('enabled')
-        ->remove('priceGroup')
-        ;
+                )));
+        }
+        $builder->remove('enabled');
+        $builder->remove('priceGroup');
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'address' => array()
+            'address' => array(),
         ));
     }
 }

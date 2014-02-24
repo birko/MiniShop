@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
-    public function createUser(User $user, $addresses = array())
+    public function createUser(User $user)
     {
         if($user)
         {
@@ -21,22 +21,7 @@ class UserRepository extends EntityRepository
             if ($priceGroup) {
                 $user->setPriceGroup($priceGroup); 
             }
-            $user->getAddresses()->clear();
             $em->persist($user);
-            $em->flush();
-            if(!empty($addresses))
-            {
-                foreach($addresses as $addr)
-                {
-                    if(!empty($addr))
-                    {
-                        $addr->setUser($user);
-                        $user->getAddresses()->add($addr);
-                        $em->persist($addr);
-                    }
-                }
-                $em->persist($user);
-            }
             $em->flush();
         }
         return $user;

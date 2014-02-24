@@ -260,7 +260,7 @@ class CheckoutController extends ShopController
             $sendEmail = $user->getEmail();
         }
         // check if adress has an email fallback user email
-        $pemail = $cart->getShippingAddress()->getEmail();
+        $pemail = ($cart->getShippingAddress()) ? $cart->getShippingAddress()->getEmail() : null;
         if(empty($pemail) && !empty($sendEmail))
         {
             $cart->getShippingAddress()->setEmail($sendEmail);
@@ -313,7 +313,8 @@ class CheckoutController extends ShopController
                 {
                     $addresses[] = $order->getDeliveryAddress();
                 }
-                $newUser = $em->getRepository('CoreUserBundle:User')->createUser($newUser, $addresses);
+                $newUser = $em->getRepository('CoreUserBundle:User')->createUser($newUser);
+                $em->getRepository('CoreShopBundle:Address')->createUser($newUser, $addresses);
                 if($newUser)
                 {
                     $t = $this->get('translator')->trans('New registration - %subject%', array(

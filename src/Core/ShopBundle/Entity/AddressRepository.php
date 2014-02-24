@@ -3,6 +3,7 @@
 namespace Core\ShopBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Core\UserBundle\Entity\User;
 
 /**
  * AddressRepository
@@ -25,5 +26,23 @@ class AddressRepository extends EntityRepository
             ->setParameter('uid', $userId);
         }
         return $queryBuilder;
+    }
+    
+    public function createUser(User $user, $addresses = array())
+    {
+        if($user && !empty($addresses))
+        {
+            $em = $this->getEntityManager();
+            foreach($addresses as $addr)
+            {
+                if(!empty($addr))
+                {
+                    $addr->setUser($user);
+                    $em->persist($addr);
+                }
+            }
+            $em->persist($user);
+            $em->flush();
+        }
     }
 }

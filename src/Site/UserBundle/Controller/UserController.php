@@ -7,7 +7,6 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 use Core\UserBundle\Entity\User;
-use Core\ShopBundle\Entity\Address;
 use Site\UserBundle\Form\NewUserType;
 use Core\UserBundle\Form\ChangePasswordType;
 use Core\UserBundle\Form\PasswordRecoveryType;
@@ -52,12 +51,21 @@ class UserController extends Controller
     public function newAction()
     {
         $entity = new User();
-        $entity->getAddresses()->add(new Address());
-        $addressRequiredConfiguration = $this->container->getParameter("address.required");
-        $form    = $this->createForm(new NewUserType(), $entity, array('address' => array('required' => $addressRequiredConfiguration)));
+        $minishop  = $this->container->getParameter('minishop');
+        $options = array();
+        if($minishop['shop'])
+        {
+            $addressRequiredConfiguration = $this->container->getParameter("address.required");
+            $options['address'] = array('required' => $addressRequiredConfiguration);
+        }
+        $form  = $this->createForm(new NewUserType(), $entity, $options);
+        if($minishop['shop'])
+        {
+            $form->get('addresses')->setData(array(new \Core\ShopBundle\Entity\Address()));
+        }
         return $this->render('SiteUserBundle:User:new.html.twig', array(
-        'entity' => $entity,
-        'form'   => $form->createView()
+            'entity' => $entity,
+            'form'   => $form->createView()
         ));
     }
     
@@ -65,8 +73,18 @@ class UserController extends Controller
     {
         $entity  = new User();
         $request = $this->getRequest();
-        $addressRequiredConfiguration = $this->container->getParameter("address.required");
-        $form    = $this->createForm(new NewUserType(), $entity, array('address' => array('required' => $addressRequiredConfiguration)));
+        $minishop  = $this->container->getParameter('minishop');
+        $options = array();
+        if($minishop['shop'])
+        {
+            $addressRequiredConfiguration = $this->container->getParameter("address.required");
+            $options['address'] = array('required' => $addressRequiredConfiguration);
+        }
+        $form  = $this->createForm(new NewUserType(), $entity, $options);
+        if($minishop['shop'])
+        {
+            $form->get('addresses')->setData(array(new \Core\ShopBundle\Entity\Address()));
+        }
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -80,9 +98,13 @@ class UserController extends Controller
             $login = $entity->getEmail();
             $entity->setLogin($login);
             $entity->setEnabled(true);
-            $addresses = $entity->getAddresses()->toArray();
             //user save
-            $entity = $em->getRepository('CoreUserBundle:User')->createUser($entity, $addresses);
+            $entity = $em->getRepository('CoreUserBundle:User')->createUser($entity);
+            if($minishop['shop'])
+            {
+                $addresses =  $form->get('addresses')->getData();
+                $em->getRepository('CoreShopBundle:Address')->createUser($entity, $addresses);
+            }
             if($entity)
             {
                 $t = $this->get('translator')->trans('New registration - %subject%', array(
@@ -104,9 +126,8 @@ class UserController extends Controller
                 $cart = $session->get('cart');
                 $token = new UsernamePasswordToken($entity, $entity->getPassword(), 'secured_area', $entity->getRoles());
                 $this->get('security.context')->setToken($token);
-                $session->set('cart', $cart);
-                if($cart->isEmpty())
-                {
+                if($cart && $cart->isEmpty())
+                {   $session->set('cart', $cart);
                     return $this->redirect($this->generateUrl('category_homepage'));
                 }
                 else
