@@ -4,7 +4,7 @@
 <h1>{% trans %}Newsletter unsubscribe{% endtrans %}</h1>
 {% if result %}
     <h3>{% trans %}You were successfully removed from newsletter{% endtrans %}</h3>
-{% endif %}
+{% else %}
 <p>
 	{% trans %}Put your email to usubscribe from newsletter{% endtrans %}
 </p>
@@ -20,5 +20,6 @@
         </div>
     </div> 
 </form>
+{% endif %}
 </div>
 {% endblock %}
