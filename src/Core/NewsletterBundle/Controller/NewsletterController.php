@@ -284,7 +284,7 @@ class NewsletterController extends Controller
             {
                 foreach($entity->getGroups() as $group)
                 {
-                    $groups = $group->getId();
+                    $groups[] = $group->getId();
                 }
                 if(!empty($groups))
                 {
