@@ -14,14 +14,14 @@ use Core\MediaBundle\Form\EditImageType;
  */
 class ImageController extends Controller
 {    
-    public function displayAction($id, $dir, $link_path = null)
+    public function displayAction($id, $dir, $link_path = null, $gallery = null)
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreMediaBundle:Image')->find($id);
-        return $this->displayEntityAction($entity, $dir, $link_path);
+        return $this->displayEntityAction($entity, $dir, $link_path, $gallery);
     }
     
-    public function displayEntityAction(Image $entity = null, $dir, $link_path = null)
+    public function displayEntityAction(Image $entity = null, $dir, $link_path = null, $gallery = null)
     {
         $webpath = null;
         if($entity !== null)
@@ -41,6 +41,7 @@ class ImageController extends Controller
             'image'      => $entity,
             'source'    =>  $webpath,
             'link_path' => $link_path,
+            'gallery'  => $gallery,
 
         ));
     }

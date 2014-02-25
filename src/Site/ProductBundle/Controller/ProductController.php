@@ -130,7 +130,7 @@ class ProductController extends ShopController
         return $this->render('SiteProductBundle:Product:top.html.twig', array('entities' => $entities, 'pricegroup' => $priceGroup, 'tag' => $tag, 'slug' => GedmoUrlizer::urlize($tag)));
     }
     
-    public function productMainMediaAction($product, $type = 'thumb', $link_path=null)
+    public function productMainMediaAction($product, $type = 'thumb', $link_path=null, $gallery = null)
     {
         $em = $this->getDoctrine()->getManager();
         $productEntity = $em->getRepository('CoreProductBundle:Product')->getProduct($product);
@@ -153,9 +153,10 @@ class ProductController extends ShopController
         }
 
         return $this->render('CoreMediaBundle:Image:display.html.twig', array(
-            'image'      => $entity,
+            'image'     => $entity,
             'source'    => $source,
             'link_path' => $link_path,
+            'gallery'   => $gallery,
         ));
     }
 }

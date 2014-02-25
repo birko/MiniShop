@@ -5,7 +5,7 @@
         <div class="item {% if loop.index0 == 0 %}active{% endif %}">
             {% if entity.media %}
             <div class="banner-media">
-            {% include "CoreMediaBundle:Media:display.html.twig" with {'entity' : entity.media, 'dir': type, 'link_path': '' }%}
+            {% include "CoreMediaBundle:Media:display.html.twig" with {'entity' : entity.media, 'dir': type, 'link_path': '', 'gallery': '' }%}
             </div>
             {% endif %}
             {% if entity.title %}

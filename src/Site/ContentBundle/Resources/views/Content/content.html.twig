@@ -14,7 +14,7 @@
 		  {% if media.media %}
           <div class="col-sm-4 col-md-4 col-lg-4">
 			    <div class="image">
-					{% include "CoreMediaBundle:Media:display.html.twig" with {'entity': media.media, 'dir': 'thumb', 'link_path':'large'} %}
+					{% include "CoreMediaBundle:Media:display.html.twig" with {'entity': media.media, 'dir': 'thumb', 'link_path':'large', 'gallery': 'content' ~ content.id} %}
 			    </div>
           </div>
 		  {% endif %}
