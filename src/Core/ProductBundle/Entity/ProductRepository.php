@@ -85,7 +85,7 @@ class ProductRepository extends EntityRepository
    
     public function  findByCategoryQuery($category = null, $recursive = false, $onlyenabled = false, $join = true)
     {
-        return $this->findByCategoryQueryBuilder($category, $recursive, $onlyenabled, $join)->getQuery();
+        return $this->setHint($this->findByCategoryQueryBuilder($category, $recursive, $onlyenabled, $join)->getQuery());
     }
 
     public function  findByCategory($category = null, $recursive = false, $onlyenabled = false, $join = true)
