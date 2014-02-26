@@ -17,7 +17,7 @@
         <tr>
             <th  class="col-sm-2 col-md-2 col-lg-2">{% trans %}Media{% endtrans %}</th>
             <th>{% trans %}Title{% endtrans %}</th>
-            <th class="col-sm-2 col-md-2 col-lg-2">{% trans %}Actions{% endtrans %}</th>
+            <th class="col-sm-3 col-md-3 col-lg-3">{% trans %}Actions{% endtrans %}</th>
         </tr>
     </thead>
     <tbody>
@@ -29,10 +29,11 @@
                 </div>
             </td>
             <td>{{ entity.title }}</td>
-            <td class="col-sm-2 col-md-2 col-lg-2">
+            <td class="col-sm-3 col-md-3 col-lg-3">
                 <div class="btn-group">
                 <a href="{{ path('product_media_edit', { 'id': entity.id , 'category': category, 'product': product.id, 'type': entity.type}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
-                <a href="{{ path('product_media_position', { 'id': entity.id, 'category': category, 'product': product.id }) }}" class="btn btn-default btn-xs">{{product.getProductMedia(entity.id).position}}</a>
+                <a href="{{ path('media_source', { 'id': entity.id, 'type': entity.type}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Source{% endtrans %}</a>
+				<a href="{{ path('product_media_position', { 'id': entity.id, 'category': category, 'product': product.id }) }}" class="btn btn-default btn-xs">{{product.getProductMedia(entity.id).position}}</a>
                 <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="#">{% trans %}Move{% endtrans%} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ path('product_media_up', { 'id': entity.id, 'category': category, 'position': 1, 'product': product.id }) }}" class="move-up"><span class="glyphicon glyphicon-arrow-up"></span> {% trans %}Move up{% endtrans %}</a></li>

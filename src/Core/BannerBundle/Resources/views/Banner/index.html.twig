@@ -37,7 +37,10 @@
             <td>
                 <div class="btn-group">
                     <a href="{{ path('banner_edit', { 'id': entity.id }) }}" class="btn btn-warning btn-xs"><span class="glyphicon glyhicon-edit"></span> {%trans%}Edit{%endtrans%}</a>
-                    <a href="{{ path('banner_position', { 'id': entity.id, 'category': category }) }}" class="btn btn-default btn-xs">{{entity.position}}</a>
+                    {% if entity.media %}
+					<a href="{{ path('media_source', { 'id': entity.media.id, 'type': entity.media.type}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Source{% endtrans %}</a>
+					{% endif %}
+					<a href="{{ path('banner_position', { 'id': entity.id, 'category': category }) }}" class="btn btn-default btn-xs">{{entity.position}}</a>
                     <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="#">{% trans %}Move{% endtrans%} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('banner_up', { 'id': entity.id, 'category': category, 'position': 1 }) }}" class="move-up"><span class="glyphicon glyphicon-arrow-up"></span> {% trans %}Move up{% endtrans %}</a></li>
