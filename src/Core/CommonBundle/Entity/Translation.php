@@ -25,6 +25,15 @@ use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation as GedmoTrans
 class Translation extends GedmoTranslation
 {
     /**
+     * @var integer $id
+     *
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
+    
+    /**
      * @var integer  $foreignKey
      *
      * @ORM\Column(name="foreign_key", type="integer")
