@@ -16,15 +16,15 @@ use Core\CommonBundle\Controller\TranslateController;
  */
 class UserTextController extends TranslateController
 {
-    protected function saveTranslation($entity, $culture, $translation) 
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
         $entity->setText($translation->getText());
         $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
+        $em->persist($entity);
         $em->flush();
     }
-    
+
     /**
      * Lists all UserText entities.
      *
@@ -100,7 +100,7 @@ class UserTextController extends TranslateController
             $em->persist($entity);
             $em->flush();
             $this->saveTranslations($entity, $cultures);
-            
+
             return $this->redirect($this->generateUrl('usertext'));
         }
 
@@ -205,7 +205,7 @@ class UserTextController extends TranslateController
             ->getForm()
         ;
     }
-    
+
     public function displayAction($name, $create = false)
     {
         $em = $this->getDoctrine()->getManager();

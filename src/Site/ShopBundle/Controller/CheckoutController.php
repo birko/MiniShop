@@ -2,19 +2,16 @@
 namespace Site\ShopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Site\ShopBundle\Entity\CartItem;
 use Site\ShopBundle\Entity\CouponItem;
 use Core\ShopBundle\Entity\Address;
 use Core\ShopBundle\Entity\Cart;
 use Core\ShopBundle\Entity\Order;
 use Core\ShopBundle\Entity\OrderItem;
 use Core\UserBundle\Entity\User;
-use Core\ShopBundle\Form\AddressType;
 use Site\ShopBundle\Form\CartBaseAddressType;
 use Site\ShopBundle\Form\CartUserAddressType;
 use Site\ShopBundle\Form\CartPaymentShippingType;
 use Site\ShopBundle\Form\CartOrderType;
-use Site\ShopBundle\Form\CartBaseType;
 
 /**
  * Description of CheckoutSiteController
@@ -26,46 +23,40 @@ class CheckoutController extends ShopController
     public function indexAction()
     {
         $this->testCart();
-        if(!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
-        {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->render('SiteShopBundle:Checkout:index.html.twig');
-        }
-        else
-        {
+        } else {
             return $this->redirect($this->generateUrl('checkout_user'));
         }
-       
+
     }
 
     public function userAction()
     {
         return $this->render('SiteShopBundle:Checkout:user.html.twig');
     }
-    
+
     public function userFormAction()
     {
         $this->testCart();
-        $cart = $this->getCart(); 
+        $cart = $this->getCart();
         $user = $this->getShopUser();
-        if($user === null)
-        {
+        if ($user === null) {
            throw $this->createNotFoundException('Unable to find User entity.');
         }
         $em = $this->getDoctrine()->getManager();
         $addresses = $em->getRepository('CoreShopBundle:Address')->getUserAddressQueryBuilder($user->getId())
             ->getQuery()
             ->getResult();
-        if(!empty($addresses))
-        {
+        if (!empty($addresses)) {
             $cart->setPaymentAddress(current($addresses));
             $cart->setShippingAddress(current($addresses));
-        }
-        else
-        {
+        } else {
             throw $this->createNotFoundException('Unable to find User Address entity.');
         }
-        
+
         $form = $this->createForm(new CartUserAddressType($user->getId(), $cart->isSameAddress()), $cart);
+
         return $this->render('SiteShopBundle:Checkout:userform.html.twig', array(
             'form'   => $form->createView(),
             'user' => $user,
@@ -75,51 +66,47 @@ class CheckoutController extends ShopController
     public function userAddressAction()
     {
         $this->testCart();
-        $cart = $this->getCart(); 
+        $cart = $this->getCart();
         $request = $this->getRequest();
         $user = $this->getShopUser();
-        if($user === null)
-        {
+        if ($user === null) {
            throw $this->createNotFoundException('Unable to find User entity.');
         }
         $em = $this->getDoctrine()->getManager();
         $addresses = $em->getRepository('CoreShopBundle:Address')->getUserAddressQueryBuilder($user->getId())
             ->getQuery()
             ->getResult();
-        if(!empty($addresses))
-        {
+        if (!empty($addresses)) {
             $cart->setPaymentAddress(current($addresses));
             $cart->setShippingAddress(current($addresses));
-        }
-        else
-        {
+        } else {
             throw $this->createNotFoundException('Unable to find User Address entity.');
         }
         $form = $this->createForm(new CartUserAddressType($user->getId(), $cart->isSameAddress()), $cart);
         $form->bind($request);
-        if($cart->isSameAddress())
-        {
+        if ($cart->isSameAddress()) {
             $post = $request->get($form->getName());
             $post['shippingAddress'] = $post['paymentAddress'];
             $request->request->set($form->getName(), $post);
         }
         $form = $this->createForm(new CartUserAddressType($user->getId(), $cart->isSameAddress()), $cart);
         $form->bind($request);
-        if ($form->isValid()) 
-        {
+        if ($form->isValid()) {
             $this->setCart($cart);
+
             return $this->redirect($this->generateUrl('checkout_paymentshipping'));
         }
+
         return $this->render('SiteShopBundle:Checkout:user.html.twig', array(
             'form'   => $form->createView(),
             'user' => $user,
         ));
     }
-    
+
     public function guestAction()
     {
         $this->testCart();
-        $cart = $this->getCart(); 
+        $cart = $this->getCart();
         $addressRequiredConfiguration = $this->container->getParameter("address.required");
         $form = $this->createForm(new CartBaseAddressType($cart->isSameAddress()), $cart, array('address' => array('required' => $addressRequiredConfiguration)));
 
@@ -127,18 +114,17 @@ class CheckoutController extends ShopController
             'form'   => $form->createView(),
         ));
     }
-    
+
     public function guestAddressAction()
     {
         $this->testCart();
-        $cart = $this->getCart(); 
+        $cart = $this->getCart();
         $request = $this->getRequest();
         $addressRequiredConfiguration = $this->container->getParameter("address.required");
         $form = $this->createForm(new CartBaseAddressType($cart->isSameAddress()), $cart, array('address' => array('required' => $addressRequiredConfiguration)));
         $form->bind($request);
         $form->isValid();
-        if($cart->isSameAddress())
-        {
+        if ($cart->isSameAddress()) {
             $post = $request->get($form->getName());
             $post['shippingAddress'] = $post['paymentAddress'];
             unset($post['shippingAddress']['TIN']);
@@ -148,38 +134,34 @@ class CheckoutController extends ShopController
         }
         $form2 = $this->createForm(new CartBaseAddressType($cart->isSameAddress()), $cart);
         $form2->bind($request);
-        if ($form2->isValid()) 
-        {
+        if ($form2->isValid()) {
             $this->setCart($cart);
+
             return $this->redirect($this->generateUrl('checkout_paymentshipping'));
         }
+
         return $this->render('SiteShopBundle:Checkout:guest.html.twig', array(
             'form'   => $form2->createView(),
         ));
     }
-    
+
     public function paymentShippingAction()
     {
         $this->testCart();
-        $cart = $this->getCart(); 
-        if($cart->isSkipPayment() && $cart->isSkipShipping())
-        {
+        $cart = $this->getCart();
+        if ($cart->isSkipPayment() && $cart->isSkipShipping()) {
             return $this->redirect($this->generateUrl('checkout_confirm'));
-        }
-        else
-        {
+        } else {
             $state = $cart->getShippingAddress()->getState();
             $em = $this->getDoctrine()->getManager();
             $payments =  $em->getRepository('CoreShopBundle:Payment')->getPaymentQueryBuilder(true)
                 ->getQuery()->getResult();
-            if(!empty($payments) && !$cart->isSkipPayment())
-            {
+            if (!empty($payments) && !$cart->isSkipPayment()) {
                 $cart->setPayment($payments[0]);
             }
             $shippings =  $em->getRepository('CoreShopBundle:Shipping')->getShippingQueryBuilder($state->getId(), true)
                 ->getQuery()->getResult();
-            if(!empty($shippings) && !$cart->isSkipShipping())
-            {
+            if (!empty($shippings) && !$cart->isSkipShipping()) {
                 $cart->setShipping($shippings[0]);
             }
             $form = $this->createForm(new CartPaymentShippingType(), $cart, array(
@@ -187,6 +169,7 @@ class CheckoutController extends ShopController
                 'payment' => !$cart->isSkipPayment(),
                 'shipping' => !$cart->isSkipShipping(),
             ));
+
             return $this->render('SiteShopBundle:Checkout:paymentshipping.html.twig', array(
                 'form'   => $form->createView(),
                 'payment' => $payments,
@@ -195,11 +178,11 @@ class CheckoutController extends ShopController
             ));
         }
     }
-    
+
     public function savePaymentShippingAction()
     {
         $this->testCart();
-        $cart = $this->getCart(); 
+        $cart = $this->getCart();
         $state = $cart->getShippingAddress()->getState();
         $form = $this->createForm(new CartPaymentShippingType(), $cart, array(
             'state' => $state->getId(),
@@ -208,9 +191,9 @@ class CheckoutController extends ShopController
         ));
         $request = $this->getRequest();
         $form->bind($request);
-        if ($form->isValid()) 
-        {
+        if ($form->isValid()) {
             $this->setCart($cart);
+
             return $this->redirect($this->generateUrl('checkout_confirm'));
         }
         $em = $this->getDoctrine()->getManager();
@@ -218,84 +201,73 @@ class CheckoutController extends ShopController
             ->getQuery()->getResult();
         $shippings =  $em->getRepository('CoreShopBundle:Shipping')->getShippingQueryBuilder($state->getId(), true)
             ->getQuery()->getResult();
+
         return $this->render('SiteShopBundle:Checkout:paymentshipping.html.twig', array(
             'form'   => $form->createView(),
             'cart' => $cart,
             'payment' => $payments,
             'shipping' => $shippings,
         ));
-        
+
     }
-    
+
     public function confirmAction()
     {
         $this->testCart();
-        $cart = $this->getCart(); 
+        $cart = $this->getCart();
         $form = $this->createForm(new CartOrderType(), $cart);
-        if($cart->isSameAddress())
-        {
+        if ($cart->isSameAddress()) {
             $cart->setPaymentAddress($cart->getShippingAddress());
         }
+
         return $this->render('SiteShopBundle:Checkout:confirm.html.twig', array(
             'cart'   => $cart,
             'form' => $form->createView(),
         ));
     }
-    
+
     public function orderAction()
     {
         $this->testCart();
-        $cart = $this->getCart(); 
+        $cart = $this->getCart();
         $form = $this->createForm(new CartOrderType(), $cart);
         $form->bind($this->getRequest());
         $form->isValid();
-        if($cart->isSameAddress())
-        {
+        if ($cart->isSameAddress()) {
             $cart->setPaymentAddress($cart->getShippingAddress());
         }
         $user = $this->getShopUser();
         $sendEmail = null;
-        if(!empty($user))
-        {
+        if (!empty($user)) {
             $sendEmail = $user->getEmail();
         }
         // check if adress has an email fallback user email
         $pemail = ($cart->getShippingAddress()) ? $cart->getShippingAddress()->getEmail() : null;
-        if(empty($pemail) && !empty($sendEmail))
-        {
+        if (empty($pemail) && !empty($sendEmail)) {
             $cart->getShippingAddress()->setEmail($sendEmail);
         }
-        if(!$cart->isSameAddress())
-        {
+        if (!$cart->isSameAddress()) {
             $semail = $cart->getPaymentAddress()->getEmail();
-            if(empty($semail) && !empty($sendEmail))
-            {
+            if (empty($semail) && !empty($sendEmail)) {
                 $cart->getPaymentAddress()->setEmail($sendEmail);
             }
         }
         $em = $this->getDoctrine()->getManager();
         $order = new Order();
         $order->setInvoiceAddress($cart->getPaymentAddress());
-        if($cart->isSameAddress())
-        {
+        if ($cart->isSameAddress()) {
             $order->setDeliveryAddress($cart->getPaymentAddress());
-        }
-        else
-        {
+        } else {
             $order->setDeliveryAddress($cart->getShippingAddress());
         }
         $order->setPrice($cart->getPrice());
         $order->setPriceVAT($cart->getPriceVAT());
         $order->setComment($cart->getComment());
-        if(!empty($user))
-        {
+        if (!empty($user)) {
            $order->setUser($user);
-        }
-        elseif($this->container->getParameter('site.shop.register_guest'))
-        {
+        } elseif ($this->container->getParameter('site.shop.register_guest')) {
             $newUser = $em->getRepository('CoreUserBundle:User')->findOneByEmail($order->getInvoiceAddress()->getEmail());
-            if(empty($newUser))
-            {
+            if (empty($newUser)) {
                 $newUser = new User();
                 //user settup
                 $factory = $this->get('security.encoder_factory');
@@ -309,14 +281,12 @@ class CheckoutController extends ShopController
                 $newUser->setPassword($passwordhash);
                 $addresses = array();
                 $addresses[] = $order->getInvoiceAddress();
-                if(!$cart->isSameAddress())
-                {
+                if (!$cart->isSameAddress()) {
                     $addresses[] = $order->getDeliveryAddress();
                 }
                 $newUser = $em->getRepository('CoreUserBundle:User')->createUser($newUser);
                 $em->getRepository('CoreShopBundle:Address')->createUser($newUser, $addresses);
-                if($newUser)
-                {
+                if ($newUser) {
                     $t = $this->get('translator')->trans('New registration - %subject%', array(
                         '%subject%' => $this->container->getParameter('site_title'),
                     ));
@@ -334,43 +304,35 @@ class CheckoutController extends ShopController
             }
             $order->setUser($newUser);
         }
-        
+
         //items
-        foreach($cart->getItems() as $item)
-        {
+        foreach ($cart->getItems() as $item) {
             $orderItem = new OrderItem();
             $orderItem->setAmount($item->getAmount());
             $orderItem->setPrice($item->getPrice());
             $orderItem->setPriceVAT($item->getPriceVAT());
             $orderItem->setName($item->getName());
             $orderItem->setDescription($item->getDescription());
-            if($item->getProductId() != null)
-            {
+            if ($item->getProductId() != null) {
                 $productEntity = $em->getRepository('CoreProductBundle:Product')->find($item->getProductId());
-                if($productEntity !== null)
-                {
+                if ($productEntity !== null) {
                     $orderItem->setProduct($productEntity);
                 }
                 // stock options
                 $options = $item->getOptions();
-                if(!empty($options))
-                {
+                if (!empty($options)) {
                     $options = array();
-                    foreach($item->getOptions() as $option)
-                    {
-                        if($option)
-                        {
+                    foreach ($item->getOptions() as $option) {
+                        if ($option) {
                             $options[] = "{$option->getName()->getName()}: {$option->getValue()->getValue()}";
                         }
                     }
                     $orderItem->setOptions(implode(', ', $options));
                 }
             }
-            if($item instanceof CouponItem)
-            {
+            if ($item instanceof CouponItem) {
                 $couponEntity = $em->getRepository("CoreShopBundle:Coupon")->findOneByCode($item->getCode());
-                if($couponEntity)
-                {
+                if ($couponEntity) {
                     $couponEntity->setUsed(true);
                     $couponEntity->setActive(false);
                     $em->persist($couponEntity);
@@ -380,8 +342,7 @@ class CheckoutController extends ShopController
             $order->addItem($orderItem);
         }
         //shipping
-        if($cart->getShipping() != null)
-        {
+        if ($cart->getShipping() != null) {
             $orderItem = new OrderItem();
             $orderItem->setAmount(1);
             $orderItem->setPrice($cart->getShipping()->getPrice());
@@ -394,8 +355,7 @@ class CheckoutController extends ShopController
             $order->addItem($orderItem);
         }
         //payment
-        if($cart->getPayment() != null)
-        {
+        if ($cart->getPayment() != null) {
             $orderItem = new OrderItem();
             $orderItem->setAmount(1);
             $orderItem->setPrice($cart->getPayment()->getPrice());
@@ -415,7 +375,7 @@ class CheckoutController extends ShopController
         // Ordder has  "HasLifecycleCallbacks" to create order_number after insert
         $em->persist($order);
         $em->flush();
-        
+
         $sendEmail= $cart->getPaymentAddress()->getEmail();
         //emails
         // TODO: Send emails
@@ -427,10 +387,10 @@ class CheckoutController extends ShopController
             '%title%' => $title,
         ));
         $message = \Swift_Message::newInstance()
-            ->setSubject($t)   
+            ->setSubject($t)
             ->setFrom($emails['default'], $this->container->getParameter('site_title'))   //settings
-            ->setTo(array($emails['order'], $sendEmail)) 
-            ->setBody($this->renderView('SiteShopBundle:Email:order.html.twig', array(  
+            ->setTo(array($emails['order'], $sendEmail))
+            ->setBody($this->renderView('SiteShopBundle:Email:order.html.twig', array(
                 'order' => $order,
             )),"text/html")
             ->setContentType("text/html");
@@ -438,9 +398,6 @@ class CheckoutController extends ShopController
         $cart->clearItems();
         $this->setCart($cart);
         // TODO: payment methods
-        
         return $this->render('SiteShopBundle:Checkout:order.html.twig');
     }
 }
-
-?>

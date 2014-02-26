@@ -2,19 +2,16 @@
 
 namespace Core\ProductBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 use Core\PriceBundle\Form\AbstractPriceType;
 
-
 class PriceType extends AbstractPriceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        
+
         $builder
             ->add('type', 'choice', array(
                 'choices' => array(
@@ -29,7 +26,7 @@ class PriceType extends AbstractPriceType
                 'class' => 'CoreUserBundle:PriceGroup',
                 'label' => 'Price group',
                 'property' => 'name' ,
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('pg')->orderBy('pg.name', 'ASC');
                 },
                 'required'    => true,
@@ -47,7 +44,7 @@ class PriceType extends AbstractPriceType
     {
         return 'core_productbundle_pricetype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);

@@ -2,38 +2,32 @@
 
 namespace Core\ProductBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 
 class ProductType extends ProductTranslationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if(!empty($options['cultures']))
-        {
+        if (!empty($options['cultures'])) {
             $builder->add('translations', 'collection', array(
                 'type' => new ProductTranslationType(),
                 'allow_add' => false,
                 'allow_delete' => false,
-                'prototype' => false, 
+                'prototype' => false,
                 'by_reference' => false,
                 'options' => array(
                     'required' => false,
             )));
-        }
-        else
-        {
+        } else {
             parent::buildForm($builder, $options);
         }
         $builder
             ->add('vendor', 'entity',  array(
                 'class' => 'CoreVendorBundle:Vendor',
                 'property' => 'title' ,
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('v')->orderBy('v.title', 'ASC');
                 },
                 'required'    => false,
@@ -41,14 +35,12 @@ class ProductType extends ProductTranslationType
                 'empty_data'  => null))
             ->add('enabled', 'checkbox', array('required' => false))
         ;
-        if(!empty($options['tags']))
-        {
+        if (!empty($options['tags'])) {
             $tags = array();
-            foreach($options['tags'] as $tag)
-            {
+            foreach ($options['tags'] as $tag) {
                 $tags[$tag] = $tag;
             }
-            
+
             $builder->add('tags', 'choice', array(
                 'required' => false,
                 'choices' => $tags,
@@ -62,7 +54,7 @@ class ProductType extends ProductTranslationType
     {
         return 'core_productbundle_producttype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);

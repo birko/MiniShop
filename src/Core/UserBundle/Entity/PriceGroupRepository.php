@@ -21,7 +21,8 @@ class PriceGroupRepository extends EntityRepository
                ->setParameter('default', 'false')
                ->setParameter('priceGroupId', $priceGroupId)
                ->getQuery();
-        $numUpdated = $q->execute(); 
+        $numUpdated = $q->execute();
+
         return $numUpdated;
     }
 }

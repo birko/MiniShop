@@ -16,7 +16,7 @@ class VendorRepository extends EntityRepository
     {
         return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
     }
-    
+
     public function getVendorsQueryBuilder()
     {
         return $this->getEntityManager()
@@ -26,18 +26,19 @@ class VendorRepository extends EntityRepository
             ->addOrderBy("v.title")
             ->addOrderBy("v.id");
     }
-    
+
     public function getVendorsQuery()
     {
         return $this->setHint($this->getVendorsQueryBuilder()->getQuery());
     }
-    
+
     public function getBySlug($slug)
     {
         $query = $this->getVendorsQueryBuilder()
             ->andWhere('v.slug = :slug')
             ->setParameter('slug', $slug)
             ->getQuery();
+
         return $this->setHint($query)->getOneOrNullResult();
     }
 }

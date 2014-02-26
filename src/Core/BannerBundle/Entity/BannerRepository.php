@@ -16,7 +16,7 @@ class BannerRepository extends EntityRepository
     {
         return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
     }
-    
+
     public function getBannersQueryBuilder($categoryId = null)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()
@@ -25,24 +25,24 @@ class BannerRepository extends EntityRepository
                 ->leftJoin("b.media", "m")
                 ->addOrderBy("b.position")
                 ->addOrderBy("b.id");
-        if($categoryId !== null)
-        {
+        if ($categoryId !== null) {
             $queryBuilder->andWhere('b.category = :cid')
                     ->setParameter('cid', $categoryId);
         }
+
         return $queryBuilder;
     }
-    
+
     public function getBannersQuery($categoryId = null)
     {
         return $this->setHint($this->getBannersQueryBuilder($categoryId)->getQuery());
     }
-    
+
     public function getBanners($categoryId = null)
     {
         return $this->getBannersQuery($categoryId)->getResult();
     }
-    
+
     public function updatePosition($bannerId, $categoryId, $position, $move)
     {
         $q = $this->getEntityManager()->createQueryBuilder();
@@ -56,7 +56,8 @@ class BannerRepository extends EntityRepository
                 ->setParameter('position', $position)
                 ->setParameter('cid', $categoryId)
                 ;
-        $numUpdated = $q->getQuery()->execute(); 
+        $numUpdated = $q->getQuery()->execute();
+
         return $numUpdated;
     }
 }

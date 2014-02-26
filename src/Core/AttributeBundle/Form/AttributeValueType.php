@@ -2,7 +2,6 @@
 
 namespace Core\AttributeBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -10,30 +9,27 @@ class AttributeValueType extends AttributeValueTranslationType
 {
         /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if(!empty($options['cultures']))
-        {
+        if (!empty($options['cultures'])) {
             $builder->add('translations', 'collection', array(
                 'type' => new AttributeValueTranslationType(),
                 'allow_add' => false,
                 'allow_delete' => false,
-                'prototype' => false, 
+                'prototype' => false,
                 'by_reference' => false,
                 'options' => array(
                     'required' => false,
             )));
-        }
-        else
-        {
+        } else {
             parent::buildForm($builder, $options);
         }
         $builder->add('serialized', 'checkbox', array('required' => false));
-        
+
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

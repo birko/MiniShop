@@ -8,23 +8,21 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 
 class ProcessType extends AbstractType
-{   
+{
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices = array();
-        if(isset($options['config']['labels']) && $options['config']['labels'])
-        {
-            $choices['labels'] = "Labels";                    
+        if (isset($options['config']['labels']) && $options['config']['labels']) {
+            $choices['labels'] = "Labels";
         }
-                
-        if(isset($options['config']['status']) && $options['config']['status'])
-        {
-            $choices['orderstatus'] = "Order status"; 
+
+        if (isset($options['config']['status']) && $options['config']['status']) {
+            $choices['orderstatus'] = "Order status";
             $builder->add('orderStatus','entity',  array(
                  'class' => 'CoreShopBundle:OrderStatus',
                  'label' => 'Order status',
                  'property' => 'name' ,
-                 'query_builder' => function(EntityRepository $er) {
+                 'query_builder' => function (EntityRepository $er) {
                      return $er->createQueryBuilder('s')->orderBy('s.name', 'ASC');
                  },
                  'required'    => false,
@@ -32,15 +30,14 @@ class ProcessType extends AbstractType
                  'empty_data'  => null
             ));
         }
-                
-        if(isset($options['config']['shipping']) && $options['config']['shipping'])
-        {
-            $choices['shippingstatus'] = "Shipping status"; 
+
+        if (isset($options['config']['shipping']) && $options['config']['shipping']) {
+            $choices['shippingstatus'] = "Shipping status";
             $builder ->add('shippingStatus','entity',  array(
                 'class' => 'CoreShopBundle:ShippingStatus',
                 'label' => 'Shipping status',
                 'property' => 'name' ,
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')->orderBy('s.name', 'ASC');
                 },
                 'required'    => false,
@@ -48,13 +45,11 @@ class ProcessType extends AbstractType
                 'empty_data'  => null
             ));
         }
-                
+
         $exports = array();
-        if(!empty($options['export']) && isset($options['config']['export']) && $options['config']['export'])
-        {
-            $choices['export'] = "Export"; 
-            foreach($options['export'] as $key => $export)
-            {
+        if (!empty($options['export']) && isset($options['config']['export']) && $options['config']['export']) {
+            $choices['export'] = "Export";
+            foreach ($options['export'] as $key => $export) {
                 $exports[$key] = $export['name'];
             }
             $builder->add('export', 'choice', array(
@@ -62,8 +57,7 @@ class ProcessType extends AbstractType
                     'choices' => $exports,
             ));
         }
-        if(!empty($choices))
-        {
+        if (!empty($choices)) {
             $builder
                 ->add('type', 'choice', array(
                     'required' => true,
@@ -71,19 +65,19 @@ class ProcessType extends AbstractType
                 ));
         }
         $builder->add('processOrders', 'collection', array(
-                'type' => new ProcessOrderType(),  
+                'type' => new ProcessOrderType(),
                 'label' => false,
                 'required' => false,
                 'allow_add' => true
         ));
-        
+
     }
 
     public function getName()
     {
         return 'core_shopbundle_processtype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

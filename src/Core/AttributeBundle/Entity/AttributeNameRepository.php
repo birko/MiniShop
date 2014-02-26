@@ -3,8 +3,6 @@
 namespace Core\AttributeBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr;
-use Gedmo\Sortable\Entity\Repository\SortableRepository;
 
 class AttributeNameRepository extends EntityRepository
 {
@@ -15,38 +13,37 @@ class AttributeNameRepository extends EntityRepository
             ->from("CoreAttributeBundle:AttributeName", "an")
             ->leftJoin("an.values", "av");
             ;
-        if($name !== null)
-        {
+        if ($name !== null) {
             $queryBuilder->andWhere("an.name = :name")
                 ->setParameter("name", $name);
         }
         $queryBuilder
             ->addOrderBy("an.name");
+
         return $queryBuilder;
     }
-    
+
     public function getNamesQuery($name = null)
     {
         $query = $this->getNamesQueryBuilder($name)->getQuery();
         $query = $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+
         return $query;
     }
-    
+
     public function getNames($name = null)
     {
         return $this->getNamesQuery($name)->getResult();
     }
-    
+
     public function createAttributeName($name)
     {
         $attributeName = $this->getNamesQuery($name)->getOneOrNullResult();
-        if(!$attributeName)
-        {
+        if (!$attributeName) {
             $attributeName = new AttributeName();
             $attributeName->setName($name);
         }
+
         return $attributeName;
     }
 }
-
-?>

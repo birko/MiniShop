@@ -9,7 +9,7 @@ class ScriptHandler
     public static function postInstall(Event $event)
     {
         $io = $event->getIO();
-        $composer = $event->getComposer(); 
+        $composer = $event->getComposer();
         $io->write("Minishop Configuration");
         $dependencies = array(
             'attribute'     => array('common'),
@@ -29,17 +29,12 @@ class ScriptHandler
             'voucher'       => array('marketing', 'price', 'shop'),
         );
         $config = array('common', 'user');
-        foreach($dependencies as $key => $value)
-        {
-            if(!in_array($key, $config))
-            {
-                if($io->askConfirmation("Enable feature: ". $key. "? [Y,n]", true))
-                {
+        foreach ($dependencies as $key => $value) {
+            if (!in_array($key, $config)) {
+                if ($io->askConfirmation("Enable feature: ". $key. "? [Y,n]", true)) {
                     $config[] = $key;
-                    foreach($value as $dep)
-                    {
-                        if(!in_array($dep, $config))
-                        {
+                    foreach ($value as $dep) {
+                        if (!in_array($dep, $config)) {
                             $config[] = $dep;
                         }
                     }
@@ -48,8 +43,7 @@ class ScriptHandler
         }
         $io->write("app/AppKernel.php" . ": Configuring");
         $appKernel = file_get_contents("app/AppKernel.php.dist");
-        foreach($config as $val)
-        {
+        foreach ($config as $val) {
             $appKernel = str_replace("//". $val. ": ", "", $appKernel);
         }
         file_put_contents("app/AppKernel.php", $appKernel);
@@ -60,17 +54,15 @@ class ScriptHandler
             "security.yml",
             "config.yml",
         );
-        foreach($configsFiles as $file)
-        { 
+        foreach ($configsFiles as $file) {
             $io->write($file . ": Creating");
             $configFile = file_get_contents("app/config/" . $file . ".dist");
-            foreach($config as $val)
-            {
+            foreach ($config as $val) {
                 $configFile = str_replace("#". $val. ": ", "", $configFile);
             }
             file_put_contents("app/config/" . $file, $configFile);
             $io->write( $file . ": Done");
-        }  
+        }
         $io->write("MiniShop Configuration ended.");
         $io->write("---------------------------------");
     }

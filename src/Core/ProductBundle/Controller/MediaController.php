@@ -9,7 +9,6 @@ use Core\ProductBundle\Form\ProductMediaType;
 use Core\MediaBundle\Entity\Media;
 use Core\MediaBundle\Entity\Image;
 use Core\MediaBundle\Entity\Video;
-use Core\MediaBundle\Form\MediaType;
 use Core\MediaBundle\Form\ImageType;
 use Core\MediaBundle\Form\VideoType;
 use Core\MediaBundle\Form\EditImageType;
@@ -22,14 +21,14 @@ use Core\CommonBundle\Controller\TranslateController;
  */
 class MediaController extends TranslateController
 {
-    protected function saveTranslation($entity, $culture, $translation) 
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
         $entity->setFile(null);
         $entity->setTitle($translation->getTitle());
-        $entity->setDescription($translation->getDescription());    
+        $entity->setDescription($translation->getDescription());
         $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
+        $em->persist($entity);
         $em->flush();
     }
     /**
@@ -45,7 +44,7 @@ class MediaController extends TranslateController
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
-        
+
         return $this->render('CoreProductBundle:Media:index.html.twig', array(
             'entities' => $entities,
             'category' => $category,
@@ -60,8 +59,7 @@ class MediaController extends TranslateController
     public function newAction($product, $type, $category = null)
     {
         $cultures = $this->container->getParameter('core.cultures');
-        switch($type)
-        {
+        switch ($type) {
             case "video":
                 $entity = new Video();
                 $this->loadTranslations($entity, $cultures, new Video());
@@ -92,8 +90,7 @@ class MediaController extends TranslateController
     public function createAction($product, $type, $category = null)
     {
         $cultures = $this->container->getParameter('core.cultures');
-        switch($type)
-        {
+        switch ($type) {
             case "video":
                 $entity = new Video();
                 $this->loadTranslations($entity, $cultures, new Video());
@@ -113,21 +110,15 @@ class MediaController extends TranslateController
             $em = $this->getDoctrine()->getManager();
             $hash = trim($entity->getHash());
             $source = trim($entity->getsource());
-            if(!empty($hash) || !empty($source))
-            {
+            if (!empty($hash) || !empty($source)) {
                 $testEntity = $em->getRepository('CoreMediaBundle:Media')->findOneByHash($entity->getHash());
-                if($testEntity !== null)
-                {
+                if ($testEntity !== null) {
                     $entity = $testEntity;
-                }
-                else   
-                {
-                    if($type == 'image')
-                    {
+                } else {
+                    if ($type == 'image') {
                         $imageOptions = $this->container->getParameter('images');
                         $opts = array();
-                        foreach($this->container->getParameter('product.images') as $val)
-                        {
+                        foreach ($this->container->getParameter('product.images') as $val) {
                             $opts[$val] = $imageOptions[$val];
                         }
                         $entity->setOptions($opts);
@@ -137,13 +128,13 @@ class MediaController extends TranslateController
                     $this->saveTranslations($entity, $cultures);
                 }
                 $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
-                if($productEntity != null)
-                {
+                if ($productEntity != null) {
                     $productMedia = $productEntity->addMedia($entity);
                     $em->persist($entity);
                     $em->persist($productMedia);
                     $em->flush();
                 }
+
                 return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
             }
         }
@@ -154,7 +145,7 @@ class MediaController extends TranslateController
             'category' => $category,
             'product' => $product,
             'type' => $type,
-            'cultures' => $cultures 
+            'cultures' => $cultures
         ));
     }
 
@@ -174,8 +165,7 @@ class MediaController extends TranslateController
 
         $cultures = $this->container->getParameter('core.cultures');
         $this->loadTranslations($entity, $cultures);
-        switch($entity->getType())
-        {
+        switch ($entity->getType()) {
             case "video":
                 $editForm   = $this->createForm(new EditVideoType(), $entity, array('cultures' => $cultures));
                 break;
@@ -213,8 +203,7 @@ class MediaController extends TranslateController
 
         $cultures = $this->container->getParameter('core.cultures');
         $this->loadTranslations($entity, $cultures);
-        switch($entity->getType())
-        {
+        switch ($entity->getType()) {
             case "video":
                 $editForm   = $this->createForm(new EditVideoType(), $entity, array('cultures' => $cultures));
                 break;
@@ -266,25 +255,19 @@ class MediaController extends TranslateController
                 throw $this->createNotFoundException('Unable to find ' . $type . ' entity.');
             }
             $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
-            if($productEntity != null)
-            {
+            if ($productEntity != null) {
                 $productMedia = $productEntity->removeMedia($entity);
-                if($productMedia)
-                {
+                if ($productMedia) {
                     $em->remove($productMedia);
                 }
             }
-            if($entity->getUsedCount() == 0)
-            {
-                if($entity->getType() == 'image')
-                {
+            if ($entity->getUsedCount() == 0) {
+                if ($entity->getType() == 'image') {
                     $imageOptions = $this->container->getParameter('images');
                     $entity->setOptions($imageOptions);
                 }
                 $em->remove($entity);
-            }
-            else
-            {
+            } else {
                 $em->persist($entity);
             }
             $em->flush();
@@ -300,7 +283,7 @@ class MediaController extends TranslateController
             ->getForm()
         ;
     }
-    
+
     public function moveUpAction($id, $product, $position, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -309,15 +292,15 @@ class MediaController extends TranslateController
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
         $productMedia = $entity->getProductMedia($id);
-        if($productMedia)
-        {
+        if ($productMedia) {
             $productMedia->setPosition($productMedia->getPosition() - $position);
             $em->persist($productMedia);
             $em->flush();
         }
+
         return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
     }
-    
+
     public function moveDownAction($id, $product, $position, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -326,15 +309,15 @@ class MediaController extends TranslateController
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
         $productMedia = $entity->getProductMedia($id);
-        if($productMedia)
-        {
+        if ($productMedia) {
             $productMedia->setPosition($productMedia->getPosition() + $position);
             $em->persist($productMedia);
             $em->flush();
         }
+
         return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
     }
-    
+
     public function positionAction($id, $product, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -347,14 +330,15 @@ class MediaController extends TranslateController
             throw $this->createNotFoundException('Unable to find Product Media entity.');
         }
         $form = $this->createForm(new ProductMediaType(), $productMedia);
+
         return $this->render('CoreProductBundle:Media:position.html.twig', array(
-            'product' => $product, 
+            'product' => $product,
             'category' => $category,
             'id' => $id,
             'form' => $form->createView()
         ));
     }
-    
+
     public function positionUpdateAction($id, $product, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -369,14 +353,15 @@ class MediaController extends TranslateController
         $form = $this->createForm(new ProductMediaType(), $productMedia);
         $request = $this->getRequest();
         $form->bind($request);
-        if($form->isValid())
-        {
+        if ($form->isValid()) {
             $em->persist($productMedia);
             $em->flush();
+
             return $this->redirect($this->generateUrl('product_media', array('category' => $category, 'product' => $product)));
         }
+
         return $this->render('CoreProductBundle:Media:position.html.twig', array(
-            'product' => $product, 
+            'product' => $product,
             'category' => $category,
             'id' => $id,
             'form' => $form->createView()

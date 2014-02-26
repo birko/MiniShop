@@ -3,17 +3,14 @@
 namespace Core\MediaBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 
 class MediaTranslationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if(!$options['only_file'])
-        {
+        if (!$options['only_file']) {
             $builder
                 ->add('title', 'text',array(
                     'required'    => false
@@ -31,7 +28,7 @@ class MediaTranslationType extends AbstractType
     {
         return 'core_mediabundle_mediatranslation';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -40,5 +37,3 @@ class MediaTranslationType extends AbstractType
         ));
     }
 }
-
-?>

@@ -39,7 +39,7 @@ abstract class Media extends TranslateEntity
      * @ORM\Column(name="title", type="string", length=255, nullable = true)
      */
     protected $title;
-    
+
     /**
      * @var string $slug
      * @Gedmo\Slug(fields={"title"})
@@ -47,7 +47,7 @@ abstract class Media extends TranslateEntity
      * @ORM\Column(name="slug", type="string", length=255, nullable = true)
      */
     protected $slug;
-    
+
     /**
      * @var string $source
      * @Gedmo\Translatable
@@ -82,26 +82,26 @@ abstract class Media extends TranslateEntity
      * @ORM\Column(name="used_count", type="integer")
      */
     private $usedCount;
-    
+
     /**
      * @Constraints\File(maxSize="6000000")
      */
     protected $file;
-    
+
     /**
      * @var text $description
      * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text",  nullable = true)
      */
     private $description;
-    
+
     public function __construct()
     {
         $this->setUsedCount(0);
         $this->setCreatedAt(new \DateTime());
         $this->galleries = new ArrayCollection();
     }
-    
+
     /**
      * Set description
      *
@@ -115,7 +115,7 @@ abstract class Media extends TranslateEntity
     /**
      * Get description
      *
-     * @return text 
+     * @return text
      */
     public function getDescription()
     {
@@ -125,19 +125,20 @@ abstract class Media extends TranslateEntity
     /**
      * Set source
      *
-     * @param string $source
+     * @param  string $source
      * @return Media
      */
     public function setSource($source)
     {
         $this->source = $source;
+
         return $this;
     }
 
     /**
      * Get source
      *
-     * @return string 
+     * @return string
      */
     public function getSource()
     {
@@ -147,34 +148,36 @@ abstract class Media extends TranslateEntity
     /**
      * Set filename
      *
-     * @param string $filename
+     * @param  string $filename
      * @return Media
      */
     public function setFilename($filename)
     {
         $this->filename = $filename;
+
         return $this;
     }
 
     /**
      * Get filename
      *
-     * @return string 
+     * @return string
      */
     public function getFilename()
     {
         return $this->filename;
     }
-    
+
     /**
      * Set file
      *
-     * @param UploadedFile $file
+     * @param  UploadedFile $file
      * @return this
      */
-    public function  setFile($file = null)
+    public function setFile($file = null)
     {
         $this->file = $file;
+
         return $this;
     }
 
@@ -191,46 +194,48 @@ abstract class Media extends TranslateEntity
     /**
      * Set hash
      *
-     * @param string $hash
+     * @param  string $hash
      * @return Media
      */
     public function setHash($hash)
     {
         $this->hash = $hash;
+
         return $this;
     }
 
     /**
      * Get hash
      *
-     * @return string 
+     * @return string
      */
     public function getHash()
     {
         $file = $this->getFile();
-        if(empty($this->hash) && isset($file) && $file !== null)
-        {
+        if (empty($this->hash) && isset($file) && $file !== null) {
             return sha1_file($file->getRealPath());
         }
+
         return $this->hash;
     }
 
     /**
      * Set createdAt
      *
-     * @param datetime $createdAt
+     * @param  datetime $createdAt
      * @return Media
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getCreatedAt()
     {
@@ -250,13 +255,13 @@ abstract class Media extends TranslateEntity
     /**
      * Get usedCount
      *
-     * @return integer 
+     * @return integer
      */
     public function getUsedCount()
     {
         return $this->usedCount;
     }
-    
+
     /**
      * Add galery
      *
@@ -266,7 +271,7 @@ abstract class Media extends TranslateEntity
     {
         $this->getGalleries()->add($gallery);
     }
-    
+
     /**
      * Remove galery
      *
@@ -276,7 +281,7 @@ abstract class Media extends TranslateEntity
     {
          $this->getGalleries()->removeElement($gallery);
     }
-    
+
     /**
      * Get galleries
      *
@@ -286,7 +291,7 @@ abstract class Media extends TranslateEntity
     {
         return $this->galleries;
     }
-    
+
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
@@ -296,8 +301,7 @@ abstract class Media extends TranslateEntity
         $file = $this->getFile();
         $path = $this->getSource();
         $av = trim($path);
-        if (empty($av)&& isset($file) && null !== $file) //if is new file
-        {
+        if (empty($av)&& isset($file) && null !== $file) { //if is new file
             // do whatever you want to generate a unique name
             $this->setHash(trim(sha1_file($file->getRealPath())));
             $name = explode(".", $file->getClientOriginalName());
@@ -305,15 +309,18 @@ abstract class Media extends TranslateEntity
             $filename = GedmoUrlizer::urlize(implode(".", $name));
             $this->setSource(uniqid().'.'.$filename. "." . $ext);
             $this->setFilename($file->getClientOriginalName());
+
             return  true;
         }
+
         return false;
     }
-    
+
     public function getAbsolutePath($dir =  null)
     {
         $path = $this->getSource();
         $av = trim($path);
+
         return empty($av) ? null : $this->getUploadRootDir($dir).'/'.$av;
     }
 
@@ -321,6 +328,7 @@ abstract class Media extends TranslateEntity
     {
         $path = $this->getSource();
         $av = trim($path);
+
         return empty($av) ? null : $this->getUploadDir($dir).'/'. $av;
     }
 
@@ -330,7 +338,7 @@ abstract class Media extends TranslateEntity
         return __DIR__.'/../../../../web/'.$this->getUploadDir($dir);
     }
 
-    protected abstract function getUploadDir($dir = null);
+    abstract protected function getUploadDir($dir = null);
 
     /**
      * @ORM\PostPersist()
@@ -347,27 +355,25 @@ abstract class Media extends TranslateEntity
         // so that the entity is not persisted to the database
         // which the UploadedFile move() method does
         $path = $this->getUploadRootDir();
-        if (!file_exists($path)) 
-        {
+        if (!file_exists($path)) {
             mkdir($path,0777, true);
             chmod($path, 0777);
         }
 
         $file->move($this->getUploadRootDir(), $this->getSource());
-        
+
         unset($file);
         $this->setFile(null);
     }
-    
+
     /**
      * @ORM\PostRemove()
      */
     public function removeUpload($removeTranslation = false)
     {
-        if(!$removeTranslation)
-        {
-            if($this->getTranslations()) {
-                foreach($this->getTranslations() as $translation) {
+        if (!$removeTranslation) {
+            if ($this->getTranslations()) {
+                foreach ($this->getTranslations() as $translation) {
                     $translation->removeUpload(true);
                 }
             }
@@ -378,7 +384,7 @@ abstract class Media extends TranslateEntity
             }
         }
     }
-    
+
         /**
      * Get id
      *
@@ -388,7 +394,7 @@ abstract class Media extends TranslateEntity
     {
         return $this->id;
     }
-    
+
     /**
      * Set source
      *
@@ -402,33 +408,32 @@ abstract class Media extends TranslateEntity
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
         return $this->title;
     }
-    
+
     /**
      * Set slug
      *
-     * @param  string $slug
+     * @param string $slug
      */
     public function setSlug($slug)
     {
         $this->slug = $slug;
     }
 
-
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
         return $this->slug;
     }
-    
-    public abstract function getType();
+
+    abstract public function getType();
 }

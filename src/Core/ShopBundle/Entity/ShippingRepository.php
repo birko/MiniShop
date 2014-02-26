@@ -16,23 +16,22 @@ class ShippingRepository extends EntityRepository
     {
         return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
     }
-    
+
     public function getShippingQueryBuilder($state = null, $enabled = false)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()
             ->select("s")
             ->from("CoreShopBundle:Shipping", "s")
             ->orderBy('s.name', 'ASC');
-        if($state !== null)
-        {
+        if ($state !== null) {
             $queryBuilder->andWhere('s.state =:state')
             ->setParameter('state', $state);
         }
-        if($enabled)
-        {
+        if ($enabled) {
             $queryBuilder->andWhere('s.enabled =:enabled')
             ->setParameter('enabled', $enabled);
         }
+
         return $queryBuilder;
     }
 }

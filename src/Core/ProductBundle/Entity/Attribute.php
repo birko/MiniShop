@@ -4,8 +4,6 @@ namespace Core\ProductBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Translatable\Translatable;
-use Doctrine\Common\Collections\ArrayCollection;
 use Core\AttributeBundle\Entity\AttributeName;
 use Core\AttributeBundle\Entity\AttributeValue;
 
@@ -16,7 +14,7 @@ use Core\AttributeBundle\Entity\AttributeValue;
  * @ORM\Entity(repositoryClass="Core\ProductBundle\Entity\AttributeRepository")
  */
 class Attribute
-{    
+{
     /**
      * @var integer $id
      *
@@ -25,51 +23,50 @@ class Attribute
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-    
-    /** 
+
+    /**
      * @ORM\ManyToOne(targetEntity="Core\AttributeBundle\Entity\AttributeName", cascade={"persist"})
      * @ORM\JoinColumn(name="attributename_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $name;
-    /** 
+    /**
      * @ORM\ManyToOne(targetEntity="Core\AttributeBundle\Entity\AttributeValue", cascade={"persist"})
      * @ORM\JoinColumn(name="attributevalue_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $value;
-    /** 
+    /**
      * @var string group
      * @Gedmo\SortableGroup
-     * @ORM\Column(name="agroup", type="string", nullable=true) 
+     * @ORM\Column(name="agroup", type="string", nullable=true)
      */
     protected $group;
-    
+
     /**
      * @Gedmo\SortablePosition
      * @ORM\Column(name="position", type="integer")
      */
     protected $position;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="attributes")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
      */
      protected $product;
-    
+
     public function __construct()
     {
     }
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
+
     /**
      * Set name
      *
@@ -119,18 +116,17 @@ class Attribute
     {
         $this->group = $group;
     }
-    
+
     /**
      * Get value
      *
-     * @return string 
+     * @return string
      */
-    public function  getGroup()
+    public function getGroup()
     {
         return $this->group;
     }
 
-    
     /**
      * Set position
      *
@@ -141,7 +137,6 @@ class Attribute
         $this->position = $position;
     }
 
-    
     /**
      * Get position
      *
@@ -151,13 +146,13 @@ class Attribute
     {
         return $this->position;
     }
-     
+
     /**
      * Set product
      *
      * @param Product product
      */
-    public function setProduct (Product $product)
+    public function setProduct(Product $product)
     {
         $this->product = $product;
     }
@@ -170,5 +165,5 @@ class Attribute
     public function getProduct()
     {
         return $this->product;
-    } 
+    }
 }

@@ -20,18 +20,18 @@ use Core\CommonBundle\Controller\TranslateController;
  *
  */
 class MediaController extends TranslateController
-{    
-    protected function saveTranslation($entity, $culture, $translation) 
+{
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
         $entity->setFile(null);
         $entity->setTitle($translation->getTitle());
-        $entity->setDescription($translation->getDescription());    
+        $entity->setDescription($translation->getDescription());
         $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
+        $em->persist($entity);
         $em->flush();
     }
-    
+
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -52,7 +52,7 @@ class MediaController extends TranslateController
             'entities' => $pagination,
         ));
     }
-    
+
     /**
      * Displays a form to create a new Media entity.
      *
@@ -60,8 +60,7 @@ class MediaController extends TranslateController
     public function newAction($type)
     {
         $cultures = $this->container->getParameter('core.cultures');
-        switch($type)
-        {
+        switch ($type) {
             case "video":
                 $entity = new Video();
                 $this->loadTranslations($entity, $cultures, new Video());
@@ -90,8 +89,7 @@ class MediaController extends TranslateController
     public function createAction($type)
     {
         $cultures = $this->container->getParameter('core.cultures');
-        switch($type)
-        {
+        switch ($type) {
             case "video":
                 $entity = new Video();
                 $this->loadTranslations($entity, $cultures, new Video());
@@ -111,21 +109,15 @@ class MediaController extends TranslateController
             $em = $this->getDoctrine()->getManager();
             $hash = trim($entity->getHash());
             $source = trim($entity->getsource());
-            if(!empty($hash) || !empty($source))
-            {
+            if (!empty($hash) || !empty($source)) {
                 $testEntity = $em->getRepository('CoreMediaBundle:Media')->findOneByHash($entity->getHash());
-                if($testEntity !== null)
-                {
+                if ($testEntity !== null) {
                     $entity = $testEntity;
-                }
-                else   
-                {
-                    if($type == 'image')
-                    {
+                } else {
+                    if ($type == 'image') {
                         $imageOptions = $this->container->getParameter('images');
                         $opts = array();
-                        foreach(array('thumb') as $val)
-                        {
+                        foreach (array('thumb') as $val) {
                             $opts[$val] = $imageOptions[$val];
                         }
                         $entity->setOptions($opts);
@@ -134,6 +126,7 @@ class MediaController extends TranslateController
                     $em->flush();
                     $this->saveTranslations($entity, $cultures);
                 }
+
                 return $this->redirect($this->generateUrl('media'));
             }
         }
@@ -145,7 +138,7 @@ class MediaController extends TranslateController
             'cultures' => $cultures,
         ));
     }
-    
+
     /**
      * Displays a form to edit an existing Media entity.
      *
@@ -161,8 +154,7 @@ class MediaController extends TranslateController
 
         $cultures = $this->container->getParameter('core.cultures');
         $this->loadTranslations($entity, $cultures);
-        switch($entity->getType())
-        {
+        switch ($entity->getType()) {
             case "video":
                 $editForm   = $this->createForm(new EditVideoType(), $entity, array('cultures' => $cultures));
                 break;
@@ -197,8 +189,7 @@ class MediaController extends TranslateController
 
         $cultures = $this->container->getParameter('core.cultures');
         $this->loadTranslations($entity, $cultures);
-        switch($entity->getType())
-        {
+        switch ($entity->getType()) {
             case "video":
                 $editForm   = $this->createForm(new EditVideoType(), $entity, array('cultures' => $cultures));
                 break;
@@ -217,6 +208,7 @@ class MediaController extends TranslateController
             $em->persist($entity);
             $em->flush();
             $this->saveTranslations($entity, $cultures);
+
             return $this->redirect($this->generateUrl('media_edit', array('id' => $entity->getId())));
         }
 
@@ -227,7 +219,7 @@ class MediaController extends TranslateController
             'cultures' => $cultures,
         ));
     }
-    
+
     /**
      * Deletes a Content entity.
      *
@@ -245,12 +237,11 @@ class MediaController extends TranslateController
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Content entity.');
             }
-            
+
             $cultures = $this->container->getParameter('core.cultures');
             $this->loadTranslations($entity, $cultures);
-            
-            if($entity->getType() == 'image')
-            {
+
+            if ($entity->getType() == 'image') {
                 $imageOptions = $this->container->getParameter('images');
                 $entity->setOptions($imageOptions);
             }
@@ -268,7 +259,7 @@ class MediaController extends TranslateController
             ->getForm()
         ;
     }
-    
+
     public function sourceAction($id, $type)
     {
         $em = $this->getDoctrine()->getManager();
@@ -277,14 +268,13 @@ class MediaController extends TranslateController
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Media entity.');
         }
-        
+
         $cultures = $this->container->getParameter('core.cultures');
         $locale = array_shift($cultures);
         $this->loadTranslations($entity, $cultures);
         $entity->setTranslatableLocale($locale);
         $em->refresh($entity);
-        switch($type)
-        {
+        switch ($type) {
             case "video":
                 $form   = $this->createForm(new VideoSourceTranslationType(), $entity, array('cultures' => $cultures));
                 break;
@@ -301,7 +291,7 @@ class MediaController extends TranslateController
             'cultures' => $cultures,
         ));
     }
-    
+
     public function sourceUpdateAction($id, $type)
     {
         $em = $this->getDoctrine()->getManager();
@@ -310,14 +300,13 @@ class MediaController extends TranslateController
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Media entity.');
         }
-        
+
         $cultures = $this->container->getParameter('core.cultures');
         $locale = array_shift($cultures);
         $this->loadTranslations($entity, $cultures);
         $entity->setTranslatableLocale($locale);
         $em->refresh($entity);
-        switch($type)
-        {
+        switch ($type) {
             case "video":
                 $form   = $this->createForm(new VideoSourceTranslationType(), $entity, array('cultures' => $cultures));
                 break;
@@ -326,49 +315,39 @@ class MediaController extends TranslateController
                 $form   = $this->createForm(new ImageSourceTranslationType(), $entity, array('cultures' => $cultures));
                 break;
         }
-        
+
         $request = $this->getRequest();
         $form->bind($request);
-        if($request->isMethod("POST"))
-        {
-            if($form->isValid())
-            {
-                if(!empty($cultures) && is_array($cultures) && count($cultures) > 0)
-                {
+        if ($request->isMethod("POST")) {
+            if ($form->isValid()) {
+                if (!empty($cultures) && is_array($cultures) && count($cultures) > 0) {
                     $translations = $entity->getTranslations();
                     $i = 0;
                     $source = $entity->getSource();
                     $imageOptions = $this->container->getParameter('images');
-                    foreach($translations as $translation)
-                    {
+                    foreach ($translations as $translation) {
                         $newMedia = null;
-                        switch($type)
-                        {
+                        switch ($type) {
                             case "video":
                                 $newMedia = new Video();
-                                if($entity->getVideoType() != VideoTypes::FILE)
-                                {
-                                    $newMedia->setSource($translation->getSource());                                
+                                if ($entity->getVideoType() != VideoTypes::FILE) {
+                                    $newMedia->setSource($translation->getSource());
                                 }
                                 $newMedia->setVideoType($entity->getVideoType());
                                 break;
                             case "image":
                                 $newMedia = new Image();
-                                $newMedia->setOptions($imageOptions);                             
+                                $newMedia->setOptions($imageOptions);
                                 break;
                         }
-                        if($newMedia)
-                        {
+                        if ($newMedia) {
                             $newMedia->setFile($translation->getFile());
                             $newMedia->preUpload();
-                            if($newMedia->getSource())
-                            {
+                            if ($newMedia->getSource()) {
                                 $newMedia->upload();
                                 $entity->setTranslatableLocale($cultures[$i]);
-                                if($source != $translation->getSource())
-                                {
-                                    switch($type)
-                                    {
+                                if ($source != $translation->getSource()) {
+                                    switch ($type) {
                                         case "image":
                                             $translation->setOptions($imageOptions);
                                             break;
@@ -377,13 +356,14 @@ class MediaController extends TranslateController
                                 }
                                 $entity->setSource($newMedia->getSource());
                                 $entity->setFilename($newMedia->getFilename());
-                                $em->persist($entity); 
+                                $em->persist($entity);
                                 $em->flush();
                             }
                         }
                         $i++;
                     }
                 }
+
                 return $this->redirect($this->generateUrl('media_source', array('id' => $entity->getId(), 'type' => $type)));
             }
         }

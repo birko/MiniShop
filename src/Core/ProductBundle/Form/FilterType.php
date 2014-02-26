@@ -1,8 +1,6 @@
 <?php
 namespace Core\ProductBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
@@ -15,27 +13,27 @@ use Core\CommonBundle\Form\SearchType;
  */
 class FilterType extends SearchType
 {
-    
+
     public function __construct()
     {
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
         $builder
             ->add('vendor', 'entity',  array(
                 'class' => 'CoreVendorBundle:Vendor',
-                'property' => 'title' , 
+                'property' => 'title' ,
                 'label' => 'Značka',
                 'required'    => false,
                 'empty_value' => ' ',
                 'empty_data'  => null,
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('v')
                         ->orderBy('v.title', 'ASC');
                 },
-            ));  
+            ));
         $builder->add('order', 'choice', array(
                 'choices' => array(
                     "p.id asc" => "ID vzostupne",
@@ -52,10 +50,11 @@ class FilterType extends SearchType
             ));
     }
 
-    public function getName() {
+    public function getName()
+    {
         return "filter";
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -63,5 +62,3 @@ class FilterType extends SearchType
         ));
     }
 }
-
-?>

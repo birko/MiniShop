@@ -2,13 +2,9 @@
 
 namespace Core\ShopBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Core\PriceBundle\Form\AbstractPriceType;
 use Core\MarketingBundle\Form\DiscountType;
-
 
 class CouponType extends DiscountType
 {
@@ -23,8 +19,7 @@ class CouponType extends DiscountType
     {
         return 'core_shopbundle_coupontype';
     }
-    
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);

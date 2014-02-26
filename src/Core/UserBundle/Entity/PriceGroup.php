@@ -27,47 +27,47 @@ class PriceGroup implements \Serializable
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-    
+
     /**
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-    
+
     /**
      * @var decimal $rate
      *
      * @ORM\Column(name="rate", type="decimal", precision=10, scale=6 )
      */
     protected $rate;
-    
+
     /**
     * @ORM\OneToMany(targetEntity="Core\UserBundle\Entity\User", mappedBy="priceGroup")
     */
     private $users;
-    
+
     /**
      * @ORM\Column(name="is_default", type="boolean", nullable = true)
      */
     protected $default = false;
-    
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->setRate(1);
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
+
     /**
      * Set name
      *
@@ -81,13 +81,13 @@ class PriceGroup implements \Serializable
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
     }
-    
+
     /**
      * Set rate
      *
@@ -107,12 +107,12 @@ class PriceGroup implements \Serializable
     {
         return $this->rate;
     }
-    
+
     public function getUsers()
     {
         return $this->users;
     }
-    
+
     /**
      * Set default
      *
@@ -122,18 +122,18 @@ class PriceGroup implements \Serializable
     {
         $this->default = $default;
     }
-    
+
     public function isDefault()
     {
         return $this->default;
     }
-    
+
     public function __toString()
     {
         return $this->getName();
     }
-    
-    public function serialize() 
+
+    public function serialize()
     {
         return serialize(array(
         $this->id,
@@ -142,7 +142,7 @@ class PriceGroup implements \Serializable
         $this->default
         ));
     }
-    
+
     public function unserialize($serialized)
     {
         list(
@@ -153,5 +153,3 @@ class PriceGroup implements \Serializable
         )=unserialize($serialized);
     }
 }
-
-?>

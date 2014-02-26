@@ -23,7 +23,6 @@ class GrouponController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        
         $entity = $em->getRepository('CoreProductBundle:Product')->find($product);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Product entity.');
@@ -53,7 +52,7 @@ class GrouponController extends Controller
             $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
-            
+
             return $this->redirect($this->generateUrl('groupon', array('category' => $category, 'product' => $product)));
         }
 
@@ -83,7 +82,6 @@ class GrouponController extends Controller
         ));
 
        // $form->add('submit', 'submit', array('label' => 'Create'));
-
         return $form;
     }
 
@@ -163,14 +161,13 @@ class GrouponController extends Controller
         $form = $this->createForm(new GrouponType(), $entity, array(
             'action' => $this->generateUrl('groupon_update', array(
                 'id' => $entity->getId(),
-                'category' => $category, 
+                'category' => $category,
                 'product' => $product
             )),
             'method' => 'PUT',
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Update'));
-
         return $form;
     }
     /**
@@ -201,8 +198,8 @@ class GrouponController extends Controller
         return $this->render('CoreProductBundle:Groupon:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(), 
-            'category' => $category, 
+            'delete_form' => $deleteForm->createView(),
+            'category' => $category,
             'product' => $product,
         ));
     }
@@ -242,7 +239,7 @@ class GrouponController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('groupon_delete', array(
                 'id' => $id,
-                'category' => $category, 
+                'category' => $category,
                 'product' => $product
             )))
             ->setMethod('DELETE')

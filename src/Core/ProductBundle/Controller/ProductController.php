@@ -20,14 +20,14 @@ use Core\CommonBundle\Controller\TranslateController;
  */
 class ProductController extends TranslateController
 {
-    protected function saveTranslation($entity, $culture, $translation) 
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
         $entity->setTitle($translation->getTitle());
-        $entity->setShortDescription($translation->getShortDescription());    
-        $entity->setLongDescription($translation->getLongDescription());  
+        $entity->setShortDescription($translation->getShortDescription());
+        $entity->setLongDescription($translation->getLongDescription());
         $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
+        $em->persist($entity);
         $em->flush();
     }
     /**
@@ -41,37 +41,32 @@ class ProductController extends TranslateController
         $request = $this->getRequest();
         $session = $request->getSession();
         $filter = $session->get('adminproductfilter', new Filter());
-        if(empty($filter))
-        {
+        if (empty($filter)) {
             $filter = new Filter();
             $session->set('adminproductfilter', $filter);
         }
-        if($filter->getCategory() !== $category)
-        {
+        if ($filter->getCategory() !== $category) {
             $filter = new Filter();
             $filter->setCategory($category);
             $session->set('adminproductfilter', $filter);
         }
-        if($filter->getVendor() != null)
-        {
+        if ($filter->getVendor() != null) {
             $filter->setVendor($em->merge($filter->getVendor()));
         }
         $page = $this->getRequest()->get("page", $filter->getPage());
         $filter->setPage($page);
         $session->set('adminproductfilter', $filter);
         $form   = $this->createForm(new FilterType(), $filter);
-        
-        if($request->getMethod() == "POST")
-        {
+
+        if ($request->getMethod() == "POST") {
             $form->bind($request);
-            if($form->isValid())
-            {
+            if ($form->isValid()) {
                 $filter->setPage(1);
                 $page = 1;
                 $session->set('adminproductfilter', $filter);
             }
         }
-        
+
         $querybuilder = $em->getRepository('CoreProductBundle:Product')
                     ->findByCategoryQueryBuilder($category);
         $query = $em->getRepository('CoreProductBundle:Product')->filterQueryBuilder($querybuilder, $filter)->getQuery();
@@ -84,6 +79,7 @@ class ProductController extends TranslateController
         );
 
         $minishop  = $this->container->getParameter('minishop');
+
         return $this->render('CoreProductBundle:Product:index.html.twig', array(
             'entities' => $pagination,
             'category' => $category,
@@ -153,19 +149,18 @@ class ProductController extends TranslateController
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            if($category !== null)
-            {
+            if ($category !== null) {
                 $categoryEntity = $em->getRepository('CoreCategoryBundle:Category')->find($category);
-                if($categoryEntity != null)
-                {
+                if ($categoryEntity != null) {
                     $productCategory = $entity->addCategory($categoryEntity);
                     $em->persist($productCategory);
                     $em->flush();
                 }
             }
             $this->saveTranslations($entity, $cultures);
+
             return $this->redirect($this->generateUrl('product', array('category' => $category)));
-            
+
         }
 
         return $this->render('CoreProductBundle:Product:new.html.twig', array(
@@ -264,35 +259,30 @@ class ProductController extends TranslateController
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Product entity.');
             }
-            
-            foreach($entity->getPrices() as $price)
-            {
+
+            foreach ($entity->getPrices() as $price) {
                 $entity->getPrices()->removeElement($price);
                 $em->remove($price);
             }
-            
-            foreach($entity->getOptions() as $option)
-            {
+
+            foreach ($entity->getOptions() as $option) {
                 $entity->getOptions()->removeElement($option);
                 $em->remove($option);
             }
-            
-            foreach($entity->getAttributes() as $attribute)
-            {
+
+            foreach ($entity->getAttributes() as $attribute) {
                 $entity->getAttributes()->removeElement($attribute);
                 $em->remove($attribute);
             }
-            
+
             $imageOptions = $this->container->getParameter('images');
-            foreach($entity->getMedia() as $media)
-            {
+            foreach ($entity->getMedia() as $media) {
                 $media->getMedia()->setOptions($imageOptions);
                 $entity->getMedia()->removeElement($media);
                 $em->remove($media);
             }
-            
-            foreach($entity->getProductCategories() as $productcategory)
-            {
+
+            foreach ($entity->getProductCategories() as $productcategory) {
                 $em->remove($productcategory);
             }
 
@@ -310,7 +300,7 @@ class ProductController extends TranslateController
             ->getForm()
         ;
     }
-    
+
     public function copyAction($id, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -328,8 +318,7 @@ class ProductController extends TranslateController
         $em->flush();
         $entity->setTranslations($product->getTranslations());
         $this->saveTranslations($entity, $cultures);
-        foreach($product->getPrices() as $productprice)
-        {
+        foreach ($product->getPrices() as $productprice) {
             $price = new Price();
             $price->setProduct($entity);
             $price->setType($productprice->getType());
@@ -341,9 +330,8 @@ class ProductController extends TranslateController
             $price->setDefault($productprice->isDefault());
             $em->persist($price);
         }
-        
-        foreach($product->getOptions() as $productoption)
-        {
+
+        foreach ($product->getOptions() as $productoption) {
             $option = new ProductOption();
             $option->setProduct($entity);
             $option->setName($productoption->getName());
@@ -351,11 +339,10 @@ class ProductController extends TranslateController
             $option->setAmount($productoption->getAmount());
             $option->setPosition($productoption->getPosition());
             $em->persist($option);
-            
+
         }
-        
-        foreach($product->getAttributes() as $productattribute)
-        {
+
+        foreach ($product->getAttributes() as $productattribute) {
             $attribute = new Attribute();
             $attribute->setProduct($entity);
             $attribute->setName($productattribute->getName());
@@ -364,17 +351,17 @@ class ProductController extends TranslateController
             $attribute->setPosition($productattribute->getPosition());
             $em->persist($attribute);
         }
-        
-        foreach($product->getProductCategories() as $productcategory)
-        {
+
+        foreach ($product->getProductCategories() as $productcategory) {
             $productCategory = $entity->addCategory($productcategory->getCategory());
             $em->persist($productCategory);
         }
-        
+
         $em->flush();
+
         return $this->redirect($this->generateUrl('product_edit', array('id' => $entity->getId(), 'category' => $category)));
     }
-    
+
     public function addListAction($category)
     {
         $request = $this->getRequest();
@@ -382,40 +369,35 @@ class ProductController extends TranslateController
         $request = $this->getRequest();
         $session = $request->getSession();
         $filter = $session->get('adminproductfilteradd', new Filter());
-        if(empty($filter))
-        {
+        if (empty($filter)) {
             $filter = new Filter();
             $session->set('adminproductfilteradd', $filter);
         }
-        if($filter->getCategory() !== $category)
-        {
+        if ($filter->getCategory() !== $category) {
             $filter = new Filter();
             $filter->setCategory($category);
             $session->set('adminproductfilteradd', $filter);
         }
-        if($filter->getVendor() != null)
-        {
+        if ($filter->getVendor() != null) {
             $filter->setVendor($em->merge($filter->getVendor()));
         }
         $page = $this->getRequest()->get("page", $filter->getPage());
         $filter->setPage($page);
         $session->set('adminproductfilteradd', $filter);
         $form   = $this->createForm(new FilterType(), $filter);
-        
-        if($request->getMethod() == "POST")
-        {
+
+        if ($request->getMethod() == "POST") {
             $form->bind($request);
-            if($form->isValid())
-            {
+            if ($form->isValid()) {
                 $filter->setPage(1);
                 $page = 1;
                 $session->set('adminproductfilteradd', $filter);
             }
         }
-        
+
         $queryBuilder = $em->getRepository('CoreProductBundle:Product')->findNotInCategoryQueryBuilder($category, true);
         $queryBuilder = $em->getRepository('CoreProductBundle:Product')->filterQueryBuilder($queryBuilder, $filter, "p2");
-        $query = $queryBuilder->getQuery();    
+        $query = $queryBuilder->getQuery();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $query,
@@ -423,13 +405,14 @@ class ProductController extends TranslateController
             200,/*limit per page*/
             array('distinct' => false)
         );
+
         return $this->render('CoreProductBundle:Product:addlist.html.twig', array(
             'entities' => $pagination,
             'category' => $category,
             'filter' => $form->createView(),
         ));
     }
-    
+
     public function addAction($id, $category)
     {
         $em = $this->getDoctrine()->getManager();
@@ -438,22 +421,23 @@ class ProductController extends TranslateController
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
         $categoryEntity  = $em->getRepository('CoreCategoryBundle:Category')->find($category);
-        if($categoryEntity != null)
-        {
+        if ($categoryEntity != null) {
             $productCategory = $entity->addCategory($categoryEntity);
             $em->persist($productCategory);
             $em->flush();
         }
+
         return $this->redirect($this->generateUrl('product_addlist', array('category' => $category)));
     }
-    
+
     public function removeAction($id, $category)
     {
         $em = $this->getDoctrine()->getManager();
         $em->getRepository('CoreProductBundle:ProductCategory')->removeProductCategory($category, $id);
+
         return $this->redirect($this->generateUrl('product', array('category' => $category)));
     }
-    
+
     public function moveUpAction($id, $position, $category)
     {
         $em = $this->getDoctrine()->getManager();
@@ -462,15 +446,15 @@ class ProductController extends TranslateController
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
         $productCategory = $entity->getProductCategory($category);
-        if($productCategory)
-        {
+        if ($productCategory) {
             $productCategory->setPosition($productCategory->getPosition() - $position);
             $em->persist($productCategory);
             $em->flush();
         }
+
         return $this->redirect($this->generateUrl('product', array('category' => $category)));
     }
-    
+
     public function moveDownAction($id, $position, $category)
     {
         $em = $this->getDoctrine()->getManager();
@@ -479,15 +463,15 @@ class ProductController extends TranslateController
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
         $productCategory = $entity->getProductCategory($category);
-        if($productCategory)
-        {
+        if ($productCategory) {
             $productCategory->setPosition($productCategory->getPosition() + $position);
             $em->persist($productCategory);
             $em->flush();
         }
+
         return $this->redirect($this->generateUrl('product', array('category' => $category)));
     }
-    
+
     public function positionAction($id, $category)
     {
         $em = $this->getDoctrine()->getManager();
@@ -500,13 +484,14 @@ class ProductController extends TranslateController
             throw $this->createNotFoundException('Unable to find Product Category entity.');
         }
         $form = $this->createForm(new ProductCategoryType(), $productCategory);
+
         return $this->render('CoreProductBundle:Product:position.html.twig', array(
-            'entity' => $entity, 
+            'entity' => $entity,
             'category' => $category,
             'form' => $form->createView()
         ));
     }
-    
+
     public function positionUpdateAction($id, $category)
     {
         $em = $this->getDoctrine()->getManager();
@@ -521,14 +506,15 @@ class ProductController extends TranslateController
         $form = $this->createForm(new ProductCategoryType(), $productCategory);
         $request = $this->getRequest();
         $form->bind($request);
-        if($form->isValid())
-        {
+        if ($form->isValid()) {
             $em->persist($productCategory);
             $em->flush();
+
             return $this->redirect($this->generateUrl('product', array('category' => $category)));
         }
+
         return $this->render('CoreProductBundle:Product:position.html.twig', array(
-            'entity' => $entity, 
+            'entity' => $entity,
             'category' => $category,
             'form' => $form->createView()
         ));

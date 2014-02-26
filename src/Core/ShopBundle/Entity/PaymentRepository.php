@@ -16,19 +16,18 @@ class PaymentRepository extends EntityRepository
     {
         return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
     }
-    
+
     public function getPaymentQueryBuilder($enabled = false)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()
             ->select("p")
             ->from("CoreShopBundle:Payment", "p")
             ->orderBy('p.name', 'ASC');
-        if($enabled)
-        {
+        if ($enabled) {
             $queryBuilder->andWhere('p.enabled =:enabled')
             ->setParameter('enabled', $enabled);
         }
-        
+
         return $queryBuilder;
     }
 }

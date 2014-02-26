@@ -21,12 +21,10 @@ class SiteShopExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        if(isset($config['register_guest']))
-        {
+        if (isset($config['register_guest'])) {
             $container->setParameter('site.shop.register_guest', $config['register_guest']);
         }
-        if(isset($config['require_options']))
-        {
+        if (isset($config['require_options'])) {
             $container->setParameter('site.shop.require_options', $config['require_options']);
         }
 

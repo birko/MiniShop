@@ -28,31 +28,30 @@ class Price extends AbstractPrice
      * @ORM\Column(name="type", type="string", length=255)
      */
     private $type;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\ProductBundle\Entity\Product", inversedBy="prices")
      * @ORM\JoinColumn(name="price_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $product;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\PriceGroup")
      * @ORM\JoinColumn(name="pricegroup_id", referencedColumnName="id")
      */
     private $priceGroup;
-    
+
     /**
      * @var decimal $priceAmount
      *
      * @ORM\Column(name="priceamount", type="decimal", precision=10, scale=6, nullable = true)
      */
     private $priceAmount;
-    
+
     /**
      * @ORM\Column(name="is_default", type="boolean", nullable = true)
      */
     protected $default = false;
-
 
     public function __construct()
     {
@@ -72,13 +71,13 @@ class Price extends AbstractPrice
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
         return $this->type;
     }
-    
+
     /**
      * Set product
      *
@@ -92,13 +91,13 @@ class Price extends AbstractPrice
     /**
      * Get product
      *
-     * @return Product 
+     * @return Product
      */
     public function getProduct()
     {
         return $this->product;
     }
-    
+
     /**
      * Set PriceGroup
      *
@@ -118,7 +117,7 @@ class Price extends AbstractPrice
     {
         return $this->priceGroup;
     }
-    
+
     /**
      * Set priceAmount
      *
@@ -132,13 +131,13 @@ class Price extends AbstractPrice
     /**
      * Get priceAmount
      *
-     * @return decimal 
+     * @return decimal
      */
     public function getPriceAmount()
     {
         return $this->priceAmount;
     }
-    
+
     /**
      * Set default
      *
@@ -148,7 +147,7 @@ class Price extends AbstractPrice
     {
         $this->default = $default;
     }
-    
+
     public function isDefault()
     {
         return $this->default;

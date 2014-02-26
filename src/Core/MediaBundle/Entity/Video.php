@@ -4,7 +4,6 @@ namespace Core\MediaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Sluggable\Util\Urlizer as GedmoUrlizer;
 /**
  * Nws\MediaBundle\Entity\Video
  *
@@ -19,13 +18,12 @@ class Video extends Media
      * @ORM\Column(name="video_type", type="integer",  nullable = true)
      */
     private $videoType;
-    
+
     public function __construct()
     {
         parent::__construct();
-    } 
-    
-    
+    }
+
     /**
      * Set videoType
      *
@@ -39,33 +37,31 @@ class Video extends Media
     /**
      * Get videoType
      *
-     * @return integer 
+     * @return integer
      */
     public function getVideoType()
     {
         return $this->videoType;
     }
-    
-    
-    public function getType() 
+
+    public function getType()
     {
         return "video";
     }
-    
+
     protected function getUploadDir($dir = null)
     {
         return  'uploads/video/';
     }
-    
+
     public function preUpload()
     {
         $type = $this->getVideoType();
         $file = $this->getFile();
-        if($type == VideoType::YOUTUBE)
-        {
+        if ($type == VideoType::YOUTUBE) {
             $source = $this->getSource();
             // found at http://stackoverflow.com/questions/6556559/youtube-api-extract-video-id
-            $pattern = 
+            $pattern =
                 '%^# Match any youtube URL
                 (?:https?://)?  # Optional scheme. Either http or https
                 (?:www\.)?      # Optional www subdomain
@@ -81,36 +77,34 @@ class Video extends Media
                 ([\w-]{10,12})  # Allow 10-12 for 11 char youtube id.
                 $%x';
             $result = preg_match($pattern, $source, $matches);
-            if (false !== $result && count($matches) > 0) 
-            {
+            if (false !== $result && count($matches) > 0) {
                 $source =  $matches[1];
             }
             $this->setSource($source);
             $this->setFileName($source);
             $this->setHash(trim($source));
+
             return true;
-        }
-        elseif(isset($file))
-        {
+        } elseif (isset($file)) {
             $status  = parent::preUpload();
-            if ($status) //if is new video
-            {
+            if ($status) { //if is new video
+
                 return true;
             }
         }
+
         return false;
     }
-    
+
     public function upload()
     {
-        parent::upload(); 
+        parent::upload();
     }
-    
+
     public function removeUpload($removeTranslation = false)
     {
         $type = $this->getVideoType();
-        if($type != VideoType::YOUTUBE)
-        {
+        if ($type != VideoType::YOUTUBE) {
             parent::removeUpload($removeTranslation);
         }
     }

@@ -1,11 +1,8 @@
 <?php
 namespace Site\ShopBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 
 /**
  * Description of CartItemType
@@ -29,12 +26,12 @@ class CartItemAddType extends CartItemType
                 'label' => false,
             ));
     }
-    
-    public function getName() 
+
+    public function getName()
     {
         return "core_shop_cartitemaddtype";
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);
@@ -45,5 +42,3 @@ class CartItemAddType extends CartItemType
         ));
     }
 }
-
-?>

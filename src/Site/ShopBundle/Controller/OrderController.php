@@ -3,9 +3,6 @@
 namespace Site\ShopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use Core\ShopBundle\Controller\BaseOrderController;
-
 
 class OrderController extends ShopController
 {
@@ -16,11 +13,10 @@ class OrderController extends ShopController
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getShopUser();
-        if($user === null)
-        {
+        if ($user === null) {
            throw $this->createNotFoundException('Unable to find User entity.');
         }
-        
+
         $query = $em->getRepository('CoreShopBundle:Order')
                 ->createQueryBuilder('o')
                 ->andWhere('o.user = :uid')
@@ -39,7 +35,7 @@ class OrderController extends ShopController
             'entities' => $pagination
         ));
     }
-    
+
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -49,17 +45,16 @@ class OrderController extends ShopController
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Order entity.');
         }
-        
+
         $user = $this->getShopUser();
-        if($user === null)
-        {
+        if ($user === null) {
            throw $this->createNotFoundException('Unable to find User entity.');
         }
-        
-        if($user->getId() != $entity->getUser()->getId())
-        {
+
+        if ($user->getId() != $entity->getUser()->getId()) {
             throw new AccessDeniedException();
         }
+
         return $this->render('SiteShopBundle:Order:show.html.twig', array(
             'entity'      => $entity,
         ));

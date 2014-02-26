@@ -20,7 +20,7 @@ class UserType extends AbstractType
                 'class' => 'CoreUserBundle:PriceGroup',
                 'label' => 'Price Group',
                 'property' => 'name' ,
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('pg')->orderBy('pg.name', 'ASC');
                 },
                 'required'    => true,

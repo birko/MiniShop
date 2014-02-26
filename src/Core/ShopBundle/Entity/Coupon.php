@@ -4,8 +4,6 @@ namespace Core\ShopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Core\PriceBundle\Entity\AbstractPrice;
-use Core\MarketingBundle\Entity\BaseDiscount;
 use Core\MarketingBundle\Entity\Discount;
 /**
  * Core\ShopBundle\Entity\Coupon
@@ -22,21 +20,21 @@ class Coupon extends Discount
      */
     private $code;
 
-    
     /**
      * @var boolean $used
      *
      * @ORM\Column(name="used", type="boolean", nullable = true)
      */
     private $used;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="Core\ProductBundle\Entity\Product")
      * @ORM\JoinTable(name="products_coupons")
      */
     private $products;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->products = new ArrayCollection();
         $this->setUsed(false);
@@ -55,13 +53,13 @@ class Coupon extends Discount
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
         return $this->code;
     }
-    
+
     /**
      * Set used
      *
@@ -75,20 +73,20 @@ class Coupon extends Discount
     /**
      * Get used
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isUsed()
     {
         return $this->used;
     }
-    
+
      /**
      * Get products
      *
      * @return ArrayCollection
-     */    
+     */
     public function getProducts()
     {
-        return $this->products;   
+        return $this->products;
     }
 }

@@ -5,8 +5,6 @@ namespace Site\BannerBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\BannerBundle\Entity\Banner;
-use Core\BannerBundle\Form\BannerType;
-use Core\BannerBundle\Form\EditBannerType;
 
 /**
  * Banner controller.
@@ -24,6 +22,7 @@ class BannerController extends Controller
 
         $query = $em->getRepository('CoreBannerBundle:Banner')->getBannersQuery($category);
         $entities = $query->getResult();
+
         return $this->render('SiteBannerBundle:Banner:banner.html.twig', array(
             'entities' => $entities,
             'type' => $type

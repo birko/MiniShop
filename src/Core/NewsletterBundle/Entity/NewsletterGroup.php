@@ -30,23 +30,22 @@ class NewsletterGroup
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="NewsletterEmail", mappedBy="groups"))
      * @ORM\JoinTable(name="newsletter_group_email")
      */
     protected $emails;
-    
+
     public function __construct()
     {
         $this->emails = new ArrayCollection();
-    }    
-
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -66,13 +65,13 @@ class NewsletterGroup
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
     }
-    
+
     /**
      * Add Email
      *
@@ -82,7 +81,7 @@ class NewsletterGroup
     {
         $this->getEmails()->add($email);
     }
-    
+
     /**
      * Remove Email
      *
@@ -92,7 +91,7 @@ class NewsletterGroup
     {
          $this->getEmails()->removeElement($email);
     }
-    
+
     /**
      * Get emails
      *

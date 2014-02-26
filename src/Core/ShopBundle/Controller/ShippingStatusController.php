@@ -83,7 +83,7 @@ class ShippingStatusController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('shippingstatus'));
-            
+
         }
 
         return $this->render('CoreShopBundle:ShippingStatus:new.html.twig', array(

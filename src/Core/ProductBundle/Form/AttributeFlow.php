@@ -3,24 +3,24 @@
 namespace Core\ProductBundle\Form;
 
 use Craue\FormFlowBundle\Form\FormFlow;
-use Craue\FormFlowBundle\Form\FormFlowInterface;
 use Symfony\Component\Form\FormTypeInterface;
-
 
 class AttributeFlow extends FormFlow
 {
     protected $formType;
 
-    public function setFormType(FormTypeInterface $formType) 
+    public function setFormType(FormTypeInterface $formType)
     {
         $this->formType = $formType;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return 'core_productbundle_attributetype';
     }
 
-    protected function loadStepsConfig() {
+    protected function loadStepsConfig()
+    {
         return array(
             array(
                 'label' => 'Name',
@@ -32,8 +32,9 @@ class AttributeFlow extends FormFlow
             )
         );
     }
-    
-    public function getFormOptions($step, array $options = array()) {
+
+    public function getFormOptions($step, array $options = array())
+    {
         $options = parent::getFormOptions($step, $options);
 
         $formData = $this->getFormData();

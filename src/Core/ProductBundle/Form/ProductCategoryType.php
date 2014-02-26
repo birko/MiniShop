@@ -3,11 +3,8 @@
 namespace Core\ProductBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 
 class ProductCategoryType extends AbstractType
 {
@@ -21,7 +18,7 @@ class ProductCategoryType extends AbstractType
     {
         return 'core_productbundle_productcategorytype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

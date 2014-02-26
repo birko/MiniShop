@@ -23,7 +23,7 @@ class AttributeValueController extends TranslateController
     public function indexAction($attribute = null, $all = false)
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $attributeEntity = $em->getRepository('CoreAttributeBundle:AttributeName')->find($attribute);
 
         if (!$attributeEntity) {
@@ -40,23 +40,23 @@ class AttributeValueController extends TranslateController
            200 /*limit per page*/,
            array('distinct' => false)
        );
-        
+
         return $this->render('CoreAttributeBundle:AttributeValue:index.html.twig', array(
             'entities' => $pagination,
             'attribute' => $attribute,
             'attributeEntity' => $attributeEntity
         ));
     }
-    
-    protected function saveTranslation($entity, $culture, $translation) 
+
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity->setValue($translation->getValue());  
+        $entity->setValue($translation->getValue());
         $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
+        $em->persist($entity);
         $em->flush();
     }
-    
+
     /**
      * Creates a new AttributeValue entity.
      *
@@ -70,7 +70,7 @@ class AttributeValueController extends TranslateController
         if (!$attributeEntity) {
             throw $this->createNotFoundException('Unable to find AttributeName entity.');
         }
-        
+
         $entity = new AttributeValue();
         $cultures = $this->container->getParameter('core.cultures');
         $this->loadTranslations($entity, $cultures, new AttributeValue());
@@ -82,6 +82,7 @@ class AttributeValueController extends TranslateController
             $em->persist($entity);
             $em->flush();
             $this->saveTranslations($entity, $cultures);
+
             return $this->redirect($this->generateUrl('attributevalue', array('attribute' => $attribute)));
         }
 
@@ -110,7 +111,6 @@ class AttributeValueController extends TranslateController
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Create'));
-
         return $form;
     }
 
@@ -205,7 +205,6 @@ class AttributeValueController extends TranslateController
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Update'));
-
         return $form;
     }
     /**
@@ -231,6 +230,7 @@ class AttributeValueController extends TranslateController
         if ($editForm->isValid()) {
             $em->flush();
             $this->saveTranslations($entity, $cultures);
+
             return $this->redirect($this->generateUrl('attributevalue_edit', array('id' => $id)));
         }
 
@@ -257,8 +257,7 @@ class AttributeValueController extends TranslateController
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find AttributeValue entity.');
             }
-            if($entity->getName())
-            {
+            if ($entity->getName()) {
                 $attribute = $entity->getName()->getId();
             }
             $em->remove($entity);

@@ -18,16 +18,15 @@ class GrouponRepository extends EntityRepository
                 ->select("gr, p")
                 ->from("CoreProductBundle:Groupon", "gr")
                 ->join("gr.product", "p");
-        if($product !== null)
-        {
+        if ($product !== null) {
             $queryBuilder->andWhere("gr.product = :product")
                 ->setParameter("product", $product);
         }
-        if($active)
-        {
+        if ($active) {
             $queryBuilder->andWhere("gr.active = :active")
                 ->setParameter("active", $active);
         }
+
         return $queryBuilder;
     }
 }

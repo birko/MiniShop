@@ -45,7 +45,7 @@
             <td>{% if entity.enabled %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
             <td>{{ entity.email }}</td>
             <td>
-                <a href="{{ path('newsletter_email_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {%trans%}Edit{%endtrans%}</a>     
+                <a href="{{ path('newsletter_email_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {%trans%}Edit{%endtrans%}</a>
             </td>
         </tr>
     {% endfor %}

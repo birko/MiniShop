@@ -79,8 +79,7 @@ class PriceGroupController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            if($entity->isDefault())
-            {
+            if ($entity->isDefault()) {
                 $em->getRepository('CoreUserBundle:PriceGroup')->updateDefaultPriceGroup($entity->getId());
             }
 
@@ -138,10 +137,10 @@ class PriceGroupController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-            if($entity->isDefault())
-            {
+            if ($entity->isDefault()) {
                 $em->getRepository('CoreUserBundle:PriceGroup')->updateDefaultPriceGroup($entity->getId());
             }
+
             return $this->redirect($this->generateUrl('pricegroup_edit', array('id' => $id)));
         }
 

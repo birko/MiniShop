@@ -3,22 +3,17 @@
 namespace Core\PriceBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 
 class AbstractPriceType extends AbstractType
-{    
+{
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if(!$options['vat'])
-        {
+        if (!$options['vat']) {
             $builder->add('price', 'money', array('required' => true));
-        }
-        else
-        {
+        } else {
             $builder->add('priceVAT', 'text', array(
                 'required' => true,
                 'label' => 'Price VAT'
@@ -28,8 +23,7 @@ class AbstractPriceType extends AbstractType
             'required' => true,
             'label' => 'VAT',
             'class' => 'CorePriceBundle:VAT',
-            'query_builder' => function(EntityRepository $repository)
-            {
+            'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('v')
                                 ->add('orderBy', 'v.id ASC');
 
@@ -42,7 +36,7 @@ class AbstractPriceType extends AbstractType
     {
         return 'core_pricebundle_abstractpricetype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

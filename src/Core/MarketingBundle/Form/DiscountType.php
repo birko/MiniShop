@@ -2,11 +2,8 @@
 
 namespace Core\MarketingBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Core\PriceBundle\Form\AbstractPriceType;
 
 class DiscountType extends BaseDiscountType
 {
@@ -22,7 +19,7 @@ class DiscountType extends BaseDiscountType
     {
         return 'core_marketingbundle_discounttype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);

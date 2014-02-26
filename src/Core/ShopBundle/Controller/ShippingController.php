@@ -14,16 +14,16 @@ use Core\CommonBundle\Controller\TranslateController;
  */
 class ShippingController extends TranslateController
 {
-    protected function saveTranslation($entity, $culture, $translation) 
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
         $entity->setName($translation->getName());
-        $entity->setDescription($translation->getDescription());    
+        $entity->setDescription($translation->getDescription());
         $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
+        $em->persist($entity);
         $em->flush();
     }
-    
+
     /**
      * Lists all Shipping entities.
      *
@@ -101,7 +101,7 @@ class ShippingController extends TranslateController
             $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('shipping'));
-            
+
         }
 
         return $this->render('CoreShopBundle:Shipping:new.html.twig', array(

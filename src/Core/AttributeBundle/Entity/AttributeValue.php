@@ -23,18 +23,18 @@ class AttributeValue extends TranslateEntity implements \Serializable
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-    
+
     /**
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="Core\AttributeBundle\Entity\AttributeName", inversedBy="values", cascade={"persist"})
      * @ORM\JoinColumn(name="attributename_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $name;
-    
-    /** 
+
+    /**
      * @var string name
      * @Gedmo\Translatable
-     * @ORM\Column(type="text", nullable=true) 
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $value;
 
@@ -49,7 +49,7 @@ class AttributeValue extends TranslateEntity implements \Serializable
     {
         $this->setSerialized(false);
     }
-    
+
     /**
      * Get name
      *
@@ -59,7 +59,7 @@ class AttributeValue extends TranslateEntity implements \Serializable
     {
         return $this->id;
     }
-    
+
     /**
      * Set name
      *
@@ -79,12 +79,12 @@ class AttributeValue extends TranslateEntity implements \Serializable
     {
         return $this->name;
     }
-    
+
     public function getAttributeName()
     {
         return ($this->getName()) ? $this->getName()->getName() : null;
     }
-    
+
     /**
      * Set value
      *
@@ -98,13 +98,13 @@ class AttributeValue extends TranslateEntity implements \Serializable
     /**
      * Get value
      *
-     * @return string 
+     * @return string
      */
     public function getValue()
     {
         return $this->value;
     }
-    
+
     /**
      * Set serialized
      *
@@ -114,7 +114,7 @@ class AttributeValue extends TranslateEntity implements \Serializable
     {
         $this->serialized = $serialized;
     }
-    
+
     /**
      * Is serialized
      *
@@ -124,26 +124,23 @@ class AttributeValue extends TranslateEntity implements \Serializable
     {
         return $this->serialized;
     }
-    
+
     /**
      * Get serializedValue
      *
      * @return mixed
      */
-    
+
     public function getSerializedValue()
     {
         $value = $this->getValue();
-        if(!empty($value))
-        {
+        if (!empty($value)) {
             return unserialize($value);
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
-    
+
     /**
      * Set serializedValue
      *
@@ -151,23 +148,20 @@ class AttributeValue extends TranslateEntity implements \Serializable
      */
     public function setSerializedValue($value = null)
     {
-        if(!empty($value))
-        {
+        if (!empty($value)) {
             $this->setValue(serialize($value));
             $this->setSerialized(true);
-        }
-        else
-        {
+        } else {
             $this->setSerialized(false);
             $this->setValue();
         }
     }
-    
+
     public function __toString()
     {
         return $this->getValue();
     }
-    
+
     public function toArray()
     {
         $array =  array();
@@ -175,9 +169,10 @@ class AttributeValue extends TranslateEntity implements \Serializable
         $array[] = $this->value;
         $array[] = $this->serialized;
         $array[] = $this->name;
+
         return $array;
     }
-    
+
     public function fromArray($array)
     {
         $this->id = $array[0];
@@ -185,13 +180,15 @@ class AttributeValue extends TranslateEntity implements \Serializable
         $this->serialized = $array[2];
         $this->name = $array[2];
     }
-    
-    public function serialize() {
+
+    public function serialize()
+    {
         return serialize($this->toArray());
     }
 
-    public function unserialize($serialized) {
-        $array = unserialize($serialized); 
+    public function unserialize($serialized)
+    {
+        $array = unserialize($serialized);
         $this->fromArray($array);
     }
 }

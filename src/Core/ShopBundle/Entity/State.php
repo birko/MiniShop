@@ -32,11 +32,10 @@ class State extends TranslateEntity implements \Serializable
      */
     private $name;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -56,30 +55,31 @@ class State extends TranslateEntity implements \Serializable
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
     }
 
-    public function serialize() {
+    public function serialize()
+    {
         return serialize(array(
             $this->id,
             $this->name,
-            $this->locale 
+            $this->locale
         ));
     }
 
-    public function unserialize($serialized) {
+    public function unserialize($serialized)
+    {
         list(
             $this->id,
             $this->name,
-            $this->locale 
+            $this->locale
         )=unserialize($serialized);
     }
-    
-    
+
     public function __toString()
     {
         return $this->getName();

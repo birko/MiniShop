@@ -45,11 +45,10 @@ class Stock extends TranslateEntity
      */
      protected $product;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -69,7 +68,7 @@ class Stock extends TranslateEntity
     /**
      * Get amount
      *
-     * @return decimal 
+     * @return decimal
      */
     public function getAmount()
     {
@@ -89,7 +88,7 @@ class Stock extends TranslateEntity
     /**
      * Get availability
      *
-     * @return string 
+     * @return string
      */
     public function getAvailability()
     {
@@ -101,7 +100,7 @@ class Stock extends TranslateEntity
      *
      * @param \Core\ProductBundle\Entity\Product product
      */
-    public function setProduct (\Core\ProductBundle\Entity\Product $product = null)
+    public function setProduct(\Core\ProductBundle\Entity\Product $product = null)
     {
         $this->product = $product;
     }
@@ -114,5 +113,5 @@ class Stock extends TranslateEntity
     public function getProduct()
     {
         return $this->product;
-    } 
+    }
 }

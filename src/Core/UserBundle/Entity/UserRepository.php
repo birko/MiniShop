@@ -14,16 +14,16 @@ class UserRepository extends EntityRepository
 {
     public function createUser(User $user)
     {
-        if($user)
-        {
+        if ($user) {
             $em =  $this->getEntityManager();
             $priceGroup = $em->getRepository('CoreUserBundle:PriceGroup')->findOneBy(array("default" => true));
             if ($priceGroup) {
-                $user->setPriceGroup($priceGroup); 
+                $user->setPriceGroup($priceGroup);
             }
             $em->persist($user);
             $em->flush();
         }
+
         return $user;
     }
 }

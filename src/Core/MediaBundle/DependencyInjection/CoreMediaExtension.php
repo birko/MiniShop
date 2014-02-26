@@ -21,13 +21,12 @@ class CoreMediaExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        
+
         $nws = ($container->hasParameter('minishop')) ? $container->getParameter('minishop') : array();
         $nws['media'] = true;
         $container->setParameter('minishop', $nws);
-        
-        if(isset($config['images']))
-        {
+
+        if (isset($config['images'])) {
             $container->setParameter('images', $config['images']);
         }
 

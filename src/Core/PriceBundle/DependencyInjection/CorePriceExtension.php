@@ -21,7 +21,7 @@ class CorePriceExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        
+
         $nws = ($container->hasParameter('minishop')) ? $container->getParameter('minishop') : array();
         $nws['price'] = true;
         $container->setParameter('minishop', $nws);

@@ -3,10 +3,8 @@
 namespace Core\ShopBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 
 class StateTranslationType extends AbstractType
 {
@@ -21,7 +19,7 @@ class StateTranslationType extends AbstractType
     {
         return 'core_shopbundle_statetranslationtype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

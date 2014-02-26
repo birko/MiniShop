@@ -10,21 +10,20 @@ class ContentMediaRepository extends EntityRepository
     {
         $querybuilder = $this->getEntityManager()->createQueryBuilder()
                ->delete("CoreContentBundle:ContentMedia", "cm");
-        if($mediaId !== null)
-        {
+        if ($mediaId !== null) {
             $querybuilder =  $querybuilder->andWhere("cm.media = :mid")
             ->setParameter('mid', $mediaId);
         }
 
-        if($contentId !== null)
-        {
+        if ($contentId !== null) {
             $querybuilder =  $querybuilder->andWhere("cm.content = :cid")
             ->setParameter('cid', $contentId);
         }
-       $numUpdated = $querybuilder->getQuery()->execute(); 
+       $numUpdated = $querybuilder->getQuery()->execute();
+
        return $numUpdated;
     }
-    
+
     public function updateDefaultCategory($contentId, $exludeMediaId)
     {
         $q = $this->getEntityManager()->createQueryBuilder()
@@ -35,10 +34,11 @@ class ContentMediaRepository extends EntityRepository
                 ->setParameter('mid', $exludeMediaId)
                 ->setParameter('cid', $contentId)
                 ->getQuery();
-        $numUpdated = $q->execute(); 
+        $numUpdated = $q->execute();
+
         return $numUpdated;
     }
-    
+
     public function updatePosition($contentId, $mediaId, $position, $move)
     {
         $q = $this->getEntityManager()->createQueryBuilder();
@@ -52,7 +52,8 @@ class ContentMediaRepository extends EntityRepository
                 ->setParameter('position', $position)
                 ->setParameter('cid', $contentId)
                 ;
-        $numUpdated = $q->getQuery()->execute(); 
+        $numUpdated = $q->getQuery()->execute();
+
         return $numUpdated;
     }
 }

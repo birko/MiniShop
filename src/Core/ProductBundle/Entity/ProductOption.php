@@ -4,11 +4,8 @@ namespace Core\ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Translatable\Translatable;
-use Doctrine\Common\Collections\ArrayCollection;
 use Core\AttributeBundle\Entity\AttributeName;
 use Core\AttributeBundle\Entity\AttributeValue;
-
 
 /**
  * Core\ProductBundle\Entity\ProductOption
@@ -27,31 +24,31 @@ class ProductOption implements \Serializable
      */
     private $id;
 
-     /** 
+     /**
      * @ORM\ManyToOne(targetEntity="Core\AttributeBundle\Entity\AttributeName", cascade={"persist"})
      * @Gedmo\SortableGroup
      * @ORM\JoinColumn(name="attributename_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $name;
-    /** 
+    /**
      * @ORM\ManyToOne(targetEntity="Core\AttributeBundle\Entity\AttributeValue", cascade={"persist"})
      * @ORM\JoinColumn(name="attributevalue_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $value;
-    
+
      /**
      * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="Core\ProductBundle\Entity\Product", inversedBy="options")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $product;
-    
+
     /**
      * @Gedmo\SortablePosition
      * @ORM\Column(name="position", type="integer", nullable=true)
      */
     private $position;
-    
+
     /**
      * @var decimal $amount
      *
@@ -59,12 +56,10 @@ class ProductOption implements \Serializable
      */
     private $amount;
 
-
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -110,7 +105,7 @@ class ProductOption implements \Serializable
     {
         return $this->value;
     }
-    
+
     public function setPosition($position)
     {
         $this->position = $position;
@@ -120,7 +115,7 @@ class ProductOption implements \Serializable
     {
         return $this->position;
     }
-    
+
     /**
      * Set amount
      *
@@ -134,13 +129,13 @@ class ProductOption implements \Serializable
     /**
      * Get amount
      *
-     * @return decimal 
+     * @return decimal
      */
     public function getAmount()
     {
         return $this->amount;
     }
-    
+
     /**
      * Set product
      *
@@ -151,46 +146,46 @@ class ProductOption implements \Serializable
         $this->product = $product;
     }
 
-
     /**
      * Get product
      *
-     * @return Product 
+     * @return Product
      */
     public function getProduct()
     {
         return $this->product;
     }
-    
 
-    public function serialize() {
+    public function serialize()
+    {
         return serialize(array(
             $this->id,
             $this->name,
             $this->value,
             $this->position,
             $this->amount,
-            $this->locale 
+            $this->locale
         ));
-        
+
     }
 
-    public function unserialize($serialized) {
+    public function unserialize($serialized)
+    {
         list(
             $this->id,
             $this->name,
             $this->value,
             $this->position,
             $this->amount,
-            $this->locale 
+            $this->locale
         ) = unserialize($serialized);
     }
-    
+
     public function __toString()
     {
-        return $this->getName()->getName() . ": " . $this->getValue()->getValue(); 
+        return $this->getName()->getName() . ": " . $this->getValue()->getValue();
     }
-    
+
     public function equals($entity)
     {
         return $this->getId() == $entity->getId() && $this->getAmount() == $entity->getAmount();

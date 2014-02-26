@@ -1,14 +1,14 @@
 category:
     pattern:  /
     defaults: { _controller: "CoreCategoryBundle:Category:index" }
-    
+
 category_menu:
     pattern:  /menu/{menu}
     defaults: { _controller: "CoreCategoryBundle:Category:menu"}
     requirements:
         menu: \d+
 
-    
+
 category_show:
     pattern:  /{id}/show
     defaults: { _controller: "CoreCategoryBundle:Category:show" }
@@ -23,8 +23,8 @@ category_new:
 category_create:
     pattern:  /create/{menu}/{parent}
     defaults: { _controller: "CoreCategoryBundle:Category:create", parent:~ }
-    requirements: 
-        _method: post 
+    requirements:
+        _method: post
         menu: \d+
         parent: \d+
 

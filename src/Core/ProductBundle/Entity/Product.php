@@ -56,70 +56,67 @@ class Product extends TranslateEntity
      * @ORM\Column(name="longDescription", type="text", nullable=true)
      */
     private $longDescription;
-    
+
      /**
      * @var datetime $createdAt
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
-     
+
      /**
       * @ORM\OneToMany(targetEntity="ProductCategory", mappedBy="product")
       */
-     
+
      protected $productCategories;
     /**
      * @ORM\OneToMany(targetEntity="Core\ProductBundle\Entity\Price", mappedBy="product")
      * @ORM\OrderBy({ "priceVAT" = "ASC"})
      */
     private $prices;
-    
+
      /**
      * @ORM\ManyToOne(targetEntity="Core\VendorBundle\Entity\Vendor", inversedBy="products")
      * @ORM\JoinColumn(name="vendor_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $vendor;
-    
+
      /**
      * @ORM\OneToMany(targetEntity="Core\ProductBundle\Entity\ProductOption", mappedBy="product")
      * @ORM\OrderBy({ "position" = "ASC"})
      */
-    private $options; 
-    
+    private $options;
+
     /**
      * @ORM\OneToMany(targetEntity="ProductMedia", mappedBy="product")
      * @ORM\OrderBy({"position" = "ASC"})
      */
     private $media;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Attribute", mappedBy="product")
      */
     private $attributes;
-    
+
     /**
      * @ORM\OneToOne(targetEntity="Stock", mappedBy="product")
      **/
     private $stock;
-    
+
     /**
      * @var boolean $anabled
      *
      * @ORM\Column(name="enabled", type="boolean", nullable = true)
      */
     private $enabled;
-    
+
     /**
      * @var string $tags
      * @ORM\Column(name="tags", type="string", length=255, nullable = true)
      */
     private $tags;
-    
 
-
-
-    public function __construct() 
+    public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
         $this->productCategories = new ArrayCollection();
@@ -131,7 +128,7 @@ class Product extends TranslateEntity
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -151,7 +148,7 @@ class Product extends TranslateEntity
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -171,7 +168,7 @@ class Product extends TranslateEntity
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -191,7 +188,7 @@ class Product extends TranslateEntity
     /**
      * Get shortDescription
      *
-     * @return text 
+     * @return text
      */
     public function getShortDescription()
     {
@@ -211,13 +208,13 @@ class Product extends TranslateEntity
     /**
      * Get longDescription
      *
-     * @return text 
+     * @return text
      */
     public function getLongDescription()
     {
         return $this->longDescription;
     }
-    
+
     /**
      * Add category
      *
@@ -226,31 +223,31 @@ class Product extends TranslateEntity
     public function addCategory(Category $category)
     {
         $productCategory = $this->getProductCategory($category->getId());
-        if(empty($productCategory))
-        {
+        if (empty($productCategory)) {
             $productCategory = new ProductCategory();
             $productCategory->setProduct($this);
             $productCategory->setCategory($category);
             $this->getProductCategories()->add($productCategory);
         }
+
         return $productCategory;
     }
-    
+
     /**
      * Remove category
      *
      * @param Core\CategoryBundle\Category
      */
     public function removeCategory(Category $category)
-    {  
+    {
         $productCategory = $this->getProductCategory($category->getId());
-        if($productCategory !== null)
-        {
+        if ($productCategory !== null) {
             $this->getProductCategories()->removeElement($productCategory);
         }
+
         return $productCategory;
     }
-    
+
     /**
      * Get ProductCategories
      *
@@ -260,46 +257,42 @@ class Product extends TranslateEntity
     {
         return $this->productCategories;
     }
-    
+
     public function getProductCategory($categoryID)
     {
-        return $this->getProductCategories()->filter(function($entry) use ($categoryID)
-        {
+        return $this->getProductCategories()->filter(function ($entry) use ($categoryID) {
             return ($entry->getCategory()->getId() == $categoryID);
         })->first();
     }
-    
+
     /**
      * Get prices
      *
      * @return ArrayCollection
-     */    
+     */
     public function getPrices($type = null)
     {
-        if($type)
-        {
+        if ($type) {
             return $this->getPrices()->filter(
-                function($entry) use ($type) {
+                function ($entry) use ($type) {
                     return ($entry->getType() == $type);
                 }
             );
-        }
-        else
-        {
-            return $this->prices;  
+        } else {
+            return $this->prices;
         }
     }
-    
+
     /**
      * Get options
      *
      * @return ArrayCollection
-     */    
+     */
     public function getOptions()
     {
-        return $this->options;   
+        return $this->options;
     }
-    
+
     /**
      * Set Vendor
      *
@@ -319,7 +312,7 @@ class Product extends TranslateEntity
     {
         return $this->vendor;
     }
-    
+
     /**
      * Add media
      *
@@ -328,33 +321,33 @@ class Product extends TranslateEntity
     public function addMedia(Media $media)
     {
         $productMedia = $this->getProductMedia($media->getId());
-        if(empty($productMedia))
-        {
+        if (empty($productMedia)) {
             $media->setUsedCount($media->getUsedCount() + 1);
             $productMedia = new ProductMedia();
             $productMedia->setProduct($this);
             $productMedia->setMedia($media);
             $this->getMedia()->add($productMedia);
         }
+
         return $productMedia;
     }
-    
+
     /**
      * Remove media
      *
      * @param Core\MediaBundle\Media
      */
     public function removeMedia(Media $media)
-    {  
+    {
         $productMedia = $this->getProductMedia($media->getId());
-        if($productMedia !== null)
-        {
+        if ($productMedia !== null) {
             $media->setUsedCount($media->getUsedCount() - 1);
             $this->getMedia()->removeElement($productMedia);
         }
+
         return $productMedia;
     }
-    
+
     /**
      * Get ProductMedia
      *
@@ -364,16 +357,14 @@ class Product extends TranslateEntity
     {
         return $this->media;
     }
-    
+
     public function getProductMedia($mediaID)
     {
-        return $this->getMedia()->filter(function($entry) use ($mediaID)
-        {
+        return $this->getMedia()->filter(function ($entry) use ($mediaID) {
             return ($entry->getMedia()->getId() == $mediaID);
         })->first();
     }
-    
-    
+
     /**
      * Set createdAt
      *
@@ -387,47 +378,42 @@ class Product extends TranslateEntity
     /**
      * Get createdAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
-    
+
     public function getPricesByPriceGroup($priceGroup = null, $type =null)
     {
-        if($priceGroup !== null)
-        {
+        if ($priceGroup !== null) {
             return $this->getPrices($type)->filter(
-                function($entry) use ($priceGroup) {
+                function ($entry) use ($priceGroup) {
                     return ($entry->getPriceGroup()->getId() == $priceGroup->getId());
                 }
             );
-        }
-        else 
-        {
+        } else {
             return $this->getPrices($type);
         }
     }
-    
+
     public function getMinimalPrice($priceGroup = null, $type = null)
-    {   
+    {
         $price = null;
-        if($this->getPrices()!== null && $this->getPrices()->count() > 0)
-        {
+        if ($this->getPrices()!== null && $this->getPrices()->count() > 0) {
             $price = $this->getPricesByPriceGroup($priceGroup, $type)->first();
-            if($price === null)
-            {
+            if ($price === null) {
                 $price = $this->getPrices($type)->first();
             }
         }
-        if($price === null)
-        {
+        if ($price === null) {
             $price = new Price();
         }
+
         return $price;
     }
-    
+
      /**
      * Get attributes
      *
@@ -435,31 +421,29 @@ class Product extends TranslateEntity
      */
     public function getAttributes()
     {
-        return $this->attributes;   
+        return $this->attributes;
     }
-    
+
     public function getAttribute($name)
     {
-        return $this->getAttributes()->filter(function($entry) use ($name)
-        {
+        return $this->getAttributes()->filter(function ($entry) use ($name) {
             return ($entry->getName() == $name);
         })->current();
     }
-    
+
     public function getGroupedAttributes()
     {
         $result = array();
         $attributes = $this->getAttributes();
-        if(!empty($attributes))
-        {
-            foreach($this->getAttributes() as $attribute)
-            {
-                $result[$attribute->getName()->getId()][] = $attribute; 
+        if (!empty($attributes)) {
+            foreach ($this->getAttributes() as $attribute) {
+                $result[$attribute->getName()->getId()][] = $attribute;
             }
         }
+
         return $result;
     }
-    
+
     /**
      * Set stock
      *
@@ -479,7 +463,7 @@ class Product extends TranslateEntity
     {
         return $this->stock;
     }
-    
+
     /**
      * Set enabled
      *
@@ -493,13 +477,13 @@ class Product extends TranslateEntity
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isEnabled()
     {
         return $this->enabled;
     }
-    
+
     /**
      * Set tags
      *
@@ -507,12 +491,9 @@ class Product extends TranslateEntity
      */
     public function setTags($tags)
     {
-        if(!empty($tags))
-        {
+        if (!empty($tags)) {
             $this->tags = implode(', ', $tags) .  ', ';
-        }
-        else
-        {
+        } else {
             $this->tags = null;
         }
     }
@@ -525,12 +506,10 @@ class Product extends TranslateEntity
     public function getTags()
     {
         $tags = array();
-        if(!empty($this->tags))
-        {
+        if (!empty($this->tags)) {
             $tags = explode(', ', $this->tags);
             $end = trim(end($tags));
-            if(empty($end))
-            {
+            if (empty($end)) {
                 unset($tags[count($tags) - 1]);
             }
         }

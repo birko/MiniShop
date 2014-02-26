@@ -2,9 +2,7 @@
 
 namespace Core\NewsletterBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 
 class SendGroupNewsletterType extends SendNewsletterType
@@ -18,8 +16,7 @@ class SendGroupNewsletterType extends SendNewsletterType
                 'expanded' => true,
                 'required' => false,
                 'property' => 'name',
-                'query_builder' => function(EntityRepository $er)
-                 {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder("ng")
                             ->orderBy("ng.name", 'asc');
                  },

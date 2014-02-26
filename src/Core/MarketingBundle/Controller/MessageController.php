@@ -55,28 +55,21 @@ class MessageController extends Controller
         $data = array();
         $ms = $entity->getMessage();
         $minishop  = $this->container->getParameter('minishop');
-        if((!empty($ms['orderId'])) && isset($minishop['shop']) && $minishop['shop'])
-        {
+        if ((!empty($ms['orderId'])) && isset($minishop['shop']) && $minishop['shop']) {
             $order = $em->getRepository('CoreShopBundle:Order')->find($ms['orderId']);
-            if($order)
-            {
+            if ($order) {
                 $data['email'] = $order->getInvoiceAddress()->getEmail();
             }
-        }
-        elseif(!empty($ms))
-        {
-            if(isset($ms['email']))
-            {
+        } elseif (!empty($ms)) {
+            if (isset($ms['email'])) {
                 $data['email'] = $ms['email'];
             }
         }
         $form   = $this->createForm(new AnswerType(), $data);
         $request = $this->getRequest();
-        if($request->getMethod() == "POST")
-        {
+        if ($request->getMethod() == "POST") {
             $form->bind($request);
-            if($form->isValid())
-            {
+            if ($form->isValid()) {
                 $data = $form->getData();
                 $entity->setAnswer(array(
                     'email' => $data['email'],
@@ -87,8 +80,7 @@ class MessageController extends Controller
                 $em->flush();
                 $emails = $this->container->getParameter('default.emails');
                 $frommail = $emails['default'];
-                switch($entity->getType())
-                {
+                switch ($entity->getType()) {
                     case "claim":
                         $frommail = $emails['claim'];
                         break;
@@ -104,10 +96,10 @@ class MessageController extends Controller
                         break;
                 }
                 $message = \Swift_Message::newInstance()
-                    ->setSubject('Re:'  .$entity->getTitle())   
+                    ->setSubject('Re:'  .$entity->getTitle())
                     ->setFrom($frommail, $this->container->getParameter('site_title'))   //settings
-                    ->setTo(array($data['email'])) 
-                    ->setBody($this->renderView('CoreMarketingBundle:Email:answer.html.twig', array(  
+                    ->setTo(array($data['email']))
+                    ->setBody($this->renderView('CoreMarketingBundle:Email:answer.html.twig', array(
                         'data' => $data,
                     )), 'text/html')
                     ->setContentType("text/html");
@@ -117,8 +109,8 @@ class MessageController extends Controller
 
         return $this->render('CoreMarketingBundle:Message:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),  
-            'form'   => $form->createView(),            
+            'delete_form' => $deleteForm->createView(),
+            'form'   => $form->createView(),
         ));
     }
 
@@ -240,8 +232,8 @@ class MessageController extends Controller
 
         return $this->redirect($this->generateUrl('message', array('type' => $type)));
     }
-    
-    public function updateDateAction( $id)
+
+    public function updateDateAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoreMarketingBundle:Message')->find($id);
@@ -252,7 +244,7 @@ class MessageController extends Controller
         $entity->setUpdatedAt(new \DateTime());
         $em->persist($entity);
         $em->flush();
-        
+
         return $this->redirect($this->generateUrl('message_show', array('id' => $entity->getId())));
     }
 

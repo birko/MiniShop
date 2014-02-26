@@ -30,12 +30,12 @@ class NewsletterEmail
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
-    
+
     /**
      * @ORM\Column(name="is_enabled", type="boolean", nullable=true)
      */
     protected $enabled = false;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="NewsletterGroup", inversedBy="emails")
      * @ORM\JoinTable(name="newsletter_group_email")
@@ -53,7 +53,7 @@ class NewsletterEmail
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -73,13 +73,13 @@ class NewsletterEmail
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
         return $this->email;
     }
-    
+
     /**
      * Set enabled
      *
@@ -89,12 +89,12 @@ class NewsletterEmail
     {
         $this->enabled = $enabled;
     }
-    
+
     public function isEnabled()
     {
         return $this->enabled;
     }
-    
+
     /**
      * Add group
      *
@@ -102,12 +102,11 @@ class NewsletterEmail
      */
     public function addGroup($group)
     {
-        if(!$this->getGroups()->containsKey($group->getId()))
-        {
+        if (!$this->getGroups()->containsKey($group->getId())) {
             $this->getGroups()->add($group);
         }
     }
-    
+
     /**
      * Remove group
      *
@@ -117,7 +116,7 @@ class NewsletterEmail
     {
          $this->getGroups()->removeElement($group);
     }
-    
+
     /**
      * Get groups
      *
@@ -127,8 +126,9 @@ class NewsletterEmail
     {
         return $this->groups;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->getEmail();
     }
 }

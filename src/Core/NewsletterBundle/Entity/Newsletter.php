@@ -38,7 +38,7 @@ class Newsletter
 
     /**
      * @var string $content
-     * 
+     *
      * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
@@ -50,7 +50,6 @@ class Newsletter
      */
     private $createdAt;
 
-
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -58,7 +57,7 @@ class Newsletter
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -78,7 +77,7 @@ class Newsletter
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -98,7 +97,7 @@ class Newsletter
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -118,7 +117,7 @@ class Newsletter
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -138,7 +137,7 @@ class Newsletter
     /**
      * Get createdAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getCreatedAt()
     {

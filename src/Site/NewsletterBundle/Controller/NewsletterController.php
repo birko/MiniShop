@@ -12,35 +12,32 @@ class NewsletterController extends Controller
     {
         $entity = new NewsletterEmail();
         $form   = $this->createForm(new BaseNewsletterEmailType(), $entity);
+
         return $this->render('SiteNewsletterBundle:Newsletter:form.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'target' => $target,
         ));
     }
-    
+
     public function subscribeAction()
     {
         $entity = new NewsletterEmail();
-        $form   = $this->createForm(new BaseNewsletterEmailType(), $entity);    
+        $form   = $this->createForm(new BaseNewsletterEmailType(), $entity);
         $request = $this->getRequest();
         $result = false;
-        if($request->getMethod() == "POST")
-        {
+        if ($request->getMethod() == "POST") {
             $form->bind($request);
             $form->isValid();
             $email = filter_var($entity->getEmail(), FILTER_VALIDATE_EMAIL);
-            if($email !== false) {
+            if ($email !== false) {
                 $em = $this->getDoctrine()->getManager();
                 $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($email);
-                if(!$entity2)
-                {
+                if (!$entity2) {
                     $entity->setEnabled(true);
                     $em->persist($entity);
                     $result = true;
-                }
-                else
-                {
+                } else {
                     $entity2->setEnabled(true);
                     $em->persist($entity2);
                     $result = true;
@@ -49,34 +46,29 @@ class NewsletterController extends Controller
             }
         }
         $target= $request->get('_target', null);
-        if($target)
-        {
+        if ($target) {
             return $this->redirect($target);
-        }
-        else
-        {
+        } else {
             return $this->render('SiteNewsletterBundle:Newsletter:subscribe.html.twig', array(
                 'result' => $result,
             ));
         }
     }
-    
+
     public function unsubscribeAction()
     {
         $entity = new NewsletterEmail();
-        $form   = $this->createForm(new BaseNewsletterEmailType(), $entity);    
+        $form   = $this->createForm(new BaseNewsletterEmailType(), $entity);
         $request = $this->getRequest();
         $result = false;
-        if($request->getMethod() == "POST")
-        {
+        if ($request->getMethod() == "POST") {
             $form->bind($request);
             $form->isValid();
             $em = $this->getDoctrine()->getManager();
             $email = filter_var($entity->getEmail(), FILTER_VALIDATE_EMAIL);
-            if($email !== false) {
+            if ($email !== false) {
                 $entity2 = $em->getRepository('CoreNewsletterBundle:NewsletterEmail')->findOneByEmail($email);
-                if($entity2)
-                {
+                if ($entity2) {
                     $entity2->setEnabled(false);
                     $em->persist($entity2);
                     $em->flush();

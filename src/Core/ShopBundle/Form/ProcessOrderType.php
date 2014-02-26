@@ -13,14 +13,14 @@ class ProcessOrderType extends AbstractType
         $builder
         ->add('include', 'checkbox', array('required' => false, 'label' => false))
         ->add('orderId', 'hidden', array('required' => true, 'label' => false));
-        
+
     }
 
     public function getName()
     {
         return 'core_shopbundle_processordertype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

@@ -5,7 +5,7 @@
 <form action="{{ path('address_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="full">
   <fieldset>
   <legend>{% trans %}Address edit{% endtrans %}</legend>
-  
+
     <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6">
             {% include 'CoreShopBundle:Address:baseform.html.twig' with {'form': edit_form}%}
@@ -24,7 +24,7 @@
             </a>
         </div>
     </div>
-  </fieldset>  
+  </fieldset>
 </form>
 <form action="{{ path('address_delete', { 'id': entity.id }) }}" method="post" class="form-actions">
     {{ form_widget(delete_form) }}

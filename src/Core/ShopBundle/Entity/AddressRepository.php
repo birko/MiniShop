@@ -19,24 +19,21 @@ class AddressRepository extends EntityRepository
                     ->select("a")
                     ->from('CoreShopBundle:Address', "a")
                     ->addOrderBy('a.name', 'ASC')
-                    ->addOrderBy('a.id', 'ASC');                    
-        if($userId !== null)
-        {
+                    ->addOrderBy('a.id', 'ASC');
+        if ($userId !== null) {
             $queryBuilder->andWhere("a.user = :uid")
             ->setParameter('uid', $userId);
         }
+
         return $queryBuilder;
     }
-    
+
     public function createUser(User $user, $addresses = array())
     {
-        if($user && !empty($addresses))
-        {
+        if ($user && !empty($addresses)) {
             $em = $this->getEntityManager();
-            foreach($addresses as $addr)
-            {
-                if(!empty($addr))
-                {
+            foreach ($addresses as $addr) {
+                if (!empty($addr)) {
                     $addr->setUser($user);
                     $em->persist($addr);
                 }

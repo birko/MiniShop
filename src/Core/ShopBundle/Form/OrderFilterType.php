@@ -1,13 +1,10 @@
 <?php
 namespace Core\ShopBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Core\CommonBundle\Form\SearchType;
-
 
 /**
  * Description of OrderFilterType
@@ -24,7 +21,7 @@ class OrderFilterType extends SearchType
                 'class' => 'CoreShopBundle:OrderStatus',
                 'label' => 'Order status',
                 'property' => 'name' ,
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')->orderBy('s.name', 'ASC');
                 },
                 'required'    => false,
@@ -34,7 +31,7 @@ class OrderFilterType extends SearchType
                 'class' => 'CoreShopBundle:ShippingStatus',
                 'label' => 'Shipping status',
                 'property' => 'name' ,
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')->orderBy('s.name', 'ASC');
                 },
                 'required'    => false,
@@ -44,7 +41,7 @@ class OrderFilterType extends SearchType
                 'class' => 'CoreShopBundle:State',
                 'label' => 'Shipping state',
                 'property' => 'name' ,
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')->orderBy('s.name', 'ASC');
                 },
                 'required'    => false,
@@ -57,7 +54,7 @@ class OrderFilterType extends SearchType
     {
         return 'core_shopbundle_orderfilertype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -65,5 +62,3 @@ class OrderFilterType extends SearchType
         ));
     }
 }
-
-?>

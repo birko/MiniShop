@@ -2,7 +2,6 @@
 
 namespace Site\UserBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -14,8 +13,7 @@ class NewUserType extends BaseUserType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
-        if(!empty($options['address']))
-        {
+        if (!empty($options['address'])) {
             $builder->add('addresses', 'collection', array(
                 'mapped'   => false,
                 'type' => new AddressType(),
@@ -23,7 +21,7 @@ class NewUserType extends BaseUserType
                 'allow_delete' => true,
                 'widget_add_btn' => array('label' => 'Add'),
                 'show_legend' => false,
-                'prototype' => true, 
+                'prototype' => true,
                 'by_reference' => false,
                 'options' => array(
                     'required' => true,
@@ -35,7 +33,7 @@ class NewUserType extends BaseUserType
         $builder->remove('enabled');
         $builder->remove('priceGroup');
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

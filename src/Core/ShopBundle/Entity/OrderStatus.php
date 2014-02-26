@@ -35,11 +35,10 @@ class OrderStatus implements \Serializable
      */
     private $color;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -59,7 +58,7 @@ class OrderStatus implements \Serializable
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -79,19 +78,20 @@ class OrderStatus implements \Serializable
     /**
      * Get color
      *
-     * @return string 
+     * @return string
      */
     public function getColor()
     {
         return $this->color;
     }
-    
+
     public function __toString()
     {
         return $this->getName();
     }
 
-    public function serialize() {
+    public function serialize()
+    {
         return serialize(array(
             $this->id,
             $this->name,
@@ -99,7 +99,8 @@ class OrderStatus implements \Serializable
         ));
     }
 
-    public function unserialize($serialized) {
+    public function unserialize($serialized)
+    {
         list(
             $this->id,
             $this->name,

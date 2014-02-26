@@ -3,11 +3,9 @@
 namespace Core\ShopBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 
 class OrderType extends AbstractType
 {
@@ -18,20 +16,20 @@ class OrderType extends AbstractType
                 'class' => 'CoreShopBundle:OrderStatus',
                 'label' => 'Order status',
                 'property' => 'name' ,
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')->orderBy('s.name', 'ASC');
                 },
                 'required'    => false,
                 'empty_value' => 'Choose status',
                 'empty_data'  => null))
             ->add('trackingId', 'text', array(
-                'required'    => false, 
+                'required'    => false,
                 'label'       => 'Tracking ID',))
             ->add('shippingStatus','entity',  array(
                 'class' => 'CoreShopBundle:ShippingStatus',
                 'label' => 'Shipping status',
                 'property' => 'name' ,
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')->orderBy('s.name', 'ASC');
                 },
                 'required'    => false,
@@ -44,7 +42,7 @@ class OrderType extends AbstractType
     {
         return 'core_shopbundle_ordertype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

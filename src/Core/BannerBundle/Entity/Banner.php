@@ -33,56 +33,53 @@ class Banner extends TranslateEntity
      * @ORM\Column(name="title", type="string", length=255, nullable = true)
      */
     private $title;
-    
 
     /**
      * @var string $description
-     * @Gedmo\Translatable 
+     * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text", nullable = true)
      */
     private $description;
-    
+
     /**
      * @var string $link
      * @Gedmo\Translatable
      * @ORM\Column(name="link", type="string", length=1024, nullable = true)
      */
     private $link;
-    
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\MediaBundle\Entity\Media")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="CASCADE")
      */
      protected $media;
-     
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\CategoryBundle\Entity\Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="CASCADE")
      */
      protected $category;
-     
+
      /**
       * @ORM\Column(name="position", type="integer", nullable = true)
       */
      private $position;
-     
+
      public function __construct()
      {
          $this->setPosition(0);
      }
-     
-     
+
      /**
       * Get id
       *
-      * @return integer 
+      * @return integer
       */
      public function getId()
      {
          return $this->id;
      }
-     
+
      public function setPosition($position = null)
      {
          $this->position = (!empty($position) && $position > 0) ? $position : 0;
@@ -106,13 +103,13 @@ class Banner extends TranslateEntity
      /**
       * Get title
       *
-      * @return string 
+      * @return string
       */
      public function getTitle()
      {
          return $this->title;
      }
-     
+
      /**
       * Set description
       *
@@ -126,7 +123,7 @@ class Banner extends TranslateEntity
      /**
       * Get description
       *
-      * @return string 
+      * @return string
       */
      public function getDescription()
      {
@@ -146,13 +143,13 @@ class Banner extends TranslateEntity
     /**
      * Get link
      *
-     * @return string 
+     * @return string
      */
     public function getLink()
     {
         return $this->link;
     }
-    
+
     /**
      * Set media
      *
@@ -160,8 +157,7 @@ class Banner extends TranslateEntity
      */
     public function setMedia(Media $media)
     {
-        if($media != null)
-        {
+        if ($media != null) {
             $media->setUsedCount($media->getUsedCount() + 1);
         }
         $this->media = $media;
@@ -176,7 +172,7 @@ class Banner extends TranslateEntity
     {
         return $this->media;
     }
-    
+
      /**
      * Set category
      *
@@ -195,5 +191,5 @@ class Banner extends TranslateEntity
     public function getCategory()
     {
         return $this->category;
-    } 
+    }
 }

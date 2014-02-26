@@ -16,15 +16,15 @@ use Core\CommonBundle\Controller\TranslateController;
 class AttributeNameController extends TranslateController
 {
 
-    protected function saveTranslation($entity, $culture, $translation) 
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity->setName($translation->getName());  
+        $entity->setName($translation->getName());
         $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
+        $em->persist($entity);
         $em->flush();
     }
-    
+
     /**
      * Lists all AttributeName entities.
      *
@@ -43,12 +43,12 @@ class AttributeNameController extends TranslateController
            200 /*limit per page*/,
            array('distinct' => false)
        );
-        
+
         return $this->render('CoreAttributeBundle:AttributeName:index.html.twig', array(
             'entities' => $pagination,
         ));
     }
-    
+
     /**
      * Creates a new AttributeName entity.
      *
@@ -66,6 +66,7 @@ class AttributeNameController extends TranslateController
             $em->persist($entity);
             $em->flush();
             $this->saveTranslations($entity, $cultures);
+
             return $this->redirect($this->generateUrl('attributename'));
         }
 
@@ -93,7 +94,6 @@ class AttributeNameController extends TranslateController
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Create'));
-
         return $form;
     }
 
@@ -180,7 +180,6 @@ class AttributeNameController extends TranslateController
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Update'));
-
         return $form;
     }
     /**
@@ -206,6 +205,7 @@ class AttributeNameController extends TranslateController
         if ($editForm->isValid()) {
             $em->flush();
             $this->saveTranslations($entity, $cultures);
+
             return $this->redirect($this->generateUrl('attributename_edit', array('id' => $id)));
         }
 

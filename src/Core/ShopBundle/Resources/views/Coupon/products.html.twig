@@ -19,7 +19,7 @@
     <tbody>
     {% for product in entity.products %}
         <tr>
-            <td>{{ product.title }}</td>        
+            <td>{{ product.title }}</td>
             <td>
                 <a href="{{ path('coupon_products_remove', { 'id': entity.id, 'product': product.id }) }}" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> {% trans %}Remove{% endtrans %}</a>
             </td>

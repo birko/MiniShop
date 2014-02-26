@@ -3,11 +3,8 @@
 namespace Core\BannerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 
 class BannerPositionType extends AbstractType
 {
@@ -21,7 +18,7 @@ class BannerPositionType extends AbstractType
     {
         return 'core_bannerbundle_bannerpositiontype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

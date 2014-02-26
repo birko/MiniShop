@@ -2,18 +2,16 @@
 
 namespace Core\ProductBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
-use Core\PriceBundle\Form\AbstractPriceType;
 use Core\MarketingBundle\Form\DiscountType;
 
 class GrouponType extends DiscountType
 {
         /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -25,8 +23,9 @@ class GrouponType extends DiscountType
                 'required' => false,
                 'expanded' => false,
                 'multiple' => false,
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     $qb = $er->getPaymentQueryBuilder();
+
                     return $qb;
                 },
             ))
@@ -35,13 +34,14 @@ class GrouponType extends DiscountType
             'required' => false,
             'expanded' => false,
             'multiple' => false,
-            'query_builder' => function(EntityRepository $er)  {
+            'query_builder' => function (EntityRepository $er) {
                 $qb =  $er->getShippingQueryBuilder();
+
                 return $qb;
             },
         ));
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

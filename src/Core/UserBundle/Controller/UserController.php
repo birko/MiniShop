@@ -11,7 +11,6 @@ namespace Core\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 
-
 use Core\UserBundle\Entity\User;
 use Core\UserBundle\Form\UserType;
 
@@ -23,12 +22,9 @@ class UserController extends Controller
         $session = $request->getSession();
 
         // get the login error if there is one
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) 
-        {
+        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        } 
-        else 
-        {
+        } else {
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
         }
 
@@ -38,7 +34,6 @@ class UserController extends Controller
             'error'         => $error,
         ));
     }
-    
 
     public function securityCheckAction()
     {
@@ -49,13 +44,14 @@ class UserController extends Controller
     {
         // The security layer will intercept this request
     }
-    
+
     public function setLocaleAction()
     {
         $request = $this->getRequest();
+
         return $this->redirect($request->headers->get('referer'));
     }
-    
+
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -63,7 +59,7 @@ class UserController extends Controller
         $query = $em->getRepository('CoreUserBundle:User')->createQueryBuilder('u')
         ->addOrderBy("u.id")
         ->getQuery();
-        
+
         $page = $this->getRequest()->get("page", 1);
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -71,12 +67,12 @@ class UserController extends Controller
             $page /*page number*/,
             100 /*limit per page*/
         );
-        
+
         return $this->render('CoreUserBundle:User:index.html.twig', array(
             'entities' => $pagination,
         ));
     }
-    
+
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -94,7 +90,7 @@ class UserController extends Controller
         'edit_form'   => $editForm->createView(),
         ));
     }
-    
+
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -104,15 +100,16 @@ class UserController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
-        
+
         $request = $this->getRequest();
-        
+
         $editForm = $this->createForm(new UserType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
+
             return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
         }
 
@@ -122,5 +119,3 @@ class UserController extends Controller
         ));
     }
 }
-
-?>

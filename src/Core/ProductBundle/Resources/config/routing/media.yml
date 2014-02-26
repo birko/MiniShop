@@ -1,9 +1,9 @@
 product_media:
     pattern:  /{category}
     defaults: { _controller: "CoreProductBundle:Media:index", category: ~}
-    requirements: 
+    requirements:
         category: \d+
-        
+
 product_media_new:
     pattern:  /new/{type}/{category}
     defaults: { _controller: "CoreProductBundle:Media:new", category: ~ }

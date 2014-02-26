@@ -25,7 +25,7 @@ class PriceController extends Controller
 
         return $this->render('CoreProductBundle:Price:index.html.twig', array(
             'entities' => $entities,
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }
@@ -65,7 +65,7 @@ class PriceController extends Controller
         return $this->render('CoreProductBundle:Price:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }
@@ -84,26 +84,24 @@ class PriceController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
-            if($productEntity != null)
-            {
+            if ($productEntity != null) {
                 $entity->setProduct($productEntity);
             }
             $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
-            if($entity->isDefault())
-            {
+            if ($entity->isDefault()) {
                 $em->getRepository('CoreProductBundle:Price')->updateDefaultPrice($entity->getProduct()->getId(), $entity->getId());
             }
 
             return $this->redirect($this->generateUrl('price', array('product'=> $product, 'category' => $category)));
-            
+
         }
 
         return $this->render('CoreProductBundle:Price:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category
         ));
     }
@@ -159,10 +157,10 @@ class PriceController extends Controller
             $entity->recalculate(false);
             $em->persist($entity);
             $em->flush();
-            if($entity->isDefault())
-            {
+            if ($entity->isDefault()) {
                 $em->getRepository('CoreProductBundle:Price')->updateDefaultPrice($entity->getProduct()->getId(), $entity->getId());
             }
+
             return $this->redirect($this->generateUrl('price_edit', array('id' => $id, 'product'=> $product, 'category' => $category)));
         }
 
@@ -170,7 +168,7 @@ class PriceController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }

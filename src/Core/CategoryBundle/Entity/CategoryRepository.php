@@ -2,8 +2,6 @@
 
 namespace Core\CategoryBundle\Entity;
 
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 /**
  * CategoryRepository
@@ -17,72 +15,72 @@ class CategoryRepository extends NestedTreeRepository
     {
         return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
     }
-    
+
     public function getCategoriesQueryBuilder($onlyenabled = false)
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
                ->select("c")
                ->from("CoreCategoryBundle:Category", "c");
-        if($onlyenabled)
-        {
+        if ($onlyenabled) {
             $qb->andWhere("c.enabled=:enabled")
                 ->setParameter("enabled", $onlyenabled);
         }
         $qb->addOrderBy("c.lft");
+
         return $qb;
     }
-    
+
     public function getHome()
     {
         $query = $this->getCategoriesQueryBuilder()
             ->andWhere("c.home = :home")
             ->setParameter("home", true)
             ->getQuery();
+
         return $this->setHint($query)->getOneOrNullResult();
     }
-    
+
     public function getFirst()
     {
         $query = $this->getCategoriesQueryBuilder()->getQuery();
+
         return $this->setHint($query)->getFirstResult();
     }
-    
+
     public function getBySlug($slug)
     {
         $query = $this->getCategoriesQueryBuilder()
             ->andWhere("c.slug = :slug")
             ->setParameter("slug", $slug)
             ->getQuery();
+
         return $this->setHint($query)->getOneOrNullResult();
     }
-    
+
     public function getCategoriesByMenuQueryBuilder($menu = null, $parent = null, $onlyenabled = false)
     {
         $qb = $this->getCategoriesQueryBuilder($onlyenabled);
-        if($menu !== null)
-        {
+        if ($menu !== null) {
             $qb ->andWhere("c.menu = :menu")
                 ->setParameter('menu', $menu);
         }
-        if($parent !== null)
-        {
+        if ($parent !== null) {
             $qb ->andWhere("c.parent = :parent")
                 ->setParameter('parent', $parent);
-        }
-        else
-        {
+        } else {
             $qb ->andWhere("c.parent is NULL");
         }
-        
+
         return $qb;
     }
-    
+
     public function getCategoriesByMenu($menu = null, $parent = null, $onlyenabled = false)
     {
         $qb = $this->getCategoriesByMenuQueryBuilder($menu, $parent, $onlyenabled);
+
         return $this->setHint($qb->getQuery())->getResult();
     }
-    
+
     public function updateHomeCategory($exlude)
     {
        $q = $this->getEntityManager()->createQueryBuilder()
@@ -92,30 +90,30 @@ class CategoryRepository extends NestedTreeRepository
                ->setParameter('home', 'false')
                ->setParameter('id', $exlude)
                ->getQuery();
-       $numUpdated = $q->execute(); 
+       $numUpdated = $q->execute();
+
        return $numUpdated;
     }
-    
+
     public function getTreeQueryBuilder($menu = null, $onlyenabled = false, $direct = false, $sortByField = null, $direction = 'ASC')
     {
         $qb = $this->childrenQueryBuilder(null, $direct, $sortByField, $direction);
-        if($menu !== null)
-        {
+        if ($menu !== null) {
             $qb->andWhere("node.menu = :mid")
             ->setParameter('mid', $menu);
         }
-        if($onlyenabled)
-        {
+        if ($onlyenabled) {
             $qb->andWhere("node.enabled=:enabled")
                 ->setParameter("enabled", $onlyenabled);
         }
+
         return $qb;
     }
-    
-    
+
     public function getTreeQuery($menu = null, $onlyenabled = false, $direct = false, $sortByField = null, $direction = 'ASC')
     {
         $query = $this->getTreeQueryBuilder($menu, $onlyenabled, $direct, $sortByField, $direction)->getQuery();
+
         return $this->setHint($query);
     }
 }

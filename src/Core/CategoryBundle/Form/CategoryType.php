@@ -2,30 +2,24 @@
 
 namespace Core\CategoryBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 
 class CategoryType extends CategoryTranslationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if(!empty($options['cultures']))
-        {
+        if (!empty($options['cultures'])) {
             $builder->add('translations', 'collection', array(
                 'type' => new CategoryTranslationType(),
                 'allow_add' => false,
                 'allow_delete' => false,
-                'prototype' => false, 
+                'prototype' => false,
                 'by_reference' => false,
                 'options' => array(
                     'required' => false,
             )));
-        }
-        else
-        {
+        } else {
             parent::buildForm($builder, $options);
         }
         $builder
@@ -39,8 +33,7 @@ class CategoryType extends CategoryTranslationType
     {
         return 'core_categorybundle_categorytype';
     }
-    
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);

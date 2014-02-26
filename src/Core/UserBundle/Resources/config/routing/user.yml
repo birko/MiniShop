@@ -1,11 +1,11 @@
 CoreUserBundle_login:
     pattern:  /login
     defaults: { _controller: CoreUserBundle:User:login }
-    
+
 CoreUserBundle_logout:
     pattern:  /logout
     defaults: { _controller: CoreUserBundle:User:logout }
-    
+
 CoreUserBundle_logincheck:
     pattern:  /login_check
     defaults: { _controller: CoreUserBundle:User:securityCheck }

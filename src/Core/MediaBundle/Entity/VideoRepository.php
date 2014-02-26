@@ -8,7 +8,6 @@
 namespace Core\MediaBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr;
 
 class VideoRepository extends EntityRepository
 {
@@ -17,5 +16,3 @@ class VideoRepository extends EntityRepository
         return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
     }
 }
-
-?>

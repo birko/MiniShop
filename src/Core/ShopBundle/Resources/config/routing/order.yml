@@ -5,11 +5,11 @@ order:
 order_show:
     pattern:  /{id}/show
     defaults: { _controller: "CoreShopBundle:Order:show" }
-    
+
 order_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "CoreShopBundle:Order:edit" }
-    
+
 order_update:
     pattern:  /{id}/update
     defaults: { _controller: "CoreShopBundle:Order:update" }
@@ -18,7 +18,7 @@ order_update:
 order_edit_invoice:
     pattern:  /{id}/editinvoice
     defaults: { _controller: "CoreShopBundle:Order:editInvoice" }
-    
+
 order_update_invoice:
     pattern:  /{id}/updateinvoice
     defaults: { _controller: "CoreShopBundle:Order:updateInvoice" }
@@ -32,5 +32,3 @@ order_process:
     pattern:  /process
     defaults: { _controller: "CoreShopBundle:Order:process"}
     requirements: { _method: post }
-
-

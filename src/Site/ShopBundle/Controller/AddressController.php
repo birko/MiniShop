@@ -21,11 +21,10 @@ class AddressController extends ShopController
     public function indexAction()
     {
         $user = $this->getShopUser();
-        if($user === null)
-        {
+        if ($user === null) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
-        
+
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('CoreShopBundle:Address')->getUserAddressQueryBuilder($user->getId())
             ->getQuery()->getResult();
@@ -69,8 +68,7 @@ class AddressController extends ShopController
         $addressRequiredConfiguration = $this->container->getParameter("address.required");
         $form   = $this->createForm(new AddressType(), $entity, array('requiredFields' => $addressRequiredConfiguration));
         $user = $this->getUser();
-        if($user === null)
-        {
+        if ($user === null) {
             throw $this->createNotFoundException('Unable to find ShopUser entity.');
         }
 
@@ -92,11 +90,10 @@ class AddressController extends ShopController
         $form   = $this->createForm(new AddressType(), $entity, array('requiredFields' => $addressRequiredConfiguration));
         $form->bind($request);
         $user = $this->getShopUser();
-        if($user === null)
-        {
+        if ($user === null) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
-    
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity->setUser($user);
@@ -104,7 +101,7 @@ class AddressController extends ShopController
             $em->flush();
 
             return $this->redirect($this->generateUrl('address'));
-            
+
         }
 
         return $this->render('SiteShopBundle:Address:new.html.twig', array(
@@ -127,13 +124,11 @@ class AddressController extends ShopController
             throw $this->createNotFoundException('Unable to find Address entity.');
         }
         $user = $this->getShopUser();
-        if($user === null)
-        {
+        if ($user === null) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
-        
-        if($user->getId() != $entity->getUser()->getId())
-        {
+
+        if ($user->getId() != $entity->getUser()->getId()) {
             throw new AccessDeniedException();
         }
 
@@ -162,13 +157,11 @@ class AddressController extends ShopController
             throw $this->createNotFoundException('Unable to find Address entity.');
         }
         $user = $this->getShopUser();
-        if($user === null)
-        {
+        if ($user === null) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
-        
-        if($user->getId() != $entity->getUser()->getId())
-        {
+
+        if ($user->getId() != $entity->getUser()->getId()) {
             throw new AccessDeniedException();
         }
 
@@ -205,21 +198,19 @@ class AddressController extends ShopController
 
         $form->bind($request);
         $user = $this->getShopUser();
-        if($user === null)
-        {
+        if ($user === null) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CoreShopBundle:Address')->find($id);
-            
+
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Address entity.');
             }
-            
-            if($user->getId() != $entity->getUser()->getId())
-            {
+
+            if ($user->getId() != $entity->getUser()->getId()) {
                 throw new AccessDeniedException();
             }
             $em->remove($entity);
@@ -236,7 +227,7 @@ class AddressController extends ShopController
             ->getForm()
         ;
     }
-    
+
     public function infoAction($id)
     {
         $em = $this->getDoctrine()->getManager();

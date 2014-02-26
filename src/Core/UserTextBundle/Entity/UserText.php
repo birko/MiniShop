@@ -39,11 +39,10 @@ class UserText extends TranslateEntity
      */
     private $text;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -53,20 +52,20 @@ class UserText extends TranslateEntity
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string   $name
      * @return UserText
      */
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -76,20 +75,20 @@ class UserText extends TranslateEntity
     /**
      * Set text
      *
-     * @param string $text
+     * @param  string   $text
      * @return UserText
      */
     public function setText($text)
     {
         $this->text = $text;
-    
+
         return $this;
     }
 
     /**
      * Get text
      *
-     * @return string 
+     * @return string
      */
     public function getText()
     {

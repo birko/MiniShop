@@ -2,8 +2,6 @@
 
 namespace Core\MarketingBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Core\PriceBundle\Form\AbstractPriceType;
@@ -14,21 +12,18 @@ class BaseDiscountType extends AbstractPriceType
     {
         $builder
             ->add('discount', 'percent', array(
-                'required' => false, 
+                'required' => false,
                 'label' =>  'Discount',
             ))
         ;
         parent::buildForm($builder, $options);
-        if($builder->has('price'))
-        {
+        if ($builder->has('price')) {
             $builder->get('price')->setRequired(false);
         }
-        if($builder->has('priceVAT'))
-        {
+        if ($builder->has('priceVAT')) {
             $builder->get('priceVAT')->setRequired(false);
         }
-        if($builder->has('VAT'))
-        {
+        if ($builder->has('VAT')) {
             $builder->get('VAT')->setRequired(false);
         }
     }
@@ -37,7 +32,7 @@ class BaseDiscountType extends AbstractPriceType
     {
         return 'core_marketingbundle_basediscounttype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);

@@ -2,16 +2,14 @@
 
 namespace Site\ShopBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 /**
  * Description of CheckoutType
  *
  * @author Birko
  */
-class CartUserAddressType extends  CartBaseAddressType 
+class CartUserAddressType extends  CartBaseAddressType
 {
     protected $userId = null;
     public function __construct($userid, $sameaddress = false)
@@ -25,10 +23,10 @@ class CartUserAddressType extends  CartBaseAddressType
         $id = $this->userId;
         $builder
             ->add('shippingAddress', 'entity', array(
-            'required' => true, 
+            'required' => true,
             'error_bubbling' => !$this->sameaddress,
             'class' => 'CoreShopBundle:Address',
-            'query_builder' => function(EntityRepository $er) use ($id) {
+            'query_builder' => function (EntityRepository $er) use ($id) {
                         return $er->getUserAddressQueryBuilder($id);
                     },
                 ))
@@ -37,14 +35,12 @@ class CartUserAddressType extends  CartBaseAddressType
                 'label'     => 'Is payment address same as shipping?',
                 ))
             ->add('paymentAddress', 'entity', array(
-            'required' => true, 
+            'required' => true,
             'error_bubbling' => true,
             'class' => 'CoreShopBundle:Address',
-            'query_builder' => function(EntityRepository $er) use ($id) {
+            'query_builder' => function (EntityRepository $er) use ($id) {
                         return $er->getUserAddressQueryBuilder($id);
                     },
                 ));
     }
 }
-
-?>

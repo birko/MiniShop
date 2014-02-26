@@ -21,12 +21,10 @@ class SiteProductExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        if(isset($config['per_page']))
-        {
+        if (isset($config['per_page'])) {
             $container->setParameter("site.product.perpage", $config['per_page']);
         }
-        if(isset($config['recursive']))
-        {
+        if (isset($config['recursive'])) {
             $container->setParameter("site.product.recursive", $config['recursive']);
         }
 

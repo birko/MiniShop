@@ -3,12 +3,10 @@
 namespace Core\ShopBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints;
 use Doctrine\ORM\EntityRepository;
-
 
 class BaseAddressType extends AbstractType
 {
@@ -85,7 +83,7 @@ class BaseAddressType extends AbstractType
                 'class' => 'CoreShopBundle:State',
                 'label' => 'State',
                 'property' => 'name',
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')->orderBy('s.name', 'ASC');
                 },
                 'required'    => true,
@@ -99,12 +97,12 @@ class BaseAddressType extends AbstractType
             ))
         ;
     }
- 
+
     public function getName()
     {
         return 'core_shopbundle_addresstype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

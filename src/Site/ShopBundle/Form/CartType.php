@@ -4,7 +4,6 @@ namespace Site\ShopBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityRepository;
 
 /**
  * Description of CartType
@@ -23,12 +22,12 @@ class CartType extends AbstractType
             'widget_add_btn' => array(),
         ));
     }
-    
-    public function getName() 
+
+    public function getName()
     {
         return "site_shop_carttype";
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -36,5 +35,3 @@ class CartType extends AbstractType
         ));
     }
 }
-
-?>

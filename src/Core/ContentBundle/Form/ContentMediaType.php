@@ -3,11 +3,8 @@
 namespace Core\ContentBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 
 class ContentMediaType extends AbstractType
 {
@@ -21,7 +18,7 @@ class ContentMediaType extends AbstractType
     {
         return 'core_contentbundle_contentmediatype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

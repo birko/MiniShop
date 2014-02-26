@@ -9,7 +9,7 @@
     <tfoot>
         <tr>
             <td colspan="2">
-                <a href="{{ path('SiteUserBundle_index') }}" class="btn btn-default btn-inverse">{% trans %}Customer section{% endtrans %}</a>                
+                <a href="{{ path('SiteUserBundle_index') }}" class="btn btn-default btn-inverse">{% trans %}Customer section{% endtrans %}</a>
             </td>
         </tr>
     </tfoot>
@@ -21,7 +21,7 @@
                 <a href="{{ path('order_detail', { 'id': entity.id }) }}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-asterisk"></span> {% trans %}Show{% endtrans %}</a>
                 {% if entity.invoicedAt %}
                 <a href="{{ path('order_pdf', { 'id': entity.id }) }}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-print"></span> {% trans %}Invoice{% endtrans %}</a>
-                {% endif %}             
+                {% endif %}
             </td>
         </tr>
     {% endfor %}

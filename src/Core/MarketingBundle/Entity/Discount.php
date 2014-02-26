@@ -3,28 +3,26 @@
 namespace Core\MarketingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Core\PriceBundle\Entity\AbstractPrice;
 
 /**
- * @ORM\MappedSuperclass 
+ * @ORM\MappedSuperclass
  */
 abstract class Discount extends BaseDiscount
 {
-    
+
     /**
      * @var boolean $active
      *
      * @ORM\Column(name="active", type="boolean", nullable=true)
      */
     protected $active;
-    
+
     public function __construct()
     {
         $this->setActive(true);
     }
-    
+
     /**
      * Set active
      *
@@ -44,13 +42,13 @@ abstract class Discount extends BaseDiscount
     {
         return $this->active;
     }
-    
+
     public function calculateDiscount(AbstractPrice $price)
     {
-        if($this->isActive())
-        {
+        if ($this->isActive()) {
             parent::calculateDiscount($price);
         }
+
         return $price;
     }
 }

@@ -5,12 +5,6 @@ namespace Core\ShopBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Core\ShopBundle\Entity\Order;
-use Core\ShopBundle\Entity\OrderFilter;
-use Core\ShopBundle\Entity\Process;
-use Core\ShopBundle\Entity\ProcessOrder;
-use Core\ShopBundle\Form\OrderType;
-use Core\ShopBundle\Form\OrderFilterType;
-use Core\ShopBundle\Form\ProcessType;
 
 /**
  * BaseOrder controller.
@@ -27,21 +21,18 @@ class BaseOrderController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Order entity.');
         }
-        
-        if($checkUser)
-        {
+
+        if ($checkUser) {
             $user = $this->getShopUser();
-            if($user === null)
-            {
+            if ($user === null) {
                 throw $this->createNotFoundException('Unable to find User entity.');
             }
-            
-            if($user->getId() != $entity->getUser()->getId())
-            {
+
+            if ($user->getId() != $entity->getUser()->getId()) {
                 throw new AccessDeniedException();
             }
         }
-        
+
         $view = $this->renderView('CoreShopBundle:Order:pdf.html.twig', array(
             'entity'      => $entity,
         ));
@@ -54,6 +45,7 @@ class BaseOrderController extends Controller
         $pdf->writeHTML($view, true, false, true, FALSE, '');
         $pdf->lastPage();
         $pdf->Output("order-".$entity->getId().".pdf", "D");
+
         return new Response();
     }
 }

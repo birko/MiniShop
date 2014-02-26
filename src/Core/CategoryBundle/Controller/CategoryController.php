@@ -14,19 +14,18 @@ use Core\CommonBundle\Controller\TranslateController;
  */
 class CategoryController extends TranslateController
 {
-    
-    protected function saveTranslation($entity, $culture, $translation) 
+
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
         $slug = $translation->getSlug();
         $entity->setTitle($translation->getTitle());
-        $entity->setTranslatableLocale($culture); 
-        $em->persist($entity); 
+        $entity->setTranslatableLocale($culture);
+        $em->persist($entity);
         $em->flush();
-        if($entity->isExternal())
-        {
+        if ($entity->isExternal()) {
             $entity->setSlug($slug);
-            $em->persist($entity); 
+            $em->persist($entity);
             $em->flush();
         }
     }
@@ -38,38 +37,35 @@ class CategoryController extends TranslateController
     {
         $session = $this->getRequest()->getSession();
         $mid = $session->get('last_category_menu', 0);
+
         return $this->redirect($this->generateUrl('category_menu', array("menu" => $mid)));
     }
-    
+
     public function menuAction($menu = 0)
-    {   
+    {
         $menu_index = $menu;
         $menus = $this->container->getParameter('menu');
-        if(!is_numeric($menu_index))
-        {
+        if (!is_numeric($menu_index)) {
             $menu_index = array_search($menu, $menus);
         }
-        if($menu_index === false || (count($menus) <= $menu_index))
-        {
+        if ($menu_index === false || (count($menus) <= $menu_index)) {
             throw $this->createNotFoundException("Menu not found: ". $menu);
-        }
-        else
-        {
+        } else {
             $session = $this->getRequest()->getSession();
             $session->set('last_category_menu', $menu);
             $em = $this->getDoctrine()->getManager();
-            
+
             $minishop  = $this->container->getParameter('minishop');
             $controller =$this;
             $options = array(
                 'decorate' => true,
                 'rootOpen' => $this->renderView("CoreCategoryBundle:Category:Tree/rootOpen.html.twig"),
                 'rootClose' => $this->renderView("CoreCategoryBundle:Category:Tree/rootClose.html.twig"),
-                'childOpen' => function($node) use ($controller) {
+                'childOpen' => function ($node) use ($controller) {
                     return $controller->renderView("CoreCategoryBundle:Category:Tree/childOpen.html.twig", array('node'=> $node));
                 },
                 'childClose' => $this->renderView("CoreCategoryBundle:Category:Tree/childClose.html.twig"),
-                'nodeDecorator' => function($node) use ($controller, $minishop) {
+                'nodeDecorator' => function ($node) use ($controller, $minishop) {
                     return $controller->renderView("CoreCategoryBundle:Category:Tree/nodeDecoration.html.twig", array(
                         "node" => $node,
                         "minishop" => $minishop,
@@ -78,8 +74,9 @@ class CategoryController extends TranslateController
             );
 
             $parentsQuery = $em->getRepository('CoreCategoryBundle:Category')->getTreeQuery($menu);
-            $parents = $parentsQuery->getArrayResult();  
+            $parents = $parentsQuery->getArrayResult();
             $tree = (count($parents)> 0) ? $em->getRepository('CoreCategoryBundle:Category')->buildTree($parents, $options): "";
+
             return $this->render('CoreCategoryBundle:Category:index.html.twig', array(
             'tree' => $tree,
             'menus' => $menus,
@@ -143,11 +140,10 @@ class CategoryController extends TranslateController
         $this->loadTranslations($entity, $cultures, new Category());
         $form   = $this->createForm(new CategoryType(), $entity, array('cultures' => $cultures));
         $form->bind($request);
-        
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if($parent !== null)
-            {
+            if ($parent !== null) {
                 $parententity = $em->getRepository('CoreCategoryBundle:Category')->find($parent);
                 $entity->setParent($parententity);
             }
@@ -155,19 +151,18 @@ class CategoryController extends TranslateController
             $entity->setMenu($menu);
             $em->persist($entity);
             $em->flush();
-            if($entity->isExternal())
-            {
+            if ($entity->isExternal()) {
                 $entity->setSlug($slug);
                 $em->persist($entity);
                 $em->flush();
             }
-            if($entity->isHome())
-            {
+            if ($entity->isHome()) {
                 $em->getRepository('CoreCategoryBundle:Category')->updateHomeCategory($entity->getId());
             }
-            $this->saveTranslations($entity, $cultures);            
+            $this->saveTranslations($entity, $cultures);
+
             return $this->redirect($this->generateUrl('category'));
-            
+
         }
 
         return $this->render('CoreCategoryBundle:Category:new.html.twig', array(
@@ -233,14 +228,12 @@ class CategoryController extends TranslateController
             $slug = $entity->getSlug();
             $em->persist($entity);
             $em->flush();
-            if($entity->isExternal())
-            {
+            if ($entity->isExternal()) {
                 $entity->setSlug($slug);
                 $em->persist($entity);
                 $em->flush();
             }
-            if($entity->isHome())
-            {
+            if ($entity->isHome()) {
                 $em->getRepository('CoreCategoryBundle:Category')->updateHomeCategory($entity->getId());
             }
             $this->saveTranslations($entity, $cultures);
@@ -289,7 +282,7 @@ class CategoryController extends TranslateController
             ->getForm()
         ;
     }
-    
+
     /**
      * Moves Category up
      *
@@ -302,9 +295,10 @@ class CategoryController extends TranslateController
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
         $em->getRepository('CoreCategoryBundle:Category')->moveUp($entity, $position);
+
         return $this->redirect($this->generateUrl('category'));
     }
-    
+
     /**
      * Moves Category down
      *
@@ -317,6 +311,7 @@ class CategoryController extends TranslateController
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
         $em->getRepository('CoreCategoryBundle:Category')->moveDown($entity, $position);
+
         return $this->redirect($this->generateUrl('category'));
     }
 }

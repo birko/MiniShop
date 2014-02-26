@@ -1,7 +1,7 @@
 content:
     pattern:  /{category}
     defaults: { _controller: "CoreContentBundle:Content:index", category: ~}
-    requirements: 
+    requirements:
         category: \d+
 
 content_show:

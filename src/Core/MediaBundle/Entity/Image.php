@@ -5,7 +5,6 @@ namespace Core\MediaBundle\Entity;
 use Symfony\Component\Validator\Constraints;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Sluggable\Util\Urlizer as GedmoUrlizer;
 /**
  * Nws\MediaBundle\Entity\Image
  *
@@ -14,34 +13,33 @@ use Gedmo\Sluggable\Util\Urlizer as GedmoUrlizer;
  */
 class Image extends Media
 {
-    
+
     /**
      * @Constraints\Image(maxSize="6000000")
      */
     protected $file;
-    
+
     private $options = array();
-    
+
     /**
      * @var integer $width
      *
      * @ORM\Column(name="width", type="integer",  nullable = true)
      */
     private $width;
-    
+
     /**
      * @var integer $height
      *
      * @ORM\Column(name="height", type="integer",  nullable = true)
      */
     private $height;
-    
+
     public function __construct()
     {
         parent::__construct();
-    } 
-    
-    
+    }
+
     /**
      * Set width
      *
@@ -55,13 +53,13 @@ class Image extends Media
     /**
      * Get width
      *
-     * @return integer 
+     * @return integer
      */
     public function getWidth()
     {
         return $this->width;
     }
-    
+
     /**
      * Set height
      *
@@ -75,115 +73,100 @@ class Image extends Media
     /**
      * Get height
      *
-     * @return integer 
+     * @return integer
      */
     public function getHeight()
     {
         return $this->height;
     }
-    
-    
+
     public function getOptions()
     {
        return $this->options;
     }
-    
+
     public function setOptions($options)
     {
-        if(!empty($options))
-        {
+        if (!empty($options)) {
             $this->options = $options;
         }
-    }   
-    
-    public function getType() 
+    }
+
+    public function getType()
     {
         return "image";
     }
-    
+
     protected function getUploadDir($dir = null)
     {
         return ($dir !== null) ? 'uploads/images/' . $dir: 'uploads/images/original';
     }
-    
+
     public function removeUpload($removeTranslation = false)
     {
         $options = $this->getOptions();
-        if(empty($options))
-        {
+        if (empty($options)) {
             throw new \Exception("No options specified for delete");
         }
-        foreach($options as $dir => $values)
-        {
-            if ($file = $this->getAbsolutePath($dir)) 
-            {
-                if(file_exists($file))
-                {
+        foreach ($options as $dir => $values) {
+            if ($file = $this->getAbsolutePath($dir)) {
+                if (file_exists($file)) {
                     unlink($file);
                 }
             }
-        } 
+        }
         parent::removeUpload($removeTranslation);
     }
-    
+
     public function preUpload()
     {
         $file = $this->getFile();
-        if(isset($file))
-        {
+        if (isset($file)) {
             $status  = parent::preUpload();
-            if ($status) //if is new image
-            {
+            if ($status) { //if is new image
                 $im = ImageManipulation::createResource($file->getRealPath());
-                if(ImageManipulation::checkResource($im))
-                {
+                if (ImageManipulation::checkResource($im)) {
                     $info = ImageManipulation::getResourceInfo($im);
-                    if(isset($info['width']))
-                    {
+                    if (isset($info['width'])) {
                         $this->setWidth($info['width']);
                     }
-                    if(isset($info['height']))
-                    {
+                    if (isset($info['height'])) {
                         $this->setHeight($info['height']);
                     }
                     unset($im);
+
                     return true;
                 }
             }
         }
+
         return false;
     }
-    
+
     public function upload()
     {
-        parent::upload(); 
+        parent::upload();
         $im = ImageManipulation::createResource($this->getAbsolutePath());
-        if(ImageManipulation::checkResource($im))
-        {
+        if (ImageManipulation::checkResource($im)) {
             unset($im);
             $options = $this->getOptions();
-            foreach($options as $dir => $values)
-            {
+            foreach ($options as $dir => $values) {
                 $this->update($dir, $values);
             }
-        }
-        else
-        {
-            $afile = $this->getAbsolutePath(); 
+        } else {
+            $afile = $this->getAbsolutePath();
             unset($afile);
             throw new \Exception("Unknown file format");
         }
     }
-    
+
     public function update($dir, $values)
     {
-        if(empty($values))
-        {
+        if (empty($values)) {
             throw new \Exception("No options specified for ". $dir);
         }
         $path = $this->getUploadRootDir($dir);
-        if (!file_exists($path)) 
-        {
+        if (!file_exists($path)) {
             mkdir($path, 0777, true);
             chmod($path, 0777);
         }
@@ -194,41 +177,36 @@ class Image extends Media
         $method = (isset($values["method"])) ? $values["method"] : "resize";
         $enlarge = (isset($values["enlarge"])) ? $values["enlarge"] : false;
         $im = ImageManipulation::createResource($this->getAbsolutePath());
-        switch($method)
-        {
-            case "cut": 
+        switch ($method) {
+            case "cut":
                 $im = ImageManipulation::cutResource($im, $values["width"], $values["height"]);
                 break;
-            case "crop": 
+            case "crop":
                 $im = ImageManipulation::cropResource($im, $values["width"], $values["height"]);
                 break;
-            case "resize": 
+            case "resize":
             default:
                 $im = ImageManipulation::resizeResource($im, $values["width"], $values["height"], $enlarge);
                 break;
         }
-        
-        if(isset($values["fill"]) && is_array($values["fill"]))
-        {
+
+        if (isset($values["fill"]) && is_array($values["fill"])) {
             $im = ImageManipulation::fillResource($im, $values["width"], $values["height"], $values["fill"]);
         }
-        
-        if(isset($values["sepia"]) && !empty($values["sepia"]))
-        {
+
+        if (isset($values["sepia"]) && !empty($values["sepia"])) {
             $im = ImageManipulation::sepiaResource($im);
         }
-        
-        if(isset($values["greyscale"]) && !empty($values["greyscale"]))
-        {
+
+        if (isset($values["greyscale"]) && !empty($values["greyscale"])) {
             $im = ImageManipulation::greyscaleResource($im);
         }
-        
-        if(isset($values["watermark"]) && !empty($values["watermark"]))
-        {
+
+        if (isset($values["watermark"]) && !empty($values["watermark"])) {
             $im = ImageManipulation::watermarkResource($im, $values["watermark"]);
         }
-        
+
         $im = ImageManipulation::saveResource($im, $this->getAbsolutePath($dir), $format, $quality);
         unset($im);
-    } 
+    }
 }

@@ -3,7 +3,6 @@
 namespace Core\AttributeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -15,12 +14,12 @@ class AttributeValueTranslationType extends AbstractType
             ->add('value', 'text')
         ;
     }
-    
+
     public function getName()
     {
         return 'core_attributebundle_attributevaluetranslationtype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

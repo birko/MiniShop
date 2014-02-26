@@ -46,14 +46,12 @@ class Vendor extends TranslateEntity
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Core\ProductBundle\Entity\Product", mappedBy="vendor")
      */
     private $products;
 
-
-    
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -61,7 +59,7 @@ class Vendor extends TranslateEntity
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -81,7 +79,7 @@ class Vendor extends TranslateEntity
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -101,7 +99,7 @@ class Vendor extends TranslateEntity
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -121,20 +119,20 @@ class Vendor extends TranslateEntity
     /**
      * Get description
      *
-     * @return text 
+     * @return text
      */
     public function getDescription()
     {
         return $this->description;
     }
-    
+
     /**
      * Get products
      *
      * @return ArrayCollection
-     */    
+     */
     public function getProducts()
     {
-        return $this->products;   
+        return $this->products;
     }
 }

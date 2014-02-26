@@ -14,15 +14,15 @@ use Core\CommonBundle\Controller\TranslateController;
  */
 class StateController extends TranslateController
 {
-    protected function saveTranslation($entity, $culture, $translation) 
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
         $entity->setName($translation->getName());
         $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
+        $em->persist($entity);
         $em->flush();
     }
-    
+
     /**
      * Lists all State entities.
      *
@@ -97,9 +97,9 @@ class StateController extends TranslateController
             $em->persist($entity);
             $em->flush();
             $this->saveTranslations($entity, $cultures);
-            
+
             return $this->redirect($this->generateUrl('state'));
-            
+
         }
 
         return $this->render('CoreShopBundle:State:new.html.twig', array(

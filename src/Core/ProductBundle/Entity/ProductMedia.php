@@ -3,7 +3,6 @@
 namespace Core\ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Core\MediaBundle\Entity\Media;
 
 /**
@@ -15,15 +14,15 @@ use Core\MediaBundle\Entity\Media;
 
 class ProductMedia
 {
-    /** 
-     * @ORM\Id 
+    /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="media")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $product;
 
-    /** 
-     * @ORM\Id 
+    /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Core\MediaBundle\Entity\Media")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="CASCADE")
      */
@@ -33,19 +32,18 @@ class ProductMedia
      * @ORM\Column(name="position", type="integer", nullable = true)
      */
     private $position;
-    
+
     /**
      * @var boolean $default
      * @ORM\Column(name="is_default", type="boolean", nullable = true)
      */
     private $default;
 
-
     public function __construct()
     {
         $this->setPosition(0);
     }
-    
+
     public function setPosition($position = null)
     {
         $this->position = (!empty($position) && $position > 0) ? $position : 0;
@@ -56,13 +54,12 @@ class ProductMedia
         return $this->position;
     }
 
-
     /**
      * Set product
      *
      * @param Product product
      */
-    public function setProduct (Product $product)
+    public function setProduct(Product $product)
     {
         $this->product = $product;
     }
@@ -96,7 +93,7 @@ class ProductMedia
     {
         return $this->media;
     }
-    
+
     /**
      * Set default
      *
@@ -110,7 +107,7 @@ class ProductMedia
     /**
      * Is default
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isDefault()
     {
@@ -118,5 +115,3 @@ class ProductMedia
     }
 
 }
-
-?>

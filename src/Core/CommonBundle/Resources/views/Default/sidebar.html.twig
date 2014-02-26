@@ -30,7 +30,7 @@
     <li class="list-group-item">
         {% trans %}Shop{% endtrans %}
         <ul class="nav">
-            <li><a href="{{path('order')}}">{% trans %}Orders{% endtrans %}</a></li> 
+            <li><a href="{{path('order')}}">{% trans %}Orders{% endtrans %}</a></li>
 			{% if 'marketing' in minishopkeys %}
             <li><a href="{{path('coupon')}}">{% trans %}Coupons{% endtrans %}</a></li>
 			{% endif %}
@@ -70,11 +70,11 @@
     <li class="list-group-item">
          <ul class="nav">
 		    {% if 'user' in minishopkeys %}
-            <li><a href="{{path('user')}}">{% trans %}Users{% endtrans %}</a></li> 
+            <li><a href="{{path('user')}}">{% trans %}Users{% endtrans %}</a></li>
             <li><a href="{{path('pricegroup')}}">{% trans %}Price groups{% endtrans %}</a></li>
 			{% endif %}
 			{% if 'price' in minishopkeys %}
-            <li><a href="{{path('vat')}}">{% trans %}VAT{% endtrans %}</a></li> 
+            <li><a href="{{path('vat')}}">{% trans %}VAT{% endtrans %}</a></li>
 			{% endif %}
         </ul>
     </li>

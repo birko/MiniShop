@@ -19,7 +19,7 @@
     <tbody>
     {% for product in products %}
         <tr>
-            <td>{{ product.title }}</td>        
+            <td>{{ product.title }}</td>
             <td>
                 <a href="{{ path('coupon_products_add', { 'id': entity.id, 'product': product.id }) }}" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-plus"></span> {% trans %}Add{% endtrans %}</a>
             </td>

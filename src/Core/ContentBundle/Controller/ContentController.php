@@ -14,17 +14,17 @@ use Core\CommonBundle\Controller\TranslateController;
  */
 class ContentController extends TranslateController
 {
-    protected function saveTranslation($entity, $culture, $translation) 
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
         $entity->setTitle($translation->getTitle());
-        $entity->setShortDescription($translation->getShortDescription());    
-        $entity->setLongDescription($translation->getLongDescription());  
+        $entity->setShortDescription($translation->getShortDescription());
+        $entity->setLongDescription($translation->getLongDescription());
         $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
+        $em->persist($entity);
         $em->flush();
     }
-    
+
     /**
      * Lists all Content entities.
      *
@@ -35,7 +35,7 @@ class ContentController extends TranslateController
 
         $querybuilder = $em->getRepository('CoreContentBundle:Content')->findContentByCategoryQueryBuilder($category);
         $query = $querybuilder->orderBy('c.id')->getQuery();
-        
+
         $paginator = $this->get('knp_paginator');
         $page = $this->getRequest()->get('page', 1);
         $pagination = $paginator->paginate(
@@ -45,6 +45,7 @@ class ContentController extends TranslateController
         );
 
         $minishop  = $this->container->getParameter('minishop');
+
         return $this->render('CoreContentBundle:Content:index.html.twig', array(
             'entities' => $pagination,
             'category' => $category,
@@ -109,19 +110,18 @@ class ContentController extends TranslateController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if($category !== null)
-            {
+            if ($category !== null) {
                 $categoryEntity = $em->getRepository('CoreCategoryBundle:Category')->find($category);
-                if($categoryEntity != null)
-                {
+                if ($categoryEntity != null) {
                     $entity->setCategory($categoryEntity);
                 }
             }
             $em->persist($entity);
             $em->flush();
             $this->saveTranslations($entity, $cultures);
+
             return $this->redirect($this->generateUrl('content', array('category'=> $category)));
-            
+
         }
 
         return $this->render('CoreContentBundle:Content:new.html.twig', array(
@@ -186,7 +186,7 @@ class ContentController extends TranslateController
             $em->persist($entity);
             $em->flush();
             $this->saveTranslations($entity, $cultures);
-            
+
             return $this->redirect($this->generateUrl('content_edit', array('id' => $id)));
         }
 
@@ -215,17 +215,15 @@ class ContentController extends TranslateController
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Content entity.');
             }
-            
+
             $imageOptions = $this->container->getParameter('images');
-            foreach($entity->getMedia() as $media)
-            {
+            foreach ($entity->getMedia() as $media) {
                 $media->getMedia()->setOptions($imageOptions);
                 $entity->getMedia()->removeElement($media);
                 $em->remove($media);
             }
-            
-            if($entity->getCategory())
-            {
+
+            if ($entity->getCategory()) {
                 $category = $entity->getCategory()->getId();
             }
             $em->remove($entity);

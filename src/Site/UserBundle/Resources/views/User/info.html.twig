@@ -1,6 +1,6 @@
 <div class="user-info">
   {% if entity is empty %}
-  <span class="name">{% trans %}Not logged in{% endtrans %}</span> 
+  <span class="name">{% trans %}Not logged in{% endtrans %}</span>
   <a href="{{path('SiteUserBundle_login')}}"><span class="glyphicon glyphicon-ok"></span> {% trans %}general.login{% endtrans %}</a>
   {% else %}
   <span class="name">

@@ -10,21 +10,20 @@ class ProductCategoryRepository extends EntityRepository
     {
         $querybuilder = $this->getEntityManager()->createQueryBuilder()
                ->delete("CoreProductBundle:ProductCategory", "pc");
-        if($categoryId !== null)
-        {
+        if ($categoryId !== null) {
             $querybuilder =  $querybuilder->andWhere("pc.category = :cid")
             ->setParameter('cid', $categoryId);
         }
 
-        if($productId !== null)
-        {
+        if ($productId !== null) {
             $querybuilder =  $querybuilder->andWhere("pc.product = :pid")
             ->setParameter('pid', $productId);
         }
-       $numUpdated = $querybuilder->getQuery()->execute(); 
+       $numUpdated = $querybuilder->getQuery()->execute();
+
        return $numUpdated;
     }
-    
+
     public function updateDefaultCategory($productId, $exludeCategoryId)
     {
         $q = $this->getEntityManager()->createQueryBuilder()
@@ -35,10 +34,11 @@ class ProductCategoryRepository extends EntityRepository
                 ->setParameter('cid', $exludeCategoryId)
                 ->setParameter('pid', $productId)
                 ->getQuery();
-        $numUpdated = $q->execute(); 
+        $numUpdated = $q->execute();
+
         return $numUpdated;
     }
-    
+
     public function updatePosition($productId, $categoryId, $position, $move)
     {
         $q = $this->getEntityManager()->createQueryBuilder();
@@ -52,7 +52,8 @@ class ProductCategoryRepository extends EntityRepository
                 ->setParameter('position', $position)
                 ->setParameter('pid', $productId)
                 ;
-        $numUpdated = $q->getQuery()->execute(); 
+        $numUpdated = $q->getQuery()->execute();
+
         return $numUpdated;
     }
 }

@@ -2,11 +2,8 @@
 
 namespace Core\MediaBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 
 class EditImageType extends MediaType
 {
@@ -19,7 +16,7 @@ class EditImageType extends MediaType
     {
         return 'core_mediabundle_image';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);
@@ -28,5 +25,3 @@ class EditImageType extends MediaType
         ));
     }
 }
-
-?>

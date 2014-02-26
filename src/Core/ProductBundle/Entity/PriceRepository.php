@@ -23,7 +23,8 @@ class PriceRepository extends EntityRepository
                ->setParameter('priceId', $priceId)
                ->setParameter('productId', $productId)
                ->getQuery();
-        $numUpdated = $q->execute(); 
+        $numUpdated = $q->execute();
+
         return $numUpdated;
     }
 }

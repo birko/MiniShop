@@ -16,17 +16,17 @@ use Core\CommonBundle\Controller\TranslateController;
  */
 class BannerController extends TranslateController
 {
-    protected function saveTranslation($entity, $culture, $translation) 
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
         $entity->setTitle($translation->getTitle());
-        $entity->setDescription($translation->getDescription());    
-        $entity->setLink($translation->getLink());    
+        $entity->setDescription($translation->getDescription());
+        $entity->setLink($translation->getLink());
         $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
+        $em->persist($entity);
         $em->flush();
     }
-    
+
     /**
      * Lists all Banner entities.
      *
@@ -101,15 +101,12 @@ class BannerController extends TranslateController
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $media = $entity->getMedia();
-            if($media)
-            {
+            if ($media) {
                 $hash = trim($media->getHash());
                 $source = trim($media->getSource());
-                if(!empty($hash) || !empty($source))
-                {
+                if (!empty($hash) || !empty($source)) {
                     $testEntity = $em->getRepository('CoreMediaBundle:Media')->findOneByHash($media->getHash());
-                    if($testEntity !== null)
-                    {
+                    if ($testEntity !== null) {
                         $media = $testEntity;
                     }
                     $em->persist($media);
@@ -117,11 +114,9 @@ class BannerController extends TranslateController
                     $entity->setMedia($media);
                 }
             }
-            if($category !== null)
-            {
+            if ($category !== null) {
                 $categoryentity = $em->getRepository('CoreCategoryBundle:Category')->find($category);
-                if($categoryentity)
-                {
+                if ($categoryentity) {
                     $entity->setCategory($categoryentity);
                 }
             }
@@ -130,12 +125,12 @@ class BannerController extends TranslateController
             $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('banner', array('category' => $category)));
-            
+
         }
 
         return $this->render('CoreBannerBundle:Banner:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView(), 
+            'form'   => $form->createView(),
             'category' => $category,
             'cultures' => $cultures
         ));
@@ -195,7 +190,7 @@ class BannerController extends TranslateController
             $em->persist($entity);
             $em->flush();
             $this->saveTranslations($entity, $cultures);
-            
+
             return $this->redirect($this->generateUrl('banner_edit', array('id' => $id)));
         }
 
@@ -226,25 +221,19 @@ class BannerController extends TranslateController
                 throw $this->createNotFoundException('Unable to find Banner entity.');
             }
             $media = $entity->getMedia();
-            if($media)
-            {
+            if ($media) {
                 $media->setUsedCount($media->getUsedCount() - 1);
-                if($media->getUsedCount() == 0)
-                {
-                    if($media->getType() == 'image')
-                    {
+                if ($media->getUsedCount() == 0) {
+                    if ($media->getType() == 'image') {
                         $imageOptions = $this->container->getParameter('images');
                         $media->setOptions($imageOptions);
                     }
                     $em->remove($media);
-                }
-                else
-                {
+                } else {
                     $em->persist($media);
                 }
             }
-            if($entity->getCategory())
-            {
+            if ($entity->getCategory()) {
                 $category = $entity->getCategory()->getID();
             }
             $em->remove($entity);
@@ -261,7 +250,7 @@ class BannerController extends TranslateController
             ->getForm()
         ;
     }
-    
+
     public function moveUpAction($id, $position, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -272,9 +261,10 @@ class BannerController extends TranslateController
         $entity->setPosition($entity->getPosition() - $position);
         $em->persist($entity);
         $em->flush();
+
         return $this->redirect($this->generateUrl('banner', array('category' => $category)));
     }
-    
+
     public function moveDownAction($id, $position, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -285,9 +275,10 @@ class BannerController extends TranslateController
         $entity->setPosition($entity->getPosition() + $position);
         $em->persist($entity);
         $em->flush();
+
         return $this->redirect($this->generateUrl('banner', array('category' => $category)));
     }
-    
+
     public function positionAction($id, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -296,13 +287,14 @@ class BannerController extends TranslateController
             throw $this->createNotFoundException('Unable to find Banner entity.');
         }
         $form = $this->createForm(new BannerPositionType(), $entity);
+
         return $this->render('CoreBannerBundle:Banner:position.html.twig', array(
             'category' => $category,
             'id' => $id,
             'form' => $form->createView()
         ));
     }
-    
+
     public function positionUpdateAction($id, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -313,12 +305,13 @@ class BannerController extends TranslateController
         $form = $this->createForm(new BannerPositionType(), $entity);
         $request = $this->getRequest();
         $form->bind($request);
-        if($form->isValid())
-        {
+        if ($form->isValid()) {
             $em->persist($entity);
             $em->flush();
+
             return $this->redirect($this->generateUrl('banner', array('category' => $category)));
         }
+
         return $this->render('CoreBannerBundle:Banner:position.html.twig', array(
              'category' => $category,
              'id' => $id,

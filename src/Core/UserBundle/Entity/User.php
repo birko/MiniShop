@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="CoreUser")
@@ -23,49 +22,48 @@ use Doctrine\ORM\Mapping as ORM;
 class User implements AdvancedUserInterface, EquatableInterface, \Serializable
 {
     /**
-     * @ORM\Id 
-     * @ORM\Column(type="integer") 
+     * @ORM\Id
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id = null;
-    
+
     /**
      * @ORM\Column(type="string", unique = true)
      */
     protected $login = "";
-    
+
     /**
      * @ORM\Column(type="string")
      * @Assert\Length(min=6)
      */
     protected $password = "";
-    
+
     /**
      * @ORM\Column(type="string")
      */
-    protected  $salt = "";
+    protected $salt = "";
 
     /**
      * @ORM\Column(type="boolean")
      */
     protected $enabled = false;
-    
-    
+
     /**
      * @ORM\Column(type="string", unique = true)
      */
     protected $email = "";
-    
+
     /**
      * @ORM\Column(type="datetime")
      */
-    protected  $created_at = null;
-    
+    protected $created_at = null;
+
     /**
      * @ORM\Column(type="string")
      */
     private $roles = "";
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\PriceGroup", inversedBy="users")
      * @ORM\JoinColumn(name="pricegroup_id", referencedColumnName="id")
@@ -79,12 +77,11 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
         $this->setCreatedAt(new \DateTime());
         $this->setRoles(array("ROLE_USER"));
     }
- 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -104,7 +101,7 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     /**
      * Get login
      *
-     * @return string 
+     * @return string
      */
     public function getLogin()
     {
@@ -124,7 +121,7 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -144,7 +141,7 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     /**
      * Get salt
      *
-     * @return string 
+     * @return string
      */
     public function getSalt()
     {
@@ -160,12 +157,12 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     {
         $this->enabled = $enabled;
     }
-    
+
     public function isEnabled()
     {
         return $this->enabled;
     }
-    
+
     /**
      * Set email
      *
@@ -179,7 +176,7 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -199,13 +196,13 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     /**
      * Get createdAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getCreatedAt()
     {
         return $this->created_at;
     }
-    
+
     /**
      * Set createdAt
      *
@@ -226,20 +223,20 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
         return explode(', ', $this->roles);
     }
 
-    public function isEqualTo(UserInterface $user) 
+    public function isEqualTo(UserInterface $user)
     {
         return $this->getLogin() == $user->getUsername();
     }
 
-    public function eraseCredentials() {
-        
+    public function eraseCredentials()
+    {
     }
 
-    public function getUsername() 
+    public function getUsername()
     {
-        return $this->getLogin(); 
+        return $this->getLogin();
     }
-    
+
     public function isAccountNonExpired()
     {
         return true;
@@ -255,11 +252,11 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
         return true;
     }
 
-    public function __toString() 
+    public function __toString()
     {
         return $this->getLogin();
     }
-    
+
     /**
      * Set PriceGroup
      *
@@ -279,8 +276,8 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
     {
         return $this->priceGroup;
     }
-    
-    public function serialize() 
+
+    public function serialize()
     {
         return serialize(array(
         $this->id,
@@ -289,7 +286,7 @@ class User implements AdvancedUserInterface, EquatableInterface, \Serializable
         $this->priceGroup
         ));
     }
-    
+
     public function unserialize($serialized)
     {
         list(

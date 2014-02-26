@@ -23,30 +23,26 @@ class CartController extends ShopController
         $this->testCart();
         $user = $this->getShopUser();
         $form = $this->createForm(new CartType(), $cart);
+
         return $this->render('SiteShopBundle:Cart:index.html.twig', array(
             'cart' => $cart,
             'form' => (!$cart->isEmpty()) ? $form->createView() : null,
             'user' => $user,
         ));
     }
-    
+
     public function checkAction()
     {
         $this->testCart();
-        $cart = $this->getCart(); 
+        $cart = $this->getCart();
         $user = $this->getShopUser();
-        if(!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
-        {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $form = $this->createForm(new CartBaseType(true), $cart);
-        }
-        else
-        {
-            if($user === null)
-            {
+        } else {
+            if ($user === null) {
                 throw $this->createNotFoundException('Unable to find User entity.');
             }
-            if($user->getAddresses()->count() > 0)
-            {
+            if ($user->getAddresses()->count() > 0) {
                 $cart->setPaymentAddress($user->getAddresses()->first());
                 $cart->setShippingAddress($user->getAddresses()->first());
             }
@@ -55,20 +51,15 @@ class CartController extends ShopController
         $request = $this->getRequest();
         $form->bind($request);
         $form->isValid();
-        if(!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
-        {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $form2 = $this->createForm(new CartBaseType($cart->isSameAddress()), $cart);
-        }
-        else
-        {
+        } else {
             $form2 = $this->createForm(new CartUserType($user->getId(), $cart->isSameAddress()), $cart);
         }
-        if($cart->isSameAddress())
-        {
+        if ($cart->isSameAddress()) {
             $post = $request->get($form2->getName());
             $post['shippingAddress'] = $post['paymentAddress'];
-            if(!$user)
-            {
+            if (!$user) {
                 unset($post['shippingAddress']['TIN']);
                 unset($post['shippingAddress']['OIN']);
                 unset($post['shippingAddress']['VATIN']);
@@ -76,32 +67,29 @@ class CartController extends ShopController
             $request->request->set($form2->getName(), $post);
         }
         $form2->bind($request);
-        if($form2->isValid())
-        {
+        if ($form2->isValid()) {
             $this->setCart($cart);
+
             return $this->redirect($this->generateUrl('checkout_order'));
         }
-        
-        
+
         return $this->render('SiteShopBundle:Cart:index.html.twig', array(
             'form'   => $form2->createView(),
             'cart' => $cart,
         ));
     }
-    
+
     public function addAction($product, $price, $amount = 1)
     {
         $em = $this->getDoctrine()->getManager();
         $pricegroup = $this->getPriceGroup();
-        if(!($product instanceof Product))
-        {
+        if (!($product instanceof Product)) {
             $product = $em->getRepository('CoreProductBundle:Product')->find($product);
         }
-        if(!$price)
-        {
+        if (!$price) {
             $price = $product->getMinimalPrice($pricegroup);
         }
-        
+
         $entity = new CartItem();
         $entity->setAmount($amount);
         $entity->setName($product->getTitle());
@@ -110,25 +98,24 @@ class CartController extends ShopController
         $entity->setPriceVAT($price->getPriceVAT());
         $options = $em->getRepository('CoreProductBundle:ProductOption')->getOptionsNamesByProduct($product->getId());
         $form = $this->createForm(new CartItemAddType(), $entity, array(
-            'product'=>$product->getId(), 
+            'product'=>$product->getId(),
             'options' => $options,
             'requireOptions' => $this->container->getParameter('site.shop.require_options'),
         ));
-        
+
         return $this->render('SiteShopBundle:Cart:add.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
             'options' => $options,
         ));
     }
-    
+
     public function addItemAction($product)
     {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $pricegroup = $this->getPriceGroup();
-        if(!($product instanceof Product))
-        {
+        if (!($product instanceof Product)) {
             $product = $em->getRepository('CoreProductBundle:Product')->find($product);
         }
         $price = $product->getMinimalPrice($pricegroup);
@@ -140,35 +127,34 @@ class CartController extends ShopController
         $entity->setPriceVAT($price->getPriceVAT());
         $options = $em->getRepository('CoreProductBundle:ProductOption')->getOptionsNamesByProduct($product->getId());
         $form = $this->createForm(new CartItemAddType(), $entity, array(
-            'product'=>$product->getId(), 
+            'product'=>$product->getId(),
             'options' => $options,
             'requireOptions' => $this->container->getParameter('site.shop.require_options'),
         ));
-        if ($request->getMethod() == 'POST') 
-        {
+        if ($request->getMethod() == 'POST') {
             $cart = $this->getCart();
-            if(!$request->get('cart-add-small'))
-            {
+            if (!$request->get('cart-add-small')) {
                 $form->bind($request);
-                if($form->isValid())
-                {
+                if ($form->isValid()) {
                     $entity->setOptions($entity->getOptions()->toArray());
                 }
             }
             $cart->addItem($entity);
             $this->setCart($cart);
         }
+
         return $this->redirect($this->generateUrl('cart'));
     }
-    
+
     public function removeItemAction($index)
     {
         $cart = $this->getCart();
         $cart->removeItem($index);
         $this->setCart($cart);
+
         return $this->redirect($this->generateUrl('cart'));
     }
-    
+
     public function updateItemAction()
     {
         $request = $this->getRequest();
@@ -176,34 +162,33 @@ class CartController extends ShopController
         $form = $this->createForm(new CartType(), $cart);
         $em = $this->getDoctrine()->getManager();
         $pricegroup = $this->getPriceGroup();
-        if ($request->getMethod() == 'POST') 
-        {
+        if ($request->getMethod() == 'POST') {
             $form->bind($request);
-            if($form->isValid())
-            {
-                foreach($cart->getItems() as $entity)
-                {
-                    if($entity->getProductId() && $entity->isChangeAmount())
-                    {
+            if ($form->isValid()) {
+                foreach ($cart->getItems() as $entity) {
+                    if ($entity->getProductId() && $entity->isChangeAmount()) {
                     }
                 }
                 $this->setCart($cart);
             }
         }
+
         return $this->redirect($this->generateUrl('cart'));
     }
-    
+
     public function clearAction()
     {
         $cart = $this->getCart();
         $cart->clearItems();
         $this->setCart($cart);
+
         return $this->redirect($this->generateUrl('cart'));
     }
-    
+
     public function infoAction()
     {
         $cart = $this->getCart();
+
         return $this->render('SiteShopBundle:Cart:info.html.twig', array(
             'cart' => $cart,
         ));

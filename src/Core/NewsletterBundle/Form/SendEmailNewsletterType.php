@@ -2,11 +2,8 @@
 
 namespace Core\NewsletterBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class SendEmailNewsletterType extends SendNewsletterType
 {
@@ -18,12 +15,10 @@ class SendEmailNewsletterType extends SendNewsletterType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
-      
-        if(!empty($this->emails))
-        {
+
+        if (!empty($this->emails)) {
             $emails = array();
-            foreach($this->emails as $email)
-            {
+            foreach ($this->emails as $email) {
                 $emails[$email->getEmail()] = $email;
             }
             $builder->add('emails', 'choice', array(
@@ -32,17 +27,14 @@ class SendEmailNewsletterType extends SendNewsletterType
                 'required' => false,
                 'choices' => $emails,
             ));
-        }
-        else
-        {
+        } else {
             $builder->add('emails', 'entity', array(
                 'class' => 'CoreNewsletterBundle:NewsletterEmail',
                 'multiple' => true,
                 'expanded' => true,
                 'required' => false,
                 'property' => 'email',
-                'query_builder' => function(EntityRepository $er)
-                 {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder("ne")
                             ->orderBy("ne.email", 'asc');
                  },

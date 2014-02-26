@@ -3,7 +3,6 @@
 namespace Core\ContentBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr;
 /**
  * CategoryRepository
  *
@@ -16,30 +15,31 @@ class ContentRepository extends EntityRepository
     {
         return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
     }
-    
+
     public function getBySlug($slug)
     {
         $query = $this->findContentByCategoryQueryBuilder()
             ->andWhere("c.slug = :slug")
             ->setParameter("slug", $slug)
             ->getQuery();
+
         return $this->setHint($query)->getOneOrNullResult();
     }
-    
+
     public function findContentByCategoryQueryBuilder($categoryID = null)
     {
         $querybuilder = $this->getEntityManager()->createQueryBuilder()
                 ->select("c")
                 ->from("CoreContentBundle:Content", "c");
-        if($categoryID !== null)
-        {
+        if ($categoryID !== null) {
             $querybuilder->andWhere('c.category = :cid')
                     ->setParameter('cid', $categoryID);
         }
+
         return $querybuilder;
     }
-    
-    public function  findMediaByContentQueryBuilder($content)
+
+    public function findMediaByContentQueryBuilder($content)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()
                ->select("m")
@@ -51,10 +51,11 @@ class ContentRepository extends EntityRepository
                ->setParameter('content', $content)
                ->addOrderBy("cm.position", "asc")
                ->addOrderBy("m.id", "asc");
+
         return $queryBuilder;
     }
-   
-    public function  findMediaByContent($content)
+
+    public function findMediaByContent($content)
     {
         return $this->setHint($this->findMediaByContentQueryBuilder($content)->getQuery())->getResult();
     }

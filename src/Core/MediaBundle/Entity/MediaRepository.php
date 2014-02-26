@@ -7,7 +7,6 @@
 namespace Core\MediaBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr;
 
 class MediaRepository extends EntityRepository
 {
@@ -15,12 +14,10 @@ class MediaRepository extends EntityRepository
     {
         return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
     }
-    
+
     public function getMediaQueryBuilder()
     {
         return $this->createQueryBuilder("m")
             ->addOrderBy("m.id", "asc");
     }
 }
-
-?>

@@ -1,7 +1,7 @@
 stock:
     pattern:  /{category}
     defaults: { _controller: "CoreProductBundle:Stock:index", category: ~ }
-    requirements: 
+    requirements:
         category: \d+
 
 stock_show:

@@ -26,11 +26,11 @@ class AttributeName extends TranslateEntity implements \Serializable
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-    
-    /** 
+
+    /**
      * @var string name
      * @Gedmo\Translatable
-     * @ORM\Column(type="string", nullable=true) 
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $name;
 
@@ -44,7 +44,7 @@ class AttributeName extends TranslateEntity implements \Serializable
     {
         $this->values = new ArrayCollection();
     }
-    
+
     /**
      * Get name
      *
@@ -54,7 +54,7 @@ class AttributeName extends TranslateEntity implements \Serializable
     {
         return $this->id;
     }
-    
+
     /**
      * Set name
      *
@@ -74,7 +74,7 @@ class AttributeName extends TranslateEntity implements \Serializable
     {
         return $this->name;
     }
-    
+
     /**
      * Set values
      *
@@ -94,32 +94,35 @@ class AttributeName extends TranslateEntity implements \Serializable
     {
         return $this->values;
     }
-    
+
     public function __toString()
     {
         return $this->getName();
     }
-    
+
     public function toArray()
     {
         $array =  array();
         $array[] = $this->id;
         $array[] = $this->name;
+
         return $array;
     }
-    
+
     public function fromArray($array)
     {
         $this->id = $array[0];
         $this->name = $array[1];
     }
-    
-    public function serialize() {
+
+    public function serialize()
+    {
         return serialize($this->toArray());
     }
 
-    public function unserialize($serialized) {
-        $array = unserialize($serialized); 
+    public function unserialize($serialized)
+    {
+        $array = unserialize($serialized);
         $this->fromArray($array);
     }
 }

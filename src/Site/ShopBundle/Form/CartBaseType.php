@@ -2,11 +2,8 @@
 
 namespace Site\ShopBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
-use Core\ShopBundle\Form\AddressType;
 
 /**
  * Description of CartBaseType
@@ -16,13 +13,13 @@ use Core\ShopBundle\Form\AddressType;
 class CartBaseType extends CartBaseAddressType
 {
     protected $state = null;
-    
+
     public function __construct($sameaddress = false, $state = null)
     {
         parent::__construct($sameaddress);
         $this->state = $state;
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
@@ -31,8 +28,9 @@ class CartBaseType extends CartBaseAddressType
                 'class' => 'CoreShopBundle:Payment',
                 'expanded' => false,
                 'multiple' => false,
-                'query_builder' => function(EntityRepository $er) use($state) {
+                'query_builder' => function (EntityRepository $er) use ($state) {
                     $qb = $er->getPaymentQueryBuilder();
+
                     return $qb;
                 },
                 'attr' => array(
@@ -43,8 +41,9 @@ class CartBaseType extends CartBaseAddressType
             'class' => 'CoreShopBundle:Shipping',
             'expanded' => false,
             'multiple' => false,
-            'query_builder' => function(EntityRepository $er) use($state) {
+            'query_builder' => function (EntityRepository $er) use ($state) {
                 $qb =  $er->getShippingQueryBuilder($state);
+
                 return $qb;
             },
             'attr' => array(
@@ -60,11 +59,9 @@ class CartBaseType extends CartBaseAddressType
             )
         ));
     }
-    
-    public function getName() 
+
+    public function getName()
     {
         return "nws_shop_basecart";
     }
 }
-
-?>

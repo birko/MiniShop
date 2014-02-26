@@ -25,7 +25,7 @@ class CoreUserExtension extends Extension
         $nws = ($container->hasParameter('minishop')) ? $container->getParameter('minishop') : array();
         $nws['user'] = true;
         $container->setParameter('minishop', $nws);
-        
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

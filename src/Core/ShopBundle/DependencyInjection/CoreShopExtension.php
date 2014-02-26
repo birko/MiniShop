@@ -21,30 +21,25 @@ class CoreShopExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        
+
         $nws = ($container->hasParameter('minishop')) ? $container->getParameter('minishop') : array();
         $nws['shop'] = true;
-        $container->setParameter('minishop', $nws);  
-        
+        $container->setParameter('minishop', $nws);
+
         $container->setParameter('address.required', array());
         $container->setParameter('admin.order.export', array());
         $container->setParameter('admin.order.proccess', array());
-        
-        if(isset($config['address']))
-        {
-            if(isset($config['address']['required']))
-            {
+
+        if (isset($config['address'])) {
+            if (isset($config['address']['required'])) {
                 $container->setParameter('address.required', $config['address']['required']);
             }
         }
-        if(isset($config['order']))
-        {
-            if(isset($config['order']['process']))
-            {
+        if (isset($config['order'])) {
+            if (isset($config['order']['process'])) {
                 $container->setParameter('admin.order.process', $config['order']['process']);
             }
-            if(isset($config['order']['export']))
-            {
+            if (isset($config['order']['export'])) {
                 $container->setParameter('admin.order.export', $config['order']['export']);
             }
         }

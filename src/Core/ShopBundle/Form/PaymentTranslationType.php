@@ -2,12 +2,9 @@
 
 namespace Core\ShopBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Core\PriceBundle\Form\AbstractPriceType;
-
 
 class PaymentTranslationType extends AbstractPriceType
 {
@@ -17,7 +14,7 @@ class PaymentTranslationType extends AbstractPriceType
         $builder->add('description', 'textarea', array('required' => false))
         ;
     }
-    
+
     protected function parentBuildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
@@ -27,7 +24,7 @@ class PaymentTranslationType extends AbstractPriceType
     {
         return 'core_shopbundle_paymenttranslationtype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);

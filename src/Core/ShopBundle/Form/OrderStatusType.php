@@ -3,10 +3,8 @@
 namespace Core\ShopBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 
 class OrderStatusType extends AbstractType
 {
@@ -22,7 +20,7 @@ class OrderStatusType extends AbstractType
     {
         return 'core_shopbundle_orderstatustype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

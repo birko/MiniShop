@@ -2,9 +2,7 @@
 
 namespace Core\UserBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class NewUserType extends UserType
 {
@@ -15,16 +13,16 @@ class NewUserType extends UserType
             ->add('password', 'repeated', array(
                 'required' => true,
                 'type' => 'password',
-                'invalid_message' => 'The password fields must match,', 
+                'invalid_message' => 'The password fields must match,',
                 'first_options' => array(
-                    'label' => 'Password', 
+                    'label' => 'Password',
                     'attr' => array(
                 )),
                 'second_options' => array(
                     'label' => 'Repeat Password',
                     'attr' => array(
                 ))
-            ))           
+            ))
         ;
     }
 }

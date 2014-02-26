@@ -21,7 +21,7 @@ class CoreUserTextExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        
+
         $nws = ($container->hasParameter('minishop')) ? $container->getParameter('minishop') : array();
         $nws['usertext'] = true;
         $container->setParameter('minishop', $nws);

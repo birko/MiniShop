@@ -35,11 +35,10 @@ class VAT implements \Serializable
      */
     private $rate;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -49,20 +48,20 @@ class VAT implements \Serializable
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return VAT
      */
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -72,66 +71,68 @@ class VAT implements \Serializable
     /**
      * Set rate
      *
-     * @param float $rate
+     * @param  float $rate
      * @return VAT
      */
     public function setRate($rate)
     {
         $this->rate = $rate;
-    
+
         return $this;
     }
 
     /**
      * Get rate
      *
-     * @return float 
+     * @return float
      */
     public function getRate()
     {
         return $this->rate;
     }
-    
+
     /**
      * Set ratePercentage
      *
-     * @param float $rate
+     * @param  float $rate
      * @return VAT
      */
     public function setRatePercentage($rate)
-    {        
+    {
         return $this->setRate($rate / 100);
     }
-    
+
     /**
      * Get ratePercentage
      *
-     * @return float 
+     * @return float
      */
-    
+
     public function getRatePercentage()
     {
         return $this->getRate() * 100;
     }
-    
-    public function serialize() {
+
+    public function serialize()
+    {
         return serialize(array(
             $this->id,
             $this->name,
             $this->rate
-            
+
         ));
     }
 
-    public function unserialize($serialized) {
+    public function unserialize($serialized)
+    {
         list(
             $this->id,
             $this->name,
             $this->rate
         ) = unserialize($serialized);
-        
+
     }
-    
+
     public function __toString()
     {
         return $this->getName() . " (" . $this->getRatePercentage() . "%)";

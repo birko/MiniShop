@@ -15,15 +15,15 @@ use Core\CommonBundle\Controller\TranslateController;
  */
 class StockController extends TranslateController
 {
-    protected function saveTranslation($entity, $culture, $translation) 
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
         $entity->setAvailability($translation->getAvailability());
         $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
+        $em->persist($entity);
         $em->flush();
     }
-    
+
     /**
      * Lists all Stock entities.
      *
@@ -36,7 +36,7 @@ class StockController extends TranslateController
 
         return $this->render('CoreProductBundle:Stock:index.html.twig', array(
             'entities' => $entities,
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }
@@ -76,7 +76,7 @@ class StockController extends TranslateController
         return $this->render('CoreProductBundle:Stock:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
             'cultures' => $cultures,
         ));
@@ -97,20 +97,20 @@ class StockController extends TranslateController
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
-            if($productEntity != null)
-            {
+            if ($productEntity != null) {
                 $entity->setProduct($productEntity);
             }
             $em->persist($entity);
             $em->flush();
             $this->saveTranslations($entity, $cultures);
+
             return $this->redirect($this->generateUrl('stock_edit', array('id' => $entity->getId(), 'product'=> $product, 'category' => $category)));
         }
 
         return $this->render('CoreProductBundle:Stock:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
             'cultures' => $cultures,
         ));
@@ -139,7 +139,7 @@ class StockController extends TranslateController
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
             'cultures' => $cultures,
         ));
@@ -177,7 +177,7 @@ class StockController extends TranslateController
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
             'cultures' => $cultures
         ));

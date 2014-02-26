@@ -26,18 +26,18 @@ class OrderRepository extends EntityRepository
                 ->leftJoin("o.delivery_state", 'ds')
                 ->leftJoin("o.invoice_state", 'is')
                 ->andWhere($expr);
+
         return $queryBuilder ;
     }
-    
+
     public function getOrdersByIdQuery($orderIds)
     {
         return  $this->getOrdersByIdQueryBuilder($orderIds)->getQuery();
     }
-    
+
     public function updateOrderStatus($orderIds, $statusId)
     {
-        if(!empty($orderIds))
-        {
+        if (!empty($orderIds)) {
             $queryBuilder = $this->getEntityManager()->createQueryBuilder();
             $expr = $queryBuilder->expr()->in('o.id', $orderIds);
             $queryBuilder
@@ -46,16 +46,17 @@ class OrderRepository extends EntityRepository
                 ->andWhere($expr)
                 ->setParameter('order_status', $statusId)
                 ;
-            $numUpdated = $queryBuilder->getQuery()->execute(); 
+            $numUpdated = $queryBuilder->getQuery()->execute();
+
             return $numUpdated;
         }
+
         return 0;
     }
-    
+
     public function updateShippingStatus($orderIds, $statusId)
     {
-        if(!empty($orderIds))
-        {
+        if (!empty($orderIds)) {
             $queryBuilder = $this->getEntityManager()->createQueryBuilder();
             $expr = $queryBuilder->expr()->in('o.id', $orderIds);
             $queryBuilder
@@ -64,22 +65,21 @@ class OrderRepository extends EntityRepository
                 ->andWhere($expr)
                 ->setParameter('shipping_status', $statusId)
                 ;
-            $numUpdated = $queryBuilder->getQuery()->execute(); 
+            $numUpdated = $queryBuilder->getQuery()->execute();
+
             return $numUpdated;
         }
+
         return 0;
     }
-    
+
     public function filterOrderQuieryBuilder(QueryBuilder $queryBuilder, OrderFilter $filter = null)
     {
-        if(!empty($filter))
-        {
+        if (!empty($filter)) {
             $words = $filter->getWordsArray();
-            if(!empty($words))
-            {
+            if (!empty($words)) {
                 $i = 0;
-                foreach($words as $word)
-                {
+                foreach ($words as $word) {
                     $where = $queryBuilder->expr()->orX(
                         $queryBuilder->expr()->like("lower(o.order_number)",     ':word01i'.$i),
                         $queryBuilder->expr()->like("lower(o.invoice_number)",   ':word02i'.$i),
@@ -132,22 +132,20 @@ class OrderRepository extends EntityRepository
                     $i ++;
                 }
             }
-            if($filter->getOrderStatus() != null)
-            {
+            if ($filter->getOrderStatus() != null) {
                 $queryBuilder->andWhere('o.order_status =:ostatus')
                         ->setParameter('ostatus', $filter->getOrderStatus()->getId());
             }
-            if($filter->getShippingStatus() != null)
-            {
+            if ($filter->getShippingStatus() != null) {
                 $queryBuilder->andWhere('o.shipping_status =:sstatus')
                         ->setParameter('sstatus', $filter->getShippingStatus()->getId());
             }
-            if($filter->getShippingState() != null)
-            {
+            if ($filter->getShippingState() != null) {
                 $queryBuilder->andWhere('o.delivery_state =:sstate')
                         ->setParameter('sstate', $filter->getShippingState()->getId());
             }
         }
+
         return $queryBuilder;
     }
 }

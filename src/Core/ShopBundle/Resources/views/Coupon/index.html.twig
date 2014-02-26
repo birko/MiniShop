@@ -29,7 +29,7 @@
             <td>{% if entity.used %}<span class="glyphicon glyphicon-ok"></span>{%else%}<span class="glyphicon glyphicon-remove"></span>{%endif%}</td>
             <td>{{ entity.discountPerc }}</td>
             <td>{{ entity.price }}</td>
-            <td>{{ entity.priceVAT }}</td>         
+            <td>{{ entity.priceVAT }}</td>
             <td>
                 <div class="btn-group">
                     <a href="{{ path('coupon_products', { 'id': entity.id }) }}" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-list-alt"></span> {% trans %}Products{% endtrans %}</a>

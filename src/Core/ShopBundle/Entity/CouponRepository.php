@@ -20,9 +20,10 @@ class CouponRepository extends EntityRepository
                 ->join("c.products", "p2")
                 ->where("c = :cid")
                 ->setParameter('cid', $coupon);
+
         return $queryBuilder;
     }
-    
+
     public function getNotCouponsProductsQueryBuilder($coupon)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()
@@ -35,9 +36,10 @@ class CouponRepository extends EntityRepository
         $expr2 = $queryBuilder->expr()->not($expr);
         $queryBuilder->andWhere($expr2)
                 ->setParameter('cid', $coupon);
+
         return $queryBuilder;
     }
-    
+
     public function getNotCouponsProductsQuery($coupon)
     {
         return $this->getNotCouponsProductsQueryBuilder($coupon)->getQuery();

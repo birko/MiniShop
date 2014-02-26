@@ -13,7 +13,7 @@ use Core\ProductBundle\Form\AttributeType;
  *
  */
 class AttributeController extends Controller
-{    
+{
     /**
      * Lists all Attribute entities.
      *
@@ -26,7 +26,7 @@ class AttributeController extends Controller
 
         return $this->render('CoreProductBundle:Attribute:index.html.twig', array(
             'entities' => $entities,
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }
@@ -60,18 +60,17 @@ class AttributeController extends Controller
     {
         $entity = new Attribute();
         $flow = $this->get('core_product.form.flow.attributeFlow'); // must match the flow's service id
-        $flow->reset(); 
+        $flow->reset();
         $flow->bind($entity);
 
         // form of the current step
         $form = $flow->createForm(array());
         //$form   = $this->createForm(new AttributeType(), $entity);
-
         return $this->render('CoreProductBundle:Attribute:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'flow' => $flow,
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }
@@ -91,24 +90,20 @@ class AttributeController extends Controller
         //$form   = $this->createForm(new AttributeType(), $entity);
         //$form->bind($request);
 
-        if ($flow->isValid($form)) 
-        {
+        if ($flow->isValid($form)) {
             $flow->saveCurrentStepData($form);
-            if ($flow->nextStep()) 
-            {
+            if ($flow->nextStep()) {
                 $form = $flow->createForm(array('attributeName' => $entity->getName()->getId()));
-            } 
-            else
-            {
+            } else {
                 $em = $this->getDoctrine()->getManager();
                 $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
-                if($productEntity != null)
-                {
+                if ($productEntity != null) {
                     $entity->setProduct($productEntity);
                 }
                 $em->persist($entity);
                 $em->flush();
                 $flow->reset();
+
                 return $this->redirect($this->generateUrl('attribute', array('product'=> $product, 'category' => $category)));
             }
         }
@@ -137,7 +132,7 @@ class AttributeController extends Controller
         }
 
         $flow = $this->get('core_product.form.flow.attributeFlow'); // must match the flow's service id
-        $flow->reset(); 
+        $flow->reset();
         $flow->bind($entity);
 
         // form of the current step
@@ -148,9 +143,9 @@ class AttributeController extends Controller
         return $this->render('CoreProductBundle:Attribute:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'flow'        => $flow,  
+            'flow'        => $flow,
             'delete_form' => $deleteForm->createView(),
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }
@@ -180,26 +175,25 @@ class AttributeController extends Controller
 
         if ($flow->isValid($editForm)) {
             $flow->saveCurrentStepData($editForm);
-            if ($flow->nextStep()) 
-            {
+            if ($flow->nextStep()) {
                 // form for the next step
                 $editForm = $flow->createForm(array('attributeName' => $entity->getName()->getId()));
-            } 
-            else
-            {
+            } else {
                 $em->persist($entity);
                 $em->flush();
                 $flow->reset();
+
                 return $this->redirect($this->generateUrl('attribute_edit', array('id' => $id, 'product'=> $product, 'category' => $category,)));
-                
+
             }
         }
+
         return $this->render('CoreProductBundle:Attribute:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'flow'        => $flow,
             'delete_form' => $deleteForm->createView(),
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }
@@ -235,7 +229,7 @@ class AttributeController extends Controller
             ->getForm()
         ;
     }
-    
+
     public function moveUpAction($id, $product, $position, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -248,12 +242,13 @@ class AttributeController extends Controller
         $entity->setPosition($entity->getPosition() - $position);
         $em->persist($entity);
         $em->flush();
+
         return $this->redirect($this->generateUrl('attribute', array(
             'product'=> $product,
             'category' => $category,
         )));
     }
-    
+
     public function moveDownAction($id, $product, $position, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -266,6 +261,7 @@ class AttributeController extends Controller
         $entity->setPosition($entity->getPosition() + $position);
         $em->persist($entity);
         $em->flush();
+
         return $this->redirect($this->generateUrl('attribute', array(
             'product'=> $product,
             'category' => $category,

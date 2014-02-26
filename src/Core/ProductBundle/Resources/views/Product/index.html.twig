@@ -29,7 +29,7 @@
                 <div class="btn-group pull-right">
                     <a href="{{ path('product_new', {'category': category}) }}" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span> {% trans %}Create a new entry{% endtrans %}</a>
                     {% if category is not empty %}
-                    <a href="{{path('product_addlist',  {'category': category })}}" class="btn btn-xs btn-info"> 
+                    <a href="{{path('product_addlist',  {'category': category })}}" class="btn btn-xs btn-info">
                        <span class="glyphicon glyphicon-plus"></span> {%trans%}Add existing product{%endtrans%}
                     </a>
                     {% endif %}
@@ -78,7 +78,7 @@
 					<a href="{{ path('groupon', { 'product': entity.id, 'category': category }) }}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-list"></span> {% trans %}Groupons{% endtrans %}</a>
 					{% endif %}
                 </div>
-                <div class="btn-group">    
+                <div class="btn-group">
                     <a class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" href="#">{% trans %}Stock{% endtrans %} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         {% if entity.stock %}
@@ -89,7 +89,7 @@
 						{% if 'attribute' in minishopkeys %}
                         <li><a href="{{ path('option', { 'product': entity.id, 'category': category }) }}"><span class="glyphicon glyphicon-list"></span> {% trans %}Options{% endtrans %}</a></li>
 						{% endif %}
-					</ul>    
+					</ul>
                 </div>
             </td>
         </tr>

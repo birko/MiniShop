@@ -4,8 +4,6 @@ namespace Site\ShopBundle\Form;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Site\ShopBundle\Entity\CartItem;
-
 
 /**
  * Description ofTypeFieldSubscriber
@@ -13,27 +11,25 @@ use Site\ShopBundle\Entity\CartItem;
  * @author Birko
  */
 class CartItemTypeFieldSubscriber implements EventSubscriberInterface
-{   
+{
     public function __construct()
     {
     }
-    
+
     public static function getSubscribedEvents()
     {
         return array(
-            FormEvents::PRE_SET_DATA => 'preSetData',  
+            FormEvents::PRE_SET_DATA => 'preSetData',
         );
     }
-    
+
     public function preSetData(FormEvent $event)
     {
         $data = $event->getData();
         $form = $event->getForm();
-        if($data)
-        {
+        if ($data) {
             $attr = array();
-            if(!$data->isChangeAmount())
-            {
+            if (!$data->isChangeAmount()) {
                 $attr['readonly'] = 'readonly';
             }
             $form->add('amount', 'number', array(
@@ -43,5 +39,3 @@ class CartItemTypeFieldSubscriber implements EventSubscriberInterface
         }
     }
 }
-
-?>

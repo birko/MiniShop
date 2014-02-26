@@ -54,21 +54,21 @@ class Category extends TranslateEntity
      * @ORM\Column(name="home", type="boolean", nullable = true)
      */
     private $home;
-    
+
     /**
      * @var boolean $external
      *
      * @ORM\Column(name="external", type="boolean", nullable = true)
      */
     private $external;
-    
+
     /**
      * @var boolean $anabled
      *
      * @ORM\Column(name="enabled", type="boolean", nullable = true)
      */
     private $enabled;
-    
+
     /**
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
@@ -80,7 +80,7 @@ class Category extends TranslateEntity
      * @ORM\OneToMany(targetEntity="Category", mappedBy="parent")
      */
     private $children;
-    
+
      /**
      * @Gedmo\TreeLeft
      * @ORM\Column(name="lft", type="integer")
@@ -99,7 +99,6 @@ class Category extends TranslateEntity
      */
     private $rgt;
 
-
     public function __construct()
     {
         $this->setHome(false);
@@ -107,11 +106,11 @@ class Category extends TranslateEntity
         $this->setMenu(0);
         $this->children = new ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -131,7 +130,7 @@ class Category extends TranslateEntity
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -151,7 +150,7 @@ class Category extends TranslateEntity
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -171,7 +170,7 @@ class Category extends TranslateEntity
     /**
      * Get menu
      *
-     * @return integer 
+     * @return integer
      */
     public function getMenu()
     {
@@ -191,13 +190,13 @@ class Category extends TranslateEntity
     /**
      * Get home
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isHome()
     {
         return $this->home;
     }
-    
+
     /**
      * Set external
      *
@@ -211,13 +210,13 @@ class Category extends TranslateEntity
     /**
      * Get external
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isExternal()
     {
         return $this->external;
     }
-    
+
     /**
      * Set enabled
      *
@@ -231,13 +230,13 @@ class Category extends TranslateEntity
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isEnabled()
     {
         return $this->enabled;
     }
-    
+
     /**
      * Set parent category
      *
@@ -245,7 +244,7 @@ class Category extends TranslateEntity
      */
     public function setParent(Category $parent)
     {
-        $this->parent = $parent;    
+        $this->parent = $parent;
     }
 
     /**
@@ -255,44 +254,44 @@ class Category extends TranslateEntity
      */
     public function getParent()
     {
-        return $this->parent;   
+        return $this->parent;
     }
-    
+
      /**
      * Get children
      *
      * @return ArrayCollection
-     */    
+     */
     public function getChildren()
     {
-        return $this->children;   
+        return $this->children;
     }
-    
+
     public function __toString()
     {
-        return $this->getTitle(); 
+        return $this->getTitle();
     }
-    
+
     public function getToOption($separator = "-")
     {
         $pad = "";
-        for($i = 0; $i<  $this->getLevel(); $i++)
-        {
+        for ($i = 0; $i<  $this->getLevel(); $i++) {
             $pad .= $separator;
         }
-        return $pad . $this->getTitle(); 
+
+        return $pad . $this->getTitle();
     }
-    
+
     public function getLevel()
     {
         return $this->lvl;
     }
-    
+
     public function getLeft()
     {
         return $this->lft;
     }
-    
+
     public function getRight()
     {
         return $this->rgt;

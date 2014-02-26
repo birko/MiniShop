@@ -93,7 +93,7 @@ class CouponController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('coupon'));
-            
+
         }
 
         return $this->render('CoreShopBundle:Coupon:new.html.twig', array(
@@ -195,7 +195,7 @@ class CouponController extends Controller
             ->getForm()
         ;
     }
-    
+
     public function productsAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -205,11 +205,12 @@ class CouponController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Coupon entity.');
         }
+
         return $this->render('CoreShopBundle:Coupon:products.html.twig', array(
             'entity'      => $entity,
         ));
     }
-    
+
     public function productsAddListAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -228,12 +229,13 @@ class CouponController extends Controller
             100/*limit per page*/,
             array('distinct' => false)
         );
+
         return $this->render('CoreShopBundle:Coupon:productsaddlist.html.twig', array(
             'entity'      => $entity,
             'products' => $pagination
         ));
     }
-    
+
     public function productAddAction($id, $product)
     {
         $em = $this->getDoctrine()->getManager();
@@ -243,21 +245,21 @@ class CouponController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Coupon entity.');
         }
-        
+
         $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
 
         if (!$productEntity) {
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
-        if(!$entity->getProducts()->contains($productEntity))
-        {
+        if (!$entity->getProducts()->contains($productEntity)) {
             $entity->getProducts()->add($productEntity);
             $em->persist($entity);
             $em->flush();
         }
+
         return $this->redirect($this->generateUrl('coupon_products_addlist', array('id' => $entity->getId())));
     }
-    
+
     public function productRemoveAction($id, $product)
     {
         $em = $this->getDoctrine()->getManager();
@@ -267,18 +269,18 @@ class CouponController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Coupon entity.');
         }
-        
+
         $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
 
         if (!$productEntity) {
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
-        if($entity->getProducts()->contains($productEntity))
-        {
+        if ($entity->getProducts()->contains($productEntity)) {
             $entity->getProducts()->removeElement($productEntity);
             $em->persist($entity);
             $em->flush();
         }
+
         return $this->redirect($this->generateUrl('coupon_products', array('id' => $entity->getId())));
     }
 }

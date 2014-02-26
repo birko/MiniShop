@@ -16,7 +16,7 @@ use Core\PriceBundle\Entity\AbstractPrice;
  */
 class Shipping  extends AbstractPrice implements \Serializable, Translatable
 {
-    
+
     /**
      * @var string $name
      * @Gedmo\Translatable
@@ -30,34 +30,32 @@ class Shipping  extends AbstractPrice implements \Serializable, Translatable
      * @ORM\Column(name="description", type="text", nullable = true)
      */
     private $description;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\ShopBundle\Entity\State")
      * @ORM\JoinColumn(name="state_id", referencedColumnName="id")
      */
     private $state;
-    
+
     /**
      * @ORM\Column(type="boolean", nullable = true)
      */
     protected $enabled = false;
-    
+
     /**
      * @Gedmo\Locale
      * Used locale to override Translation listener`s locale
      * this is not a mapped field of entity metadata, just a simple property
      */
     protected $locale;
-    
-    protected $translations; 
 
+    protected $translations;
 
     public function __construct()
     {
         $this->setEnabled(true);
     }
-    
-    
+
     /**
      * Set name
      *
@@ -71,7 +69,7 @@ class Shipping  extends AbstractPrice implements \Serializable, Translatable
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -91,13 +89,13 @@ class Shipping  extends AbstractPrice implements \Serializable, Translatable
     /**
      * Get description
      *
-     * @return text 
+     * @return text
      */
     public function getDescription()
     {
         return $this->description;
     }
-    
+
     /**
      * Set State
      *
@@ -117,7 +115,7 @@ class Shipping  extends AbstractPrice implements \Serializable, Translatable
     {
         return $this->state;
     }
-    
+
     /**
      * Set enabled
      *
@@ -127,12 +125,12 @@ class Shipping  extends AbstractPrice implements \Serializable, Translatable
     {
         $this->enabled = $enabled;
     }
-    
+
     public function isEnabled()
     {
         return $this->enabled;
     }
-    
+
     public function setTranslatableLocale($locale)
     {
         $this->locale = $locale;
@@ -142,7 +140,7 @@ class Shipping  extends AbstractPrice implements \Serializable, Translatable
     {
         return $this->locale;
     }
-    
+
     /**
      * Get translations
      *
@@ -150,37 +148,37 @@ class Shipping  extends AbstractPrice implements \Serializable, Translatable
      */
     public function getTranslations()
     {
-        if($this->translations  === null)
-        {
+        if ($this->translations  === null) {
             $this->translations = new ArrayCollection();
         }
-        return $this->translations;   
+
+        return $this->translations;
     }
-    
+
     public function setTranslations($translations)
     {
-        $this->translations = $translations;   
+        $this->translations = $translations;
     }
-    
+
     public function addTranslation($translation)
     {
         $this->getTranslations()->add($translation);
     }
-    
+
     public function removeTranslation($translation)
     {
         $this->getTranslations()->removeElement($translation);
     }
-    
+
     public function getTranslation($locale)
     {
-        return $this->getTranslations()->filter(function($entry) use ($locale)
-         {
+        return $this->getTranslations()->filter(function ($entry) use ($locale) {
              return ($entry->getTranslatableLocale() == $locale);
          })->current();
     }
 
-    public function serialize() {
+    public function serialize()
+    {
         return serialize(array(
             $this->id,
             $this->name,
@@ -192,10 +190,11 @@ class Shipping  extends AbstractPrice implements \Serializable, Translatable
             $this->enabled,
             $this->locale
         ));
-        
+
     }
 
-    public function unserialize($serialized) {
+    public function unserialize($serialized)
+    {
         list($this->id,
             $this->name,
             $this->description,
@@ -207,7 +206,7 @@ class Shipping  extends AbstractPrice implements \Serializable, Translatable
             $this->locale
         ) = unserialize($serialized);
     }
-    
+
     public function __toString()
     {
         return $this->getName() . " " . number_format($this->getPriceVAT(), 2);

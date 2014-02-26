@@ -63,8 +63,6 @@ class Message
      */
     private $updatedAt;
 
-
-
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -72,7 +70,7 @@ class Message
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -82,20 +80,20 @@ class Message
     /**
      * Set type
      *
-     * @param string $type
+     * @param  string  $type
      * @return Message
      */
     public function setType($type)
     {
         $this->type = $type;
-    
+
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -105,13 +103,13 @@ class Message
     /**
      * Set message
      *
-     * @param mixed $message
+     * @param  mixed   $message
      * @return Message
      */
     public function setMessage($message)
     {
         $this->message = serialize($message);
-    
+
         return $this;
     }
 
@@ -128,20 +126,20 @@ class Message
     /**
      * Set answer
      *
-     * @param mixed $answer
+     * @param  mixed   $answer
      * @return Message
      */
     public function setAnswer($answer)
     {
         $this->answer = serialize($answer);
-    
+
         return $this;
     }
 
     /**
      * Get answer
      *
-     * @return mixed 
+     * @return mixed
      */
     public function getAnswer()
     {
@@ -151,20 +149,20 @@ class Message
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string  $title
      * @return Message
      */
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -174,20 +172,20 @@ class Message
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime $createdAt
      * @return Message
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -197,20 +195,20 @@ class Message
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime $updatedAt
      * @return Message
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {

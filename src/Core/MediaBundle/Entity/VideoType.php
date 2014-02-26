@@ -2,12 +2,11 @@
 
 namespace Core\MediaBundle\Entity;
 
-
-class VideoType 
+class VideoType
 {
     const FILE      = 0;
     const YOUTUBE   = 1;
-    
+
     public static function getTypes()
     {
         return array(

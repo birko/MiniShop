@@ -28,7 +28,7 @@ message_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "CoreMarketingBundle:Message:delete" }
     requirements: { _method: post }
-    
+
 message_updatedate:
     pattern:  /{id}/updatedate
     defaults: { _controller: "CoreMarketingBundle:Message:updateDate" }

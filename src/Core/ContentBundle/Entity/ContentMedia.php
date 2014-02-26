@@ -3,7 +3,6 @@
 namespace Core\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Core\MediaBundle\Entity\Media;
 
 /**
@@ -15,15 +14,15 @@ use Core\MediaBundle\Entity\Media;
 
 class ContentMedia
 {
-    /** 
-     * @ORM\Id 
+    /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Content", inversedBy="media")
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $content;
 
-    /** 
-     * @ORM\Id 
+    /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Core\MediaBundle\Entity\Media")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="CASCADE")
      */
@@ -33,19 +32,18 @@ class ContentMedia
      * @ORM\Column(name="position", type="integer", nullable = true)
      */
     private $position;
-    
+
     /**
      * @var boolean $default
      * @ORM\Column(name="is_default", type="boolean", nullable = true)
      */
     private $default;
 
-
     public function __construct()
     {
         $this->setPosition(0);
     }
-    
+
     public function setPosition($position = null)
     {
         $this->position = (!empty($position) && $position > 0) ? $position : 0;
@@ -56,13 +54,12 @@ class ContentMedia
         return $this->position;
     }
 
-
     /**
      * Set content
      *
      * @param Content
      */
-    public function setContent (Content $content)
+    public function setContent(Content $content)
     {
         $this->content = $content;
     }
@@ -96,7 +93,7 @@ class ContentMedia
     {
         return $this->media;
     }
-    
+
     /**
      * Set default
      *
@@ -110,7 +107,7 @@ class ContentMedia
     /**
      * Is default
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isDefault()
     {
@@ -118,5 +115,3 @@ class ContentMedia
     }
 
 }
-
-?>

@@ -1,11 +1,11 @@
 SiteUserBundle_login:
     pattern:  /login
     defaults: { _controller: SiteUserBundle:User:login, _locale: %locale% }
-    
+
 SiteUserBundle_logout:
     pattern:  /logout
     defaults: { _controller: SiteUserBundle:User:logout, _locale: %locale% }
-    
+
 SiteUserBundle_logincheck:
     pattern:  /login_check
     defaults: { _controller: SiteUserBundle:User:securityCheck, _locale: %locale% }
@@ -15,7 +15,7 @@ SiteUserBundle_logincheck:
 SiteUserBundle_locale:
     pattern:  /locale
     defaults: { _controller: SiteUserBundle:User:setLocale, _locale: %locale% }
-    
+
 SiteUserBundle_password_recovery:
     pattern:  /password_recovery
     defaults: { _controller: SiteUserBundle:User:passwordRecovery, _locale: %locale% }
@@ -23,8 +23,8 @@ SiteUserBundle_password_recovery:
 SiteUserBundle_password_recovery_do:
     pattern:  /password_recovery/{email}/{hash}
     defaults: { _controller: SiteUserBundle:User:passwordRecoveryDo, _locale: %locale% }
-    
-    
+
+
 SiteUserBundle_new:
     pattern:  /new
     defaults: { _controller: SiteUserBundle:User:new, _locale: %locale% }
@@ -34,11 +34,11 @@ SiteUserBundle_create:
     defaults: { _controller: SiteUserBundle:User:create, _locale: %locale% }
     requirements:
         _method:  POST
-        
+
 SiteUserBundle_index:
     pattern:  /
     defaults: { _controller: SiteUserBundle:User:index, _locale: %locale% }
-    
+
 SiteUserBundle_password:
     pattern:  /password
     defaults: { _controller: SiteUserBundle:User:password, _locale: %locale% }

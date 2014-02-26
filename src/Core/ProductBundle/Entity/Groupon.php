@@ -4,8 +4,6 @@ namespace Core\ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Core\PriceBundle\Entity\AbstractPrice;
-use Core\MarketingBundle\Entity\BaseDiscount;
 use Core\MarketingBundle\Entity\Discount;
 /**
  * Core\ProductBundle\Entity\Groupon
@@ -21,26 +19,27 @@ class Groupon extends Discount
      * @ORM\Column(name="amount", type="decimal", precision=12, scale=6, nullable=true)
      */
     protected $amount;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\ProductBundle\Entity\Product", inversedBy="prices")
      * @ORM\JoinColumn(name="price_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $product;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\ShopBundle\Entity\Shipping")
      * @ORM\JoinColumn(name="shipping_id", referencedColumnName="id")
      */
     private $shipping;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\ShopBundle\Entity\Payment")
      * @ORM\JoinColumn(name="payment_id", referencedColumnName="id")
      */
     private $payment;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->setAmount(1);
     }
@@ -58,23 +57,23 @@ class Groupon extends Discount
     /**
      * Get amount
      *
-     * @return decimal 
+     * @return decimal
      */
     public function getAmount()
     {
         return $this->amount;
     }
-    
+
      /**
      * Get products
      *
      * @return ArrayCollection
-     */    
+     */
     public function getProducts()
     {
-        return $this->products;   
+        return $this->products;
     }
-    
+
     /**
      * Set product
      *
@@ -88,13 +87,13 @@ class Groupon extends Discount
     /**
      * Get product
      *
-     * @return Product 
+     * @return Product
      */
     public function getProduct()
     {
         return $this->product;
     }
-    
+
     /**
      * Set payment
      *
@@ -114,7 +113,7 @@ class Groupon extends Discount
     {
         return $this->payment;
     }
-    
+
     /**
      * Set shippings
      *

@@ -4,7 +4,6 @@ namespace Site\ShopBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityRepository;
 
 /**
  * Description of CartPaymentShippingType
@@ -17,12 +16,12 @@ class CartOrderType extends AbstractType
     {
         $builder->add("comment", 'textarea', array('required' => false,));
     }
-    
-    public function getName() 
+
+    public function getName()
     {
         return "nws_shop_order";
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -30,5 +29,3 @@ class CartOrderType extends AbstractType
         ));
     }
 }
-
-?>

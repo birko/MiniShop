@@ -3,7 +3,6 @@
 namespace Core\ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Nws\ProductBundle\Entity\ProductCategory
@@ -14,15 +13,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductCategory
 {
-    /** 
-     * @ORM\Id 
+    /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="productCategories")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $product;
 
-    /** 
-     * @ORM\Id 
+    /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Core\CategoryBundle\Entity\Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="CASCADE")
      */
@@ -32,19 +31,18 @@ class ProductCategory
      * @ORM\Column(name="position", type="integer", nullable = true)
      */
     private $position;
-    
+
     /**
      * @var boolean $default
      * @ORM\Column(name="is_default", type="boolean", nullable = true)
      */
     private $default;
 
-
     public function __construct()
     {
         $this->setPosition(0);
     }
-    
+
     public function setPosition($position = null)
     {
         $this->position = (!empty($position) && $position > 0) ? $position : 0;
@@ -55,13 +53,12 @@ class ProductCategory
         return $this->position;
     }
 
-
     /**
      * Set product
      *
      * @param Product product
      */
-    public function setProduct (Product $product)
+    public function setProduct(Product $product)
     {
         $this->product = $product;
     }
@@ -95,7 +92,7 @@ class ProductCategory
     {
         return $this->category;
     }
-    
+
     /**
      * Set default
      *
@@ -109,7 +106,7 @@ class ProductCategory
     /**
      * Is default
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isDefault()
     {
@@ -117,5 +114,3 @@ class ProductCategory
     }
 
 }
-
-?>

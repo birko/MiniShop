@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity(repositoryClass="Core\ShopBundle\Entity\OrderRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Order 
+class Order
 {
 
     /**
@@ -23,42 +23,42 @@ class Order
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-    
+
     /**
      * @var decimal $price
      *
      * @ORM\Column(name="price", type="decimal", precision=10, scale=6 )
      */
     protected $price;
-    
+
     /**
      * @var decimal $priceVAT
      *
      * @ORM\Column(name="price_vat", type="decimal", precision=10, scale=6 )
      */
     protected $priceVAT;
-    
+
     /**
      * @var string $delivery_name
      *
      * @ORM\Column(name="delivery_name", type="string", length=255)
      */
     private $delivery_name;
-    
+
     /**
      * @var string $delivery_surname
      *
      * @ORM\Column(name="delivery_surname", type="string", length=255)
      */
     private $delivery_surname;
-    
+
     /**
      * @var string $delivery_company
      *
      * @ORM\Column(name="delivery_company", type="string", length=255, nullable = true)
      */
     private $delivery_company;
-    
+
     /**
      * @var string $delivery_email
      *
@@ -79,7 +79,7 @@ class Order
      * @ORM\Column(name="delivery_street", type="string", length=255)
      */
     private $delivery_street;
-    
+
     /**
      * @var string $delivery_housenumber
      *
@@ -113,21 +113,21 @@ class Order
      * @ORM\Column(name="invoice_name", type="string", length=255)
      */
     private $invoice_name;
-    
+
     /**
      * @var string $invoice_surname
      *
      * @ORM\Column(name="invoice_surname", type="string", length=255)
      */
     private $invoice_surname;
-    
+
     /**
      * @var string $invoice_company
      *
      * @ORM\Column(name="invoice_company", type="string", length=255, nullable = true)
      */
     private $invoice_company;
-    
+
     /**
      * @var string $invoice_email
      *
@@ -148,7 +148,7 @@ class Order
      * @ORM\Column(name="invoice_street", type="string", length=255)
      */
     private $invoice_street;
-    
+
     /**
      * @var string $invoice_housenumber
      *
@@ -175,7 +175,7 @@ class Order
      * @ORM\JoinColumn(name="invoice_state_id", referencedColumnName="id")
      */
     private $invoice_state;
-    
+
     /**
      * @var string $invoice_TIN
      *
@@ -196,136 +196,135 @@ class Order
      * @ORM\Column(name="invoice_vatin", type="string", length=20, nullable = true)
      */
     private $invoice_VATIN;
-    
+
     /**
      * @var string $comment
      *
      * @ORM\Column(name="comment", type="text", nullable = true)
      */
     private $comment;
-    
+
      /**
      * @ORM\ManyToOne(targetEntity="Core\ShopBundle\Entity\ShippingStatus")
      * @ORM\JoinColumn(name="shipping_status_id", referencedColumnName="id")
      */
     private $shipping_status;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\ShopBundle\Entity\Shipping")
      * @ORM\JoinColumn(name="shipping_id", referencedColumnName="id")
      */
     private $shipping;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\ShopBundle\Entity\Payment")
      * @ORM\JoinColumn(name="payment_id", referencedColumnName="id")
      */
     private $payment;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\ShopBundle\Entity\OrderStatus")
      * @ORM\JoinColumn(name="order_status_id", referencedColumnName="id")
      */
     private $order_status;
-    
+
      /**
      * @ORM\Column(name="invoice_status", type="string", length=255, nullable = true)
      */
     private $invoice_status;
-    
+
     /**
      * @var string $invoice_number
      *
      * @ORM\Column(name="invoice_number", type="string", length=255, nullable = true)
      */
     private $invoice_number;
-    
+
     /**
      * @var string $variable_number
      *
      * @ORM\Column(name="variable_number", type="string", length=255, nullable = true)
      */
     private $variable_number;
-    
+
     /**
      * @var string $order_number
      *
      * @ORM\Column(name="order_number", type="string", length=255, nullable = true)
      */
     private $order_number;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $user; 
-    
+    private $user;
+
     /**
      * @var datetime $createdAt
      *
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
-    
+
     /**
      * @var datetime $updatedAt
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable = true)
      */
     private $updatedAt;
-    
+
     /**
      * @var datetime $invoicedAt
      *
      * @ORM\Column(name="invoiced_at", type="datetime", nullable = true)
      */
     private $invoicedAt;
-    
+
     /**
      * @var string $dueDays
      *
      * @ORM\Column(name="due_days", type="integer", nullable = true)
      */
     private $dueDays;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Core\ShopBundle\Entity\OrderItem", mappedBy="order", cascade={"persist", "remove"})
      * @ORM\OrderBy({ "id" = "ASC"})
      */
     protected $items;
-    
+
     /**
      * @var string $tracking_id
      *
      * @ORM\Column(name="tracking_id", type="string", length=255, nullable=true)
      */
     private $tracking_id;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="options", type="text", nullable=true)
      */
     private $options;
-    
-    
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
         $this->items = new ArrayCollection();
         $this->setOptions(array());
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
+
     /**
      * Set price
      *
@@ -345,7 +344,7 @@ class Order
     {
         return $this->price;
     }
-    
+
      /**
      * Set price
      *
@@ -379,13 +378,13 @@ class Order
     /**
      * Get delivery_name
      *
-     * @return string 
+     * @return string
      */
     public function getDeliveryName()
     {
         return $this->delivery_name;
     }
-    
+
     /**
      * Set delivery_surname
      *
@@ -399,13 +398,13 @@ class Order
     /**
      * Get delivery_surname
      *
-     * @return string 
+     * @return string
      */
     public function getDeliverySurname()
     {
         return $this->delivery_surname;
     }
-    
+
     /**
      * Set delivery_company
      *
@@ -419,13 +418,13 @@ class Order
     /**
      * Get delivery_company
      *
-     * @return string 
+     * @return string
      */
     public function getDeliveryCompany()
     {
         return $this->delivery_company;
     }
-    
+
     /**
      * Set delivery_email
      *
@@ -439,7 +438,7 @@ class Order
     /**
      * Get delivery_email
      *
-     * @return string 
+     * @return string
      */
     public function getDeliveryEmail()
     {
@@ -459,7 +458,7 @@ class Order
     /**
      * Get delivery_phone
      *
-     * @return string 
+     * @return string
      */
     public function getDeliveryPhone()
     {
@@ -479,13 +478,13 @@ class Order
     /**
      * Get delivery_street
      *
-     * @return string 
+     * @return string
      */
     public function getDeliveryStreet()
     {
         return $this->delivery_street;
     }
-    
+
     /**
      * Set delivery_housenumber
      *
@@ -499,7 +498,7 @@ class Order
     /**
      * Get delivery_housenumber
      *
-     * @return string 
+     * @return string
      */
     public function getDeliveryHouseNumber()
     {
@@ -515,12 +514,11 @@ class Order
     {
         $this->delivery_city = $deliveryCity;
     }
-    
 
     /**
      * Get delivery_city
      *
-     * @return string 
+     * @return string
      */
     public function getDeliveryCity()
     {
@@ -540,7 +538,7 @@ class Order
     /**
      * Get delivery_zip
      *
-     * @return string 
+     * @return string
      */
     public function getDeliveryZip()
     {
@@ -560,13 +558,13 @@ class Order
     /**
      * Get delivery_state
      *
-     * @return string 
+     * @return string
      */
     public function getDeliveryState()
     {
         return $this->delivery_state;
     }
-    
+
      /**
      * Set invoice_name
      *
@@ -580,13 +578,13 @@ class Order
     /**
      * Get invoice_name
      *
-     * @return string 
+     * @return string
      */
     public function getInvoiceName()
     {
         return $this->invoice_name;
     }
-    
+
     /**
      * Set invoice_surname
      *
@@ -600,13 +598,13 @@ class Order
     /**
      * Get invoice_surname
      *
-     * @return string 
+     * @return string
      */
     public function getInvoiceSurname()
     {
         return $this->invoice_surname;
     }
-    
+
     /**
      * Set invoice_company
      *
@@ -620,13 +618,13 @@ class Order
     /**
      * Get invoice_company
      *
-     * @return string 
+     * @return string
      */
     public function getInvoiceCompany()
     {
         return $this->invoice_company;
     }
-    
+
     /**
      * Set invoice_email
      *
@@ -640,7 +638,7 @@ class Order
     /**
      * Get invoice_email
      *
-     * @return string 
+     * @return string
      */
     public function getInvoiceEmail()
     {
@@ -660,7 +658,7 @@ class Order
     /**
      * Get invoice_phone
      *
-     * @return string 
+     * @return string
      */
     public function getInvoicePhone()
     {
@@ -680,13 +678,13 @@ class Order
     /**
      * Get invoice_street
      *
-     * @return string 
+     * @return string
      */
     public function getInvoiceStreet()
     {
         return $this->invoice_street;
     }
-    
+
     /**
      * Set invoice_housenumber
      *
@@ -700,7 +698,7 @@ class Order
     /**
      * Get delivery_invoice
      *
-     * @return string 
+     * @return string
      */
     public function getInvoiceHouseNumber()
     {
@@ -720,7 +718,7 @@ class Order
     /**
      * Get invoice_city
      *
-     * @return string 
+     * @return string
      */
     public function getInvoiceCity()
     {
@@ -740,7 +738,7 @@ class Order
     /**
      * Get invoice_zip
      *
-     * @return string 
+     * @return string
      */
     public function getInvoiceZip()
     {
@@ -766,7 +764,7 @@ class Order
     {
         return $this->invoice_state;
     }
-    
+
     /**
      * Set comment
      *
@@ -780,13 +778,13 @@ class Order
     /**
      * Get comment
      *
-     * @return string 
+     * @return string
      */
     public function getComment()
     {
         return $this->comment;
     }
-    
+
     /**
      * Set createdAt
      *
@@ -800,13 +798,13 @@ class Order
     /**
      * Get createdAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
-    
+
     /**
      * Set updatedAt
      *
@@ -820,13 +818,13 @@ class Order
     /**
      * Get updatedAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getUpdatedAt()
     {
         return $this->updatedAtAt;
     }
-    
+
     /**
      * Set invoicedAt
      *
@@ -840,13 +838,13 @@ class Order
     /**
      * Get invoicedAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getInvoicedAt()
     {
         return $this->invoicedAt;
     }
-    
+
     /**
      * Set dueDays
      *
@@ -866,24 +864,21 @@ class Order
     {
         return $this->dueDays;
     }
-    
+
     public function getDueAt()
     {
         $date = $this->getInvoicedAt();
-        if($date)
-        {
+        if ($date) {
             $date = clone $date;
             $days = $this->getDueDays();
-            if($days)
-            {
+            if ($days) {
                 return $date->add(new \DateInterval("P" . $days. "D"));
             }
         }
+
         return $date;
     }
-    
-    
-    
+
     /**
      * Set User
      *
@@ -903,7 +898,7 @@ class Order
     {
         return $this->user;
     }
-    
+
     /**
      * Set shipping_status
      *
@@ -923,7 +918,7 @@ class Order
     {
         return $this->shipping_status;
     }
-    
+
     /**
      * Set payment
      *
@@ -943,7 +938,7 @@ class Order
     {
         return $this->payment;
     }
-    
+
     /**
      * Set shippings
      *
@@ -963,7 +958,7 @@ class Order
     {
         return $this->shipping;
     }
-    
+
     /**
      * Set order_status
      *
@@ -983,7 +978,7 @@ class Order
     {
         return $this->order_status;
     }
-    
+
     /**
      * Set invoice_status
      *
@@ -1003,7 +998,7 @@ class Order
     {
         return $this->invoice_status;
     }
-    
+
     /**
      * Set invoice_number
      *
@@ -1023,7 +1018,7 @@ class Order
     {
         return $this->invoice_number;
     }
-    
+
     /**
      * Set variable_number
      *
@@ -1043,7 +1038,7 @@ class Order
     {
         return $this->variable_number;
     }
-    
+
     /**
      * Add item
      *
@@ -1053,7 +1048,7 @@ class Order
     {
         $this->getItems()->add($item);
     }
-    
+
     /**
      * Remove item
      *
@@ -1063,7 +1058,7 @@ class Order
     {
          $this->getItems()->removeElement($item);
     }
-    
+
     /**
      * Get Items
      *
@@ -1073,7 +1068,7 @@ class Order
     {
         return $this->items;
     }
-    
+
     /**
      * Set invoice_TIN
      *
@@ -1087,7 +1082,7 @@ class Order
     /**
      * Get invoice_TIN
      *
-     * @return string 
+     * @return string
      */
     public function getInvoiceTIN()
     {
@@ -1107,7 +1102,7 @@ class Order
     /**
      * Get invoice_OIN
      *
-     * @return string 
+     * @return string
      */
     public function getInvoiceOIN()
     {
@@ -1127,13 +1122,13 @@ class Order
     /**
      * Get invoice_VATIN
      *
-     * @return string 
+     * @return string
      */
     public function getInvoiceVATIN()
     {
         return $this->invoice_VATIN;
     }
-    
+
      /**
      * Set tracking_id
      *
@@ -1147,23 +1142,23 @@ class Order
     /**
      * Get tracking_id
      *
-     * @return string 
+     * @return string
      */
     public function getTrackingId()
     {
         return $this->tracking_id;
     }
-    
+
     /**
      * Get order_number
      *
-     * @return string 
+     * @return string
      */
     public function getOrderNumber()
     {
         return $this->order_number;
     }
-    
+
     /**
      * @ORM\PostPersist()
      */
@@ -1171,11 +1166,10 @@ class Order
     {
         $this->order_number = $this->getCreatedAt()->format("ym") . str_pad($this->getId(), 5, "0", STR_PAD_LEFT);
     }
-    
+
     public function setDeliveryAddress(Address $address)
     {
-        if($address != null)
-        {
+        if ($address != null) {
             $this->setDeliveryCity($address->getCity());
             $this->setDeliveryEmail($address->getEmail());
             $this->setDeliveryPhone($address->getPhone());
@@ -1188,7 +1182,7 @@ class Order
             $this->setDeliveryCompany($address->getCompany());
         }
     }
-    
+
     public function getDeliveryAddress()
     {
         $address = new Address();
@@ -1199,16 +1193,16 @@ class Order
         $address->setStreet($this->getDeliveryStreet());
         $address->setHouseNumber($this->getDeliveryHouseNumber());
         $address->setZIP($this->getDeliveryZip());
-        $address->setName($this->getDeliveryName());    
+        $address->setName($this->getDeliveryName());
         $address->setSurname($this->getDeliverySurname());
-        $address->setCompany($this->getDeliveryCompany());		
+        $address->setCompany($this->getDeliveryCompany());
+
         return $address;
     }
-    
+
     public function setInvoiceAddress(Address $address)
     {
-        if($address != null)
-        {
+        if ($address != null) {
             $this->setInvoiceCity($address->getCity());
             $this->setInvoiceEmail($address->getEmail());
             $this->setInvoicePhone($address->getPhone());
@@ -1221,10 +1215,10 @@ class Order
             $this->setInvoiceCompany($address->getCompany());
             $this->setInvoiceOIN($address->getOIN());
             $this->setInvoiceTIN($address->getTIN());
-            $this->setInvoiceVATIN($address->getVATIN()); 
+            $this->setInvoiceVATIN($address->getVATIN());
         }
     }
-    
+
     public function getInvoiceAddress()
     {
         $address = new Address();
@@ -1241,26 +1235,27 @@ class Order
         $address->setOIN($this->getInvoiceOIN());
         $address->setTIN($this->getInvoiceTIN());
         $address->setVATIN($this->getInvoiceVATIN());
+
         return $address;
     }
-    
+
     /**
      * Set options
      *
-     * @param mixed $options
+     * @param  mixed $options
      * @return Order
      */
     public function setOptions($options)
     {
         $this->options = serialize($options);
-        
+
         return $this;
     }
 
     /**
      * Get options
      *
-     * @return mixed 
+     * @return mixed
      */
     public function getOptions()
     {

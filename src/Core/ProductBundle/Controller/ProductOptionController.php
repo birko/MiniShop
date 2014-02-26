@@ -25,7 +25,7 @@ class ProductOptionController extends Controller
 
         return $this->render('CoreProductBundle:ProductOption:index.html.twig', array(
             'entities' => $entities,
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }
@@ -61,18 +61,17 @@ class ProductOptionController extends Controller
     {
         $entity = new ProductOption();
         $flow = $this->get('core_product.form.flow.productOptionFlow'); // must match the flow's service id
-        $flow->reset(); 
+        $flow->reset();
         $flow->bind($entity);
 
         // form of the current step
         $form = $flow->createForm(array());
         //$form   = $this->createForm(new ProductOptionType(), $entity, array());
-
         return $this->render('CoreProductBundle:ProductOption:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'flow'   => $flow,
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }
@@ -93,25 +92,21 @@ class ProductOptionController extends Controller
         //$form   = $this->createForm(new ProductOptionType(), $entity, array());
         //$form->bind($request);
 
-        if ($flow->isValid($form)) 
-        {
+        if ($flow->isValid($form)) {
             $flow->saveCurrentStepData($form);
-            if ($flow->nextStep()) 
-            {
+            if ($flow->nextStep()) {
                 // form for the next step
                 $form = $flow->createForm(array('attributeName' => $entity->getName()->getId()));
-            } 
-            else
-            {
+            } else {
                 $em = $this->getDoctrine()->getManager();
                 $productEntity = $em->getRepository('CoreProductBundle:Product')->find($product);
-                if($productEntity != null)
-                {
+                if ($productEntity != null) {
                     $entity->setProduct($productEntity);
                 }
                 $em->persist($entity);
                 $em->flush();
                 $flow->reset();
+
                 return $this->redirect($this->generateUrl('option', array('product'=> $product, 'category' => $category)));
             }
         }
@@ -120,7 +115,7 @@ class ProductOptionController extends Controller
             'entity' => $entity,
             'form'   => $form->createView(),
             'flow'   => $flow,
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }
@@ -138,9 +133,9 @@ class ProductOptionController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find ProductOption entity.');
         }
-        
+
         $flow = $this->get('core_product.form.flow.productOptionFlow'); // must match the flow's service id
-        $flow->reset(); 
+        $flow->reset();
         $flow->bind($entity);
 
         // form of the current step
@@ -153,7 +148,7 @@ class ProductOptionController extends Controller
             'edit_form'   => $editForm->createView(),
             'flow'        => $flow,
             'delete_form' => $deleteForm->createView(),
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }
@@ -186,26 +181,25 @@ class ProductOptionController extends Controller
 
         if ($flow->isValid($editForm)) {
             $flow->saveCurrentStepData($editForm);
-            if ($flow->nextStep()) 
-            {
+            if ($flow->nextStep()) {
                 // form for the next step
                 $editForm = $flow->createForm(array('attributeName' => $entity->getName()->getId()));
-            } 
-            else
-            {
+            } else {
                 $em->persist($entity);
                 $em->flush();
                 $flow->reset();
+
                 return $this->redirect($this->generateUrl('option_edit', array('id' => $id, 'product'=> $product, 'category' => $category,)));
-                
+
             }
         }
+
         return $this->render('CoreProductBundle:ProductOption:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'flow'        => $flow, 
+            'flow'        => $flow,
             'delete_form' => $deleteForm->createView(),
-            'product'=> $product, 
+            'product'=> $product,
             'category' => $category,
         ));
     }
@@ -243,7 +237,7 @@ class ProductOptionController extends Controller
             ->getForm()
         ;
     }
-    
+
     public function moveUpAction($id, $product, $position, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -256,12 +250,13 @@ class ProductOptionController extends Controller
         $entity->setPosition($entity->getPosition() - $position);
         $em->persist($entity);
         $em->flush();
+
         return $this->redirect($this->generateUrl('option', array(
             'product'=> $product,
             'category' => $category,
         )));
     }
-    
+
     public function moveDownAction($id, $product, $position, $category = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -274,6 +269,7 @@ class ProductOptionController extends Controller
         $entity->setPosition($entity->getPosition() + $position);
         $em->persist($entity);
         $em->flush();
+
         return $this->redirect($this->generateUrl('option', array(
             'product'=> $product,
             'category' => $category,

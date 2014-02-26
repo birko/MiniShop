@@ -28,7 +28,7 @@ usertext_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "CoreUserTextBundle:UserText:delete" }
     requirements: { _method: post }
-    
+
 usertext_display:
     pattern:  /{id}/display/{create}
     defaults: { _controller: "CoreUserTextBundle:UserText:display", create: true }

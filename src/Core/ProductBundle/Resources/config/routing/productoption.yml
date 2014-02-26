@@ -1,7 +1,7 @@
 option:
     pattern:  /{category}
     defaults: { _controller: "CoreProductBundle:ProductOption:index", category: ~ }
-    requirements: 
+    requirements:
         category: \d+
 
 option_show:
@@ -34,7 +34,7 @@ option_delete:
 option_up:
     pattern:  /{id}/up/{position}/{category}
     defaults: { _controller: "CoreProductBundle:ProductOption:moveUp", position: 1, category: ~ }
-    
+
 option_down:
     pattern:  /{id}/down/{position}/{category}
     defaults: { _controller: "CoreProductBundle:ProductOption:moveDown", position: 1, category: ~ }

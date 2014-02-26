@@ -18,7 +18,7 @@ class Cart implements \Serializable
     protected $comment = null;
     protected $skipPayment = false;
     protected $skipShipping = false;
-    
+
     public function __construct()
     {
         $this->shippingAddress = null;
@@ -26,235 +26,214 @@ class Cart implements \Serializable
         $this->sameAddress = true;
         $this->items = new ArrayCollection();
     }
-    
+
     public function getShippingAddress()
     {
         return $this->shippingAddress;
     }
-    
+
     public function setShippingAddress($address = null)
     {
         $this->shippingAddress = $address;
     }
-    
+
     public function getPaymentAddress()
     {
         return $this->paymentAddress;
     }
-    
+
     public function setPaymentAddress($address = null)
     {
         $this->paymentAddress = $address;
     }
-    
-    
+
     public function isSameAddress()
     {
         return $this->sameAddress;
     }
-    
+
     public function setSameAddress($sameAddress)
     {
         $this->sameAddress = $sameAddress;
     }
-    
+
     public function isSkipPayment()
     {
         return $this->skipPayment;
     }
-    
+
     public function setSkipPayment($skipPayment)
     {
         $this->skipPayment = $skipPayment;
     }
-    
+
     public function isSkipShipping()
     {
         return $this->skipShipping;
     }
-    
+
     public function setSkipShipping($skipShipping)
     {
         $this->skipShipping = $skipShipping;
     }
-    
+
     public function getItems($type = null)
     {
-        if($type !== null)
-        {
-            return $this->getItems()->filter(function($entry) use($type){
+        if ($type !== null) {
+            return $this->getItems()->filter(function ($entry) use ($type) {
                 return $entry->getType() == $type;
             });
-        }
-        else
-        {
+        } else {
             return $this->items;
         }
     }
-    
+
     public function setItems($items = array())
     {
         $this->items = ($items instanceof ArrayCollection)? $items : new ArrayCollection($items);
     }
-    
+
     public function addItem(CartItem $item, $index = null)
     {
-        if($item->getAmount() > 0)
-        {
+        if ($item->getAmount() > 0) {
             $cartItem = $this->findItem($item);
-            if($cartItem)
-            {
+            if ($cartItem) {
                 $cartItem->addAmount($item->getAmount());
                 $cartItem->setPrice($item->getPrice());
                 $cartItem->setPriceVAT($item->getPriceVAT());
-            }
-            else
-            {
+            } else {
                 $this->getItems()->add($item);
             }
         }
     }
-    
+
     public function getItem($index)
     {
         $count = $this->getItems()->count();
-        if(!$this->isEmpty() && $this->getItems()->containsKey($index))
-        {     
+        if (!$this->isEmpty() && $this->getItems()->containsKey($index)) {
             return  $this->getItems()->get($index);
         }
+
         return null;
     }
-    
+
     public function getItemsCount()
     {
         $count = 0;
-        if(!$this->isEmpty())
-        {
+        if (!$this->isEmpty()) {
             $items = $this->getItems();
-            foreach($items as $item)
-            {
+            foreach ($items as $item) {
                 $count += $item->getAmount();
             }
         }
+
         return $count;
-        
+
     }
-    
+
     public function addItems($items = array(), $index = null)
     {
-        if(!empty($items))
-        {
-            foreach($items as $item)
-            {
+        if (!empty($items)) {
+            foreach ($items as $item) {
                 $this->addItem($item);
             }
         }
     }
-    
+
     public function findItem(CartItem $itemData)
     {
-        if(!$this->isEmpty())
-        {
+        if (!$this->isEmpty()) {
             $items = $this->getItems();
-            foreach($items as $key => $item)
-            {
-                if($item->compareData($itemData))
-                {
+            foreach ($items as $key => $item) {
+                if ($item->compareData($itemData)) {
                     return $item;
                 }
             }
         }
+
         return false;
     }
-    
+
     public function isEmpty()
     {
         return $this->getItems()->isEmpty();
     }
-    
+
     public function removeItem($index)
     {
-        if(!$this->isEmpty())
-        {
-            if ($this->getItems()->containsKey($index))
-            {
+        if (!$this->isEmpty()) {
+            if ($this->getItems()->containsKey($index)) {
                 $this->getItems()->remove($index);
             }
         }
     }
-    
+
     public function getPayment()
     {
         return $this->payment;
     }
-    
+
     public function setPayment($payment = null)
     {
         $this->payment = $payment;
     }
-    
+
     public function getShipping()
     {
         return $this->shipping;
     }
-    
+
     public function setShipping($shipping = null)
     {
         $this->shipping = $shipping;
     }
-    
+
     public function getPrice()
     {
         $price = 0;
-        if(!$this->isEmpty())
-        {
-            foreach($this->getItems() as $item)
-            {
+        if (!$this->isEmpty()) {
+            foreach ($this->getItems() as $item) {
                 $price += $item->getPriceTotal();
             }
         }
-        if(!empty($this->payment))
-        {
+        if (!empty($this->payment)) {
             $price += $this->payment->getPrice();
         }
-        if(!empty($this->shipping))
-        {
+        if (!empty($this->shipping)) {
             $price += $this->shipping->getPrice();
         }
+
         return $price;
     }
-    
+
     public function getPriceVAT()
     {
         $price = 0;
-        if(!$this->isEmpty())
-        {
-            foreach($this->getItems() as $item)
-            {
+        if (!$this->isEmpty()) {
+            foreach ($this->getItems() as $item) {
                 $price += $item->getPriceVATTotal();
             }
         }
-        if(!empty($this->payment))
-        {
+        if (!empty($this->payment)) {
             $price += $this->payment->getPrice();
         }
-        if(!empty($this->shipping))
-        {
+        if (!empty($this->shipping)) {
             $price += $this->shipping->getPriceVAT();
         }
+
         return $price;
     }
-    
+
     public function getComment()
     {
         return $this->comment;
     }
-    
+
     public function setComment($comment = null)
     {
         $this->comment = $comment;
     }
-    
+
     public function clearItems()
     {
         $this->setPaymentAddress();
@@ -267,9 +246,9 @@ class Cart implements \Serializable
         $this->setSkipShipping(false);
         $this->setItems();
     }
-            
-    
-    public function serialize() {
+
+    public function serialize()
+    {
         return serialize(array(
             $this->shippingAddress,
             $this->paymentAddress,
@@ -282,7 +261,7 @@ class Cart implements \Serializable
             $this->comment,
         ));
     }
-    public function unserialize($serialized) 
+    public function unserialize($serialized)
     {
         $items = array();
         list(
@@ -299,5 +278,3 @@ class Cart implements \Serializable
         $this->setItems($items);
     }
 }
-
-?>

@@ -3,8 +3,6 @@
 namespace Core\ShopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 /**
  * Core\ShopBundle\Entity\Address
@@ -29,14 +27,14 @@ class Address implements \Serializable
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-    
+
     /**
      * @var string $surname
      *
      * @ORM\Column(name="surname", type="string", length=255)
      */
     private $surname;
-    
+
     /**
      * @var string $company
      *
@@ -50,7 +48,7 @@ class Address implements \Serializable
      * @ORM\Column(name="street", type="string", length=255)
      */
     private $street;
-    
+
     /**
      * @var string $houseNumber
      *
@@ -98,29 +96,27 @@ class Address implements \Serializable
      * @ORM\JoinColumn(name="state_id", referencedColumnName="id")
      */
     private $state;
-    
+
     /**
      * @ORM\Column(name="email", type="string", nullable = true)
      */
     private $email = "";
-    
+
     /**
      * @ORM\Column(name="phone", type="string", nullable = true)
      */
     private $phone = "";
-    
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $user; 
-
+    private $user;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -140,13 +136,13 @@ class Address implements \Serializable
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
     }
-    
+
     /**
      * Set surname
      *
@@ -160,13 +156,13 @@ class Address implements \Serializable
     /**
      * Get surname
      *
-     * @return string 
+     * @return string
      */
     public function getSurname()
     {
         return $this->surname;
     }
-    
+
     /**
      * Set company
      *
@@ -180,7 +176,7 @@ class Address implements \Serializable
     /**
      * Get company
      *
-     * @return string 
+     * @return string
      */
     public function getCompany()
     {
@@ -200,13 +196,13 @@ class Address implements \Serializable
     /**
      * Get street
      *
-     * @return string 
+     * @return string
      */
     public function getStreet()
     {
         return $this->street;
     }
-    
+
     /**
      * Set houseNumber
      *
@@ -220,7 +216,7 @@ class Address implements \Serializable
     /**
      * Get houseNumber
      *
-     * @return string 
+     * @return string
      */
     public function getHouseNumber()
     {
@@ -240,7 +236,7 @@ class Address implements \Serializable
     /**
      * Get city
      *
-     * @return string 
+     * @return string
      */
     public function getCity()
     {
@@ -260,7 +256,7 @@ class Address implements \Serializable
     /**
      * Get zip
      *
-     * @return string 
+     * @return string
      */
     public function getZIP()
     {
@@ -280,7 +276,7 @@ class Address implements \Serializable
     /**
      * Get TIN
      *
-     * @return string 
+     * @return string
      */
     public function getTIN()
     {
@@ -300,7 +296,7 @@ class Address implements \Serializable
     /**
      * Get OIN
      *
-     * @return string 
+     * @return string
      */
     public function getOIN()
     {
@@ -320,7 +316,7 @@ class Address implements \Serializable
     /**
      * Get VATIN
      *
-     * @return string 
+     * @return string
      */
     public function getVATIN()
     {
@@ -346,7 +342,7 @@ class Address implements \Serializable
     {
         return $this->state;
     }
-    
+
     /**
      * Set User
      *
@@ -366,7 +362,7 @@ class Address implements \Serializable
     {
         return $this->user;
     }
-    
+
     /**
      * Set email
      *
@@ -380,13 +376,13 @@ class Address implements \Serializable
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
         return $this->email;
     }
-    
+
     /**
      * Set phone
      *
@@ -407,7 +403,7 @@ class Address implements \Serializable
         return $this->phone;
     }
 
-    public function serialize()         
+    public function serialize()
     {
         return serialize(array(
             $this->getId(),
@@ -428,7 +424,8 @@ class Address implements \Serializable
         ));
     }
 
-    public function unserialize($serialized) {
+    public function unserialize($serialized)
+    {
         list(
             $this->id,
             $this->name,
@@ -436,7 +433,7 @@ class Address implements \Serializable
             $this->company,
             $this->street,
             $this->houseNumber,
-            $this->city,    
+            $this->city,
             $this->state,
             $this->ZIP,
             $this->email,
@@ -454,8 +451,7 @@ class Address implements \Serializable
         $string .=   $this->getName();
         $string .= " " . $this->getSurname();
         $company = $this->getCompany();
-        if(!empty($company))
-        {
+        if (!empty($company)) {
             $string .= ", " . $company;
         }
         $string .= ", " . $this->getStreet();
@@ -463,6 +459,7 @@ class Address implements \Serializable
         $string .= ", " . $this->getCity();
         $string .= " " . $this->getZip();
         $string .= " " . $this->getState();
+
         return $string;
     }
 }

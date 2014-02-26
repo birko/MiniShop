@@ -33,7 +33,7 @@ class Content extends TranslateEntity
      * @ORM\Column(name="title", type="string", length=255, nullable = true)
      */
     private $title;
-    
+
     /**
      * @var string $slug
      * @Gedmo\Slug(fields={"title"})
@@ -55,13 +55,13 @@ class Content extends TranslateEntity
      * @ORM\Column(name="longDescription", type="text", nullable = true)
      */
     private $longDescription;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\CategoryBundle\Entity\Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $category;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="ContentMedia", mappedBy="content")
      * @ORM\OrderBy({"position" = "ASC"})
@@ -72,11 +72,11 @@ class Content extends TranslateEntity
     {
         $this->media = new ArrayCollection();
     }
-     
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -96,13 +96,13 @@ class Content extends TranslateEntity
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
         return $this->title;
     }
-    
+
     /**
      * Set slug
      *
@@ -116,7 +116,7 @@ class Content extends TranslateEntity
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -136,7 +136,7 @@ class Content extends TranslateEntity
     /**
      * Get shortDescription
      *
-     * @return string 
+     * @return string
      */
     public function getShortDescription()
     {
@@ -156,17 +156,17 @@ class Content extends TranslateEntity
     /**
      * Get longDescription
      *
-     * @return string 
+     * @return string
      */
     public function getLongDescription()
     {
         return $this->longDescription;
     }
-    
+
     /**
      * Set Category
      *
-     * @param Category  $category
+     * @param Category $category
      */
     public function setCategory(Category $category)
     {
@@ -182,7 +182,7 @@ class Content extends TranslateEntity
     {
         return $this->category;
     }
-    
+
     /**
      * Add media
      *
@@ -191,33 +191,33 @@ class Content extends TranslateEntity
     public function addMedia(Media $media)
     {
         $contentMedia = $this->getContentMedia($media->getId());
-        if(empty($contentMedia))
-        {
-            $media->setUsedCount($media->getUsedCount() + 1);            
+        if (empty($contentMedia)) {
+            $media->setUsedCount($media->getUsedCount() + 1);
             $contentMedia = new ContentMedia();
             $contentMedia->setContent($this);
             $contentMedia->setMedia($media);
             $this->getMedia()->add($contentMedia);
         }
+
         return $contentMedia;
     }
-    
+
     /**
      * Remove media
      *
      * @param Core\MediaBundle\Media
      */
     public function removeMedia(Media $media)
-    {  
+    {
         $contentMedia = $this->getContentMedia($media->getId());
-        if($contentMedia !== null)
-        {
+        if ($contentMedia !== null) {
             $media->setUsedCount($media->getUsedCount() - 1);
             $this->getMedia()->removeElement($contentMedia);
         }
+
         return $contentMedia;
     }
-    
+
     /**
      * Get ContentMedia
      *
@@ -227,11 +227,10 @@ class Content extends TranslateEntity
     {
         return $this->media;
     }
-    
+
     public function getContentMedia($mediaID)
     {
-        return $this->getMedia()->filter(function($entry) use ($mediaID)
-        {
+        return $this->getMedia()->filter(function ($entry) use ($mediaID) {
             return ($entry->getMedia()->getId() == $mediaID);
         })->first();
     }

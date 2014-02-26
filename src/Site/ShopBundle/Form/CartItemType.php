@@ -4,7 +4,6 @@ namespace Site\ShopBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityRepository;
 
 /**
  * Description of CartItemType
@@ -18,12 +17,12 @@ class CartItemType extends AbstractType
         $subscriber = new CartItemTypeFieldSubscriber();
         $builder->addEventSubscriber($subscriber);
     }
-    
-    public function getName() 
+
+    public function getName()
     {
         return "site_shop_cartitemtype";
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -31,5 +30,3 @@ class CartItemType extends AbstractType
         ));
     }
 }
-
-?>

@@ -83,7 +83,7 @@ class OrderStatusController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('orderstatus'));
-            
+
         }
 
         return $this->render('CoreShopBundle:OrderStatus:new.html.twig', array(

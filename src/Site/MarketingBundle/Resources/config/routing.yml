@@ -7,13 +7,13 @@ site_contact_form_send:
     defaults: { _controller: SiteMarketingBundle:Contact:sendContactForm, _locale: %locale% }
     requirements:
         _method: post
-        
+
 site_contact_multi_form_send:
     pattern:  /{_locale}/contactmulti/send
     defaults: { _controller: SiteMarketingBundle:Contact:sendContactMultiForm, _locale: %locale% }
     requirements:
         _method: post
-        
+
 site_contact_claim_form_send:
     pattern:  /{_locale}/contactclaim/send
     defaults: { _controller: SiteMarketingBundle:Contact:sendContactClaimForm, _locale: %locale% }

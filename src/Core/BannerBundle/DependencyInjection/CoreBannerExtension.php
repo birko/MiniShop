@@ -21,7 +21,7 @@ class CoreBannerExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        
+
         $nws = ($container->hasParameter('minishop')) ? $container->getParameter('minishop') : array();
         $nws['banner'] = true;
         $container->setParameter('minishop', $nws);

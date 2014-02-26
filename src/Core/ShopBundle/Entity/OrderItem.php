@@ -3,7 +3,6 @@
 namespace Core\ShopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Core\ShopBundle\Entity\OrderItem
  *
@@ -20,21 +19,21 @@ class OrderItem
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-    
+
     /**
      * @var decimal $price
      *
      * @ORM\Column(name="price", type="decimal", precision=10, scale=6 )
      */
     protected $price;
-    
+
     /**
      * @var decimal $priceVAT
      *
      * @ORM\Column(name="price_vat", type="decimal", precision=10, scale=6 )
      */
     protected $priceVAT;
-    
+
     /**
      * @var string $name
      *
@@ -48,7 +47,7 @@ class OrderItem
      * @ORM\Column(name="description", type="text", nullable = true)
      */
     private $description;
-    
+
     /**
      * @var string $options
      *
@@ -62,46 +61,45 @@ class OrderItem
      * @ORM\Column(name="amount", type="decimal")
      */
     private $amount;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\ShopBundle\Entity\Shipping")
      * @ORM\JoinColumn(name="shipping_id", referencedColumnName="id")
      */
     private $shipping;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\ShopBundle\Entity\Payment")
      * @ORM\JoinColumn(name="payment_id", referencedColumnName="id")
      */
     private $payment;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\ShopBundle\Entity\Order", inversedBy="items")
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
      */
-    private $order; 
-    
+    private $order;
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\ProductBundle\Entity\Product")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $product;
 
-
     public function __construct()
     {
     }
-    
+
      /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
+
     /**
      * Set price
      *
@@ -121,7 +119,7 @@ class OrderItem
     {
         return $this->price;
     }
-    
+
      /**
      * Set price
      *
@@ -155,7 +153,7 @@ class OrderItem
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -175,13 +173,13 @@ class OrderItem
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
         return $this->description;
     }
-    
+
     /**
      * Set options
      *
@@ -195,13 +193,13 @@ class OrderItem
     /**
      * Get options
      *
-     * @return string 
+     * @return string
      */
     public function getOptions()
     {
         return $this->options;
     }
-    
+
     /**
      * Set amount
      *
@@ -215,13 +213,13 @@ class OrderItem
     /**
      * Get amount
      *
-     * @return decimal 
+     * @return decimal
      */
     public function getAmount()
     {
         return $this->amount;
     }
-    
+
     /**
      * Set payment
      *
@@ -241,7 +239,7 @@ class OrderItem
     {
         return $this->payment;
     }
-    
+
     /**
      * Set shippings
      *
@@ -261,7 +259,7 @@ class OrderItem
     {
         return $this->shipping;
     }
-    
+
     /**
      * Set Order
      *
@@ -281,13 +279,13 @@ class OrderItem
     {
         return $this->order;
     }
-    
+
     /**
      * Set product
      *
      * @param Product product
      */
-    public function setProduct ($product)
+    public function setProduct($product)
     {
         $this->product = $product;
     }
@@ -301,7 +299,7 @@ class OrderItem
     {
         return $this->product;
     }
-    
+
     public function getPriceVATTotal()
     {
         return $this->getPriceVAT() * $this->getAmount();

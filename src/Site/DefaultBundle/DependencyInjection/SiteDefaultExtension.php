@@ -21,8 +21,7 @@ class SiteDefaultExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        if (isset($config['verification_code']))
-        {
+        if (isset($config['verification_code'])) {
             $container->setParameter('contact.verification_code', $config['verification_code']);
         }
 

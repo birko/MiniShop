@@ -68,7 +68,6 @@ class VATController extends Controller
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Create'));
-
         return $form;
     }
 
@@ -147,7 +146,6 @@ class VATController extends Controller
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Update'));
-
         return $form;
     }
     /**

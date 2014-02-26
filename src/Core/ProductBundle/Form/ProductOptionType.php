@@ -4,18 +4,15 @@ namespace Core\ProductBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 
 class ProductOptionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $attributeName = $options['attributeName'];
-        switch ($options['flow_step']) 
-        {
+        switch ($options['flow_step']) {
             case 1:
                 $builder->add('name', 'entity', array(
                     'class' => 'CoreAttributeBundle:AttributeName',
@@ -23,8 +20,9 @@ class ProductOptionType extends AbstractType
                     'required' => true,
                     'multiple' => false,
                     'empty_value' => 'Choose name',
-                    'query_builder' => function(EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         $qb = $er->getNamesQueryBuilder();
+
                         return $qb;
                     },
                 ));
@@ -37,8 +35,9 @@ class ProductOptionType extends AbstractType
                     'multiple' => false,
                     'group_by' => 'attributeName',
                     'empty_value' => 'Choose value',
-                    'query_builder' => function(EntityRepository $er) use ($attributeName) {
+                    'query_builder' => function (EntityRepository $er) use ($attributeName) {
                         $qb = $er->getValuesByNameQueryBuilder($attributeName);
+
                         return $qb;
                     },
                 ));
@@ -53,7 +52,7 @@ class ProductOptionType extends AbstractType
     {
         return 'core_productbundle_productoptiontype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);

@@ -2,7 +2,6 @@
 
 namespace Core\CommonBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
@@ -19,9 +18,9 @@ class TranslateEntity implements Translatable
      * this is not a mapped field of entity metadata, just a simple property
      */
     protected $locale;
-    
-    protected $translations; 
-    
+
+    protected $translations;
+
     public function setTranslatableLocale($locale)
     {
         $this->locale = $locale;
@@ -39,35 +38,32 @@ class TranslateEntity implements Translatable
      */
     public function getTranslations()
     {
-        if($this->translations  === null)
-        {
+        if ($this->translations  === null) {
             $this->translations = new ArrayCollection();
         }
-        return $this->translations;   
+
+        return $this->translations;
     }
-    
+
     public function setTranslations($translations)
     {
-        $this->translations = $translations;   
+        $this->translations = $translations;
     }
-    
+
     public function addTranslation($translation)
     {
         $this->getTranslations()->add($translation);
     }
-    
+
     public function removeTranslation($translation)
     {
         $this->getTranslations()->removeElement($translation);
     }
-    
+
     public function getTranslation($locale)
     {
-        return $this->getTranslations()->filter(function($entry) use ($locale)
-         {
+        return $this->getTranslations()->filter(function ($entry) use ($locale) {
              return ($entry->getTranslatableLocale() == $locale);
          })->current();
     }
 }
-
-?>

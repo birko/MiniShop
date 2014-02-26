@@ -3,7 +3,6 @@
 namespace Core\NewsletterBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
@@ -20,8 +19,7 @@ class SendNewsletterType extends AbstractType
                 'required' => true,
                 'property' => 'title',
                 'empty_value' => '',
-                'query_builder' => function(EntityRepository $er)
-                 {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder("n")
                             ->orderBy("n.createdAt", 'desc');
                  },
@@ -33,7 +31,7 @@ class SendNewsletterType extends AbstractType
     {
         return 'nws_newsletterbundle_sendnewslettertype';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

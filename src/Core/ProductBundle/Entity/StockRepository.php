@@ -16,25 +16,25 @@ class StockRepository extends EntityRepository
     {
         return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
     }
-    
+
     public function getStockQueryBuilder($entities = null)
-    {     
+    {
         $querybuilder = $this->createQueryBuilder('s')
             ->select("s");
-        if($entities != null)
-        {
+        if ($entities != null) {
             $expr = $querybuilder->expr()->in("s.product", $entities);
-            $querybuilder->andWhere($expr);       
+            $querybuilder->andWhere($expr);
         }
+
         return $querybuilder;
     }
-    
+
     public function getStockQuery($entities = null)
     {
         return $this->getStockQueryBuilder($entities)->getQuery();
-    } 
+    }
     public function getStock($entities = null)
     {
         return $this->getStockQuery($entities)->getResult();
-    } 
+    }
 }

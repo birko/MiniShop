@@ -83,7 +83,7 @@ class NewsletterGroupController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('newsletter_group'));
-            
+
         }
 
         return $this->render('CoreNewsletterBundle:NewsletterGroup:new.html.twig', array(

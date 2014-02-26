@@ -48,7 +48,7 @@
                 <td>
                 </td>
                 <td>
-                    {{ cart.priceVAT|number_format(2, ',') }}  € 
+                    {{ cart.priceVAT|number_format(2, ',') }}  €
                 </td>
             </tr>
         </tfoot>
@@ -59,35 +59,35 @@
 			{% endfor %}
             {% if cart.shipping is not empty %}
             <tr>
-				<td>     
+				<td>
                 </td>
                 <td>
                     {{ cart.shipping.name }}
                 </td>
-                <td>     
+                <td>
                 </td>
                 <td>
-                    {{ cart.shipping.priceVAT|number_format(2, ',') }}  € 
+                    {{ cart.shipping.priceVAT|number_format(2, ',') }}  €
                 </td>
                 <td>
-                    {{ cart.shipping.priceVAT|number_format(2, ',') }} € 
+                    {{ cart.shipping.priceVAT|number_format(2, ',') }} €
                 </td>
             </tr>
             {% endif %}
             {% if cart.payment is not empty %}
             <tr>
-				<td>     
+				<td>
                 </td>
                 <td>
                     {{ cart.payment.name }}
                 </td>
-                <td>     
+                <td>
                 </td>
                 <td>
-                    {{ cart.payment.priceVAT|number_format(2, ',') }}  € 
+                    {{ cart.payment.priceVAT|number_format(2, ',') }}  €
                 </td>
                 <td>
-                    {{ cart.payment.priceVAT|number_format(2, ',') }}  € 
+                    {{ cart.payment.priceVAT|number_format(2, ',') }}  €
                 </td>
             </tr>
             {% endif %}

@@ -16,7 +16,7 @@ class UserTextRepository extends EntityRepository
     {
         return $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
     }
-    
+
     public function getByName($name)
     {
         $query = $this->getEntityManager()
@@ -26,20 +26,21 @@ class UserTextRepository extends EntityRepository
             ->andWhere("ut.name = :name")
             ->setParameter('name', $name)
             ->getQuery();
+
         return $this->setHint($query)->getOneOrNullResult();
     }
-    
+
     public function getUserText($name, $create = false)
     {
-        
+
         $entity = $this->getByName($name);
-        if($entity === null && $create)
-        {
+        if ($entity === null && $create) {
              $entity  = new UserText();
              $entity->setName($name);
              $this->getEntityManager()->persist($entity);
              $this->getEntityManager()->flush();
         }
+
         return $entity;
     }
 }

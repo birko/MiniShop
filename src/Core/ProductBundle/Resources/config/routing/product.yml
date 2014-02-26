@@ -1,7 +1,7 @@
 product:
     pattern:  /{category}
     defaults: { _controller: "CoreProductBundle:Product:index" , category: ~}
-    requirements: 
+    requirements:
         category: \d+
 
 product_show:
@@ -34,13 +34,13 @@ product_delete:
 product_copy:
     pattern:  /{id}/copy/{category}
     defaults: { _controller: "CoreProductBundle:Product:copy", category: ~  }
-    
+
 product_addlist:
     pattern: /addlist/{category}
     defaults: { _controller: "CoreProductBundle:Product:addList" }
     requirements:
         category: \d+
-        
+
 product_add:
     pattern: /{id}/add/{category}
     defaults: { _controller: "CoreProductBundle:Product:add" }

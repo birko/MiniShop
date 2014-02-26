@@ -28,12 +28,12 @@ coupon_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "CoreShopBundle:Coupon:delete" }
     requirements: { _method: post }
-    
-    
+
+
 coupon_products:
     pattern:  /{id}/products
     defaults: { _controller: "CoreShopBundle:Coupon:products" }
-    
+
 coupon_products_addlist:
     pattern:  /{id}/products/addlist
     defaults: { _controller: "CoreShopBundle:Coupon:productsAddList" }
@@ -41,8 +41,7 @@ coupon_products_addlist:
 coupon_products_add:
     pattern:  /{id}/products/{product}/add
     defaults: { _controller: "CoreShopBundle:Coupon:productAdd" }
- 
+
 coupon_products_remove:
     pattern:  /{id}/products/{product}/remove
     defaults: { _controller: "CoreShopBundle:Coupon:productRemove" }
-   

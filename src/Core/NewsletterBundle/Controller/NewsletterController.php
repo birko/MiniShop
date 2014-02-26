@@ -97,7 +97,7 @@ class NewsletterController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('newsletter'));
-            
+
         }
 
         return $this->render('CoreNewsletterBundle:Newsletter:new.html.twig', array(
@@ -198,7 +198,7 @@ class NewsletterController extends Controller
             ->getForm()
         ;
     }
-    
+
     public function sendAction($id)
     {
         $entity = new SendNewsletter();
@@ -208,7 +208,7 @@ class NewsletterController extends Controller
             throw $this->createNotFoundException('Unable to find Newsletter entity.');
         }
         $entity->setNewsletter($newsletter);
-        
+
         $form   = $this->createForm(new SendNewsletterType(), $entity);
 
         return $this->render('CoreNewsletterBundle:Newsletter:send.html.twig', array(
@@ -216,7 +216,7 @@ class NewsletterController extends Controller
             'form'   => $form->createView()
         ));
     }
-    
+
     public function doSendAction($id)
     {
         $entity = new SendNewsletter();
@@ -229,23 +229,23 @@ class NewsletterController extends Controller
         $entity->setNewsletter($newsletter);
         $form   = $this->createForm(new SendNewsletterType(), $entity);
         $form->bind($request);
-        if($form->isValid())
-        {
+        if ($form->isValid()) {
             $emails =  $em->getRepository('CoreNewsletterBundle:NewsletterEmail')
                 ->getEnabledEmailsQueryBuilder()
                 ->select("ne.email")
                 ->getQuery()
                 ->getScalarResult();
             $newsletter = $entity->getNewsletter();
+
             return $this->sendNewsletter($newsletter, $emails);
         }
-        
+
         return $this->render('CoreNewsletterBundle:Newsletter:send.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
         ));
     }
-    
+
     public function sendGroupAction($id)
     {
         $entity = new SendNewsletter();
@@ -255,7 +255,7 @@ class NewsletterController extends Controller
             throw $this->createNotFoundException('Unable to find Newsletter entity.');
         }
         $entity->setNewsletter($newsletter);
-        
+
         $form   = $this->createForm(new SendGroupNewsletterType(), $entity);
 
         return $this->render('CoreNewsletterBundle:Newsletter:sendgroup.html.twig', array(
@@ -263,7 +263,7 @@ class NewsletterController extends Controller
             'form'   => $form->createView()
         ));
     }
-    
+
     public function doSendGroupAction($id)
     {
         $entity = new SendNewsletter();
@@ -276,35 +276,32 @@ class NewsletterController extends Controller
         $entity->setNewsletter($newsletter);
         $form   = $this->createForm(new SendGroupNewsletterType(), $entity);
         $form->bind($request);
-        if($form->isValid())
-        {
+        if ($form->isValid()) {
             $groups = array();
             $egroups = $entity->getGroups();
-            if(!empty($egroups))
-            {
-                foreach($entity->getGroups() as $group)
-                {
+            if (!empty($egroups)) {
+                foreach ($entity->getGroups() as $group) {
                     $groups[] = $group->getId();
                 }
-                if(!empty($groups))
-                {
+                if (!empty($groups)) {
                     $emails =  $em->getRepository('CoreNewsletterBundle:NewsletterEmail')
                         ->getEmailsInGroupsQueryBuilder($groups, $entity->isNot())
                         ->select("ne.email")
                         ->getQuery()
                         ->getScalarResult();
                     $newsletter = $entity->getNewsletter();
+
                     return $this->sendNewsletter($newsletter, $emails);
                 }
             }
         }
-        
+
         return $this->render('CoreNewsletterBundle:Newsletter:send.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
         ));
     }
-    
+
     public function sendEmailAction($id)
     {
         $entity = new SendNewsletter();
@@ -331,7 +328,7 @@ class NewsletterController extends Controller
             'page'   => $page,
         ));
     }
-    
+
     public function doSendEmailAction($id)
     {
         $entity = new SendNewsletter();
@@ -352,12 +349,11 @@ class NewsletterController extends Controller
         );
         $form   = $this->createForm(new SendEmailNewsletterType($pagination->getItems()), $entity);
         $form->bind($request);
-        if($form->isValid())
-        {
+        if ($form->isValid()) {
             $emails =  $entity->getEmails();
-            if(!empty($emails) && (count($emails) > 0))
-            {
+            if (!empty($emails) && (count($emails) > 0)) {
                 $newsletter = $entity->getNewsletter();
+
                 return $this->sendNewsletter($newsletter, $emails, false);
             }
         }
@@ -369,43 +365,35 @@ class NewsletterController extends Controller
             'page'   => $page,
         ));
     }
-    
+
     protected function sendNewsletter($newsletter, $emails, $isQuery = false)
     {
         $count = 0;
         $demails = $this->container->getParameter('default.emails');
-        $body = $this->renderView('CoreNewsletterBundle:Email:newsletter.html.twig', array(  
+        $body = $this->renderView('CoreNewsletterBundle:Email:newsletter.html.twig', array(
             'entity' => $newsletter,
         ));
         $title = $newsletter->getTitle();
         $sitetitle = $this->container->getParameter('site_title');
-        foreach($emails as $row)
-        {
+        foreach ($emails as $row) {
             $send = true;
             $email = ($isQuery) ? $row[0]: $row;
-            if(is_object($email))
-            {
-                if($email->isEnabled())
-                {
+            if (is_object($email)) {
+                if ($email->isEnabled()) {
                     $email = $email->getEmail();
-                }
-                else
-                {
+                } else {
                     $send = false;
                 }
-            }
-            else if (is_array($email))
-            {
+            } elseif (is_array($email)) {
                 $email = $email['email'];
             }
-            
-            if($send)
-            {
+
+            if ($send) {
                 $email = filter_var($email, FILTER_VALIDATE_EMAIL);
-                if($email !== false) {
+                if ($email !== false) {
                    try {
                         $message = \Swift_Message::newInstance()
-                            ->setSubject($title)   
+                            ->setSubject($title)
                             ->setFrom($demails['default'], $sitetitle)   //settings
                             ->setTo(array($email)) //settings admin
                             ->setBody($body, 'text/html')
@@ -413,11 +401,12 @@ class NewsletterController extends Controller
                         $this->get('mailer')->send($message);
                         $count++;
                         $message = null;
-                    } catch(\Exception $ex) {
+                    } catch (\Exception $ex) {
                     }
                 }
             }
         }
+
         return $this->render('CoreNewsletterBundle:Newsletter:sendsuccess.html.twig', array(
            'count' => $count,
         ));

@@ -32,18 +32,17 @@ class AbstractPrice
      * @ORM\Column(name="priceVAT", type="decimal", precision=12, scale=6)
      */
     protected $priceVAT;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Core\PriceBundle\Entity\VAT")
      * @ORM\JoinColumn(name="vat_id", referencedColumnName="id")
      */
     protected $vat;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -63,7 +62,7 @@ class AbstractPrice
     /**
      * Get price
      *
-     * @return decimal 
+     * @return decimal
      */
     public function getPrice()
     {
@@ -83,13 +82,13 @@ class AbstractPrice
     /**
      * Get priceVAT
      *
-     * @return decimal 
+     * @return decimal
      */
     public function getPriceVAT()
     {
         return $this->priceVAT;
     }
-    
+
     /**
      * Set VAT
      *
@@ -98,6 +97,7 @@ class AbstractPrice
     public function setVAT(VAT $vat)
     {
         $this->vat = $vat;
+
         return $this;
     }
 
@@ -110,26 +110,20 @@ class AbstractPrice
     {
         return $this->vat;
     }
-    
+
     public function recalculate($vat = true)
     {
         $rate = 0;
-        if($this->getVAT())
-        {
+        if ($this->getVAT()) {
             $rate = $this->getVAT()->getRate();
         }
-        
-        if($vat)
-        {
-            if($this->getPrice() !== null)
-            {
+
+        if ($vat) {
+            if ($this->getPrice() !== null) {
                 $this->setPriceVAT($this->getPrice() * (1 + $rate));
             }
-        }
-        else
-        {
-            if($this->getPriceVAT() !== null)
-            {
+        } else {
+            if ($this->getPriceVAT() !== null) {
                 $this->setPrice($this->getPriceVAT() / (1 + $rate));
             }
         }

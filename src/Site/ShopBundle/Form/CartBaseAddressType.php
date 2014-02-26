@@ -5,7 +5,6 @@ namespace Site\ShopBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityRepository;
 use Core\ShopBundle\Form\AddressType;
 use Core\ShopBundle\Form\DeliveryAddressType;
 /**
@@ -13,20 +12,20 @@ use Core\ShopBundle\Form\DeliveryAddressType;
  *
  * @author Birko
  */
-class CartBaseAddressType extends AbstractType {
-    
+class CartBaseAddressType extends AbstractType
+{
     protected $sameaddress;
-    
+
     public function __construct($sameaddress = false)
     {
-        $this->sameaddress = $sameaddress;        
+        $this->sameaddress = $sameaddress;
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('shippingAddress', new DeliveryAddressType(), array(
-                'required' => !$this->sameaddress, 
+                'required' => !$this->sameaddress,
                 'error_bubbling' => true,
                 'requiredFields' => isset($options['address']['required']) ? $options['address']['required']: array(),
             ))
@@ -35,17 +34,17 @@ class CartBaseAddressType extends AbstractType {
                 'label'     => 'Is payment address same as shipping?',
             ))
             ->add('paymentAddress', new AddressType(), array(
-                'required' => true, 
+                'required' => true,
                 'error_bubbling' => true,
                 'requiredFields' => isset($options['address']['required']) ? $options['address']['required']: array(),
             ));
     }
-    
-    public function getName() 
+
+    public function getName()
     {
         return "site_shop_baseaddress";
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -54,5 +53,3 @@ class CartBaseAddressType extends AbstractType {
         ));
     }
 }
-
-?>

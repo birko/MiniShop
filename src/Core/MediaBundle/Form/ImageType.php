@@ -2,11 +2,7 @@
 
 namespace Core\MediaBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 
 class ImageType extends EditImageType
 {
@@ -18,5 +14,3 @@ class ImageType extends EditImageType
         parent::buildForm($builder, $options);
     }
 }
-
-?>

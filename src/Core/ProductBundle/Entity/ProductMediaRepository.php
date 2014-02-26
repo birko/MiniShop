@@ -10,21 +10,20 @@ class ProductMediaRepository extends EntityRepository
     {
         $querybuilder = $this->getEntityManager()->createQueryBuilder()
                ->delete("CoreProductBundle:ProductMedia", "pm");
-        if($mediaId !== null)
-        {
+        if ($mediaId !== null) {
             $querybuilder =  $querybuilder->andWhere("pm.media = :mid")
             ->setParameter('mid', $mediaId);
         }
 
-        if($productId !== null)
-        {
+        if ($productId !== null) {
             $querybuilder =  $querybuilder->andWhere("pm.product = :pid")
             ->setParameter('pid', $productId);
         }
-       $numUpdated = $querybuilder->getQuery()->execute(); 
+       $numUpdated = $querybuilder->getQuery()->execute();
+
        return $numUpdated;
     }
-    
+
     public function updateDefaultCategory($productId, $exludeMediaId)
     {
         $q = $this->getEntityManager()->createQueryBuilder()
@@ -35,10 +34,11 @@ class ProductMediaRepository extends EntityRepository
                 ->setParameter('mid', $exludeMediaId)
                 ->setParameter('pid', $productId)
                 ->getQuery();
-        $numUpdated = $q->execute(); 
+        $numUpdated = $q->execute();
+
         return $numUpdated;
     }
-    
+
     public function updatePosition($productId, $mediaId, $position, $move)
     {
         $q = $this->getEntityManager()->createQueryBuilder();
@@ -52,7 +52,8 @@ class ProductMediaRepository extends EntityRepository
                 ->setParameter('position', $position)
                 ->setParameter('pid', $productId)
                 ;
-        $numUpdated = $q->getQuery()->execute(); 
+        $numUpdated = $q->getQuery()->execute();
+
         return $numUpdated;
     }
 }

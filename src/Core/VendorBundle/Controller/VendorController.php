@@ -14,15 +14,15 @@ use Core\CommonBundle\Controller\TranslateController;
  */
 class VendorController extends TranslateController
 {
-    protected function saveTranslation($entity, $culture, $translation) 
+    protected function saveTranslation($entity, $culture, $translation)
     {
         $em = $this->getDoctrine()->getManager();
         $entity->setDescription($translation->getDescription());
         $entity->setTranslatableLocale($culture);
-        $em->persist($entity); 
+        $em->persist($entity);
         $em->flush();
     }
-    
+
     /**
      * Lists all Vendor entities.
      *
@@ -40,7 +40,7 @@ class VendorController extends TranslateController
             $page/*page number*/,
             100/*limit per page*/
         );
-        
+
         return $this->render('CoreVendorBundle:Vendor:index.html.twig', array(
             'entities' => $pagination
         ));
@@ -105,9 +105,9 @@ class VendorController extends TranslateController
             $em->persist($entity);
             $em->flush();
             $this->saveTranslations($entity, $cultures);
-            
+
             return $this->redirect($this->generateUrl('vendor'));
-            
+
         }
 
         return $this->render('CoreVendorBundle:Vendor:new.html.twig', array(

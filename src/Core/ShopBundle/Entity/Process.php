@@ -29,13 +29,13 @@ class Process
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
         return $this->type;
     }
-    
+
      /**
      * Set shipping_status
      *
@@ -52,7 +52,7 @@ class Process
     {
         return $this->shipping_status;
     }
-    
+
     /**
      * Set order_status
      *
@@ -70,7 +70,7 @@ class Process
     {
         return $this->order_status;
     }
-    
+
     /**
      * Set orders
      *
@@ -88,7 +88,7 @@ class Process
     {
         return $this->orders;
     }
-    
+
     /**
      * Set export
      *
@@ -102,7 +102,7 @@ class Process
     /**
      * Get export
      *
-     * @return string 
+     * @return string
      */
     public function getExport()
     {

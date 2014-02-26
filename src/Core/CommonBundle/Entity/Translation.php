@@ -32,7 +32,7 @@ class Translation extends GedmoTranslation
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-    
+
     /**
      * @var integer  $foreignKey
      *
@@ -40,5 +40,3 @@ class Translation extends GedmoTranslation
      */
     protected $foreignKey;
 }
-
-?>
