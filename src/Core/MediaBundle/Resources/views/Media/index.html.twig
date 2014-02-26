@@ -14,9 +14,9 @@
         </tr>
         <tr>
             <th class="col-sm-2 col-md-2 col-lg-2">{% trans %}Media{% endtrans %}</th>
-            <th class="col-sm-8 col-md-8 col-lg-8">{% trans %}Title{% endtrans %}</th>
+            <th class="col-sm-7 col-md-7 col-lg-7">{% trans %}Title{% endtrans %}</th>
 			<th class="col-sm-1 col-md-1 col-lg-1">{% trans %}Used count{% endtrans %}</th>
-            <th class="col-sm-1 col-md-1 col-lg-1">{% trans %}Actions{% endtrans %}</th>
+            <th class="col-sm-2 col-md-2 col-lg-2">{% trans %}Actions{% endtrans %}</th>
         </tr>
     </thead>
     
@@ -34,8 +34,11 @@
 				{{ entity.title }}<br />
 				<strong>{% trans %}Source{% endtrans %}:</strong> {% include "CoreMediaBundle:Media:path.html.twig" with {'entity': entity, 'dir': 'original'} %}</td>
 			<td class="col-sm-1 col-md-1 col-lg-1">{{ entity.usedCount }}</td>
-            <td class="col-sm-1 col-md-1 col-lg-1">
-				<a href="{{ path('media_edit', { 'id': entity.id}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
+            <td class="col-sm-2 col-md-2 col-lg-2">
+				<div class="btn-group">
+					<a href="{{ path('media_edit', { 'id': entity.id, 'type': entity.type}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Edit{% endtrans %}</a>
+					<a href="{{ path('media_source', { 'id': entity.id, 'type': entity.type}) }}" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-edit"></span> {% trans %}Source{% endtrans %}</a>
+				</div>
             </td>
         </tr>
     {% endfor %}

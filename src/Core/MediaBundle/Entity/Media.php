@@ -50,15 +50,15 @@ abstract class Media extends TranslateEntity
     
     /**
      * @var string $source
-     *
-     * @ORM\Column(name="source", type="string", length=255)
+     * @Gedmo\Translatable
+     * @ORM\Column(name="source", type="string", length=255, nullable = true)
      */
     private $source;
 
     /**
      * @var string $filename
-     *
-     * @ORM\Column(name="filename", type="string", length=255)
+     * @Gedmo\Translatable
+     * @ORM\Column(name="filename", type="string", length=255, nullable = true)
      */
     private $filename;
 
@@ -362,10 +362,20 @@ abstract class Media extends TranslateEntity
     /**
      * @ORM\PostRemove()
      */
-    public function removeUpload()
+    public function removeUpload($removeTranslation = false)
     {
+        if(!$removeTranslation)
+        {
+            if($this->getTranslations()) {
+                foreach($this->getTranslations() as $translation) {
+                    $translation->removeUpload(true);
+                }
+            }
+        }
         if ($file = $this->getAbsolutePath()) {
-            unlink($file);
+            if (file_exists($file)) {
+                unlink($file);
+            }
         }
     }
     

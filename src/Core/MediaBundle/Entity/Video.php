@@ -106,12 +106,12 @@ class Video extends Media
         parent::upload(); 
     }
     
-    public function removeUpload()
+    public function removeUpload($removeTranslation = false)
     {
         $type = $this->getVideoType();
         if($type != VideoType::YOUTUBE)
         {
-            parent::removeUpload();
+            parent::removeUpload($removeTranslation);
         }
     }
 }

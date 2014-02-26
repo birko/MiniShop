@@ -106,7 +106,7 @@ class Image extends Media
         return ($dir !== null) ? 'uploads/images/' . $dir: 'uploads/images/original';
     }
     
-    public function removeUpload()
+    public function removeUpload($removeTranslation = false)
     {
         $options = $this->getOptions();
         if(empty($options))
@@ -123,7 +123,7 @@ class Image extends Media
                 }
             }
         } 
-        parent::removeUpload();
+        parent::removeUpload($removeTranslation);
     }
     
     public function preUpload()

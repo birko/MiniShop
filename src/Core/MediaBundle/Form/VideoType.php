@@ -13,12 +13,14 @@ class VideoType extends EditVideoType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('videoType', 'choice', array(
-                'required'    => true,
-                'choices' => VideoTypes::getTypes(),
-                'label' =>  'Video type'
-                
-        ));
+        if($options['change_type']) {
+            $builder->add('videoType', 'choice', array(
+                    'required'    => true,
+                    'choices' => VideoTypes::getTypes(),
+                    'label' =>  'Video type'
+                    
+            ));
+        }
         $builder->add('source', 'text', array(
                 'required'    => false
         ));
@@ -26,6 +28,14 @@ class VideoType extends EditVideoType
                 'required'    => false
         ));
         parent::buildForm($builder, $options);
+    }
+    
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        parent::setDefaultOptions($resolver);
+        $resolver->setDefaults(array(
+            'change_type' => true,
+        ));
     }
 }
 

@@ -20,6 +20,15 @@ media_update:
     defaults: { _controller: "CoreMediaBundle:Media:update"}
     requirements: { _method: post }
 
+media_source:
+    pattern:  /media/{id}/source/{type}
+    defaults: { _controller: "CoreMediaBundle:Media:source"}
+
+media_source_update:
+    pattern:  /media/{id}/sourceupdate/{type}
+    defaults: { _controller: "CoreMediaBundle:Media:sourceUpdate"}
+    requirements: { _method: post }
+
 media_delete:
     pattern:  /media/{id}/delete
     defaults: { _controller: "CoreMediaBundle:Media:delete"}
