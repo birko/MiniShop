@@ -26,6 +26,7 @@ class CartItemAddType extends CartItemType
                 'required' => $options['requireOptions'],
                 'options' => $options['options'],
                 'product' => $options['product'],
+                'label' => false,
             ));
     }
     

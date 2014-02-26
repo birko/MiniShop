@@ -3,7 +3,7 @@
     <h5>{% trans %}Groupon code{% endtrans %}</h5>
     <form action="{{path('groupon_add', {'product': product})}}" method="post" class="nolabel">
         {{form_label(form.code)}}
-        <div class="input-group">
+        <div class="input-group coupon">
             {{form_widget(form.code)}}
             <button type="submit" class="btn input-group-addon">
                 <span class="glyphicon glyphicon-ok"></span>
