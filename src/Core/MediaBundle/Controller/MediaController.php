@@ -361,22 +361,25 @@ class MediaController extends TranslateController
                         {
                             $newMedia->setFile($translation->getFile());
                             $newMedia->preUpload();
-                            $newMedia->upload();
-                            $entity->setTranslatableLocale($cultures[$i]);
-                            if($source != $translation->getSource())
+                            if($newMedia->getSource())
                             {
-                                switch($type)
+                                $newMedia->upload();
+                                $entity->setTranslatableLocale($cultures[$i]);
+                                if($source != $translation->getSource())
                                 {
-                                    case "image":
-                                        $translation->setOptions($imageOptions);
-                                        break;
+                                    switch($type)
+                                    {
+                                        case "image":
+                                            $translation->setOptions($imageOptions);
+                                            break;
+                                    }
+                                    $translation->removeUpload(true);
                                 }
-                                $translation->removeUpload(true);
+                                $entity->setSource($newMedia->getSource());
+                                $entity->setFilename($newMedia->getFilename());
+                                $em->persist($entity); 
+                                $em->flush();
                             }
-                            $entity->setSource($newMedia->getSource());
-                            $entity->setFilename($newMedia->getFilename());
-                            $em->persist($entity); 
-                            $em->flush();
                         }
                         $i++;
                     }
