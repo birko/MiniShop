@@ -1,6 +1,6 @@
 {% if entities and entities| length > 0 %}
 <div class="row">
-    <h5>{% trans %}Groupon{% endtrans %}</h5>
+    <h5>{% trans %}Groupon code{% endtrans %}</h5>
     <form action="{{path('groupon_add', {'product': product})}}" method="post" class="nolabel">
         {{form_label(form.code)}}
         <div class="input-group">

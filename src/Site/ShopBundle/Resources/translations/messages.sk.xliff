@@ -274,6 +274,10 @@
                 <source>Coupon code</source>
                 <target>Kód zľavového kupónu</target>
             </trans-unit>
+            <trans-unit id="84">
+                <source>Groupon code</source>
+                <target>Zľavový kupón</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

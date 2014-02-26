@@ -102,6 +102,10 @@
                 <source>Coupon code</source>
                 <target>Coupon code</target>
             </trans-unit>
+            <trans-unit id="84">
+                <source>Groupon code</source>
+                <target>Groupon code</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
