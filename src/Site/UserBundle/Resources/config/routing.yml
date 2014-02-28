@@ -1,3 +1,0 @@
-SiteUserBundle_user:
-    resource: "@SiteUserBundle/Resources/config/routing/user.yml"
-    prefix:   /{_locale}/user

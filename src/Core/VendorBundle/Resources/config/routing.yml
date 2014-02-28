@@ -1,3 +1,0 @@
-CoreVendorBundle_vendor:
-    resource: "@CoreVendorBundle/Resources/config/routing/vendor.yml"
-    prefix:   /vendor

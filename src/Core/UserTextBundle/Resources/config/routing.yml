@@ -1,3 +1,0 @@
-CoreUserTextBundle_usertext:
-    resource: "@CoreUserTextBundle/Resources/config/routing/usertext.yml"
-    prefix:   /usertext

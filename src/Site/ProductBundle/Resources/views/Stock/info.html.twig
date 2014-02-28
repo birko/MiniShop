@@ -1,9 +1,0 @@
-{% if entity is not empty %}
-{% if entity.amount > 0 %}
-{% trans %}Available{% endtrans %}
-{% elseif entity.availability %}
-{{ entity.availability | trans }}
-{% else %}
-{% trans %}Not available{% endtrans %}
-{% endif %}
-{% endif %}
