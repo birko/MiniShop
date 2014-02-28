@@ -152,7 +152,7 @@ class CheckoutController extends ShopController
         if ($cart->isSkipPayment() && $cart->isSkipShipping()) {
             return $this->redirect($this->generateUrl('checkout_confirm'));
         } else {
-            $state = $cart->getShippingAddress()->getState();
+            $state = $cart->getPaymentAddress()->getState();
             $em = $this->getDoctrine()->getManager();
             $payments =  $em->getRepository('CoreShopBundle:Payment')->getPaymentQueryBuilder(true)
                 ->getQuery()->getResult();
@@ -217,7 +217,7 @@ class CheckoutController extends ShopController
         $cart = $this->getCart();
         $form = $this->createForm(new CartOrderType(), $cart);
         if ($cart->isSameAddress()) {
-            $cart->setPaymentAddress($cart->getShippingAddress());
+            $cart->setShippingAddress($cart->getPaymentAddress());
         }
 
         return $this->render('SiteShopBundle:Checkout:confirm.html.twig', array(
@@ -234,7 +234,7 @@ class CheckoutController extends ShopController
         $form->bind($this->getRequest());
         $form->isValid();
         if ($cart->isSameAddress()) {
-            $cart->setPaymentAddress($cart->getShippingAddress());
+            $cart->setShippingAddress($cart->getPaymentAddress());
         }
         $user = $this->getShopUser();
         $sendEmail = null;
