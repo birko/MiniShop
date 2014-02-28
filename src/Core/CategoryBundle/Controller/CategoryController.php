@@ -23,7 +23,7 @@ class CategoryController extends TranslateController
         $entity->setTranslatableLocale($culture);
         $em->persist($entity);
         $em->flush();
-        if ($entity->isExternal()) {
+        if ($translation->isExternal()) {
             $entity->setSlug($slug);
             $em->persist($entity);
             $em->flush();
@@ -151,15 +151,16 @@ class CategoryController extends TranslateController
             $entity->setMenu($menu);
             $em->persist($entity);
             $em->flush();
+            $em->refresh($entity);
             if ($entity->isExternal()) {
                 $entity->setSlug($slug);
                 $em->persist($entity);
                 $em->flush();
             }
+            $this->saveTranslations($entity, $cultures);
             if ($entity->isHome()) {
                 $em->getRepository('CoreCategoryBundle:Category')->updateHomeCategory($entity->getId());
             }
-            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('category'));
 
@@ -233,10 +234,10 @@ class CategoryController extends TranslateController
                 $em->persist($entity);
                 $em->flush();
             }
+            $this->saveTranslations($entity, $cultures);
             if ($entity->isHome()) {
                 $em->getRepository('CoreCategoryBundle:Category')->updateHomeCategory($entity->getId());
             }
-            $this->saveTranslations($entity, $cultures);
 
             return $this->redirect($this->generateUrl('category_edit', array('id' => $id)));
         }
