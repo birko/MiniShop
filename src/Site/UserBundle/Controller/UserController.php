@@ -202,7 +202,7 @@ class UserController extends Controller
                 $user = $this->getDoctrine()->getManager()->getRepository('CoreUserBundle:User')->findOneByEmail($data['email']);
                 if (!$user) {
                     $t = $this->get('translator')->trans('User with supplied email not found.');
-                    $this->get('session')->setFlash('error', $t);
+                    $this->get('session')->getFlashBag()->add('error', $t);
                 } else {
                     // send email to user
                     $t = $this->get('translator')->trans('Password recovery');
@@ -219,7 +219,7 @@ class UserController extends Controller
                             )), 'text/html');
                     $this->get('swiftmailer.mailer.site_mailer')->send($message);
                     $t = $this->get('translator')->trans('Instructions for password recovery were sent to your email. Please follow instructions for password recovery.');
-                    $this->get('session')->setFlash('success', $t);
+                    $this->get('session')->getFlashBag()->add('success', $t);
                 }
             }
         }
