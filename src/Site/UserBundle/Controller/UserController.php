@@ -110,7 +110,7 @@ class UserController extends Controller
                             'login' => $entity->getLogin(),
                             'password' => $password,
                         )), 'text/html');
-                $this->get('mailer')->send($message);
+                $this->get('swiftmailer.mailer.site_mailer')->send($message);
                 //login
                 $session = $this->getRequest()->getSession();
                 $cart = $session->get('cart');
@@ -217,7 +217,7 @@ class UserController extends Controller
                                     'hash' => urlencode(md5($user->getEmail() . $user->getPassword())),
                                 ), true),
                             )), 'text/html');
-                    $this->get('mailer')->send($message);
+                    $this->get('swiftmailer.mailer.site_mailer')->send($message);
                     $t = $this->get('translator')->trans('Instructions for password recovery were sent to your email. Please follow instructions for password recovery.');
                     $this->get('session')->setFlash('success', $t);
                 }

@@ -59,7 +59,7 @@ class ContactController extends Controller
                                 'type'   =>  'contact',
                                 )), 'text/html')
                             ->setContentType("text/html");
-                    $this->get('mailer')->send($message);
+                    $this->get('swiftmailer.mailer.site_mailer')->send($message);
 
                     $em = $this->getDoctrine()->getManager();
                     $msg = new Message();
@@ -125,7 +125,7 @@ class ContactController extends Controller
                                 'type'   =>  'contactmulti',
                                 )), 'text/html')
                             ->setContentType("text/html");
-                    $this->get('mailer')->send($message);
+                    $this->get('swiftmailer.mailer.site_mailer')->send($message);
 
                     $em = $this->getDoctrine()->getManager();
                     $msg = new Message();
@@ -201,7 +201,7 @@ class ContactController extends Controller
                                 'type'   =>  'claim',
                                 )), 'text/html')
                                 ->setContentType("text/html");
-                    $this->get('mailer')->send($message);
+                    $this->get('swiftmailer.mailer.site_mailer')->send($message);
 
                     $em = $this->getDoctrine()->getManager();
                     $msg = new Message();

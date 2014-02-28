@@ -398,7 +398,7 @@ class NewsletterController extends Controller
                             ->setTo(array($email)) //settings admin
                             ->setBody($body, 'text/html')
                             ->setContentType("text/html");
-                        $this->get('mailer')->send($message);
+                        $this->get('swiftmailer.mailer.newsletter_mailer')->send($message);
                         $count++;
                         $message = null;
                     } catch (\Exception $ex) {

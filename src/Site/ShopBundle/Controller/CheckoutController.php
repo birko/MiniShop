@@ -299,7 +299,7 @@ class CheckoutController extends ShopController
                                 'login' => $newUser->getLogin(),
                                 'password' => $password,
                             )), 'text/html');
-                    $this->get('mailer')->send($message);
+                    $this->get('swiftmailer.mailer.site_mailer')->send($message);
                 }
             }
             $order->setUser($newUser);
@@ -394,7 +394,7 @@ class CheckoutController extends ShopController
                 'order' => $order,
             )),"text/html")
             ->setContentType("text/html");
-        $this->get('mailer')->send($message);
+        $this->get('swiftmailer.mailer.site_mailer')->send($message);
         $cart->clearItems();
         $this->setCart($cart);
         // TODO: payment methods

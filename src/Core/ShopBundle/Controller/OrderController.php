@@ -259,7 +259,7 @@ class OrderController extends BaseOrderController
                 'text' => $em->getRepository('CoreUserTextBundle:UserText')->getUserText($name, false)
             )), 'text/html')
             ->setContentType("text/html");
-        $this->get('mailer')->send($message);
+        $this->get('swiftmailer.mailer.site_mailer')->send($message);
     }
 
     public function processAction()

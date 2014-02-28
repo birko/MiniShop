@@ -103,7 +103,7 @@ class MessageController extends Controller
                         'data' => $data,
                     )), 'text/html')
                     ->setContentType("text/html");
-                $this->get('mailer')->send($message);
+                $this->get('swiftmailer.mailer.site_mailer')->send($message);
             }
         }
 
