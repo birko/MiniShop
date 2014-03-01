@@ -1,6 +1,7 @@
 {
     "name": "birko/minishop",
     "description": "The \"MiniShop\" website application",
+    "version": "1.0.0",
     "keywords": ["birko", "shop", "minishop", "symfony2"],
     "license": "MIT",
     "autoload": {
