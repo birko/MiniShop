@@ -28,7 +28,7 @@
         "twbs/bootstrap": "@dev",
         "knplabs/knp-paginator-bundle": "@dev",
         "knplabs/knp-components": "@dev",
-        "craue/formflow-bundle": "@devr",
+        "craue/formflow-bundle": "@dev",
         "whiteoctober/tcpdf-bundle": "@dev",
         "tecnick.com/tcpdf": "@dev",
         "birko/minishop-bundle": "@dev"
