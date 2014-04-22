@@ -52,16 +52,13 @@
             "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap"
         ]
     },
-    "extra": {
-        "symfony-app-dir": "app",
-        "symfony-web-dir": "web"
-    },
     "config": {
         "bin-dir": "bin"
     },
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
+        "symfony-assets-install": "symlink",
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
         }
