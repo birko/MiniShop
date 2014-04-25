@@ -22,3 +22,13 @@ Update:
 3. run $ php app/console cache:clear --env=prod
 4. run $ php app/console assets:install --env=prod
 5. run $ php app/console assetic:dump --env=prod
+
+##Features:
+### Sendy.co
+Add to composer.json
+```
+	"require": {
+	...
+		"jacobbennett/sendyphp": "dev-master"
+	}
+```
