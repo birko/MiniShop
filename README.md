@@ -32,3 +32,12 @@ Add to composer.json
 		"jacobbennett/sendyphp": "dev-master"
 	}
 ```
+
+Add sendy configuration to app.yml file according sendy server
+```yml
+core_newsletter:
+    sendy:
+        installation_url: #url
+        list_id: #list_id
+        api_key: #api_Key
+```
