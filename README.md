@@ -41,3 +41,13 @@ core_newsletter:
         list_id: #list_id
         api_key: #api_Key
 ```
+### PHPOffice
+Support for Excel export
+Add to composer.json
+export definiton type must be set to "Excel"
+```
+	"require": {
+	...
+		"phpoffice/phpexcel": "dev-master"
+	}
+```
