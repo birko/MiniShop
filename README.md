@@ -44,7 +44,7 @@ core_newsletter:
 ### PHPOffice
 Support for Excel export
 Add to composer.json
-export definiton type must be set to "Excel"
+export definiton type must be set to "excel"
 ```
 	"require": {
 	...
