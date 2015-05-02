@@ -36,6 +36,7 @@ class AppKernel extends Kernel
             //price: new Core\PriceBundle\CorePriceBundle(),
             //product: new Core\ProductBundle\CoreProductBundle(),
             //shop: new Core\ShopBundle\CoreShopBundle(),
+            //shopmarketing: new Core\ShopMarketingBundle\CoreShopMarketingBundle(),
             //user: new Core\UserBundle\CoreUserBundle(),
             //usertext: new Core\UserTextBundle\CoreUserTextBundle(),
             //vendor: new Core\VendorBundle\CoreVendorBundle(),
